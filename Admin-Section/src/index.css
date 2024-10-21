@@ -3,3 +3,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+@layer components{
+    .green-btn{
+        @apply bg-primary flex justify-center items-center w-44 h-16 
+        text-xl text-[white] font-bold font-Roboto rounded-3xl hover:bg-DarkGreen;
+    }
+}

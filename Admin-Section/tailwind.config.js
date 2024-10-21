@@ -11,7 +11,8 @@ export default {
       },
       colors:{
         primary:"#4CAF4F",
-        lightGray:"#EEEEEE"
+        lightGray:"#EEEEEE",
+        DarkGreen:"#328D35",
       }
     },
   },
