@@ -3,7 +3,6 @@ import { logo } from "../Assets"
 const DashBorad = () => {
   return (
     <div>
-      hi
     </div>
   )
 }
