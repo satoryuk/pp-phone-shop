@@ -6,13 +6,13 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily:{
-        Roboto:['Roboto','san-serif']
+      fontFamily: {
+        Roboto: ['Roboto', 'san-serif']
       },
-      colors:{
-        primary:"#4CAF4F",
-        lightGray:"#EEEEEE",
-        DarkGreen:"#328D35",
+      colors: {
+        primary: "#4CAF4F",
+        lightGray: "#EEEEEE",
+        DarkGreen: "#328D35",
       }
     },
   },
