@@ -13,7 +13,6 @@ const router=createBrowserRouter(
       <Route path="order" element={<Order/>} />
       <Route path="product" element={<Product/>}/>
       <Route path="offer" element={<Offer/>}/>\
-      
     </Route>
   )
 )
