@@ -25,7 +25,7 @@ const RootLayOut = () => {
             ))}
           </div>
           </section>
-          <section className="ml-[100px]">
+          <section >
           <Outlet />
           </section>
       </main>

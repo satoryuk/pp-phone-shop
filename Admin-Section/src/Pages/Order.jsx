@@ -11,6 +11,7 @@ const Order = () => {
 
 function Invoice() {
   return (
+    <section className='w-[1500px] mt-44'>
     <div className="max-w-2xl mx-auto bg-gray-100 p-6 rounded-lg shadow-lg">
       {/* Header Section */}
       <h1 className="text-green-600 text-3xl font-bold mb-4">INVOICE</h1>
@@ -78,6 +79,7 @@ function Invoice() {
       {/* Export Button */}
       <XButton label="Export" />
     </div>
+    </section>
   );
 }
 
