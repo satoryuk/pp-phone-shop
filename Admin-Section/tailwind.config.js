@@ -13,6 +13,7 @@ export default {
         primary: "#4CAF4F",
         lightGray: "#EEEEEE",
         DarkGreen: "#328D35",
+        DarkLightGray:'#D9D9D9'
       }
     },
   },

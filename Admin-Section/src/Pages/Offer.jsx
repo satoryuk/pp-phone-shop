@@ -1,10 +1,11 @@
+import axios from "axios";
 import { useEffect } from "react"
 
 const Offer = () => {
 
   useEffect(()=>{
     try{
-      const res=fetch('https://fakestoreapi.com/products');
+      const res=axios.get('https://fakestoreapi.com/products');
       console.log(res);
     }
     catch(err){

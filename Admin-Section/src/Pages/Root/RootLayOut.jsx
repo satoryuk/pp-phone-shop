@@ -1,6 +1,6 @@
 import { NavLink, useLocation, Outlet } from "react-router-dom";
-import { logo } from "../Assets";
-import { nav_bar } from "../Constants";
+import { logo } from "../../Assets";
+import { nav_bar } from "../../Constants";
 
 
 const RootLayOut = () => {

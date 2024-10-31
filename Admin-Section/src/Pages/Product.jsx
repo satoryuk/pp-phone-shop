@@ -4,9 +4,11 @@ import ProductNumber from "../Section/Product-Conponent/ProductNumber"
 import ProductTable from "../Section/Product-Conponent/ProductTable"
 
 const Product = () => {
+
+  
   return (
     
-      <main className="mt-20 w-[1250px]">
+      <main className="mt-32 ml-20 w-[1250px]">
         <ProductHeader/>
         <ProductNumber/>
         <ProductCaterogy/>

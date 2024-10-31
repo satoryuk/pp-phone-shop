@@ -14,4 +14,23 @@
         @apply bg-primary flex justify-center items-center w-44 h-16 
         text-xl text-[white] font-bold font-Roboto rounded-3xl hover:bg-DarkGreen;
     }
+    .red-btn{
+        @apply bg-red-600 flex justify-center items-center w-44 h-16 
+        text-xl text-[white] font-bold font-Roboto rounded-3xl hover:bg-red-900;
+    }
+    .input-style{
+        @apply rounded-lg border-2 border-primary p-1 px-2 w-72 h-12 text-primary text-xl;
+    }
+    .green-txt{
+        @apply text-primary text-lg font-Roboto font-bold ;
+    }
+    .green-text{
+        @apply font-Roboto text-primary text-2xl font-bold py-3;
+    }
+    .green-label{
+        @apply text-primary text-xl pr-4;
+    }
+    .text-login{
+        @apply text-primary font-Roboto font-bold text-3xl  ;
+    }
 }
