@@ -1,10 +1,18 @@
-
+import { useEffect } from "react"
 
 const Offer = () => {
+
+  useEffect(()=>{
+    try{
+      const res=fetch('https://fakestoreapi.com/products');
+      console.log(res);
+    }
+    catch(err){
+      console.log(err);
+    }   
+  },[])
   return (
-    <div>
-      <h1>hi</h1>
-    </div>
+    <h1>hi</h1>
   )
 }
 

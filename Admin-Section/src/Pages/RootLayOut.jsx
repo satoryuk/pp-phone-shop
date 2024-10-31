@@ -19,6 +19,7 @@ const RootLayOut = () => {
                 <img src={img} alt={label} />
                 <p className="font-Roboto text-primary">{label}</p>
               </NavLink>
+              
             ))}
           </div>
         </nav>
