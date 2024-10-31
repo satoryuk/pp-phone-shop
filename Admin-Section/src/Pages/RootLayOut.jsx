@@ -8,13 +8,15 @@ const RootLayOut = () => {
   const location = useLocation();
 
   return (
-    <>
-      <header className="flex justify-center p-10 w-[320px] border-r-2 border-b-2 items-center  ">
-        <nav>
+
+      <main className="flex">
+        <section className="flex-col justify-center p-10 w-[350px] border-r-2 border-b-2 items-center ">
+          <div className="flex justify-center">
           <img src={logo} alt="logo" className="mb-36 w-44" />
+          </div>
           <div>
             {nav_bar.map(({ img, label, path }) => (
-              <NavLink key={label} to={path} className={`flex justify-center items-center w-30 h-15 my-20  
+              <NavLink key={label} to={path} className={`flex justify-center items-center w-30 h-15 my-16  
             border-2 px-20 py-2 text-center rounded-xl hover:bg-lightGray  ${location.pathname === `/${path}` ? 'bg-lightGray' : ''}`}>
                 <img src={img} alt={label} />
                 <p className="font-Roboto text-primary">{label}</p>
@@ -22,12 +24,12 @@ const RootLayOut = () => {
               
             ))}
           </div>
-        </nav>
-      </header>
-      <main>
-        <Outlet />
+          </section>
+          <section className="ml-[100px]">
+          <Outlet />
+          </section>
       </main>
-    </>
+    
   );
 };
 
