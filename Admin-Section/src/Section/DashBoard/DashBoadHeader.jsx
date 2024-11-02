@@ -13,7 +13,7 @@ const DashBoardHeader = () => {
                 <option value="Last 30day">Last 30day</option>
             </select>
         </div>
-        <Link to='/Auth/login' className="red-btn mr-44">LogOut</Link>
+        <Link to='/Auth/login' className="red-btn mr-6">LogOut</Link>
     </section>
   )
 }

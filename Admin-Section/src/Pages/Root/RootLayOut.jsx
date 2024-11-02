@@ -9,10 +9,10 @@ const RootLayOut = () => {
 
   return (
 
-      <main className="flex">
+      <main className="flex ">
         <section className="flex-col justify-center p-10 w-[350px] border-r-2 border-b-2 items-center ">
           <div className="flex justify-center">
-          <img src={logo} alt="logo" className="mb-36 w-44" />
+          <NavLink to='/'><img src={logo} alt="logo" className="mb-36 w-44" /></NavLink>
           </div>
           <div>
             {nav_bar.map(({ img, label, path }) => (
@@ -25,7 +25,7 @@ const RootLayOut = () => {
             ))}
           </div>
           </section>
-          <section >
+          <section className="flex-1 m-10" >
           <Outlet />
           </section>
       </main>

@@ -34,7 +34,22 @@ export const Inventory_items=[
     {id:'5',code:'005',name:'product5',category:'phone',brand:'iphone',inventory:'10',price:'1000'},
 ]
 export const dashBoradMain_item=[
-    {title:'Total Revenue',sort:'Last 30 Days',price:'999$',img:{revanue}},
-    {title:'Total Order',sort:'Last 30 Days',price:'1000',img:{addToCart}},
-    {title:'Total Costumer',sort:'Last 30 Days',price:'100',img:{profile}}
+    {title:'Total Revenue',sort:'Last 30 Days',price:'999$',img:revanue},
+    {title:'Total Order',sort:'Last 30 Days',price:'1000',img:addToCart},
+    {title:'Total Costumer',sort:'Last 30 Days',price:'100',img:profile}
+]
+export const tableHead=['ID','Product ID','Product Name','Category','Inventory','Price'];
+export const tableInfor=[
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
+    {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100}
 ]

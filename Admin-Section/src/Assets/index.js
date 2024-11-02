@@ -8,7 +8,8 @@ import revanue from '../Assets/Ravenue.svg';
 import addToCart from '../Assets/addToCart.svg';
 import pending from '../Assets/pending.svg';
 import profile from '../Assets/profile.svg';
-
+import trash from '../Assets/trash.svg';
+import edit from '../Assets/edit.svg';
 export {
     dashboard,
     logo,
@@ -19,5 +20,7 @@ export {
     revanue,
     addToCart,
     pending,
-    profile
+    profile,
+    trash,
+    edit
 }

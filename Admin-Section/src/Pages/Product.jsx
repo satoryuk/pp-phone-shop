@@ -1,18 +1,18 @@
+import TableProduct from "../Component/TableProduct"
 import ProductCaterogy from "../Section/Product-Conponent/ProductCaterogy"
 import ProductHeader from "../Section/Product-Conponent/ProductHeader"
 import ProductNumber from "../Section/Product-Conponent/ProductNumber"
-import ProductTable from "../Section/Product-Conponent/ProductTable"
 
 const Product = () => {
 
   
   return (
     
-      <main className="mt-32 ml-20 w-[1250px]">
+      <main className="mt-32 w-[1400px]">
         <ProductHeader/>
         <ProductNumber/>
         <ProductCaterogy/>
-        <ProductTable/>
+        <TableProduct title='All Product'/>
       </main>
     
   )

@@ -4,7 +4,7 @@ import DashBoardMain from "../Section/DashBoard/DashBoardMain"
 
 const DashBorad = () => {
   return (
-    <section className="ml-16 mt-36">
+    <section className=" mt-36">
       <DashBoardHeader/>
       <DashBoardMain/>
     </section>

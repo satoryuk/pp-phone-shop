@@ -1,7 +1,9 @@
+import TableProduct from "../../Component/TableProduct";
 import { dashBoradMain_item } from "../../Constants";
 
 const DashBoardMain = () => {
   return (
+    <main>
     <section className="flex flex-wrap ">
       {dashBoradMain_item.map((element) => (
         <div key={element.title} className="bg-lightGray w-[300px] mr-44 mt-24 flex p-7 rounded-xl">
@@ -16,6 +18,8 @@ const DashBoardMain = () => {
         </div>
       ))}
     </section>
+    <TableProduct title='Inventory' />
+    </main>
   );
 };
 

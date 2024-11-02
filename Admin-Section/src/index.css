@@ -33,4 +33,7 @@
     .text-login{
         @apply text-primary font-Roboto font-bold text-3xl  ;
     }
+    .table-data{
+        @apply text-primary text-center py-5 font-Roboto text-lg px-6 py-4
+    }
 }
