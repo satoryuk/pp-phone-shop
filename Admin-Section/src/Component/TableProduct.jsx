@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { edit, trash } from "../Assets";
 import { tableHead, tableInfor } from "../Constants";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const TableProduct = ({ title }) => {
   const [selectAll, setSelectAll] = useState(false);
@@ -16,7 +16,9 @@ const TableProduct = ({ title }) => {
     setSelectedRows(selectedRows.map(() => newSelectAll));
   };
 
-  const handleRowSelect = (index) => {
+  const handleRowSelect = (index, event) => {
+    // Prevent navigation when clicking on checkbox
+    event.stopPropagation();
     const updatedSelectedRows = [...selectedRows];
     updatedSelectedRows[index] = !updatedSelectedRows[index];
     setSelectedRows(updatedSelectedRows);
@@ -62,7 +64,6 @@ const TableProduct = ({ title }) => {
                 )}
               </th>
             ))}
-            {/* Add an extra header cell for the icons with rounded right corners */}
             <th className="rounded-r-lg text-xl px-6 py-4"></th>
           </tr>
         </thead>
@@ -74,16 +75,39 @@ const TableProduct = ({ title }) => {
                 <input
                   type="checkbox"
                   checked={selectedRows[index]}
-                  onChange={() => handleRowSelect(index)}
+                  onChange={(e) => handleRowSelect(index, e)}
+                  onClick={(e) => e.stopPropagation()} // Prevent navigation on checkbox click
                   className="mr-3"
                 />
-                {element.id}
+                <Link to={`/order/${element.id}`} className="hover:underline">
+                  {element.id}
+                </Link>
               </td>
-              <td className="table-data ">{element.productCode}</td>
-              <td className="table-data ">{element.productName}</td>
-              <td className="table-data ">{element.category}</td>
-              <td className="table-data ">{element.price}</td>
-              <td className="table-data ">{element.inventory}</td>
+              <td className="table-data ">
+                <Link to={`/order/${element.id}`} className="hover:underline">
+                  {element.productCode}
+                </Link>
+              </td>
+              <td className="table-data ">
+                <Link to={`/order/${element.id}`} className="hover:underline">
+                  {element.productName}
+                </Link>
+              </td>
+              <td className="table-data ">
+                <Link to={`/order/${element.id}`} className="hover:underline">
+                  {element.category}
+                </Link>
+              </td>
+              <td className="table-data ">
+                <Link to={`/order/${element.id}`} className="hover:underline">
+                  {element.price}
+                </Link>
+              </td>
+              <td className="table-data ">
+                <Link to={`/order/${element.id}`} className="hover:underline">
+                  {element.inventory}
+                </Link>
+              </td>
               <td className="table-data flex gap-2">
                 <img src={edit} alt="Edit" className="cursor-pointer" />
                 <img src={trash} alt="Delete" className="cursor-pointer" />

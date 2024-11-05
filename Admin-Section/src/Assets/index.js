@@ -10,6 +10,7 @@ import pending from '../Assets/pending.svg';
 import profile from '../Assets/profile.svg';
 import trash from '../Assets/trash.svg';
 import edit from '../Assets/edit.svg';
+import delivery from '../Assets/delivery.svg'
 export {
     dashboard,
     logo,
@@ -22,5 +23,6 @@ export {
     pending,
     profile,
     trash,
-    edit
+    edit,
+    delivery    
 }

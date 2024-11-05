@@ -1,5 +1,5 @@
 
-import { offer,order,product,dashboard, revanue, addToCart, profile } from "../Assets"
+import { offer,order,product,dashboard, revanue, addToCart, profile, pending, delivery } from "../Assets"
 
 
 export const nav_bar=[
@@ -52,4 +52,17 @@ export const tableInfor=[
     {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
     {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100},
     {id:'1',productCode:'001',productName:'phone',category:'phone',inventory:'11',price:100}
+]
+
+export const order_header=[
+    {img:addToCart,title:'35 Order'},
+    {img:pending ,title:'35 Pending'},
+    {img:delivery,title:'35 Delivery'}
+]
+export const offer_header=[
+    {label:"Product ID"},
+    {label:"Product Name"},
+    {label:"Discount"},
+    {label:"Start"},
+    {label:"End"}
 ]

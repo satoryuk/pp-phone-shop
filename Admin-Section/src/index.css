@@ -11,7 +11,7 @@
 }
 @layer components{
     .green-btn{
-        @apply bg-primary flex justify-center items-center w-44 h-16 
+        @apply bg-primary flex justify-center items-center w-40 h-16 
         text-xl text-[white] font-bold font-Roboto rounded-3xl hover:bg-DarkGreen;
     }
     .red-btn{
@@ -35,5 +35,8 @@
     }
     .table-data{
         @apply text-primary text-center py-5 font-Roboto text-lg px-6 py-4
+    }
+    .green-title{
+        @apply text-primary font-Roboto text-4xl font-bold  
     }
 }
