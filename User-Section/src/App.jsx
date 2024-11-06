@@ -7,7 +7,6 @@ import {
 import Signup from "./Pages/auth/SignUpScreen";
 import RootLayout from "./Pages/layout/RootLayout";
 import AuthLayout from "./Pages/layout/AuthLayout";
-import Product_detail from "./Pages/home/Product_detail";
 import Compare from "./Pages/home/Compare";
 import Add_to_favorite from "./Pages/home/Add_to_favorite";
 import Home from "./Pages/home/Home"; // Make sure Home is imported
