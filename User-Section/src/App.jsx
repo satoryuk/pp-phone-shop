@@ -18,6 +18,7 @@ import ProductDetail from "./Pages/home/ProductDetail";
 import HomePage from "./Pages/home/Home";
 import CheckoutPage from "./Pages/home/Checkout";
 
+
 export default function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(

@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser } from 'react-icons/ai';
-const XButton = ({ label, icon }) => {
+import Navbar from '../home/Navbar';
+export const XButton = ({ label, icon }) => {
     return (
         <div className='w-full'>
             <button className="flex items-center justify-center bg-green-600 text-white rounded font-semibold w-full py-2">
@@ -14,7 +15,7 @@ const XButton = ({ label, icon }) => {
 };
 
 
-const XTextfield = ({ label = "labelTextfield", placeHolder = "hintText", icon, suffixIcon }) => {
+export const XTextfield = ({ label = "labelTextfield", placeHolder = "hintText", icon, suffixIcon }) => {
     return (
         <div className='w-full'>
             <label className="text-gray-700 text-sm font-medium mb-1">{label}</label>
@@ -36,6 +37,7 @@ const XTextfield = ({ label = "labelTextfield", placeHolder = "hintText", icon, 
 const Signup = () => {
     return (
         <div>
+            <Navbar/>
             <h1 className="text-green-600 text-3xl font-bold mb-4 ">Sign Up</h1>
             <XTextfield
                 label="Full Name"

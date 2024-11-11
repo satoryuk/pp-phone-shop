@@ -1,7 +1,12 @@
 import { logo } from "../Assets/image";
+
+import { Link } from 'react-router-dom';
+import Signup from "../auth/SignUpScreen";
+
 import { NavLink } from "react-router-dom";
 import HomePage from "./Home";
 import CheckoutPage from "./Checkout";
+
 
 const Navbar = () => {
   return (
@@ -33,18 +38,23 @@ const Navbar = () => {
               </button>
             </div>
             <div className="space-x-2">
-              <button
-                className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
-                style={{ borderRadius: "8px" }}
-              >
-                Log In
-              </button>
-              <button
-                className="bg-green-600 text-white px-4 py-2 rounded-full"
-                style={{ borderRadius: "8px" }}
-              >
-                Sign Up
-              </button>
+              <Link to="/auth/Login" >
+                <button
+                  className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                  style={{ borderRadius: "8px" }}
+                >
+                  Log In
+                </button>
+              </Link>
+              <Link to="/auth/Signup">
+                <button
+                  className="bg-green-600 text-white px-4 py-2 rounded-full"
+                  style={{ borderRadius: "8px" }}
+
+                >
+                  Sign Up
+                </button>
+              </Link >
             </div>
           </div>
         </div>
