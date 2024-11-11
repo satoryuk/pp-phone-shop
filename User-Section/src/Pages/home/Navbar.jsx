@@ -1,6 +1,11 @@
 import { logo } from "../Assets/image";
+
 import { Link } from 'react-router-dom';
 import Signup from "../auth/SignUpScreen";
+
+import { NavLink } from "react-router-dom";
+import HomePage from "./Home";
+import CheckoutPage from "./Checkout";
 
 
 const Navbar = () => {
@@ -55,9 +60,10 @@ const Navbar = () => {
         </div>
         <div className="bg-green-600">
           <div className="flex justify-center space-x-6 py-3 text-white">
-            <a href="#" className="hover:text-gray-200">
+            <NavLink to='checkout' element={CheckoutPage}><a  className="hover:text-gray-200">
               Home
             </a>
+            </NavLink >
             <a href="#" className="hover:text-gray-200">
               Accessories
             </a>
