@@ -8,6 +8,7 @@ import {
 } from "../Assets/image";
 import Navbar from "./Navbar";
 
+
 const products = [
   { id: 1, name: "Item Name", price: 1000, image: silverColor },
   { id: 2, name: "Item Name", price: 1000, image: desertColor },

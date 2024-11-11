@@ -16,6 +16,7 @@ import After_home_page from "./Pages/home/After_home_page";
 import Login from "./Pages/auth/Login";
 import ProductDetail from "./Pages/home/ProductDetail";
 
+
 export default function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
