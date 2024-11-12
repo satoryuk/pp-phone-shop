@@ -12,7 +12,7 @@ export const handlelogin = async (req, res) => {
     }
 
     try {
-        const sql = `SELECT * FROM user WHERE email=?`;
+        const sql = `SELECT * FROM customers WHERE email=?`;
 
         // Wrap pool.query in a promise to handle async/await more easily
         pool.query(sql, [email], async (error, rows) => {
@@ -31,7 +31,7 @@ export const handlelogin = async (req, res) => {
                 return res.status(401).json({ message: "Incorrect password" });
             }
 
-            const userPayLoad = { id: user.id, userName: user.username, role: user.role };
+            const userPayLoad = {userName: user.username, role: 2 };
             const accessToken = generateAccessToken(userPayLoad);
             const refreshToken = generateRefreshToken(userPayLoad);
 
@@ -56,18 +56,18 @@ export const handlelogin = async (req, res) => {
 
 
 export const register = async (req, res) => {
-    const { email, password, username, role } = req.body;
+    const { username,email,password,phone,address } = req.body;
 
     // Validate that all fields are provided
-    if (!email || !password || !role || !username) {
+    if (!username || !email || !password ||!phone||!address ) {
         return res.status(400).json({ message: "All fields must be filled" });
     }
 
     try {
         // Hash the password for secure storage
         const hashedPassword = await bcrypt.hash(password, 10);
-        const values = [email, hashedPassword, username, role];
-        const queryInsert = "INSERT INTO user (email, password, username, role) VALUES (?, ?, ?, ?)";
+        const values = [username,email,hashedPassword,phone,address];
+        const queryInsert = "INSERT INTO customers (username,email,password,phone,address) VALUES (?, ?, ?, ?,?)";
 
         // Insert user into the database
         pool.query(queryInsert, values, (error, result) => {
@@ -77,7 +77,7 @@ export const register = async (req, res) => {
             }
 
             // Generate tokens using input data (if ID isn't required immediately)
-            const payload = {username, role };
+            const payload = {username:username,role:2};
             const accessToken = generateAccessToken(payload);
             const refreshToken = generateRefreshToken(payload);
 

@@ -3,10 +3,10 @@ import express from "express";
 import pool from "./db/db_handle.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import AuthRoute from "./Routs/Auth.js";  // Fixed typo to match naming conventions
 import { validateToken } from "./Utils/jwt_validation.js";
 import cors from 'cors';
-import jwt from'jsonwebtoken';
+import adminRouter from "./Routs/AdminHandle.js";
+import AuthRouter from "./Routs/Auth.js";
 
 
 config();
@@ -44,38 +44,16 @@ app.use(session({
 }));
 
 
-app.use('/auth', AuthRoute);
+app.use('/auth', AuthRouter);
+app.use('/admin',adminRouter)
 
+app.get('/',validateToken,(req,res)=>{
+    console.log(req.session.accessToken);
+    
+})
 // Example protected route with token validation
 
-app.get('/',validateToken, (req, res) => {
-    // const query = 'SELECT * FROM user';
-
-    // pool.query(query, (error, result) => {
-    //     if (error) return res.status(400).json({
-    //         message: "Something went wrong"
-    //     });
-    //     res.status(200).json({
-    //         message: "Successfully retrieved data",
-    //         data: result
-    //     });
-    // });
-    const time1=jwt.decode(req.session.accessToken);
-    const time2=jwt.decode(req.session.refreshToken);
-    console.log(req.session.accessToken);
-    console.log(time2.exp);
-    const currentTime = Math.floor(Date.now() / 1000);
-    if (time2 < currentTime) {
-        console.log('Token has expired');
-      } else {
-        console.log('Token is still valid');
-      } 
-    
-    
-});
-
 // Route for authentication
-
 
 // Start server
 app.listen(port, () => {
