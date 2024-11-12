@@ -1,7 +1,8 @@
 import { logo } from "../Assets/image";
-import { NavLink } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 import HomePage from "./Home";
 import CheckoutPage from "./Checkout";
+import Signup from "../auth/SignUpScreen";
 
 const Navbar = () => {
   return (
@@ -39,12 +40,14 @@ const Navbar = () => {
               >
                 Log In
               </button>
+              <NavLink to='auth/Signup' element={Signup} >
               <button
                 className="bg-green-600 text-white px-4 py-2 rounded-full"
                 style={{ borderRadius: "8px" }}
               >
                 Sign Up
               </button>
+              </NavLink>
             </div>
           </div>
         </div>
