@@ -55,6 +55,20 @@ const Navbar = () => {
                   Sign Up
                 </button>
               </Link >
+              <button
+                className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                style={{ borderRadius: "8px" }}
+              >
+                Log In
+              </button>
+              <NavLink to='auth/Signup' element={Signup} >
+              <button
+                className="bg-green-600 text-white px-4 py-2 rounded-full"
+                style={{ borderRadius: "8px" }}
+              >
+                Sign Up
+              </button>
+              </NavLink>
             </div>
           </div>
         </div>

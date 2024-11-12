@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { handlelogin, register } from "../Controllers/authController.js";
+import { handlelogin, register } from "../Controllers/authUserController.js";
+import { adminLogin } from "../Controllers/authAdminController.js";
 
-const AuthRout=Router();
+const AuthRouter=Router();
 
-AuthRout.post('/login',handlelogin);
-AuthRout.post('/register',register);
-
-export default AuthRout;
+AuthRouter.post('/login',handlelogin);
+AuthRouter.post('/register',register);
+AuthRouter.post('/adminLogin',adminLogin);
+export default AuthRouter;
