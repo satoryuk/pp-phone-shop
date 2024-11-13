@@ -1,5 +1,5 @@
 import Product from '../../Pages/Product';
-import AddProduct from '../../Component/AddProduct';
+import AddProduct from '../../Section/Product/AddProduct';
 
 const Model = ({ isVisible, onClose, id, blogID }) => {
   const handleClose = (e) => {

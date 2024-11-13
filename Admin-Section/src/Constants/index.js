@@ -1,12 +1,14 @@
 
-import { offer,order,product,dashboard, revanue, addToCart, profile, pending, delivery } from "../Assets"
+import { offer,order,product,dashboard, revanue, addToCart, profile, pending, delivery, add, addGreen } from "../Assets"
 
 
 export const nav_bar=[
     {img:dashboard,label:'DashBoard',path:''},
     {img:order,label:'Order',path:'order'},
     {img:product,label:'Product',path:'product'},
-    {img:offer,label:'Offer',path:'offer'},
+    {img:addGreen,label:'Add Product',path:'addProduct'},
+    {img:offer,label:'Offer',path:'offer'}
+    
 ]
 export const inventory_title=[
     {label:'Total Product',number:'80'},

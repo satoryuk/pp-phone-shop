@@ -8,6 +8,9 @@ import Login from "./Pages/Auth/Login"
 import Register from "./Pages/Auth/Register"
 import AuthLayOut from "./Pages/Root/AuthLayOut"
 import Order_By_ID from "./Pages/Order/Order_By_ID"
+import AddProductPage from "./Pages/AddProductPage"
+import AddBrandPage from "./Pages/AddBrandPage"
+import AddCategoryPage from "./Pages/AddCategoryPage"
 
 
 const router=createBrowserRouter(
@@ -19,6 +22,9 @@ const router=createBrowserRouter(
       <Route path="order/:id" element={<Order_By_ID/>} />
       <Route path="product" element={<Product/>}/>
       <Route path="product/:id" element={<Product/>}/>
+      <Route path="addProduct" element={<AddProductPage/>}/>
+      <Route path="addBrand" element={<AddBrandPage/>}/>
+      <Route path="addCategory" element={<AddCategoryPage/>}/>
       <Route path="offer" element={<Offer/>}/>
     </Route>
     <Route path="auth" element={<AuthLayOut/>}>
