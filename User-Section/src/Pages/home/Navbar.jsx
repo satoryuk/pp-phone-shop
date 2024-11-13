@@ -1,16 +1,10 @@
 import { logo } from "../Assets/image";
-
 import { NavLink,Link } from "react-router-dom";
-=======
-
-import { Link } from 'react-router-dom';
 import Signup from "../auth/SignUpScreen";
-
-import { NavLink } from "react-router-dom";
 
 import HomePage from "./Home";
 import CheckoutPage from "./Checkout";
-import Signup from "../auth/SignUpScreen";
+
 
 
 const Navbar = () => {

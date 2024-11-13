@@ -11,6 +11,8 @@ import profile from '../Assets/profile.svg';
 import trash from '../Assets/trash.svg';
 import edit from '../Assets/edit.svg';
 import delivery from '../Assets/delivery.svg'
+import addGreen from '../Assets/addGreen.svg';
+import hambugerBar from '../Assets/hambugerBar.svg';
 export {
     dashboard,
     logo,
@@ -24,5 +26,7 @@ export {
     profile,
     trash,
     edit,
-    delivery    
+    delivery,
+    addGreen ,
+    hambugerBar
 }
