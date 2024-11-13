@@ -1,5 +1,4 @@
 import { logo } from "../Assets/image";
-
 import { NavLink,Link } from "react-router-dom";
 
 import Signup from "../auth/SignUpScreen";
