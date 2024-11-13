@@ -15,6 +15,7 @@ import UserProfile from "./Pages/home/UserProfile";
 import After_home_page from "./Pages/home/After_home_page";
 import Login from "./Pages/auth/Login";
 import ProductDetail from "./Pages/home/ProductDetail";
+import CheckoutPage from "./Pages/home/Checkout";
 
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="payment" element={<Payment />} />
           <Route path="User-Profile" element={<UserProfile />} />
           <Route path="After-Home-Page" element={<After_home_page />} />
+          <Route path="checkout" element={<CheckoutPage />} />
         </Route>
         <Route path="/Auth" element={<AuthLayout />}>
           <Route path="Signup" element={<Signup />} />
