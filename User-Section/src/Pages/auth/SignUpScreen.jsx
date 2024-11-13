@@ -2,6 +2,7 @@
 import React from 'react';
 import { AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser } from 'react-icons/ai';
 import Navbar from '../home/Navbar';
+import { Link } from 'react-router-dom';
 export const XButton = ({ label, icon }) => {
     return (
         <div className='w-full'>
@@ -79,7 +80,8 @@ const Signup = () => {
 
                         <h2 className='font-semibold'>Already have an account?</h2>
                         <Spacer width={5} />
-                        <h2 className='text-green-600  font-semibold'>Sign In.</h2>
+                       <Link to="/auth/Login">
+                       <h2 className='text-green-600  font-semibold'>Sign In.</h2></Link>
                     </div>
                 </div>
             </div>

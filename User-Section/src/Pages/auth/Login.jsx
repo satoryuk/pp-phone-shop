@@ -4,6 +4,8 @@ import { AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, A
 import Navbar from '../home/Navbar';
 import { Spacer, XTextfield } from './SignUpScreen';
 import { XButton } from './SignUpScreen';
+
+import { Link } from 'react-router-dom';
 const Login = () => {
     return (
         <div>
@@ -39,7 +41,8 @@ const Login = () => {
                     <div className='flex items-center justify-center'>
                         <h2 className='font-semibold'>Don't have account yet?</h2>
                         <Spacer width={5} />
-                        <h2 className='text-green-600  font-semibold'>Sign Up.</h2>
+                        <Link to="/auth/Signup">
+                            <h2 className='text-green-600  font-semibold' >Sign Up.</h2></Link>
                     </div>
                 </div>
             </div>
