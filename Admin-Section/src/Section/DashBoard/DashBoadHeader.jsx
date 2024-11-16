@@ -4,8 +4,8 @@ const DashBoardHeader = () => {
   return (
     <section className="flex justify-between">
         <div className="flex gap-16">
-            <h1 className="green-txt text-4xl">Listing OrderView</h1>
-            <select name="date" id="date" className="border-2 p-2 px-4 text-lg border-primary active:border-primary text-primary rounded-xl">
+            <h1 className="green-txt text-4xl max-lg:text-2xl">Listing OrderView</h1>
+            <select name="date" id="date" className="border-2 p-2 px-4 text-lg max-lg:p-1 max-lg:px-2 max-lg:text-sm border-primary active:border-primary text-primary rounded-xl">
                 <option value="Last 30day">Last 30day</option>
                 <option value="Last 30day">Last 30day</option>
                 <option value="Last 30day">Last 30day</option>
@@ -13,7 +13,7 @@ const DashBoardHeader = () => {
                 <option value="Last 30day">Last 30day</option>
             </select>
         </div>
-        <Link to='/Auth/login' className="red-btn mr-6">LogOut</Link>
+        <Link to='/Auth/login' className="red-btn mr-6 max-lg:w-28 max-lg:h-11 max-lg:text-sm">LogOut</Link>
     </section>
   )
 }
