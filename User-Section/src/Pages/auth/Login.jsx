@@ -7,6 +7,24 @@ import { XButton } from './SignUpScreen';
 
 import { Link } from 'react-router-dom';
 const Login = () => {
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("");
+
+    const toggleIconPass = () => {
+        setShowPassword((prevShowpass) => !prevShowpass);
+    }
+    const handleInputChange = (e)=> {
+        const value = e.target.value;
+        setPassword(value);
+
+        if(value.length < 8){
+            setError("Password must be at least 6 characters long.");
+        }
+        else{
+            setError("");
+        }
+    }
     return (
         <div>
             <Navbar />
@@ -32,6 +50,7 @@ const Login = () => {
                         placeholder="X_AE_A13b"
                         icon={<AiOutlineLock />}
                         suffixIcon={<AiOutlineEyeInvisible />}
+                        
                     />
                     <Spacer width={null} height={5} />
                     <h1>Password strength: Strong </h1>

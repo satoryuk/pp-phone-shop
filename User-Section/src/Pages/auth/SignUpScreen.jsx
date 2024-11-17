@@ -16,8 +16,22 @@ export const XButton = ({ label, icon }) => {
 };
 
 
-export const XTextfield = ({ label = "labelTextfield", placeHolder = "hintText", icon, suffixIcon }) => {
+export const XTextfield = ({ label = "labelTextfield", placeHolder = "hintText", icon, suffixIcon, validation, errorMessage }) => {
+    const [inputValue, setInputValue] = useState("");
+    const [error, setError] = useState("");
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setInputValue(value);
+
+        if (validation && !validation(value)) {
+            setError(errorMessage);
+        } else if (validation) {
+            setError("");
+        }
+    };
     return (
+
         <div className='w-full'>
             <label className="text-gray-700 text-sm font-medium mb-1">{label}</label>
             <div className="flex items-center border border-gray-300 rounded-full px-3 py-2 mt-1 shadow-sm">
@@ -26,9 +40,13 @@ export const XTextfield = ({ label = "labelTextfield", placeHolder = "hintText",
                     type="text"
                     placeholder={placeHolder}
                     className="w-full outline-none text-gray-700"
-
+                    value={inputValue}
+                    onChange={handleChange}
                 />
                 {suffixIcon && <span className="text-gray-400 mr-2">{suffixIcon}</span>}
+                <div>
+                    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                </div>
             </div>
 
         </div>
@@ -80,8 +98,8 @@ const Signup = () => {
 
                         <h2 className='font-semibold'>Already have an account?</h2>
                         <Spacer width={5} />
-                       <Link to="/auth/Login">
-                       <h2 className='text-green-600  font-semibold'>Sign In.</h2></Link>
+                        <Link to="/auth/Login">
+                            <h2 className='text-green-600  font-semibold'>Sign In.</h2></Link>
                     </div>
                 </div>
             </div>
@@ -89,11 +107,11 @@ const Signup = () => {
 
     )
 }
-export const Spacer = ({ height = 10, width = 10  }) => {
+export const Spacer = ({ height = 10, width = 10 }) => {
     return (
         <div style={{
-            height: `${height}px` ,
-            width: `${width}px` 
+            height: `${height}px`,
+            width: `${width}px`
         }}></div>
     )
 }

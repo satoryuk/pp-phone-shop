@@ -1,16 +1,11 @@
 import { logo } from "../Assets/image";
 
-import { NavLink,Link } from "react-router-dom";
-=======
-
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Signup from "../auth/SignUpScreen";
 
-import { NavLink } from "react-router-dom";
 
 import HomePage from "./Home";
 import CheckoutPage from "./Checkout";
-import Signup from "../auth/SignUpScreen";
 
 
 const Navbar = () => {
@@ -44,20 +39,7 @@ const Navbar = () => {
             </div>
             <div className="space-x-2">
 
-              <button
-                className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
-                style={{ borderRadius: "8px" }}
-              >
-                Log In
-              </button>
-              <NavLink to='auth/Signup' element={Signup} >
-              <button
-                className="bg-green-600 text-white px-4 py-2 rounded-full"
-                style={{ borderRadius: "8px" }}
-              >
-                Sign Up
-              </button>
-              </NavLink>
+
 
               <Link to="/auth/Login" >
                 <button
@@ -82,10 +64,10 @@ const Navbar = () => {
         </div>
         <div className="bg-green-600">
           <div className="flex justify-center space-x-6 py-3 text-white">
-            <NavLink to='checkout' element={CheckoutPage}><a  className="hover:text-gray-200">
+            <Link to='/' element={CheckoutPage}><a className="hover:text-gray-200">
               Home
             </a>
-            </NavLink >
+            </Link >
             <a href="#" className="hover:text-gray-200">
               Accessories
             </a>
