@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { addNewBrand, addNewCategory, addNewProduct, deleteProduct, displayAllProduct, searchProduct, updateProduct } from "../Controllers/adminCrudController.js";
+import { validateToken } from "../Utils/jwt_validation.js";
 
 const adminRouter=Router();
+adminRouter.use(validateToken);
 
 adminRouter.post('/addNewBrand',addNewBrand);
 adminRouter.post('/addNewCategory',addNewCategory);

@@ -32,6 +32,8 @@ export const displayAllProduct=(req,res)=>{
             message:"sucessfully"
         })
     })
+    console.log(req.session.refreshToken);
+    
 }
 export const searchProduct=(req,res)=>{
     const {name}=req.body;

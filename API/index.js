@@ -16,10 +16,7 @@ const port = process.env.PORT || 3000;  // Capitalized PORT and added a default
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    origin: 'http://localhost:3000',  // Frontend URL
-    credentials: true, // Allow sending cookies
-}));
+app.use(cors());
 
 // Establish database connection
 pool.getConnection((error, connection) => {

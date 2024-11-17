@@ -37,8 +37,12 @@ export const adminLogin=async(req,res)=>{
             req.session.refreshToken=refreshToken;
             req.session.accessToken=accessToken;
 
+            console.log(req.session.refreshToken);
+            
+
             res.json({
                 accessToken,
+                refreshToken,
                 message:"Logged in successfully"
             });
         });
