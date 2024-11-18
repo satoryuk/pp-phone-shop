@@ -1,7 +1,11 @@
 
-import React from 'react';
+// import React from 'react';
+
+import React, { useState } from 'react';
 import { AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser } from 'react-icons/ai';
 import Navbar from '../home/Navbar';
+import { Link } from 'react-router-dom';
+import { XTextfield } from '../../Conponents/Bath_Component';
 export const XButton = ({ label, icon }) => {
     return (
         <div className='w-full'>
@@ -15,26 +19,40 @@ export const XButton = ({ label, icon }) => {
 };
 
 
-export const XTextfield = ({ label = "labelTextfield", placeHolder = "hintText", icon, suffixIcon }) => {
-    return (
-        <div className='w-full'>
-            <label className="text-gray-700 text-sm font-medium mb-1">{label}</label>
-            <div className="flex items-center border border-gray-300 rounded-full px-3 py-2 mt-1 shadow-sm">
-                {icon && <span className="text-gray-400 mr-2">{icon}</span>}
-                <input
-                    type="text"
-                    placeholder={placeHolder}
-                    className="w-full outline-none text-gray-700"
 
-                />
-                {suffixIcon && <span className="text-gray-400 mr-2">{suffixIcon}</span>}
-            </div>
-
-        </div>
-    )
-}
 
 const Signup = () => {
+    const [passwordState, setPassword] = useState("")
+    const [passwordStrength, setPasswordStrength] = useState("");
+    const [confirmPasswordState, setConfirmPassword] = useState("")
+    const [confirmPasswordStrength, setcoPasswordStrength] = useState("");
+
+    const validatePasswordLength = (password) => {
+        if (password.le === 0) {
+            setPasswordStrength("");
+            setcoPasswordStrength("");
+        } else if (password.length < 8) {
+            setPasswordStrength("Weak");
+            setcoPasswordStrength("Weak");
+        } else {
+            setPasswordStrength("Strong");
+            setcoPasswordStrength("Strong");
+        }
+    }
+
+    const handlePasswordLength = (value) => {
+        setPassword(value)
+        validatePasswordLength(value)
+        setConfirmPassword(value)
+    }
+    const handleColorPasswordStrength = (passwordStrength) => {
+        switch (passwordStrength) {
+            case "Weak": return "red";
+            case "Strong": return "green";
+            default:
+                return "gray";
+        }
+    }
     return (
         <div>
             <Navbar />
@@ -60,18 +78,37 @@ const Signup = () => {
                         placeholder="X_AE_A13b"
                         icon={<AiOutlineLock />}
                         suffixIcon={<AiOutlineEyeInvisible />}
+                        validation={validatePasswordLength}
+                        onValueChange={handlePasswordLength}
                     />
                     <Spacer height={5} />
-                    <h1>Password strength: Strong </h1>
+                    {passwordState && (
+                        <p
+                            className={`text-${handleColorPasswordStrength(passwordStrength)
+                                }-500 font-semibold mt-2`}
+                        >
+                            Password strength: {passwordStrength}
+                        </p>
+                    )}
                     <Spacer />
                     <XTextfield
                         label="Confirm Password"
                         placeholder="X_AE_A13b"
                         icon={<AiOutlineLock />}
                         suffixIcon={<AiOutlineEyeInvisible />}
+
+                        validation={validatePasswordLength}
+                        onValueChange={handlePasswordLength}
                     />
                     <Spacer height={5} />
-                    <h1>Password strength: Strong </h1>
+                    {confirmPasswordState && (
+                        <p
+                            className={`text-${handleColorPasswordStrength(confirmPasswordStrength)
+                                }-500 font-semibold mt-2`}
+                        >
+                            Password strength: {confirmPasswordStrength}
+                        </p>
+                    )}
                     <Spacer />
                     <XButton label="Sign Up" icon={<AiOutlineLogout />} />
                     <Spacer />
@@ -79,7 +116,8 @@ const Signup = () => {
 
                         <h2 className='font-semibold'>Already have an account?</h2>
                         <Spacer width={5} />
-                        <h2 className='text-green-600  font-semibold'>Sign In.</h2>
+                        <Link to="/auth/Login">
+                            <h2 className='text-green-600  font-semibold'>Sign In.</h2></Link>
                     </div>
                 </div>
             </div>
@@ -87,11 +125,11 @@ const Signup = () => {
 
     )
 }
-export const Spacer = ({ height = 10, width = 10  }) => {
+export const Spacer = ({ height = 10, width = 10 }) => {
     return (
         <div style={{
-            height: `${height}px` ,
-            width: `${width}px` 
+            height: `${height}px`,
+            width: `${width}px`
         }}></div>
     )
 }
