@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser,AiOutlineEye } from 'react-icons/ai';
 import Navbar from '../home/Navbar';
 import { Spacer } from './SignUpScreen';
 import { XTextfield } from '../../Conponents/Bath_Component';
@@ -9,9 +9,13 @@ import { XButton } from './SignUpScreen';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
+    const[passwordToggle, setPasswordToggle] = useState(false)
     const [passwordState, setPassword] = useState("")
     const [passwordStrength, setPasswordStrength] = useState("");
 
+    const toggleValidateIcon = ()=>{
+        setPasswordToggle(!passwordToggle)
+    }
     const handlePasswordLength = (value) => {
         setPassword(value)
         validatePasswordLength(value)
@@ -58,10 +62,13 @@ const Login = () => {
                         label="Password"
                         placeholder="X_AE_A13b"
                         icon={<AiOutlineLock />}
-                        suffixIcon={<AiOutlineEyeInvisible />}
                         validation={validatePasswordLength}
                         onValueChange={handlePasswordLength}
-
+                        suffixIcon={passwordToggle ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                        onClick={toggleValidateIcon}
+                        inputType={
+                            passwordToggle ? "text" : "password"
+                        }
                     />
                     <Spacer width={null} height={5} />
                     {passwordState && (
