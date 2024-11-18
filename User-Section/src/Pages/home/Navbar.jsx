@@ -58,7 +58,6 @@ const Navbar = () => {
                   Sign Up
                 </button>
               </Link >
-
             </div>
           </div>
         </div>

@@ -1,30 +1,39 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser } from 'react-icons/ai';
 import Navbar from '../home/Navbar';
-import { Spacer, XTextfield } from './SignUpScreen';
+import { Spacer } from './SignUpScreen';
+import { XTextfield } from '../../Conponents/Bath_Component';
 import { XButton } from './SignUpScreen';
 
 import { Link } from 'react-router-dom';
+
 const Login = () => {
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState("");
+    const [passwordState, setPassword] = useState("")
+    const [passwordStrength, setPasswordStrength] = useState("");
 
-    const toggleIconPass = () => {
-        setShowPassword((prevShowpass) => !prevShowpass);
+    const handlePasswordLength = (value) => {
+        setPassword(value)
+        validatePasswordLength(value)
     }
-    const handleInputChange = (e)=> {
-        const value = e.target.value;
-        setPassword(value);
-
-        if(value.length < 8){
-            setError("Password must be at least 6 characters long.");
-        }
-        else{
-            setError("");
+    const validatePasswordLength = (passwordState) => {
+        if (passwordState.length === 0) {
+            setPasswordStrength("");
+        } else if (passwordState.length < 8) {
+            setPasswordStrength("Weak");
+        } else {
+            setPasswordStrength("Strong");
         }
     }
+    const handleColorPasswordStrength = (passStrength) => {
+        switch (passStrength) {
+            case "Weak": return "red";
+            case "Strong": return "green";
+            default: 
+            return "gray";
+        }
+    }
+
     return (
         <div>
             <Navbar />
@@ -50,10 +59,19 @@ const Login = () => {
                         placeholder="X_AE_A13b"
                         icon={<AiOutlineLock />}
                         suffixIcon={<AiOutlineEyeInvisible />}
-                        
+                        validation={validatePasswordLength}
+                        onValueChange={handlePasswordLength}
+
                     />
                     <Spacer width={null} height={5} />
-                    <h1>Password strength: Strong </h1>
+                    {passwordState && (
+                        <p
+                            className={`text-${handleColorPasswordStrength(passwordStrength)
+                                }-500 font-semibold mt-2`}
+                        >
+                            Password strength: {passwordStrength}
+                        </p>
+                    )}
                     <Spacer width={null} />
                     <XButton label="Sign In" icon={<AiOutlineLogout />} />
                     <Spacer width={null} />
