@@ -2,7 +2,7 @@
 // import React from 'react';
 
 import React, { useState } from 'react';
-import { AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser } from 'react-icons/ai';
 import Navbar from '../home/Navbar';
 import { Link } from 'react-router-dom';
 import { XTextfield } from '../../Conponents/Bath_Component';
@@ -22,29 +22,43 @@ export const XButton = ({ label, icon }) => {
 
 
 const Signup = () => {
+    const [toggleIconState, setIconToggle] = useState(false)
+    const [toggleIconConfirmState, setConfirmIconToggle] = useState(false)
     const [passwordState, setPassword] = useState("")
     const [passwordStrength, setPasswordStrength] = useState("");
     const [confirmPasswordState, setConfirmPassword] = useState("")
-    const [confirmPasswordStrength, setcoPasswordStrength] = useState("");
+    const [passwordMatch, setPasswordMatch] = useState(false);
+
+    const toggleIcon = () => {
+        setIconToggle(!toggleIconState)
+    }
+
+    const toggleConfirmIcon = () => {
+        setConfirmIconToggle(!toggleIconConfirmState)
+    }
 
     const validatePasswordLength = (password) => {
-        if (password.le === 0) {
+        if (password.length === 0) {
             setPasswordStrength("");
-            setcoPasswordStrength("");
         } else if (password.length < 8) {
             setPasswordStrength("Weak");
-            setcoPasswordStrength("Weak");
         } else {
             setPasswordStrength("Strong");
-            setcoPasswordStrength("Strong");
         }
+    }
+
+    const validateConfirmPassword = (password) => {
+        setPasswordMatch(password === passwordState)
     }
 
     const handlePasswordLength = (value) => {
         setPassword(value)
         validatePasswordLength(value)
-        setConfirmPassword(value)
     }
+    const handleConfirmPasswordChange = (value) => {
+        setConfirmPassword(value);
+        validateConfirmPassword(value);
+    };
     const handleColorPasswordStrength = (passwordStrength) => {
         switch (passwordStrength) {
             case "Weak": return "red";
@@ -77,9 +91,13 @@ const Signup = () => {
                         label="Password"
                         placeholder="X_AE_A13b"
                         icon={<AiOutlineLock />}
-                        suffixIcon={<AiOutlineEyeInvisible />}
+                        suffixIcon={toggleIconState ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                         validation={validatePasswordLength}
                         onValueChange={handlePasswordLength}
+                        onClick={toggleIcon}
+                        inputType={
+                            toggleIconState ? "text" : "password"
+                        }
                     />
                     <Spacer height={5} />
                     {passwordState && (
@@ -95,18 +113,20 @@ const Signup = () => {
                         label="Confirm Password"
                         placeholder="X_AE_A13b"
                         icon={<AiOutlineLock />}
-                        suffixIcon={<AiOutlineEyeInvisible />}
-
-                        validation={validatePasswordLength}
-                        onValueChange={handlePasswordLength}
+                        suffixIcon={toggleIconConfirmState ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                        onClick={toggleConfirmIcon}
+                        inputType={
+                            toggleIconConfirmState ? "text" : "password"
+                        }
+                        onValueChange={handleConfirmPasswordChange}
                     />
                     <Spacer height={5} />
                     {confirmPasswordState && (
                         <p
-                            className={`text-${handleColorPasswordStrength(confirmPasswordStrength)
+                            className={`text-${passwordMatch ? "bg-green-400" : "bg-red-700"
                                 }-500 font-semibold mt-2`}
                         >
-                            Password strength: {confirmPasswordStrength}
+                            {passwordMatch ? "Passwords match" : "Passwords do not match"}
                         </p>
                     )}
                     <Spacer />
