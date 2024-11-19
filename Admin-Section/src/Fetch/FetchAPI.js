@@ -1,34 +1,32 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL_Auth = 'http://localhost:3000/auth';
+const API_URL_Auth = "http://localhost:3000/auth";
 // const API_URL2 = 'http://localhost:3000/user/functionality';
-const API_URL_Admin = 'http://localhost:3000/admin';
-
-
+const API_URL_Admin = "http://localhost:3000/admin";
 
 export const signIn = async ({ email, password }) => {
   return axios.post(`${API_URL_Auth}/login`, { email, password });
 };
 export const register = async ({ profile, username, email, password }) => {
-    const formData = new FormData();
-    formData.append('profile', profile);
-    formData.append('username', username);
-    formData.append('email', email);
-    formData.append('password', password);
-  
-    return axios.post(`${API_URL_Auth}/signup`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+  const formData = new FormData();
+  formData.append("profile", profile);
+  formData.append("username", username);
+  formData.append("email", email);
+  formData.append("password", password);
+
+  return axios.post(`${API_URL_Auth}/signup`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 export const productData = async () => {
   try {
     const response = await axios.get(`${API_URL_Admin}/getAllProduct`);
-    return response.data;  // return the data from the response
+    return response.data; // return the data from the response
   } catch (error) {
     console.error("Error fetching product data:", error);
-    throw error;  // Rethrow the error so it can be handled by the caller
+    throw error; // Rethrow the error so it can be handled by the caller
   }
 };
 export const adminLogin = async ({ email, password }) => {
@@ -39,7 +37,7 @@ export const adminLogin = async ({ email, password }) => {
     // Send a POST request with JSON data
     const response = await axios.post(`${API_URL_Auth}/adminLogin`, data, {
       headers: {
-        'Content-Type': 'application/json', // Use JSON for the body content
+        "Content-Type": "application/json", // Use JSON for the body content
       },
     });
 

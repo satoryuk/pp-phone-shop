@@ -5,9 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const TableProduct = ({ title }) => {
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState(
-    tableInfor.map(() => false)
-  );
+  const [selectedRows, setSelectedRows] = useState(tableInfor.map(() => false));
   const location = useLocation();
 
   const handleSelectAll = () => {
