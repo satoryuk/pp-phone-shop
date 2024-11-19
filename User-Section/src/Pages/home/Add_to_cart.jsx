@@ -1,11 +1,5 @@
-
-
 const Add_to_cart = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default Add_to_cart
+export default Add_to_cart;

@@ -1,11 +1,5 @@
-
-
 const Nofitication = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default Nofitication
+export default Nofitication;

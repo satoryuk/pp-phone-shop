@@ -1,11 +1,5 @@
-
-
 const Add_to_favorite = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default Add_to_favorite
+export default Add_to_favorite;
