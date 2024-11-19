@@ -10,6 +10,9 @@ import {
   delivery,
   add,
   addGreen,
+  phone,
+  category,
+  stock,
 } from "../Assets";
 
 export const nav_bar = [
@@ -20,10 +23,10 @@ export const nav_bar = [
   { img: offer, label: "Offer", path: "offer" },
 ];
 export const inventory_title = [
-  { label: "Total Product", number: "80" },
-  { label: "Categories", number: "90" },
-  { label: "Total Items", number: "20" },
-  { label: "Out Of Stock", number: "30" },
+  { title: "Total Product" },
+  { title: "Categories" },
+  { title: "Total Items" },
+  { title: "Out Of Stock" },
 ];
 export const ProductCategory = [
   { label: "All" },
@@ -91,7 +94,6 @@ export const dashBoradMain_item = [
 ];
 export const tableHead = [
   "ID",
-  "Product ID",
   "Product Name",
   "Category",
   "Inventory",
@@ -197,9 +199,9 @@ export const tableInfor = [
 ];
 
 export const order_header = [
-  { img: addToCart, title: "35 Order" },
-  { img: pending, title: "35 Pending" },
-  { img: delivery, title: "35 Delivery" },
+  { img: addToCart, title: "Order", quantity: 32 },
+  { img: pending, title: "Pending", quantity: 32 },
+  { img: delivery, title: "Delivery", quantity: 32 },
 ];
 export const offer_header = [
   { label: "Product ID" },
@@ -208,3 +210,8 @@ export const offer_header = [
   { label: "Start" },
   { label: "End" },
 ];
+export const productHeader = [
+  { img: phone },
+  { img: category },
+  { img: stock }
+]

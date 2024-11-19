@@ -3,7 +3,6 @@ import { add } from "../../Assets";
 import Model from "../../Utils/Model/Model";
 
 const ProductHeader = () => {
-  const [visible, setVisible] = useState(false);
 
   return (
     <section className="flex justify-between mb-28">

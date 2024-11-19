@@ -56,3 +56,11 @@ export const adminLogin = async ({ email, password }) => {
     }
   }
 };
+export const productHeaderData = async () => {
+  try {
+    const response = await axios.get(`${API_URL_Admin}/productHead`);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}

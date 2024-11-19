@@ -21,12 +21,11 @@ const Product = () => {
     fetchProducts(); // Call the fetchProducts function inside useEffect
   }, []);
   return (
-    <main className="mt-32 w-[1400px]">
+    <main className="mt-32 ">
       <ProductHeader />
       <ProductNumber />
       <ProductCaterogy />
-      <TableProduct title="All Product" />
-      {console.log(items)}
+      <TableProduct title="All Product" items={items} />
     </main>
   );
 };

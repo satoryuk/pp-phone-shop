@@ -13,6 +13,9 @@ import edit from "../Assets/edit.svg";
 import delivery from "../Assets/delivery.svg";
 import addGreen from "../Assets/addGreen.svg";
 import hambugerBar from "../Assets/hambugerBar.svg";
+import phone from "../Assets/phone.svg"
+import category from "../Assets/category.svg"
+import stock from "../Assets/stock.svg"
 export {
   dashboard,
   logo,
@@ -29,4 +32,7 @@ export {
   delivery,
   addGreen,
   hambugerBar,
+  phone,
+  category,
+  stock
 };
