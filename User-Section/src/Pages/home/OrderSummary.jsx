@@ -29,7 +29,7 @@ const OrderSummary = () => {
 
   const totalAmount = items.reduce(
     (total, item) => total + item.price * item.quantity,
-    0
+    0,
   );
 
   return (

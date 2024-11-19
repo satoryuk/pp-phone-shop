@@ -74,7 +74,7 @@ const RootLayOut = () => {
       </div>
 
       {/* Main Content */}
-      <section className="flex-auto p-6 bg-gray-50">
+      <section className="flex-auto p-6  ml-2">
         <Outlet />
       </section>
     </main>

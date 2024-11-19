@@ -17,7 +17,6 @@ import Login from "./Pages/auth/Login";
 import ProductDetail from "./Pages/home/ProductDetail";
 import CheckoutPage from "./Pages/home/Checkout";
 
-
 export default function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -36,8 +35,8 @@ export default function App() {
           <Route path="Signup" element={<Signup />} />
           <Route path="Login" element={<Login />} />
         </Route>
-      </>
-    )
+      </>,
+    ),
   );
 
   return <RouterProvider router={router} />;

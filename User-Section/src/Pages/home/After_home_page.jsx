@@ -1,11 +1,5 @@
-
-
 const After_home_page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default After_home_page
+export default After_home_page;

@@ -1,11 +1,5 @@
-
-
 const Payment = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default Payment
+export default Payment;

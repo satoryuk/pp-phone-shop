@@ -1,11 +1,5 @@
-
-
 const Compare = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default Compare
+export default Compare;

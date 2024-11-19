@@ -1,15 +1,15 @@
 const Order_By_ID = () => {
-    return (
-      <div>
-        <Invoice />
-      </div>
-    );
-  }
-    import React from 'react';
-  
-  function Invoice() {
-    return (
-      <section className='w-[1500px] mt-44'>
+  return (
+    <div>
+      <Invoice />
+    </div>
+  );
+};
+import React from "react";
+
+function Invoice() {
+  return (
+    <section className="w-[1500px] mt-44">
       <div className="max-w-2xl mx-auto bg-gray-100 p-6 rounded-lg shadow-lg">
         {/* Header Section */}
         <h1 className="text-green-600 text-3xl font-bold mb-4">INVOICE</h1>
@@ -31,7 +31,7 @@ const Order_By_ID = () => {
             <p className="text-black font-semibold">Phnom Penh</p>
           </div>
         </div>
-  
+
         {/* Table Section */}
         <div className="bg-gray-200 p-4 rounded-lg mb-4">
           <div className="flex text-gray-500 font-semibold">
@@ -57,7 +57,7 @@ const Order_By_ID = () => {
             </div>
           ))}
         </div>
-  
+
         {/* Summary Section */}
         <div className="text-right">
           <div className="flex justify-end gap-4 mb-2">
@@ -73,41 +73,40 @@ const Order_By_ID = () => {
             <p className="text-black font-semibold">900$</p>
           </div>
         </div>
-  
+
         {/* Export Button */}
         <XButton label="Export" />
       </div>
-      </section>
-    );
+    </section>
+  );
+}
+
+function XButton({ label }) {
+  return (
+    <div className="text-right mt-6">
+      <button className="bg-green-600 text-white px-6 py-2 rounded font-semibold">
+        {label}
+      </button>
+    </div>
+  );
+}
+
+export default Order_By_ID;
+
+class OrderProductModel {
+  constructor(id, name, quantity = 1, unitPrice = 100) {
+    this.id = id;
+    this.name = name;
+    this.quantity = quantity;
+    this.unitPrice = unitPrice;
+    this.amount = this.unitPrice * this.quantity;
   }
-  
-  function XButton({ label }) {
-    return (
-      <div className="text-right mt-6">
-        <button className="bg-green-600 text-white px-6 py-2 rounded font-semibold">
-          {label}
-        </button>
-      </div>
-    )
-  }
-  
-  export default Order_By_ID
-  
-  class OrderProductModel {
-    constructor(id, name, quantity = 1, unitPrice = 100) {
-      this.id = id;
-      this.name = name;
-      this.quantity = quantity;
-      this.unitPrice = unitPrice;
-      this.amount = this.unitPrice * this.quantity;
-    }
-  }
-  
-  const fakeData = [
-    new OrderProductModel(1, "Iphone", 1, 1000),
-    new OrderProductModel(2, "Samsung", 2, 1000),
-    new OrderProductModel(3, "Xiami", 1, 250),
-    new OrderProductModel(4, "FakePhone", 1, 1000),
-    new OrderProductModel(5, "Oppo", 4, 1000)
-  ];
-  
+}
+
+const fakeData = [
+  new OrderProductModel(1, "Iphone", 1, 1000),
+  new OrderProductModel(2, "Samsung", 2, 1000),
+  new OrderProductModel(3, "Xiami", 1, 250),
+  new OrderProductModel(4, "FakePhone", 1, 1000),
+  new OrderProductModel(5, "Oppo", 4, 1000),
+];

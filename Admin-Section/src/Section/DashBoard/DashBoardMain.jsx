@@ -1,24 +1,61 @@
+import { useEffect, useState } from "react";
 import TableProduct from "../../Component/TableProduct";
 import { dashBoradMain_item } from "../../Constants";
+import { productData } from "../../Fetch/FetchAPI";
 
 const DashBoardMain = () => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await productData();
+        setItems(data || []);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Render a loading state while fetching data
+
   return (
-    <main>
-    <section className="flex flex-wrap ">
-      {dashBoradMain_item.map((element) => (
-        <div key={element.title} className="bg-lightGray w-[300px] max-lg:w-[200px] mr-28 mt-24 flex p-4 rounded-xl">
-          <div>
-            <h1 className="green-txt pb-3 text-2xl max-lg:text-lg">{element.title}</h1>
-            <p className="green-txt mb-3 ">{element.sort}</p>
-            <h2 className="green-txt">{element.price}</h2>
+    <main className="pt-20">
+      {/* Section for Dashboard Items */}
+      <section className="grid grid-cols-1 gap-20 lg:grid-cols-2 xl:grid-cols-3 w-full">
+        {dashBoradMain_item.map((element, index) => (
+          <div
+            key={index}
+            className="border border-gray-300 rounded-md p-6 flex flex-col bg-white shadow-md hover:shadow-lg transition-shadow "
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-primary text-lg font-semibold mb-2">
+                  {element.title}
+                </h1>
+                <p className="text-gray-600 text-sm">{element.sort}</p>
+                <h2 className="text-primary text-xl font-bold">
+                  {element.price}
+                </h2>
+              </div>
+              <div className="bg-gray-100 rounded-full w-12 h-12 flex justify-center items-center">
+                <img
+                  src={element.img}
+                  alt={element.title}
+                  className="w-8 h-8"
+                />
+              </div>
+            </div>
           </div>
-          <div className="bg-DarkLightGray rounded-full w-10 h-10 flex justify-center items-center ml-auto ">
-            <img src={element.img} alt={element.title} />
-          </div>
-        </div>
-      ))}
-    </section>
-    <TableProduct title='Inventory' />
+        ))}
+      </section>
+
+      {/* Section for Inventory Table */}
+      <section className="mt-10">
+        <TableProduct title="Inventory" items={items} />
+      </section>
     </main>
   );
 };
