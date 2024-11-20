@@ -52,9 +52,8 @@ const TableProduct = ({ title, items }) => {
               {tableHead.map((header, index) => (
                 <th
                   key={index}
-                  className={`table-data text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 ${
-                    index === 0 ? "rounded-l-lg" : ""
-                  } border-r border-gray-200`}
+                  className={`table-data text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg" : ""
+                    } border-r border-gray-200`}
                 >
                   {header === "ID" ? (
                     <>

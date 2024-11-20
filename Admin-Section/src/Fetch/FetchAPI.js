@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const API_URL_Auth = "http://localhost:3000/auth";
 // const API_URL2 = 'http://localhost:3000/user/functionality';
@@ -62,5 +63,36 @@ export const productHeaderData = async () => {
     return response;
   } catch (error) {
     console.log(error);
+  }
+}
+
+export const dashboardHeaderData = async (date) => {
+  try {
+    const response = await axios.get(`${API_URL_Admin}/dashboardHead`, {
+      params: { date }
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const dashboardHeaderAll = async () => {
+  try {
+    const response = await axios.get(`${API_URL_Admin}/dashboardHeadAll`);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const tableByDate = async (date) => {
+
+  try {
+    const response = await axios.get(`${API_URL_Admin}/getAllProduct`, {
+      params: { date: date }
+    })
+    return response;
+  } catch (error) {
+    console.log(error);
+
   }
 }
