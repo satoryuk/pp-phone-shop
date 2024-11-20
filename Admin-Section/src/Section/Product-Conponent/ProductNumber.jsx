@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { productHeaderData } from "../../Fetch/FetchAPI";
+import { productHeader } from "../../Constants";
 
 const ProductNumber = () => {
   const [headerData, setHeaderData] = useState([]); // Initialize as an empty array
@@ -8,14 +9,24 @@ const ProductNumber = () => {
   useEffect(() => {
     const fetchHeader = async () => {
       try {
-        const data = await productHeaderData();
-        setHeaderData(data.data.data || []); // Update state with data or empty array
+        // Fetch data from API
+        const response = await productHeaderData();
+        const apiData = response.data.data || []; // Fetched data
+
+        // Combine fetched data with productHeader
+        const mergedData = apiData.map((item, index) => ({
+          ...item,
+          ...productHeader[index], // Add properties from productHeader to each fetched item
+        }));
+
+        setHeaderData(mergedData); // Update state with merged data
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false); // Stop loading when data is fetched
       }
     };
+
     fetchHeader();
   }, []);
 
@@ -30,6 +41,7 @@ const ProductNumber = () => {
 
   return (
     <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 px-4">
+      {console.log(headerData)}
       {headerData.map((element, index) => (
         <div
           key={index}
@@ -48,8 +60,8 @@ const ProductNumber = () => {
           {/* Icon Section */}
           <div className="bg-gray-100 rounded-full w-12 h-12 flex justify-center items-center">
             <img
-              src={`/assets/icons/${element.label.toLowerCase()}.svg`} // Placeholder for icons based on label
-              alt={element.label}
+              src={element.img} // Placeholder for icons based on label
+              alt={element.img}
               className="w-8 h-8"
             />
           </div>
