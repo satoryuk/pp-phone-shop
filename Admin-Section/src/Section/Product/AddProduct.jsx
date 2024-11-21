@@ -1,6 +1,51 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const AddProduct = () => {
+  const [name, setName] = useState('');
+  const [brand, setBrand] = useState('');
+  const [images, setImages] = useState([]);
+  const [price, setPrice] = useState('');
+  const [date, setDate] = useState('');
+  const [processor, setProcessor] = useState('');
+  const [storage, setStorage] = useState('');
+  const [camera, setCamera] = useState('');
+  const [category, setCategory] = useState('');
+  const [colors, setColors] = useState(['']);
+  const [description, setDescription] = useState('');
+  const [stock, setStock] = useState('');
+  const [screenSize, setScreenSize] = useState('');
+  const [ram, setRam] = useState('');
+  const [battery, setBattery] = useState('');
+
+
+  const handleAddColor = () => {
+    setColors([...colors, '']); // Add an empty string to the array, creating a new color input field
+  };
+
+  const handleRemoveColor = (index) => {
+    const newColors = [...colors];
+    newColors.splice(index, 1); // Remove the color at the specified index
+    setColors(newColors);
+  };
+
+  const handleColorChange = (index, value) => {
+    const newColors = [...colors];
+    newColors[index] = value; // Update the color value at the specified index
+    setColors(newColors);
+  };
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files); // Convert FileList to Array
+    setImages([...images, ...files]); // Append new files to the existing ones
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic
@@ -43,7 +88,67 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* Brand */}
+        {/* image */}
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-primary mb-2">
+            Product Images
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            multiple // This allows multiple files selection
+            onChange={handleImageChange}
+            className="h-10 w-full rounded-lg border border-gray-300 p-1 mb-2"
+          />
+          <div className="flex flex-wrap gap-4 mt-2">
+            {images.map((image, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt={`Product Image ${index + 1}`}
+                  className="h-16 w-16 object-cover rounded-lg"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  className="absolute top-0 right-0 text-red-600"
+                >
+                  X
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Color */}
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-primary mb-2">Color</label>
+          {colors.map((color, index) => (
+            <div key={index} className="flex gap-4 items-center">
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => handleColorChange(index, e.target.value)}
+                className="h-10 w-full rounded-lg border text-primary p-1"
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveColor(index)}
+                className="text-red-600"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={handleAddColor}
+            className="bg-blue-500 text-white px-4 py-2 mt-2 rounded-lg"
+          >
+            Add Another Color
+          </button>
+        </div>
+
+        {/* brand */}
         <div className="flex flex-col">
           <label className="text-sm font-medium text-primary mb-2">Brand</label>
           <input
@@ -55,26 +160,6 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* Color */}
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">Color</label>
-          <input
-            type="color"
-            name="color"
-            className="h-10 w-full rounded-lg border text-primary p-1"
-          />
-        </div>
-
-        {/* Image */}
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">Image</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            className="h-10 w-full rounded-lg border border-gray-300 p-1"
-          />
-        </div>
 
         {/* Description */}
         <div className="flex flex-col">

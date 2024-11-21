@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
 const API_URL_Auth = "http://localhost:3000/auth";
 // const API_URL2 = 'http://localhost:3000/user/functionality';
@@ -87,8 +86,41 @@ export const dashboardHeaderAll = async () => {
 export const tableByDate = async (date) => {
 
   try {
-    const response = await axios.get(`${API_URL_Admin}/getAllProduct`, {
+    const response = await axios.get(`${API_URL_Admin}/getAllProductbydate`, {
       params: { date: date }
+    })
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const categoryFetch = async () => {
+  try {
+    const response = await axios.get(`${API_URL_Admin}/category`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const tableByCategory = async (category) => {
+  try {
+    const response = await axios.get(`${API_URL_Admin}/getAllProductbyCategory`, {
+      params: category
+    });
+    console.log(category);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const searchFetch = async (items) => {
+  try {
+    const response = await axios.get(`$${API_URL_Admin}/searchProduct`, {
+      params: items
     })
     return response;
   } catch (error) {

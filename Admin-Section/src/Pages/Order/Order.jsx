@@ -16,7 +16,7 @@ const Order = () => {
       }
     };
     fetchOrder();
-  });
+  }, []);
   return (
     <section>
       <Order_main />

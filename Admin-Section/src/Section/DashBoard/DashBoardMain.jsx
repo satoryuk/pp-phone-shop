@@ -36,7 +36,6 @@ const DashBoardMain = ({ data, selectedDate }) => {
 
   return (
     <main className="pt-20">
-      {/* Render Dashboard Items */}
       <section className="grid grid-cols-1 gap-20 lg:grid-cols-2 xl:grid-cols-3 w-full">
         {data.map((element, index) => (
           <div

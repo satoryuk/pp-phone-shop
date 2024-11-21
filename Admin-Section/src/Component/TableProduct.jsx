@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { edit, trash } from "../Assets";
 import { tableHead, tableInfor } from "../Constants";
-import { Link, useLocation } from "react-router-dom";
+import { Link, } from "react-router-dom";
+import { searchFetch } from "../Fetch/FetchAPI";
 
 const TableProduct = ({ title, items }) => {
+  const [datatable, setDataTable] = useState(items.data); // Correct initialization
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState(tableInfor.map(() => false));
-  const location = useLocation();
-  const data = items.data || []; // Safe fallback for missing data
+  const [searchData, setSearchData] = useState('');
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll;
@@ -23,18 +24,38 @@ const TableProduct = ({ title, items }) => {
     setSelectAll(updatedSelectedRows.every(Boolean));
   };
 
+  const searchDataFetch = async () => {
+    try {
+      const data = await searchFetch(searchData);
+      setDataTable(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    searchDataFetch();
+  };
+
   return (
     <section className="mt-16 bg-white rounded-lg p-6 sm:p-10 shadow-lg border border-gray-400">
+      {console.log(datatable)
+      }
       {/* Header Section */}
+      {console.log(items.data)
+      }
       <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-10 mb-5 sm:mb-10">
         <h1 className="green-text mt-4 sm:mt-10 font-semibold text-lg lg:text-3xl">
           {title}
         </h1>
-        <form className="flex gap-1 sm:gap-10 items-center mt-3 sm:mt-10">
+        <form onSubmit={handleSearch} className="flex gap-1 sm:gap-10 items-center mt-3 sm:mt-10">
           <input
             type="text"
             placeholder="Search..."
             className="input-style text-sm sm:text-base"
+            onChange={e => setSearchData(e.target.value)}
           />
           <input
             type="submit"
@@ -52,8 +73,7 @@ const TableProduct = ({ title, items }) => {
               {tableHead.map((header, index) => (
                 <th
                   key={index}
-                  className={`table-data text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg" : ""
-                    } border-r border-gray-200`}
+                  className={`table-data text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg" : ""} border-r border-gray-200`}
                 >
                   {header === "ID" ? (
                     <>
@@ -75,8 +95,8 @@ const TableProduct = ({ title, items }) => {
           </thead>
 
           <tbody>
-            {Array.isArray(data) && data.length > 0 ? (
-              data.map((element, index) => (
+            {Array.isArray(datatable) && datatable.length > 0 ? (
+              datatable.map((element, index) => (
                 <tr
                   key={element.phone_id}
                   className="hover:bg-gray-50 transition duration-200 border-b border-gray-200"
