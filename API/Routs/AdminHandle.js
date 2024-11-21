@@ -4,6 +4,8 @@ import {
   addNewCategory,
   addNewProduct,
   CountHeaderData,
+  dashboardHeader,
+  dashboardHeaderAll,
   deleteProduct,
   displayAllProduct,
   searchProduct,
@@ -22,4 +24,6 @@ adminRouter.post("/addNewProduct", addNewProduct);
 adminRouter.put("/updateProduct", updateProduct);
 adminRouter.put("/deleteProduct", deleteProduct);
 adminRouter.get('/productHead', CountHeaderData)
+adminRouter.get('/dashboardHead', dashboardHeader);
+adminRouter.get('/dashboardHeadAll', dashboardHeaderAll);
 export default adminRouter;

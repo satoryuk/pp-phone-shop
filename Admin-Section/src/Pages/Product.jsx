@@ -6,26 +6,15 @@ import ProductNumber from "../Section/Product-Conponent/ProductNumber";
 import { productData } from "../Fetch/FetchAPI";
 
 const Product = () => {
-  const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await productData(); // Wait for the async function to resolve
-        setItems(data); // Set the data once it's fetched
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
 
-    fetchProducts(); // Call the fetchProducts function inside useEffect
-  }, []);
+
   return (
     <main className="mt-32 ">
       <ProductHeader />
       <ProductNumber />
       <ProductCaterogy />
-      <TableProduct title="All Product" items={items} />
+
     </main>
   );
 };

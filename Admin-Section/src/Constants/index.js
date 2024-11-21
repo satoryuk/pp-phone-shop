@@ -88,9 +88,9 @@ export const Inventory_items = [
   },
 ];
 export const dashBoradMain_item = [
-  { title: "Total Revenue", sort: "Last 30 Days", price: "999$", img: revanue },
-  { title: "Total Order", sort: "Last 30 Days", price: "1000", img: addToCart },
-  { title: "Total Costumer", sort: "Last 30 Days", price: "100", img: profile },
+  { img: revanue },
+  { img: addToCart },
+  { img: profile },
 ];
 export const tableHead = [
   "ID",

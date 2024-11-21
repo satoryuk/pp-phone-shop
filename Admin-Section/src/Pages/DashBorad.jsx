@@ -5,7 +5,7 @@ const DashBorad = () => {
   return (
     <section className=" mt-36">
       <DashBoardHeader />
-      <DashBoardMain />
+
     </section>
   );
 };

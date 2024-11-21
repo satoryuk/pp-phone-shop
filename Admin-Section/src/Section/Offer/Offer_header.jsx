@@ -1,6 +1,6 @@
 import { offer_header } from "../../Constants";
 
-const Offer_header = () => {
+const OfferHeader = () => {
   return (
     <div className="p-6">
       <section className="max-w-4xl mx-auto">
@@ -14,7 +14,7 @@ const Offer_header = () => {
           <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-end">
             <input
               type="submit"
-              className="green-btn px-6 py-2 text-white font-semibold rounded-md"
+              className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-md transition"
               value="Submit"
             />
           </div>
@@ -26,16 +26,16 @@ const Offer_header = () => {
 
 const FormField = ({ label }) => (
   <div className="flex flex-col items-start">
-    <label htmlFor={label} className="green-txt text-left mb-2">
+    <label htmlFor={label} className="text-sm font-medium text-primary mb-2">
       {label}
     </label>
     <input
       type="text"
       id={label}
-      className="input-style h-10 w-full px-3 border rounded-md"
+      className="input-style h-12 w-full px-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-0 transition"
       aria-label={label}
     />
   </div>
 );
 
-export default Offer_header;
+export default OfferHeader;
