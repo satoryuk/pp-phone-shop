@@ -8,11 +8,11 @@ const Offer = () => {
 
 function Details() {
   return (
-    <div className="container mx-auto bg-gray-100 rounded-lg shadow-[0_10px_50px_rgba(0,0,0,0.3)] max-w-md mt-12 p-6">
+    <div className="container mx-auto bg-gray-100 rounded-lg shadow-[0_100px_50px_rgba(0,0,0,0.3)] max-w-md mt-12 p-6">
       <h1 className="text-2xl font-bold text-green-600 mb-4">Inventory Detail</h1>
       <div className="flex flex-col items-center md:flex-row md:items-start">
         <img 
-          src="https://via.placeholder.com/200" // Replace with your image URL
+          src="https://pin.it/516G85ZIt" // Replace with your image URL
           alt="Product"
           className="w-48 h-48 object-cover mb-4 md:mb-0 md:mr-6 rounded-lg"
         />
@@ -33,7 +33,7 @@ function Details() {
             <span className="font-semibold">Subtotal:</span> 1000$
           </div>
           <div className="mb-2">
-            <span className="font-semibold">Description:</span> alkdfjalkdfj
+            <span className="font-semibold">Description:</span> Nigaaaaaaaa
           </div>
           <div className="mb-2">
             <span className="font-semibold">Total:</span> 900$
