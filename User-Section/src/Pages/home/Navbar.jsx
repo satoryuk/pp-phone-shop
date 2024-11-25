@@ -1,6 +1,6 @@
 import { logo } from "../Assets/image";
 
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Signup from "../auth/SignUpScreen";
 
 
@@ -49,7 +49,7 @@ const Navbar = () => {
                 >
                   Log In
                 </button>
-              </NavLink>
+              </Link>
               <NavLink to="/auth/Signup">
                 <button
                   className="bg-green-600 text-white px-4 py-2 rounded-full"
