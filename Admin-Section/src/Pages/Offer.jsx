@@ -1,6 +1,18 @@
 import React from 'react';
 
 const Offer = () => {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await productData();
+        setItems(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  });
   return (
     <Details />
   );

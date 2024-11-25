@@ -1,10 +1,13 @@
-import { logo } from "../Assets"
+import DashBoardHeader from "../Section/DashBoard/DashBoadHeader";
+import DashBoardMain from "../Section/DashBoard/DashBoardMain";
 
 const DashBorad = () => {
   return (
-    <div>
-    </div>
-  )
-}
+    <section className=" mt-36">
+      <DashBoardHeader />
 
-export default DashBorad
+    </section>
+  );
+};
+
+export default DashBorad;
