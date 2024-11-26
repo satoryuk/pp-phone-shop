@@ -2,10 +2,10 @@ import { logo } from "../Assets/image";
 
 import { Link, NavLink } from "react-router-dom";
 import Signup from "../auth/SignUpScreen";
-
-
-import HomePage from "./Home";
+import { IoIosNotifications } from "react-icons/io";
+import Popup from 'reactjs-popup';
 import CheckoutPage from "./Checkout";
+import NotificationCard from "./Notification_Card";
 
 const Navbar = () => {
   return (
@@ -38,7 +38,7 @@ const Navbar = () => {
             </div>
 
             {/* Authentication Buttons */}
-            <div className="space-x-2">
+            {/* <div className="space-x-2">
 
 
 
@@ -58,6 +58,24 @@ const Navbar = () => {
                   Sign Up
                 </button>
               </NavLink>
+            </div> */}
+
+            
+             {/* Notification Pop Up  */}
+            <div>
+              <Popup
+                trigger={
+                  <div className="cursor-pointer">
+                    <IoIosNotifications size={24} />
+                  </div>
+                }
+                position="bottom center"
+                arrow={true}
+                closeOnDocumentClick
+              >
+                {/* Popup Content */}
+                <NotificationCard />
+              </Popup>
             </div>
           </div>
         </div>
