@@ -169,3 +169,18 @@ export const addNewProductAPI = async (formdata) => {
 
   }
 }
+export const addNewBrandAPI = async (formdata) => {
+
+  try {
+    const response = await axios.post(`${API_URL_Admin}/addNewBrand`, formdata, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+
+
+  }
+}

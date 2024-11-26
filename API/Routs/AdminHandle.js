@@ -20,7 +20,7 @@ import upload from "../Utils/handleimg.js";
 const adminRouter = Router();
 // adminRouter.use(validateToken);
 
-adminRouter.post("/addNewBrand", addNewBrand);
+adminRouter.post("/addNewBrand", upload.single('images'), addNewBrand);
 adminRouter.post("/addNewCategory", addNewCategory);
 adminRouter.get("/getAllProduct", displayAllProduct);
 adminRouter.get("/getAllProductbydate", displayByDate);

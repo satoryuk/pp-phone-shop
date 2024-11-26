@@ -68,6 +68,7 @@ const AddProduct = () => {
     }
     try {
       const result = await addNewProductAPI(formdata);
+
       console.log(result);
 
     } catch (error) {

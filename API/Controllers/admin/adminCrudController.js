@@ -2,17 +2,26 @@ import pool from "../../db/db_handle.js";
 import bcrypt from "bcrypt";
 
 export const addNewBrand = (req, res) => {
-  const { brand } = req.body;
+  // const { brand } = req.body;
+  const imagePath = req.file.filename;  // Use req.file for the uploaded image
+  console.log(imagePath);
 
-  const query = `INSERT INTO brands(name) VALUE(?)`;
+  // if (!imagePath) {
+  //   return res.status(400).json({ message: 'Image is required' });
+  // }
 
-  pool.query(query, brand, (err, result) => {
-    if (err) return res.status(400).json({ message: "something went wrong" });
-    return res
-      .status(200)
-      .json({ message: "Insert Successfully", data: result });
-  });
+  // // SQL query to insert brand name and image path into the database
+  // const query = `INSERT INTO brands(name, image) VALUES(?, ?)`;
+
+  // pool.query(query, [brand, imagePath], (err, result) => {
+  //   if (err) {
+  //     console.error(err);
+  //     return res.status(400).json({ message: "Something went wrong" });
+  //   }
+  //   return res.status(200).json({ message: "Insert successfully", data: result });
+  // });
 };
+
 export const addNewCategory = (req, res) => {
   const { category } = req.body;
 
