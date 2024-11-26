@@ -3,6 +3,7 @@ import TableProduct from "../../Component/TableProduct";
 import Order_main from "../../Section/Order/Order_main";
 import { productData } from "../../Fetch/FetchAPI";
 
+
 const Order = () => {
   const [items, setItems] = useState([]);
 
@@ -19,6 +20,8 @@ const Order = () => {
   }, []);
   return (
     <section>
+      {console.log(items)
+      }
       <Order_main />
       <TableProduct title="Order" items={items} />
     </section>

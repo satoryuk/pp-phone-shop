@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
-import pool from "../db/db_handle.js";
+import pool from "../../db/db_handle.js";
 import {
   generateAccessToken,
   generateRefreshToken,
-} from "../Utils/generateToken.js";
+} from "../../Utils/generateToken.js";
 
 export const adminLogin = async (req, res) => {
   const { email, password } = req.body;

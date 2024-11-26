@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { edit, trash } from "../Assets";
 import { tableHead, tableInfor } from "../Constants";
 import { Link, } from "react-router-dom";
-import { searchFetch } from "../Fetch/FetchAPI";
+import { searchFetch } from "../Fetch/FetchAPI.js";
 
 const TableProduct = ({ title, items }) => {
-  const [datatable, setDataTable] = useState(items.data); // Correct initialization
+  const [datatable, setDataTable] = useState(items); // Correct initialization
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState(tableInfor.map(() => false));
   const [searchData, setSearchData] = useState('');
 
+  useEffect(() => {
+    setDataTable(items)
+  }, [items])
   const handleSelectAll = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
@@ -27,11 +30,13 @@ const TableProduct = ({ title, items }) => {
   const searchDataFetch = async () => {
     try {
       const data = await searchFetch(searchData);
-      setDataTable(data.data);
+      console.log(data);
+
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching search data:", error);
     }
   };
+
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -39,29 +44,32 @@ const TableProduct = ({ title, items }) => {
     searchDataFetch();
   };
 
+  const handleExport = (e) => {
+    e.preventDefault();
+  }
+
   return (
     <section className="mt-16 bg-white rounded-lg p-6 sm:p-10 shadow-lg border border-gray-400">
-      {console.log(datatable)
-      }
-      {/* Header Section */}
-      {console.log(items.data)
-      }
       <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-10 mb-5 sm:mb-10">
         <h1 className="green-text mt-4 sm:mt-10 font-semibold text-lg lg:text-3xl">
           {title}
         </h1>
-        <form onSubmit={handleSearch} className="flex gap-1 sm:gap-10 items-center mt-3 sm:mt-10">
+        <form className="flex gap-1 sm:gap-10 items-center mt-3 sm:mt-10">
           <input
             type="text"
             placeholder="Search..."
             className="input-style text-sm sm:text-base"
             onChange={e => setSearchData(e.target.value)}
           />
-          <input
-            type="submit"
-            value={location.pathname === "/product" ? "Export" : "Search"}
-            className="green-btn h-10 sm:h-12 w-[100px] sm:w-[120px] text-sm sm:text-base"
-          />
+          <button
+            className="green-btn h-10 sm:h-12 w-[100px] sm:w-[150px] text-sm sm:text-base"
+            onClick={(e) => handleSearch(e)}
+          >Search</button>
+          <button
+            className="green-btn h-10 sm:h-12 w-[100px] sm:w-[150px] text-sm sm:text-base"
+            onClick={(e) => handleExport(e)}
+          >Export</button>
+
         </form>
       </section>
 
@@ -95,8 +103,8 @@ const TableProduct = ({ title, items }) => {
           </thead>
 
           <tbody>
-            {Array.isArray(datatable) && datatable.length > 0 ? (
-              datatable.map((element, index) => (
+            {Array.isArray(datatable.data) && datatable.data.length > 0 ? (
+              datatable.data.map((element, index) => (
                 <tr
                   key={element.phone_id}
                   className="hover:bg-gray-50 transition duration-200 border-b border-gray-200"

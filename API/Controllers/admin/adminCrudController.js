@@ -1,4 +1,4 @@
-import pool from "../db/db_handle.js";
+import pool from "../../db/db_handle.js";
 import bcrypt from "bcrypt";
 
 export const addNewBrand = (req, res) => {
@@ -33,7 +33,6 @@ export const displayAllProduct = (req, res) => {
                       p.description,
                       p.price,
                       p.stock,
-                      p.img,
                       p.release_date,
                       s.screen_size,
                       s.processor,
@@ -49,7 +48,6 @@ export const displayAllProduct = (req, res) => {
                   INNER JOIN brands b ON p.brand_id = b.brand_id 
                   INNER JOIN categories c ON p.category_id = c.category_id;
                   `
-
   pool.query(query, (err, rows) => {
     if (err) return res.status(400).json({ message: "something went wrong" });
     res.status(200).json({
@@ -62,7 +60,7 @@ export const displayAllProduct = (req, res) => {
 
 export const displayByDate = (req, res) => {
   const { date } = req.query;
-  console.log(date);
+
 
   const query = `SELECT 
                 p.phone_id,
@@ -96,87 +94,106 @@ export const displayByDate = (req, res) => {
   })
 }
 
-export const addNewProduct = (req, res) => {
-  const {
-    name,
-    description,
-    price,
-    stock,
-    name_category,
-    name_brand,
-    release_date,
-    screen_size,
-    processor,
-    ram,
-    storage,
-    battery,
-    camera,
-    colors, // Expecting an array of colors from the frontend
-  } = req.body;
+export const addNewProduct = async (req, res) => {
 
-  const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
-  const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
-  const addProductQuery =
-    "INSERT INTO phones (name, description, price, stock, category_id, brand_id, release_date) VALUES(?,?,?,?,?,?,?)";
-  const addSpecificationsQuery =
-    "INSERT INTO specifications (phone_id, screen_size, processor, ram, storage, battery, camera) VALUES(?,?,?,?,?,?,?)";
-  const addColorsQuery =
-    "INSERT INTO phone_colors (phone_id, color) VALUES ?"; // Use bulk insert for multiple colors
+  try {
+    console.log("Files received:", req.files); // Debugging files
+    if (!req.files || req.files.length === 0) {
+      throw new Error("No files uploaded. Please upload images.");
+    }
 
-  pool.query(category_query, name_category, (err, categoryRows) => {
-    if (err) return res.status(400).json({ message: "Category query failed" });
+    // Parse `colors` (sent as JSON string)
+    let colors = [];
+    try {
+      colors = JSON.parse(req.body.colors); // Parse into an array
+      if (!Array.isArray(colors)) {
+        throw new Error("Invalid format for colors. Expected an array.");
+      }
+    } catch (err) {
+      throw new Error("Failed to parse colors. Ensure it is a valid JSON array.");
+    }
 
+    // Extract other fields from `req.body`
+    const {
+      name,
+      brand,
+      price,
+      date,
+      processor,
+      storage,
+      camera,
+      category,
+      description,
+      stock,
+      screenSize,
+      ram,
+      battery,
+    } = req.body;
+
+    // Process image filenames (multer saves files in 'uploads/')
+    const images = req.files.map((file) => file.filename);
+
+    // Handle database operations
+    const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
+    const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
+    const addProductQuery =
+      "INSERT INTO phones (name, description, price, stock, category_id, brand_id, release_date) VALUES(?,?,?,?,?,?,?)";
+    const addSpecificationsQuery =
+      "INSERT INTO specifications (phone_id, screen_size, processor, ram, storage, battery, camera) VALUES(?,?,?,?,?,?,?)";
+    const addColorsQuery =
+      "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
+    const addImageQuery =
+      "INSERT INTO productimage(phone_id, image) VALUES (?,?)";
+
+    // Database operations (same as your previous code)
+    const [categoryRows] = await pool.promise().query(category_query, [category]);
+    if (!categoryRows.length) throw new Error("Category not found");
     const category_id = categoryRows[0].category_id;
 
-    pool.query(brand_query, name_brand, (err, brandRows) => {
-      if (err) return res.status(400).json({ message: "Brand query failed" });
+    const [brandRows] = await pool.promise().query(brand_query, [brand]);
+    if (!brandRows.length) throw new Error("Brand not found");
+    const brand_id = brandRows[0].brand_id;
 
-      const brand_id = brandRows[0].brand_id;
+    const productValues = [
+      name,
+      description,
+      price,
+      stock,
+      category_id,
+      brand_id,
+      date,
+    ];
 
-      const productValues = [
-        name,
-        description,
-        price,
-        stock,
-        category_id,
-        brand_id,
-        release_date,
-      ];
+    const [productRows] = await pool.promise().query(addProductQuery, productValues);
+    const phone_id = productRows.insertId;
 
-      pool.query(addProductQuery, productValues, (err, productRows) => {
-        if (err) return res.status(400).json({ message: "Product insertion failed" });
+    const specificationValues = [
+      phone_id,
+      screenSize,
+      processor,
+      ram,
+      storage,
+      battery,
+      camera,
+    ];
+    await pool.promise().query(addSpecificationsQuery, specificationValues);
 
-        const phone_id = productRows.insertId; // Get the inserted product ID
+    // Insert colors
+    for (let color of colors) {
+      await pool.promise().query(addColorsQuery, [phone_id, color]);
+    }
 
-        const specificationValues = [
-          phone_id,
-          screen_size,
-          processor,
-          ram,
-          storage,
-          battery,
-          camera,
-        ];
+    // Insert images
+    for (let image of images) {
+      await pool.promise().query(addImageQuery, [phone_id, image]);
+    }
 
-        pool.query(addSpecificationsQuery, specificationValues, (err) => {
-          if (err)
-            return res.status(400).json({ message: "Specifications insertion failed" });
-
-          // Prepare color values for bulk insert
-          const colorValues = colors.map((color) => [phone_id, color]);
-
-          pool.query(addColorsQuery, [colorValues], (err) => {
-            if (err)
-              return res.status(400).json({ message: "Colors insertion failed" });
-
-            res.status(201).json({ message: "Product added successfully" });
-          });
-        });
-      });
-    });
-  });
-};
-
+    res.status(201).json({ message: "Product added successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: err.message });
+  }
+}
 export const updateProduct = (req, res) => {
   const {
     id,
@@ -386,7 +403,8 @@ export const category = (req, res) => {
 
 export const displayByCategory = (req, res) => {
   const { category } = req.query;
-  console.log(category);
+
+
 
   const query = `SELECT 
                       p.phone_id,
@@ -423,6 +441,8 @@ export const displayByCategory = (req, res) => {
 }
 export const searchItems = (req, res) => {
   const { items } = req.query;
+  console.log(items);
+  console.log("items");
 
   const query = `SELECT 
                       p.phone_id,
@@ -448,7 +468,9 @@ export const searchItems = (req, res) => {
                   WHERE p.name=?;`
 
   pool.query(query, items, (err, rows) => {
-    if (err) return res.status(400).json({ message: "something went wrong" })
+    if (err) return res.status(400).json({ message: `something went wrong ${items}` })
+    console.log(rows);
+
     return res.status(200).json({
       data: rows,
       message: "sucessfully"

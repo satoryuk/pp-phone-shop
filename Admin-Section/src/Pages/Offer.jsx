@@ -1,5 +1,5 @@
-import React from 'react';
-
+import { useState, useEffect } from 'react';
+import { productData } from '../Fetch/FetchAPI';
 const Offer = () => {
   const [items, setItems] = useState([]);
   useEffect(() => {
@@ -23,7 +23,7 @@ function Details() {
     <div className="container mx-auto bg-white rounded-lg shadow-[0_40px_100px_rgba(0,0,0,0.4)] max-w-lg mt-6 p-10 transform rotate-0">
       <h1 className="text-3xl font-bold text-green-600 mb-6 text-center">Inventory Detail</h1>
       <div className="flex flex-col items-center md:flex-row md:items-start">
-        <img 
+        <img
           src="https://i.pinimg.com/564x/ca/43/a1/ca43a11d6672b910f1c19b2c537ba2da.jpg"
           alt="Product"
           className="w-56 h-56 object-cover mb-6 md:mb-0 md:mr-8 rounded-lg"

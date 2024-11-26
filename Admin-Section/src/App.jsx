@@ -16,6 +16,7 @@ import Order_By_ID from "./Pages/Order/Order_By_ID";
 import AddProductPage from "./Pages/AddProductPage";
 import AddBrandPage from "./Pages/AddBrandPage";
 import AddCategoryPage from "./Pages/AddCategoryPage";
+import MainOffer from "./Pages/MainOffer";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,7 +30,8 @@ const router = createBrowserRouter(
         <Route path="addProduct" element={<AddProductPage />} />
         <Route path="addBrand" element={<AddBrandPage />} />
         <Route path="addCategory" element={<AddCategoryPage />} />
-        <Route path="offer" element={<Offer />} />
+        <Route path="offer" element={<MainOffer />} />
+        <Route path="offer/:id" element={<Offer />} />
       </Route>
       <Route path="auth" element={<AuthLayOut />}>
         <Route path="login" element={<Login />} />

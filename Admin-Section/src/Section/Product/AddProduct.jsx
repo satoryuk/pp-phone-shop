@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { addNewProductAPI } from "../../Fetch/FetchAPI";
 
 const AddProduct = () => {
   const [name, setName] = useState('');
@@ -46,11 +47,54 @@ const AddProduct = () => {
     setImages(newImages);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic
+    const formdata = {
+      name,
+      brand,
+      images,
+      price,
+      date,
+      processor,
+      storage,
+      camera,
+      category,
+      colors,
+      description,
+      stock,
+      screenSize,
+      ram,
+      battery,
+    }
+    try {
+      const result = await addNewProductAPI(formdata);
+      console.log(result);
+
+    } catch (error) {
+      console.log(error);
+
+    }
   };
 
+  const handleClear = (e) => {
+    e.preventDefault();
+
+    setName('');
+    setBrand('');
+    setImages([]);
+    setPrice('');
+    setDate('');
+    setProcessor('');
+    setStorage('');
+    setCamera('');
+    setColors(['']);
+    setDescription('');
+    setStock('');
+    setScreenSize('');
+    setRam('');
+    setBattery('');
+    setCategory('');
+  }
   return (
     <div className="bg-white border-gray-300 border p-8 rounded-lg w-full max-w-4xl mx-auto mt-12 shadow-lg">
       <h1 className="text-center text-3xl text-primary font-bold mb-8">
@@ -70,6 +114,8 @@ const AddProduct = () => {
             name="productName"
             placeholder="Enter product name"
             className="input-style"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -83,7 +129,9 @@ const AddProduct = () => {
             type="text"
             name="name_category"
             placeholder="Enter product category"
+            value={category}
             className="input-style"
+            onChange={(e) => setCategory(e.target.value)}
             required
           />
         </div>
@@ -155,7 +203,9 @@ const AddProduct = () => {
             type="text"
             name="name_brand"
             placeholder="Enter product brand"
+            value={brand}
             className="input-style"
+            onChange={((e) => setBrand(e.target.value))}
             required
           />
         </div>
@@ -170,6 +220,8 @@ const AddProduct = () => {
             name="description"
             placeholder="Enter product description"
             className="input-style h-28"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
           />
         </div>
@@ -181,7 +233,9 @@ const AddProduct = () => {
             type="number"
             name="price"
             placeholder="Enter product price"
+            value={price}
             className="input-style"
+            onChange={(e) => setPrice(e.target.value)}
             required
           />
         </div>
@@ -194,6 +248,8 @@ const AddProduct = () => {
             name="stock"
             placeholder="Enter product stock quantity"
             className="input-style"
+            value={stock}
+            onChange={(e) => setStock(e.target.value)}
             required
           />
         </div>
@@ -206,7 +262,9 @@ const AddProduct = () => {
           <input
             type="date"
             name="release_date"
+            value={date}
             className="input-style"
+            onChange={(e) => setDate(e.target.value)}
             required
           />
         </div>
@@ -219,8 +277,10 @@ const AddProduct = () => {
           <input
             type="text"
             name="screen_size"
+            value={screenSize}
             placeholder="Enter screen size"
             className="input-style"
+            onChange={(e) => setScreenSize(e.target.value)}
             required
           />
         </div>
@@ -233,8 +293,10 @@ const AddProduct = () => {
           <input
             type="text"
             name="processor"
+            value={processor}
             placeholder="Enter processor details"
             className="input-style"
+            onChange={(e) => setProcessor(e.target.value)}
             required
           />
         </div>
@@ -247,6 +309,8 @@ const AddProduct = () => {
             name="ram"
             placeholder="Enter RAM size"
             className="input-style"
+            value={ram}
+            onChange={(e) => setRam(e.target.value)}
             required
           />
         </div>
@@ -260,7 +324,9 @@ const AddProduct = () => {
             type="text"
             name="storage"
             placeholder="Enter storage capacity"
+            value={storage}
             className="input-style"
+            onChange={(e) => setStorage(e.target.value)}
             required
           />
         </div>
@@ -274,7 +340,9 @@ const AddProduct = () => {
             type="text"
             name="battery"
             placeholder="Enter battery capacity"
+            value={battery}
             className="input-style"
+            onChange={(e) => setBattery(e.target.value)}
             required
           />
         </div>
@@ -289,24 +357,28 @@ const AddProduct = () => {
             name="camera"
             placeholder="Enter camera details"
             className="input-style"
+            value={camera}
+            onChange={(e) => setCamera(e.target.value)}
             required
           />
         </div>
 
         {/* Buttons */}
         <div className="md:col-span-2 flex justify-center gap-4 mt-4">
-          <button
+          <input
             type="submit"
+            value='submit'
             className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition"
-          >
-            Submit
-          </button>
-          <Link
-            to="/"
+          />
+
+
+          <button
+            type="button"
+            onClick={(e) => handleClear(e)}
             className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg transition"
           >
-            Cancel
-          </Link>
+            Clear
+          </button>
         </div>
       </form>
     </div>
