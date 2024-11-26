@@ -13,19 +13,20 @@ import {
   displayByDate,
   searchItems,
   updateProduct,
-} from "../Controllers/adminCrudController.js";
+} from "../Controllers/admin/adminCrudController.js";
 import { validateToken } from "../Utils/jwt_validation.js";
+import upload from "../Utils/handleimg.js";
 
 const adminRouter = Router();
 // adminRouter.use(validateToken);
 
-adminRouter.post("/addNewBrand", addNewBrand);
+adminRouter.post("/addNewBrand", upload.single('images'), addNewBrand);
 adminRouter.post("/addNewCategory", addNewCategory);
 adminRouter.get("/getAllProduct", displayAllProduct);
 adminRouter.get("/getAllProductbydate", displayByDate);
 adminRouter.get("/getAllProductbyCategory", displayByCategory);
 adminRouter.get("/searchProduct", searchItems);
-adminRouter.post("/addNewProduct", addNewProduct);
+adminRouter.post("/addNewProduct", upload.array("images", 10), addNewProduct);
 adminRouter.put("/updateProduct", updateProduct);
 adminRouter.put("/deleteProduct", deleteProduct);
 adminRouter.get('/productHead', CountHeaderData)

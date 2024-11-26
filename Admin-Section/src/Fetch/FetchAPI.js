@@ -90,7 +90,7 @@ export const tableByDate = async (date) => {
       params: { date: date }
     })
 
-    return response.data;
+    return response;
   } catch (error) {
     console.log(error);
   }
@@ -109,7 +109,6 @@ export const tableByCategory = async (category) => {
     const response = await axios.get(`${API_URL_Admin}/getAllProductbyCategory`, {
       params: category
     });
-    console.log(category);
 
     return response.data;
   } catch (error) {
@@ -117,14 +116,71 @@ export const tableByCategory = async (category) => {
   }
 }
 
-export const searchFetch = async (items) => {
+export const searchFetch = async (searchData) => {
   try {
-    const response = await axios.get(`$${API_URL_Admin}/searchProduct`, {
-      params: items
-    })
+    console.log(searchData);
+
+    const response = await axios.get(`${API_URL_Admin}/searchProduct`, {
+      params: searchData
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+export const addNewProductAPI = async (formdata) => {
+  const formData = new FormData();
+
+  // Append non-file data to formData
+  formData.append("name", formdata.name);
+  formData.append("brand", formdata.brand);
+  formData.append("price", formdata.price);
+  formData.append("date", formdata.date);
+  formData.append("processor", formdata.processor);
+  formData.append("storage", formdata.storage);
+  formData.append("camera", formdata.camera);
+  formData.append("category", formdata.category);
+  formData.append("description", formdata.description);
+  formData.append("stock", formdata.stock);
+  formData.append("screenSize", formdata.screenSize);
+  formData.append("ram", formdata.ram);
+  formData.append("battery", formdata.battery);
+
+  // Convert `colors` array to a JSON string and append it
+  formData.append("colors", JSON.stringify(formdata.colors));
+
+  // Append `images` (files) to formData
+  for (let image of formdata.images) {
+    formData.append("images", image); // The key `images` must match the backend
+  }
+
+  try {
+    const response = await axios.post(`${API_URL_Admin}/addNewProduct`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Ensure this matches your backend
+      },
+    });
+    return response;
+    // console.log(formdata);
+
+
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+export const addNewBrandAPI = async (formdata) => {
+
+  try {
+    const response = await axios.post(`${API_URL_Admin}/addNewBrand`, formdata, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response;
   } catch (error) {
     console.log(error);
+
 
   }
 }
