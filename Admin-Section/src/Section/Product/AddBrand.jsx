@@ -17,14 +17,14 @@ const AddBrand = () => {
 
     const formData = new FormData();
     formData.append("brand", brand);
-    formData.append("img", img);
+    formData.append("images", img);
 
 
     try {
-      // const result = await addNewBrandAPI(formData); // Send the formData containing the image
-      // console.log(result);
-      console.log(brand);
-      console.log(img);
+      const result = await addNewBrandAPI(formData); // Send the formData containing the image
+      console.log(result);
+      // console.log(brand);
+      // console.log(img);
       // Handle success response here (e.g., show success message, clear fields)
     } catch (error) {
       console.log(error);
