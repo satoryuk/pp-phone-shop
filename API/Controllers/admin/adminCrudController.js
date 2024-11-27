@@ -2,35 +2,42 @@ import pool from "../../db/db_handle.js";
 import bcrypt from "bcrypt";
 
 export const addNewBrand = (req, res) => {
-  // const { brand } = req.body;
-  const imagePath = req.file.filename;  // Use req.file for the uploaded image
-  console.log(imagePath);
+  const images = req.file;  // Use req.file for the uploaded image
+  console.log(images);
+  const { brand } = req.body;
+  if (!images) {
+    return res.status(400).json({ message: 'Image is required' });
+  }
 
-  // if (!imagePath) {
-  //   return res.status(400).json({ message: 'Image is required' });
-  // }
+  // SQL query to insert brand name and image path into the database
+  const query = `INSERT INTO brands(brand_name, img) VALUES(?, ?)`;
 
-  // // SQL query to insert brand name and image path into the database
-  // const query = `INSERT INTO brands(name, image) VALUES(?, ?)`;
-
-  // pool.query(query, [brand, imagePath], (err, result) => {
-  //   if (err) {
-  //     console.error(err);
-  //     return res.status(400).json({ message: "Something went wrong" });
-  //   }
-  //   return res.status(200).json({ message: "Insert successfully", data: result });
-  // });
+  pool.query(query, [brand, images.filename], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(400).json({ message: "Something went wrong" });
+    }
+    return res.status(200).json({ message: "Insert successfully", data: result });
+  });
 };
 
 export const addNewCategory = (req, res) => {
   const { category } = req.body;
+  console.log(category);
 
-  const query = `INSERT INTO categories (name) VALUE(?)`;
+  if (!category || category.trim() === "") {
+    return res.status(400).json({ message: "Category is required" });
+  }
 
-  pool.query(query, category, (req, res) => {
-    if (err) return res.status.json({ message: "something went wrong" });
+  const query = `INSERT INTO categories (category_name) VALUES(?)`;
 
-    return res.status.json({ message: "Insert Successfully" });
+  pool.query(query, [category], (err, rows) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(400).json({ message: "Something went wrong", error: err });
+    }
+
+    return res.status(200).json({ message: "Insert Successfully", data: rows });
   });
 };
 
@@ -421,7 +428,6 @@ export const displayByCategory = (req, res) => {
                       p.description,
                       p.price,
                       p.stock,
-                      p.img,
                       p.release_date,
                       s.screen_size,
                       s.processor,
@@ -430,13 +436,13 @@ export const displayByCategory = (req, res) => {
                       s.battery,
                       s.camera,
                       b.brand_name,
-                      b.img AS brand_img,
                       c.category_name
                   FROM phones p 
                   LEFT JOIN specifications s ON p.phone_id = s.phone_id 
                   INNER JOIN brands b ON p.brand_id = b.brand_id 
                   INNER JOIN categories c ON p.category_id = c.category_id
-                  WHERE c.category_name=?`
+                  WHERE c.category_name=?
+                  `
 
   pool.query(query, category, (err, rows) => {
     if (err) {

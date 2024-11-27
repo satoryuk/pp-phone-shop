@@ -184,3 +184,14 @@ export const addNewBrandAPI = async (formdata) => {
 
   }
 }
+export const addNewCategoryAPI = async (category) => {
+  try {
+    const response = await axios.post(`${API_URL_Admin}/addNewCategory`, { category });
+    console.log("Response:", response.data); // Debugging logs
+    return response;
+  } catch (error) {
+    console.error("Error in addNewCategoryAPI:", error);
+    throw error;
+  }
+};
+
