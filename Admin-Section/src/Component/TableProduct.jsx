@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { edit, trash } from "../Assets";
 import { tableHead, tableInfor } from "../Constants";
 import { Link, } from "react-router-dom";
-import { searchFetch } from "../Fetch/FetchAPI.js";
+import { removeOneFetch, searchFetch } from "../Fetch/FetchAPI.js";
 
 const TableProduct = ({ title, items }) => {
   const [datatable, setDataTable] = useState(items); // Correct initialization
@@ -19,6 +19,12 @@ const TableProduct = ({ title, items }) => {
     setSelectedRows(selectedRows.map(() => newSelectAll));
   };
 
+  const handleRemove = async (id) => {
+    const remove = await removeOneFetch({ deleteid: id });
+    console.log(remove);
+    window.location.reload();
+  }
+
   const handleRowSelect = (index, event) => {
     event.stopPropagation();
     const updatedSelectedRows = [...selectedRows];
@@ -29,9 +35,8 @@ const TableProduct = ({ title, items }) => {
 
   const searchDataFetch = async () => {
     try {
-      const data = await searchFetch(searchData);
-      console.log(data);
-
+      const data = await searchFetch({ searchData: searchData });
+      setDataTable(data);
     } catch (error) {
       console.error("Error fetching search data:", error);
     }
@@ -97,8 +102,9 @@ const TableProduct = ({ title, items }) => {
                     header
                   )}
                 </th>
+
               ))}
-              <th className="rounded-r-lg text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 border-l border-gray-200"></th>
+              <th className="rounded-r-lg text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 border-l border-gray-200"><img src={trash} alt="" /></th>
             </tr>
           </thead>
 
@@ -159,14 +165,14 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data flex gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">
                     {/* Action Buttons */}
-                    <div className="flex gap-2">
-                      <img src={edit} alt="Edit" className="cursor-pointer" />
+                    <button className="flex">
                       <img
                         src={trash}
                         alt="Delete"
                         className="cursor-pointer"
+                        onClick={() => handleRemove(element.phone_id)}
                       />
-                    </div>
+                    </button>
                   </td>
                 </tr>
               ))

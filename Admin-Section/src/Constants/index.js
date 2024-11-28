@@ -98,6 +98,7 @@ export const tableHead = [
   "Category",
   "Inventory",
   "Price",
+
 ];
 export const tableInfor = [
   {

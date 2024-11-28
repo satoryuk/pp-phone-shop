@@ -300,20 +300,41 @@ export const updateProduct = (req, res) => {
   });
 };
 
-export const deleteProduct = (req, res) => {
-  const { id } = req.body;
-  const queryDeleteProdcut = "DELETE FROM phone WHERE phone_id=?";
-  const queryDeleteSpec = "DELECT FROM specifications WHERE phone_id=?";
+export const deleteProduct = async (req, res) => {
+  const { deleteid } = req.query;
 
-  pool.query(queryDeleteProdcut, id, (err, rows) => {
-    if (err) return res.status(400).json({ message: "something went wrong" });
-    res.status(200).json({ message: "sucessfully" });
-    pool.query(queryDeleteSpec, id, (err, rows) => {
-      if (err) return res.status(400).json({ message: "something went wrong" });
-      res.status(200).json({ message: "sucessfully" });
+  if (!deleteid) {
+    return res.status(400).json({ message: "Product ID is required" });
+  }
+
+  const queries = [
+    { query: "DELETE FROM productimage WHERE phone_id=?", errorMsg: "Failed to delete product images" },
+    { query: "DELETE FROM phone_colors WHERE phone_id=?", errorMsg: "Failed to delete phone colors" },
+    { query: "DELETE FROM specifications WHERE phone_id=?", errorMsg: "Failed to delete specifications" },
+    { query: "DELETE FROM phones WHERE phone_id=?", errorMsg: "Failed to delete product" },
+  ];
+
+  try {
+    for (const { query, errorMsg } of queries) {
+      await new Promise((resolve, reject) => {
+        pool.query(query, [deleteid], (err, rows) => {
+          if (err) {
+            console.error(errorMsg, err);
+            return reject(new Error(errorMsg));
+          }
+          resolve(rows);
+        });
+      });
+    }
+
+    return res.status(200).json({
+      message: "Product deleted successfully",
     });
-  });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };
+
 export const CountHeaderData = (req, res) => {
   const query = `
     SELECT 'Phone' AS label, COUNT(phone_id) AS quantity
@@ -454,41 +475,52 @@ export const displayByCategory = (req, res) => {
     })
   })
 }
+
 export const searchItems = (req, res) => {
-  const { items } = req.query;
-  console.log(items);
-  console.log("items");
+  const { searchData } = req.query;
 
-  const query = `SELECT 
-                      p.phone_id,
-                      p.name,
-                      p.description,
-                      p.price,
-                      p.stock,
-                      p.img,
-                      p.release_date,
-                      s.screen_size,
-                      s.processor,
-                      s.ram,
-                      s.storage,
-                      s.battery,
-                      s.camera,
-                      b.brand_name,
-                      b.img AS brand_img,
-                      c.category_name
-                  FROM phones p 
-                  LEFT JOIN specifications s ON p.phone_id = s.phone_id 
-                  INNER JOIN brands b ON p.brand_id = b.brand_id 
-                  INNER JOIN categories c ON p.category_id = c.category_id
-                  WHERE p.name=?;`
+  if (!searchData) {
+    return res.status(400).json({ message: "Missing search data" });
+  }
 
-  pool.query(query, items, (err, rows) => {
-    if (err) return res.status(400).json({ message: `something went wrong ${items}` })
+  const query = `
+      SELECT
+          p.phone_id,
+          p.name,
+          p.description,
+          p.price,
+          p.stock,
+          p.release_date,
+          s.screen_size,
+          s.processor,
+          s.ram,
+          s.storage,
+          s.battery,
+          s.camera,
+          b.brand_name,
+          c.category_name
+      FROM phones p 
+      LEFT JOIN specifications s ON p.phone_id = s.phone_id 
+      INNER JOIN brands b ON p.brand_id = b.brand_id 
+      INNER JOIN categories c ON p.category_id = c.category_id
+      WHERE p.name = ?;
+  `;
+
+  pool.query(query, [searchData], (err, rows) => {
+    if (err) {
+      console.error("Database Error:", err);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "No products found" });
+    }
+
     console.log(rows);
 
     return res.status(200).json({
       data: rows,
-      message: "sucessfully"
-    })
-  })
-}
+      message: "Successfully retrieved products",
+    });
+  });
+};

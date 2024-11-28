@@ -110,6 +110,7 @@ export const tableByCategory = async (category) => {
       params: category
     });
 
+
     return response.data;
   } catch (error) {
     console.log(error);
@@ -118,14 +119,24 @@ export const tableByCategory = async (category) => {
 
 export const searchFetch = async (searchData) => {
   try {
-    console.log(searchData);
+    if (typeof searchData !== "object" || searchData === null) {
+      throw new TypeError("searchData must be a valid object.");
+    }
 
     const response = await axios.get(`${API_URL_Admin}/searchProduct`, {
-      params: searchData
+      params: searchData,
     });
-    return response;
+
+    return response.data; // Explicitly return data
   } catch (error) {
-    console.error("Error fetching data:", error);
+    if (error.response) {
+      console.error("Server Error:", error.response.data.data);
+    } else if (error.request) {
+      console.error("No Response:", error.request);
+    } else {
+      console.error("Setup Error:", error.message);
+    }
+    throw error; // Re-throw error if the caller needs to handle it
   }
 };
 export const addNewProductAPI = async (formdata) => {
@@ -194,4 +205,16 @@ export const addNewCategoryAPI = async (category) => {
     throw error;
   }
 };
+export const removeOneFetch = async (deleteid) => {
+  try {
+    const response = await axios.delete(`${API_URL_Admin}/deleteProduct`, {
+      params: deleteid
+    })
+    return response;
 
+
+  } catch (error) {
+    console.log(error);
+
+  }
+}
