@@ -28,7 +28,7 @@ adminRouter.get("/getAllProductbyCategory", displayByCategory);
 adminRouter.get("/searchProduct", searchItems);
 adminRouter.post("/addNewProduct", upload.array("images", 10), addNewProduct);
 adminRouter.put("/updateProduct", updateProduct);
-adminRouter.put("/deleteProduct", deleteProduct);
+adminRouter.delete("/deleteProduct", deleteProduct);
 adminRouter.get('/productHead', CountHeaderData)
 adminRouter.get('/dashboardHead', dashboardHeader);
 adminRouter.get('/dashboardHeadAll', dashboardHeaderAll);
