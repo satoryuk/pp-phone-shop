@@ -1,13 +1,19 @@
+import React, { useEffect } from "react";
 import { logo } from "../Assets/image";
-
 import { Link, NavLink } from "react-router-dom";
-import Signup from "../auth/SignUpScreen";
 import { IoIosNotifications } from "react-icons/io";
-import Popup from 'reactjs-popup';
-import CheckoutPage from "./Checkout";
+import Popup from "reactjs-popup";
 import NotificationCard from "./Notification_Card";
 
-const Navbar = () => {
+const Navbar = ({ token, onLogin, onLogout }) => {
+
+  useEffect(() => {
+    if (!token) {
+      onLogin
+    }
+  }, [token, onLogin]);
+
+
   return (
     <nav className="bg-white shadow-md">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,6 +25,7 @@ const Navbar = () => {
             </span>
           </div>
           <div className="flex items-center space-x-4">
+            {/* Search Input */}
             <div className="relative">
               <input
                 type="text"
@@ -37,56 +44,61 @@ const Navbar = () => {
               </button>
             </div>
 
-            {/* Authentication Buttons */}
-            {/* <div className="space-x-2">
-
-
-
-              <Link to="/auth/Login" >
+            {/* Conditional Rendering Based on Token */}
+            {token ? (
+              // Show Notification Pop-up and Logout Button if token exists
+              <div className="flex items-center space-x-4">
+                <Popup
+                  trigger={
+                    <div className="cursor-pointer">
+                      <IoIosNotifications size={24} />
+                    </div>
+                  }
+                  position="bottom center"
+                  arrow={true}
+                  closeOnDocumentClick
+                >
+                  {/* Popup Content */}
+                  <NotificationCard />
+                </Popup>
                 <button
-                  className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                  onClick={onLogout}
+                  className="bg-red-600 text-white px-4 py-2 rounded-full"
                   style={{ borderRadius: "8px" }}
                 >
-                  Log In
+                  Log Out
                 </button>
-              </Link>
-              <NavLink to="/auth/Signup">
-                <button
-                  className="bg-green-600 text-white px-4 py-2 rounded-full"
-                  style={{ borderRadius: "8px" }}
-                >
-                  Sign Up
-                </button>
-              </NavLink>
-            </div> */}
-
-            
-             {/* Notification Pop Up  */}
-            <div>
-              <Popup
-                trigger={
-                  <div className="cursor-pointer">
-                    <IoIosNotifications size={24} />
-                  </div>
-                }
-                position="bottom center"
-                arrow={true}
-                closeOnDocumentClick
-              >
-                {/* Popup Content */}
-                <NotificationCard />
-              </Popup>
-            </div>
+              </div>
+            ) : (
+              // Show Login and Sign Up Buttons if no token exists
+              <div className="space-x-2">
+                <Link to="/auth/Login">
+                  <button
+                    className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                    style={{ borderRadius: "8px" }}
+                  >
+                    Log In
+                  </button>
+                </Link>
+                <NavLink to="/auth/Signup">
+                  <button
+                    className="bg-green-600 text-white px-4 py-2 rounded-full"
+                    style={{ borderRadius: "8px" }}
+                  >
+                    Sign Up
+                  </button>
+                </NavLink>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Navigation Links */}
         <div className="bg-green-600">
           <div className="flex justify-center space-x-6 py-3 text-white">
-            <Link to='/' element={CheckoutPage}><a className="hover:text-gray-200">
-              Home
-            </a>
-            </Link >
+            <Link to="/">
+              <span className="hover:text-gray-200">Home</span>
+            </Link>
             <a href="#" className="hover:text-gray-200">
               Accessories
             </a>
