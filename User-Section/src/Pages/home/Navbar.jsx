@@ -13,7 +13,6 @@ const Navbar = ({ token, onLogin, onLogout }) => {
     }
   }, [token, onLogin]);
 
-
   return (
     <nav className="bg-white shadow-md">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

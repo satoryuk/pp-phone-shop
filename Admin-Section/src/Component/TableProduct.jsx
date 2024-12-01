@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { trash } from "../Assets";
 import { tableHead } from "../Constants";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { removeOneFetch, searchFetch } from "../Fetch/FetchAPI.js";
 
 const TableProduct = ({ title, items }) => {
@@ -122,6 +122,7 @@ const TableProduct = ({ title, items }) => {
       <div className="overflow-x-auto">
         <table className="w-full border-separate border-spacing-0">
           <thead>
+            {location === ' '}
             <tr className="bg-DarkLightGray text-white border-b-2 border-gray-300">
               {tableHead.map((header, index) => (
                 <th
@@ -181,7 +182,7 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.phone_id}`}
+                      to={`/order/:${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.category_name}

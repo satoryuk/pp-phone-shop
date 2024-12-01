@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const API_URL_Auth = "http://localhost:3000/auth";
 // const API_URL2 = 'http://localhost:3000/user/functionality';
 const API_URL_Admin = "http://localhost:3000/admin";
@@ -18,11 +19,12 @@ export const register = async ({ profile, username, email, password }) => {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+    withCredentials: true
   });
 };
 export const productData = async () => {
   try {
-    const response = await axios.get(`${API_URL_Admin}/getAllProduct`);
+    const response = await axios.get(`${API_URL_Admin}/getAllProduct`, { withCredentials: true });
     return response.data; // return the data from the response
   } catch (error) {
     console.error("Error fetching product data:", error);
@@ -39,6 +41,7 @@ export const adminLogin = async ({ email, password }) => {
       headers: {
         "Content-Type": "application/json", // Use JSON for the body content
       },
+      withCredentials: true
     });
 
     // Return the response (can be useful to handle the response in the component)
@@ -58,7 +61,7 @@ export const adminLogin = async ({ email, password }) => {
 };
 export const productHeaderData = async () => {
   try {
-    const response = await axios.get(`${API_URL_Admin}/productHead`);
+    const response = await axios.get(`${API_URL_Admin}/productHead`, { withCredentials: true });
     return response;
   } catch (error) {
     console.log(error);
@@ -68,7 +71,8 @@ export const productHeaderData = async () => {
 export const dashboardHeaderData = async (date) => {
   try {
     const response = await axios.get(`${API_URL_Admin}/dashboardHead`, {
-      params: { date }
+      params: { date },
+      withCredentials: true
     });
     return response;
   } catch (error) {
@@ -77,7 +81,7 @@ export const dashboardHeaderData = async (date) => {
 }
 export const dashboardHeaderAll = async () => {
   try {
-    const response = await axios.get(`${API_URL_Admin}/dashboardHeadAll`);
+    const response = await axios.get(`${API_URL_Admin}/dashboardHeadAll`, { withCredentials: true });
     return response;
   } catch (error) {
     console.log(error);
@@ -87,7 +91,8 @@ export const tableByDate = async (date) => {
 
   try {
     const response = await axios.get(`${API_URL_Admin}/getAllProductbydate`, {
-      params: { date: date }
+      params: { date: date },
+      withCredentials: true
     })
 
     return response;
@@ -98,7 +103,7 @@ export const tableByDate = async (date) => {
 
 export const categoryFetch = async () => {
   try {
-    const response = await axios.get(`${API_URL_Admin}/category`);
+    const response = await axios.get(`${API_URL_Admin}/category`, { withCredentials: true });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -107,7 +112,8 @@ export const categoryFetch = async () => {
 export const tableByCategory = async (category) => {
   try {
     const response = await axios.get(`${API_URL_Admin}/getAllProductbyCategory`, {
-      params: category
+      params: category,
+      withCredentials: true
     });
 
 
@@ -125,6 +131,7 @@ export const searchFetch = async (searchData) => {
 
     const response = await axios.get(`${API_URL_Admin}/searchProduct`, {
       params: searchData,
+      withCredentials: true
     });
 
     return response.data; // Explicitly return data
@@ -170,6 +177,7 @@ export const addNewProductAPI = async (formdata) => {
       headers: {
         "Content-Type": "multipart/form-data", // Ensure this matches your backend
       },
+      withCredentials: true
     });
     return response;
     // console.log(formdata);
@@ -187,6 +195,7 @@ export const addNewBrandAPI = async (formdata) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true
     });
     return response;
   } catch (error) {
@@ -197,7 +206,7 @@ export const addNewBrandAPI = async (formdata) => {
 }
 export const addNewCategoryAPI = async (category) => {
   try {
-    const response = await axios.post(`${API_URL_Admin}/addNewCategory`, { category });
+    const response = await axios.post(`${API_URL_Admin}/addNewCategory`, { category }, { withCredentials: true });
     console.log("Response:", response.data); // Debugging logs
     return response;
   } catch (error) {
@@ -208,11 +217,38 @@ export const addNewCategoryAPI = async (category) => {
 export const removeOneFetch = async (deleteid) => {
   try {
     const response = await axios.delete(`${API_URL_Admin}/deleteProduct`, {
-      params: deleteid
+      params: deleteid,
+      withCredentials: true
     })
     return response;
 
 
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+export const loginFetch = async (email, password) => {
+  try {
+    const response = await axios.post(`${API_URL_Auth}/adminLogin`, { email, password }, { withCredentials: true });
+    // return response.data; // Return the response payload
+    console.log(response);
+
+  } catch (error) {
+    console.error("Error during login request:", error.message);
+    if (error.response) {
+      console.error("Server responded with status:", error.response.status);
+      console.error("Server response data:", error.response.data);
+    }
+    const serverMessage = error.response?.data?.message || "Login failed";
+    throw new Error(serverMessage); // Pass server errors up the chain
+  }
+};
+
+export const logoutFetch = async () => {
+  try {
+    const response = await axios.post(`${API_URL_Auth}/adminLogout`, {}, { withCredentials: true })
+    return response;
   } catch (error) {
     console.log(error);
 

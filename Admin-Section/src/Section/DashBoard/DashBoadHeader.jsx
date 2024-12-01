@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { dashboardHeaderAll, dashboardHeaderData } from "../../Fetch/FetchAPI";
+import { dashboardHeaderAll, dashboardHeaderData, logoutFetch } from "../../Fetch/FetchAPI";
 import { dashBoradMain_item } from "../../Constants";
 import DashBoardMain from "./DashBoardMain";
 
@@ -22,6 +22,17 @@ const DashBoardHeader = () => {
       console.error("Error fetching date data:", error);
     }
   };
+
+  const handleLogout = async () => {
+    try {
+      const response = await logoutFetch();
+      console.log(response);
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
 
   const fetchAll = async () => {
     try {
@@ -70,6 +81,7 @@ const DashBoardHeader = () => {
         <Link
           to="/Auth/login"
           className="red-btn mr-6 max-lg:w-28 max-lg:h-11 max-lg:text-sm"
+          onClick={() => handleLogout()}
         >
           LogOut
         </Link>

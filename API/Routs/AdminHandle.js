@@ -14,11 +14,12 @@ import {
   searchItems,
   updateProduct,
 } from "../Controllers/admin/adminCrudController.js";
-import { validateToken } from "../Utils/jwt_validation.js";
+import { validateToken_refresh_token } from "../Utils/jwt_validation_refresh_token.js";
+import { validation_accesstoken } from "../Utils/jwt_validation_access_token.js";
 import upload from "../Utils/handleimg.js";
 
 const adminRouter = Router();
-// adminRouter.use(validateToken);
+adminRouter.use(validateToken_refresh_token);
 
 adminRouter.post("/addNewBrand", upload.single('images'), addNewBrand);
 adminRouter.post("/addNewCategory", addNewCategory);

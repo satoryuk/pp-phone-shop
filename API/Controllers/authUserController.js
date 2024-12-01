@@ -38,14 +38,12 @@ export const handlelogin = async (req, res) => {
       const accessToken = generateAccessToken(userPayLoad);
       const refreshToken = generateRefreshToken(userPayLoad);
 
-      // Set tokens in session
-      req.session.refreshToken = refreshToken;
+      res.cookie('access-token', accessToken, cookieConfig);
+      res.cookie('refresh-token', refreshToken, cookieConfig);
 
-      req.session.accessToken = accessToken; // Corrected this line
-
-      // You can also send both tokens in the response if needed
       res.json({
         accessToken,
+        refreshToken,
         message: "Logged in successfully",
       });
     });
@@ -85,8 +83,8 @@ export const register = async (req, res) => {
       const refreshToken = generateRefreshToken(payload);
 
       // Set tokens in session
-      req.session.accessToken = accessToken;
-      req.session.refreshToken = refreshToken;
+      res.cookie('access-token', accessToken, cookieConfig);
+      res.cookie('refresh-token', refreshToken, cookieConfig);
 
       return res.json({ message: "User registered successfully", accessToken });
     });
@@ -97,10 +95,14 @@ export const register = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ message: "Failed to log out" });
-    }
-    res.json({ message: "Logged out successfully" });
-  });
+  try {
+    // Clear cookies with matching options (path, secure, httpOnly)
+    res.clearCookie('access-token', { path: '/', httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.clearCookie('refresh-token', { path: '/', httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
+    res.status(200).json({ message: "Logout successfully" });
+  } catch (error) {
+    console.error("Error during logout:", error);
+    return res.status(400).json({ message: "Something went wrong" });
+  }
 };

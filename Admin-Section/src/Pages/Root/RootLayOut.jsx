@@ -1,12 +1,15 @@
-import { NavLink, useLocation, Outlet } from "react-router-dom";
+import { NavLink, useLocation, Outlet, useNavigate } from "react-router-dom";
 import { hambugerBar, logo } from "../../Assets";
 import { nav_bar } from "../../Constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Cookies from 'js-cookie';
 
 const RootLayOut = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [toggleMenu, setToggleMenu] = useState(false);
 
+  // Check if the user is authenticated
   return (
     <main className="flex flex-col lg:flex-row min-h-screen">
       {/* Sidebar */}
@@ -33,9 +36,8 @@ const RootLayOut = () => {
             <NavLink
               key={label}
               to={path}
-              className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 ${
-                location.pathname === `/${path}` ? "bg-gray-100" : ""
-              }`}
+              className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 ${location.pathname === `/${path}` ? "bg-gray-100" : ""
+                }`}
             >
               <img src={img} alt={`${label} icon`} className="w-5 h-5" />
               <span className="green-txt">{label}</span>
@@ -46,9 +48,8 @@ const RootLayOut = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col bg-gray-800 bg-opacity-50 lg:hidden transition-transform transform ${
-          toggleMenu ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed inset-0 z-40 flex flex-col bg-gray-800 bg-opacity-50 lg:hidden transition-transform transform ${toggleMenu ? "translate-x-0" : "-translate-x-full"
+          }`}
         onClick={() => setToggleMenu(false)} // Close menu on overlay click
       >
         <div
@@ -61,9 +62,8 @@ const RootLayOut = () => {
                 key={label}
                 to={path}
                 onClick={() => setToggleMenu(false)} // Close menu on navigation
-                className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 ${
-                  location.pathname === `/${path}` ? "bg-gray-100" : ""
-                }`}
+                className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 ${location.pathname === `/${path}` ? "bg-gray-100" : ""
+                  }`}
               >
                 <img src={img} alt={`${label} icon`} className="w-5 h-5" />
                 <span className="green-txt">{label}</span>
@@ -74,7 +74,7 @@ const RootLayOut = () => {
       </div>
 
       {/* Main Content */}
-      <section className="flex-auto p-6  ml-2">
+      <section className="flex-auto p-6 ml-2">
         <Outlet />
       </section>
     </main>

@@ -1,54 +1,47 @@
 import bcrypt from "bcrypt";
 import pool from "../../db/db_handle.js";
-import {
-  generateAccessToken,
-  generateRefreshToken,
-} from "../../Utils/generateToken.js";
+import { generateAccessToken, generateRefreshToken } from "../../Utils/generateToken.js";
+import { cookieConfig } from "../../Utils/handleCookies.js";
 
 export const adminLogin = async (req, res) => {
   const { email, password } = req.body;
+  // console.log(email);
+  // console.log(password);
 
   if (!email || !password) {
-    return res.status(401).json({
-      message: "All field must not be empty",
-    });
+    return res.status(400).json({ message: "All fields are required" });
   }
+
   try {
-    const sql = "SELECT * FROM admin WHERE email=?";
+    const sql = "SELECT * FROM admin WHERE email = ?";
+    const [rows] = await pool.promise().query(sql, [email]);
 
-    pool.query(sql, [email], async (error, rows) => {
-      if (error) {
-        return res.status(400).json({ message: `${password} and ${email}` });
-      }
-      if (rows.length === 0) {
-        return res.status(400).json({ message: "email not found" });
-      }
-      const admin = rows[0];
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Email not found" });
+    }
 
-      const isPasswordValid = await bcrypt.compare(password, admin.password);
+    const admin = rows[0];
 
-      if (!isPasswordValid) {
-        return res.status(400).json({
-          message: "Password invalid",
-        });
-      }
-      const adminPayload = { name: admin.adminname, role: 1 };
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
 
-      const accessToken = generateAccessToken(adminPayload);
-      const refreshToken = generateRefreshToken(adminPayload);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
 
-      req.session.refreshToken = refreshToken;
-      req.session.accessToken = accessToken;
+    // Generate tokens
+    const adminPayload = { name: admin.adminname, role: 1 };
+    const accessToken = generateAccessToken(adminPayload);
+    const refreshToken = generateRefreshToken(adminPayload);
+
+    res.cookie('access-token', accessToken, cookieConfig);
+    res.cookie('refresh-token', refreshToken, cookieConfig);
 
 
-      res.json({
-        accessToken,
-        refreshToken,
-        message: "Logged in successfully",
-      });
+    return res.status(200).json({
+      message: "Logged in successfully",
     });
   } catch (error) {
-    console.log("Error", error.message);
-    return res.status(500).json({ message: "something went wrong" });
+    console.error("Error during admin login:", error.message);
+    return res.status(500).json({ message: "An internal server error occurred" });
   }
 };
