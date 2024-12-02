@@ -17,7 +17,7 @@ import AddProductPage from "./Pages/AddProductPage";
 import AddBrandPage from "./Pages/AddBrandPage";
 import AddCategoryPage from "./Pages/AddCategoryPage";
 import MainOffer from "./Pages/MainOffer";
-import PrivateRoute from "./Pages/Root/Checking"; // Import PrivateRoute component
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,13 +25,13 @@ const router = createBrowserRouter(
       <Route path="/" element={<RootLayOut />}>
         <Route index element={<DashBorad />} />
         <Route path="order" element={<Order />} />
-        <Route path="order/:id" element={<Order_By_ID />} />
+        <Route path="/order/:id" element={<Order_By_ID />} />
         <Route path="product" element={<Product />} />
         <Route path="addProduct" element={<AddProductPage />} />
         <Route path="addBrand" element={<AddBrandPage />} />
         <Route path="addCategory" element={<AddCategoryPage />} />
         <Route path="offer" element={<MainOffer />} />
-        <Route path="offer/:id" element={<Offer />} />
+        <Route path="/offer/:id" element={<Offer />} />
       </Route>
       <Route path="auth" element={<AuthLayOut />} >
         <Route path="login" element={<Login />} />

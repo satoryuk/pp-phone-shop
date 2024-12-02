@@ -1,15 +1,16 @@
 import { NavLink, useLocation, Outlet, useNavigate } from "react-router-dom";
 import { hambugerBar, logo } from "../../Assets";
 import { nav_bar } from "../../Constants";
-import { useEffect, useState } from "react";
-import Cookies from 'js-cookie';
+import { useState } from "react";
+// import Cookies from 'js-cookie';
 
 const RootLayOut = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const location = useLocation();
   const [toggleMenu, setToggleMenu] = useState(false);
 
   // Check if the user is authenticated
+
   return (
     <main className="flex flex-col lg:flex-row min-h-screen">
       {/* Sidebar */}

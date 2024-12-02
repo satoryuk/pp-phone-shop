@@ -24,25 +24,12 @@ const products = [
 ];
 
 const HomePage = () => {
-  const [token, setToken] = useState(null);
 
-  const handleLogin = () => {
-    const newToken = "dummy-token"
-    console.log("TOhssadsadsToken" + newToken)
-    setToken(newToken);
-  };
-
-  const handleLogout = () => {
-    setToken(null);
-  };
-  useEffect(() => {
-    setToken("dummy-token")
-  })
   return (
 
     <div>
       <div>
-        <Navbar token={token} onLogin={handleLogin} onLogout={handleLogout} />
+
       </div>
       <div className="px-8 py-4">
         {/* Special Offer Section */}
@@ -102,9 +89,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <dir>
-        <Footer />
-      </dir>
     </div>
   );
 };

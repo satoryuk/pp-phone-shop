@@ -251,6 +251,15 @@ export const logoutFetch = async () => {
     return response;
   } catch (error) {
     console.log(error);
-
   }
 }
+export const OrderTableFetch = async () => {
+  try {
+    const response = await axios.get(`${API_URL_Admin}/tableOrder`, {
+      withCredentials: true, // Move withCredentials to the second argument
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching order table:", error);
+  }
+};

@@ -5,21 +5,22 @@ const Order_By_ID = () => {
     </div>
   );
 };
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function Invoice() {
   const { id } = useParams();
   const [items, setItems] = useState(null);
-  useEffect(()=>{
-    const fetchData=async ()=>{
+  useEffect(() => {
+    const fetchData = async () => {
       try {
+        console.log('hi');
+
       } catch (error) {
         console.log(error);
-        
       }
     }
-  })
+  }, [])
   return (
     <section className="w-[1500px] mt-44">
       <div className="max-w-2xl mx-auto bg-gray-100 p-6 rounded-lg shadow-lg">

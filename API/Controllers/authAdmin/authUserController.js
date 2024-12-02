@@ -1,9 +1,10 @@
-import pool from "../db/db_handle.js";
+import pool from "../../db/db_handle.js";
 import bcrypt from "bcrypt"; // Make sure bcrypt is imported
 import {
   generateAccessToken,
   generateRefreshToken,
-} from "../Utils/generateToken.js";
+} from "../../Utils/generateToken.js";
+import { cookieConfig } from "../../Utils/handleCookies.js";
 
 export const handlelogin = async (req, res) => {
   const { email, password } = req.body;
