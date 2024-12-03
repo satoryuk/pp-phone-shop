@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { trash } from "../Assets";
-import { tableHead } from "../Constants";
+import { tableHeadOrder, tableHeadProduct } from "../Constants";
 import { Link } from "react-router-dom";
 import { removeOneFetch, searchFetch } from "../Fetch/FetchAPI.js";
 
@@ -85,12 +85,14 @@ const TableProduct = ({ title, items }) => {
     console.log("Exporting rows:", selectedRows);
     // Add export logic here
   };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
 
   return (
     <section className="mt-16 bg-white rounded-lg p-6 sm:p-10 shadow-lg border border-gray-400">
-      {/* Header Section */}
-      {console.log(selectedRows)
-      }
       <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-10 mb-5 sm:mb-10">
         <h1 className="green-text mt-4 sm:mt-10 font-semibold text-lg lg:text-3xl">
           {title}
@@ -123,7 +125,7 @@ const TableProduct = ({ title, items }) => {
         <table className="w-full border-separate border-spacing-0">
           <thead>
             <tr className="bg-DarkLightGray text-white border-b-2 border-gray-300">
-              {tableHead.map((header, index) => (
+              {tableHeadOrder.map((header, index) => (
                 <th
                   key={index}
                   className={`table-data text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg" : ""
@@ -165,15 +167,15 @@ const TableProduct = ({ title, items }) => {
                       className="mr-2 sm:mr-3 h-4 sm:h-5 w-4 sm:w-5"
                     />
                     <Link
-                      to={`/order/${element.phone_id}`}
+                      to={`/order/${element.order_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
-                      {element.phone_id}
+                      {element.order_id}
                     </Link>
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.phone_id}`}
+                      to={`/order/${element.order_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.name}
@@ -181,23 +183,23 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.phone_id}`}
+                      to={`/order/${element.order_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
-                      {element.category_name}
+                      {element.quantity}
                     </Link>
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.phone_id}`}
+                      to={`/order/${element.order_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
-                      {element.price}
+                      {formatDate(element.order_date)}
                     </Link>
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.phone_id}`}
+                      to={`/order/${element.order_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.stock}

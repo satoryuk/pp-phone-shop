@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import TableProduct from "../../Component/TableProduct";
 import Order_main from "../../Section/Order/Order_main";
-import { productData } from "../../Fetch/FetchAPI";
-
+import { OrderTableFetch, productData } from "../../Fetch/FetchAPI";
 
 const Order = () => {
   const [items, setItems] = useState([]);
@@ -10,20 +9,23 @@ const Order = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const data = await productData();
-        setItems(data);
+        const data = await OrderTableFetch();
+
+        // console.log(data);
+
+        setItems(data); // Update state with fetched data
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching initial data:", error);
       }
     };
     fetchOrder();
   }, []);
+
   return (
     <section>
-      {console.log(items)
-      }
       <Order_main />
-      <TableProduct title="Order" items={items} />
+
+      <TableProduct title="Order" items={items.data} />
     </section>
   );
 };

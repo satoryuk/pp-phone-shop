@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { adminLogin } from "../../Fetch/FetchAPI";
+import { loginFetch } from "../../Fetch/FetchAPI";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,25 +11,21 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!email || !password) {
+      setError("Please fill in both email and password.");
+      return;
+    }
+
     try {
-      const response = await adminLogin({ email, password });
+      const response = await loginFetch(email, password);
+      // Navigate to the homepage
+      console.log(response);
 
-      // Check if the response contains access and refresh tokens
-      if (response.accessToken) {
-        // Store tokens in sessionStorage
-        sessionStorage.setItem("accessToken", response.accessToken);
+      navigate("/");
 
-        navigate("/");
-      } else {
-        setError(response.message || "Invalid credentials");
-      }
     } catch (err) {
-      if (err.response && err.response.data) {
-        setError(err.response.data.message || "Invalid password");
-      } else {
-        setError("An error occurred. Please try again.");
-      }
-      console.error("Sign-in failed", err);
+      setError(err.message || "An error occurred. Please try again.");
+      console.error("Sign-in failed:", err);
     }
   };
 
@@ -47,9 +43,10 @@ const Login = () => {
             type="email"
             id="email"
             placeholder="Email"
-            value={email} // Controlled component
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="text-lg w-full rounded-lg h-12 p-4 border-2 border-primary mb-4"
+            required
           />
 
           <label htmlFor="password" className="text-login">
@@ -59,9 +56,10 @@ const Login = () => {
             type="password"
             id="password"
             placeholder="Password"
-            value={password} // Controlled component
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="text-lg w-full rounded-lg h-12 p-4 border-2 border-primary mb-6"
+            required
           />
 
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}

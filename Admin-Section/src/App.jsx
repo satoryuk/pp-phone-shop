@@ -18,33 +18,31 @@ import AddBrandPage from "./Pages/AddBrandPage";
 import AddCategoryPage from "./Pages/AddCategoryPage";
 import MainOffer from "./Pages/MainOffer";
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<RootLayOut />}>
         <Route index element={<DashBorad />} />
         <Route path="order" element={<Order />} />
-        <Route path="order/:id" element={<Order_By_ID />} />
+        <Route path="/order/:id" element={<Order_By_ID />} />
         <Route path="product" element={<Product />} />
-        <Route path="product/:id" element={<Product />} />
         <Route path="addProduct" element={<AddProductPage />} />
         <Route path="addBrand" element={<AddBrandPage />} />
         <Route path="addCategory" element={<AddCategoryPage />} />
         <Route path="offer" element={<MainOffer />} />
-        <Route path="offer/:id" element={<Offer />} />
+        <Route path="/offer/:id" element={<Offer />} />
       </Route>
-      <Route path="auth" element={<AuthLayOut />}>
+      <Route path="auth" element={<AuthLayOut />} >
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>
-    </>,
+    </>
   ),
 );
 
 export default function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <RouterProvider router={router} />
   );
 }

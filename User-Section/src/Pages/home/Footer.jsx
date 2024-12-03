@@ -1,4 +1,13 @@
 import React from "react";
+import {
+  email,
+  call,
+  home_address,
+  creditCard,
+  facebook,
+  instagram,
+  telegram,
+} from "../Assets/image";
 
 const Footer = () => {
   return (
@@ -16,17 +25,32 @@ const Footer = () => {
         <div className="">
           <h1 className="text-[15px] font-bold">CONTACT US</h1>
           <div className="flex flex-col my-4 gap-3">
-            <a href="#">Address: សង្កាត់ទឹកល្អក១ ខណ្ឌទួលគោក រាធានីភ្នំពេញ</a>
-            <a href="#">Phone: 096 888 750</a>
-            <a href="#">Email: thongvathana22@gmail.com</a>
+            <div className="flex">
+              <img src={home_address} alt="" className="w-auto h-6" />
+              <a href="#">Address: សង្កាត់ទឹកល្អក១ ខណ្ឌទួលគោក រាធានីភ្នំពេញ</a>
+            </div>
+            <div className="flex">
+              <img src={call} alt="" className="w-auto h-6" />
+              <a href="#">Phone: 096 888 750</a>
+            </div>
+            <div className="flex">
+              <img src={email} alt="" className="w-auto h-6" />
+              <a href="#">Email: thongvathana22@gmail.com</a>
+            </div>
           </div>
         </div>
         <div className="flex flex-col">
           <div>
             <h1 className="text-[15px] font-bold">FOLLOW US</h1>
+            <div className="flex gap-8">
+              <img src={facebook} alt="" className="w-auto h-[35px] my-4" />
+              <img src={instagram} alt="" className="w-auto h-[35px] my-4" />
+              <img src={telegram} alt="" className="w-auto h-[35px] my-4" />
+            </div>
           </div>
           <div>
             <h1 className="text-[15px] font-bold">CREDIT CARD</h1>
+            <img src={creditCard} alt="" className="w-auto h-10 mt-2" />
           </div>
         </div>
       </div>
