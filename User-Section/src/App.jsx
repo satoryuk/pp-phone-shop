@@ -28,7 +28,7 @@ export default function App() {
           <Route path="add-to-favorite" element={<Add_to_favorite />} />
           <Route path="payment" element={<Payment />} />
           <Route path="User-Profile" element={<UserProfile />} />
-          <Route path="After-Home-Page" element={<After_home_page />} />
+          <Route path="After-home-page" element={<After_home_page />} />
           <Route path="checkout" element={<CheckoutPage />} />
         </Route>
         <Route path="/Auth" element={<AuthLayout />}>
