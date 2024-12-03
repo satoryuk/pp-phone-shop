@@ -1,9 +1,51 @@
-import React from "react";
+import { useState } from "react";
+import { addNewBrandAPI } from "../../Fetch/FetchAPI";
 
 const AddBrand = () => {
-  const handleSubmit = (e) => {
+  const [brand, setBrand] = useState('');
+  const [img, setImg] = useState(null);  // Change to null to represent no image selected initially
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic
+
+    // Check if the image is selected
+    if (!img) {
+      alert("Please select an image.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("brand", brand);
+    formData.append("images", img);
+
+
+    try {
+      const result = await addNewBrandAPI(formData); // Send the formData containing the image
+      console.log(result);
+      // console.log(brand);
+      // console.log(img);
+      // Handle success response here (e.g., show success message, clear fields)
+    } catch (error) {
+      console.log(error);
+      // Handle error response here
+    }
+  };
+
+  // Reset the form
+  const handleReset = (e) => {
+    e.preventDefault();
+    setBrand('');
+    setImg(null);  // Reset image input to null
+  };
+
+  // Handle image selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    // Get the first file selected
+    if (file) {
+      setImg(file);  // Set the selected file to the img state
+    }
   };
 
   return (
@@ -23,6 +65,8 @@ const AddBrand = () => {
             name="brand"
             placeholder="Enter brand name"
             className="input-style"
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
             required
           />
         </div>
@@ -34,11 +78,12 @@ const AddBrand = () => {
           </label>
           <input
             type="file"
-            name="picture"
             accept="image/*"
+            onChange={handleImageChange}  // Use the handleImageChange function
             className="h-10 w-full rounded-lg border text-primary p-1"
             required
           />
+
         </div>
 
         {/* Buttons */}
@@ -50,7 +95,8 @@ const AddBrand = () => {
             Submit
           </button>
           <button
-            type="reset"
+            type="button"
+            onClick={(e) => handleReset(e)}
             className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg transition"
           >
             Reset

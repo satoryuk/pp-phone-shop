@@ -50,9 +50,7 @@ const ProductDetail = () => {
 
   return (
     <div>
-      <div>
-        <Navbar />
-      </div>
+
       <div className="max-w-6xl mx-auto p-4">
         {/* Product Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
@@ -111,11 +109,10 @@ const ProductDetail = () => {
                   <button
                     key={storage}
                     onClick={() => setSelectedStorage(storage)}
-                    className={`px-4 py-2 border rounded ${
-                      selectedStorage === storage
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-100"
-                    }`}
+                    className={`px-4 py-2 border rounded ${selectedStorage === storage
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-100"
+                      }`}
                   >
                     {storage}
                   </button>
@@ -136,11 +133,10 @@ const ProductDetail = () => {
                   <button
                     key={color}
                     onClick={() => setSelectedColor(color)}
-                    className={`px-4 py-2 border rounded ${
-                      selectedColor === color
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-100"
-                    }`}
+                    className={`px-4 py-2 border rounded ${selectedColor === color
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-100"
+                      }`}
                   >
                     {color}
                   </button>

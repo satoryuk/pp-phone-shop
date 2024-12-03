@@ -3,7 +3,7 @@ import express from "express";
 import pool from "./db/db_handle.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import { validateToken } from "./Utils/jwt_validation.js";
+import { validateToken_refresh_token } from "./Utils/jwt_validation_refresh_token.js";
 import cors from "cors";
 import adminRouter from "./Routs/AdminHandle.js";
 import AuthRouter from "./Routs/Auth.js";
@@ -15,7 +15,13 @@ const port = process.env.PORT || 3000; // Capitalized PORT and added a default
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(express.static('uploads'));
+app.use(cors(
+  {
+    origin: "http://localhost:5173",
+    credentials: true
+  }
+));
 
 // Establish database connection
 pool.getConnection((error, connection) => {
@@ -34,11 +40,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-      httpOnly: true, // Ensure the cookie is not accessible by JavaScript
-      maxAge: 24 * 60 * 60 * 1000, // Set cookie expiration
+      secure: process.env.NODE_ENV === "production", // Secure in production
+      httpOnly: true, // Prevent JavaScript access
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", // Adjust sameSite based on environment
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     },
-  }),
+  })
 );
 
 app.use("/auth", AuthRouter);

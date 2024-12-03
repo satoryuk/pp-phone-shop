@@ -8,7 +8,6 @@ import {
   profile,
   pending,
   delivery,
-  add,
   addGreen,
   phone,
   category,
@@ -92,13 +91,21 @@ export const dashBoradMain_item = [
   { img: addToCart },
   { img: profile },
 ];
-export const tableHead = [
+export const tableHeadProduct = [
   "ID",
   "Product Name",
   "Category",
   "Inventory",
   "Price",
+
 ];
+export const tableHeadOrder = [
+  "ID",
+  "Customer Name",
+  "Quatity",
+  "Date",
+  "Amount",
+]
 export const tableInfor = [
   {
     id: "1",

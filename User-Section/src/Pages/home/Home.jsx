@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
+import { useState } from "react";
 import {
   desertColor,
   blackColor,
@@ -23,10 +24,12 @@ const products = [
 ];
 
 const HomePage = () => {
+
   return (
+
     <div>
       <div>
-        <Navbar />
+
       </div>
       <div className="px-8 py-4">
         {/* Special Offer Section */}
@@ -86,9 +89,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <dir>
-        <Footer />
-      </dir>
     </div>
   );
 };
