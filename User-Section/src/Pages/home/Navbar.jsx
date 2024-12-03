@@ -1,10 +1,8 @@
 import { logo } from "../Assets/image";
 
 import { Link, NavLink } from "react-router-dom";
-import Signup from "../auth/SignUpScreen";
-
-
-import HomePage from "./Home";
+// import Signup from "../auth/SignUpScreen";
+// import HomePage from "./Home";
 import CheckoutPage from "./Checkout";
 
 const Navbar = () => {
@@ -39,10 +37,7 @@ const Navbar = () => {
 
             {/* Authentication Buttons */}
             <div className="space-x-2">
-
-
-
-              <Link to="/auth/Login" >
+              <Link to="/auth/Login">
                 <button
                   className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
                   style={{ borderRadius: "8px" }}
@@ -65,10 +60,9 @@ const Navbar = () => {
         {/* Navigation Links */}
         <div className="bg-green-600">
           <div className="flex justify-center space-x-6 py-3 text-white">
-            <Link to='/' element={CheckoutPage}><a className="hover:text-gray-200">
-              Home
-            </a>
-            </Link >
+            <Link to="/" element={CheckoutPage}>
+              <a className="hover:text-gray-200">Home</a>
+            </Link>
             <a href="#" className="hover:text-gray-200">
               Accessories
             </a>

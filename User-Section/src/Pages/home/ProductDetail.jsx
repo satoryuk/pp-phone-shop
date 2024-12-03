@@ -12,6 +12,7 @@ import {
   naturalColor,
 } from "../Assets/image";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const ProductDetail = () => {
   const [selectedStorage, setSelectedStorage] = useState("256 GB");
@@ -304,6 +305,9 @@ const ProductDetail = () => {
             </details>
           </div>
         </div>
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );
