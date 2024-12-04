@@ -1,6 +1,18 @@
 import React, { useEffect } from "react";
 import { logo } from "../Assets/image";
 import { Link, NavLink } from "react-router-dom";
+import { IoIosNotifications } from "react-icons/io";
+import Popup from "reactjs-popup";
+import NotificationCard from "./Notification_Card";
+
+const Navbar = ({ token, onLogin, onLogout }) => {
+
+  useEffect(() => {
+    if (!token) {
+      onLogin
+    }
+  }, [token, onLogin]);
+
 
   return (
     <nav className="bg-white shadow-md">
@@ -31,6 +43,20 @@ import { Link, NavLink } from "react-router-dom";
                 SEARCH
               </button>
             </div>
+
+            {/* Conditional Rendering Based on Token */}
+            {token ? (
+              // Show Notification Pop-up and Logout Button if token exists
+              <div className="flex items-center space-x-4">
+                <Popup
+                  trigger={
+                    <div className="cursor-pointer">
+                      <IoIosNotifications size={24} />
+                    </div>
+                  }
+                  position="bottom center"
+                  arrow={true}
+                  closeOnDocumentClick
                 >
                   {/* Popup Content */}
                   <NotificationCard />
@@ -70,6 +96,8 @@ import { Link, NavLink } from "react-router-dom";
         {/* Navigation Links */}
         <div className="bg-green-600">
           <div className="flex justify-center space-x-6 py-3 text-white">
+            <Link to="/">
+              <span className="hover:text-gray-200">Home</span>
             </Link>
             <a href="#" className="hover:text-gray-200">
               Accessories
