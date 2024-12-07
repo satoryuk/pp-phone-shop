@@ -16,6 +16,7 @@ import After_home_page from "./Pages/home/After_home_page";
 import Login from "./Pages/auth/Login";
 import ProductDetail from "./Pages/home/ProductDetail";
 import CheckoutPage from "./Pages/home/Checkout";
+import MyOrderPage from "./Pages/home/My_Order";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="User-Profile" element={<UserProfile />} />
           <Route path="After-home-page" element={<After_home_page />} />
           <Route path="checkout" element={<CheckoutPage />} />
+          <Route path="myorder" element={<MyOrderPage />} />
         </Route>
         <Route path="/Auth" element={<AuthLayout />}>
           <Route path="Signup" element={<Signup />} />
