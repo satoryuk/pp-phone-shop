@@ -167,15 +167,15 @@ const TableProduct = ({ title, items }) => {
                       className="mr-2 sm:mr-3 h-4 sm:h-5 w-4 sm:w-5"
                     />
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
-                      {element.order_id}
+                      {element.phone_id}
                     </Link>
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.name}
@@ -183,23 +183,23 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
-                      {element.quantity}
+                      {element.price}
                     </Link>
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
-                      {formatDate(element.order_date)}
+                      {formatDate(element.release_date)}
                     </Link>
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.stock}

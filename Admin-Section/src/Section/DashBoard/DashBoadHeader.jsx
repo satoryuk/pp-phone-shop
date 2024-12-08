@@ -79,7 +79,7 @@ const DashBoardHeader = () => {
           </select>
         </div>
         <Link
-          to="/Auth/login"
+          to="/"
           className="red-btn mr-6 max-lg:w-28 max-lg:h-11 max-lg:text-sm"
           onClick={() => handleLogout()}
         >

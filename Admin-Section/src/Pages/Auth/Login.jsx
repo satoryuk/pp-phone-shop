@@ -21,7 +21,7 @@ const Login = () => {
       // Navigate to the homepage
       console.log(response);
 
-      navigate("/");
+      navigate("/dashboard");
 
     } catch (err) {
       setError(err.message || "An error occurred. Please try again.");
@@ -72,7 +72,7 @@ const Login = () => {
               Login
             </button>
             <Link
-              to="/auth/register"
+              to="/register"
               className="font-bold px-8 py-4 rounded-xl bg-red-600 text-black hover:text-gray-700 hover:bg-red-500"
             >
               Register

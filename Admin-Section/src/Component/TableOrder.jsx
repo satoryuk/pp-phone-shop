@@ -160,12 +160,12 @@ const TableOrder = ({ title, items }) => {
 
                                         <input
                                             type="checkbox"
-                                            checked={selectedRows.includes(element.phone_id)}
-                                            onChange={() => handleRowSelect(element.phone_id)}
+                                            checked={selectedRows.includes(element.order_id)}
+                                            onChange={() => handleRowSelect(element.order_id)}
                                             className="mr-2 sm:mr-3 h-4 sm:h-5 w-4 sm:w-5"
                                         />
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
                                             {element.order_id}
@@ -173,7 +173,7 @@ const TableOrder = ({ title, items }) => {
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
                                             {element.username}
@@ -181,7 +181,7 @@ const TableOrder = ({ title, items }) => {
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
                                             {element.quatity}
@@ -189,7 +189,7 @@ const TableOrder = ({ title, items }) => {
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
                                             {element.order_date}
@@ -197,7 +197,7 @@ const TableOrder = ({ title, items }) => {
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
                                             {element.total_amount}
@@ -205,7 +205,7 @@ const TableOrder = ({ title, items }) => {
                                     </td>
                                     <td className="table-data flex gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">
                                         <button
-                                            onClick={() => handleRemove(element.phone_id)}
+                                            onClick={() => handleRemove(element.order_id)}
                                             className="flex"
                                         >
                                             <img src={trash} alt="Delete" className="cursor-pointer" />

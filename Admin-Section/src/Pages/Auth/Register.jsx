@@ -97,7 +97,7 @@ const Register = () => {
 
           <div className="flex justify-between w-[730px] mt-32">
             <Link
-              to="/auth/login"
+              to="/"
               className="font-bold px-24 py-4 rounded-xl bg-red-600 text-[black] hover:text-[#9B9797] hover:bg-red-500"
             >
               Login

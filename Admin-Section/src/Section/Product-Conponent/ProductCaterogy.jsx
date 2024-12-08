@@ -72,6 +72,10 @@ const ProductCaterogy = () => {
         </div>
       </section>
       <TableProduct title="All Product" items={items} />
+      {console.log("here is your items")
+      }
+      {console.log(items)
+      }
     </>
   );
 };
