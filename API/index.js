@@ -8,6 +8,7 @@ import cors from "cors";
 import adminRouter from "./Routs/AdminHandle.js";
 import AuthRouter from "./Routs/Auth.js";
 
+
 config();
 
 const app = express();
@@ -18,7 +19,7 @@ app.use(cookieParser());
 app.use(express.static('uploads'));
 app.use(cors(
   {
-    origin: "http://localhost:5173",
+    // origin: "http://localhost:5173",
     credentials: true
   }
 ));
@@ -50,7 +51,7 @@ app.use(
 
 app.use("/auth", AuthRouter);
 app.use("/admin", adminRouter);
-
+// app.use("/user",userRouter);
 // Example protected route with token validation
 
 // Route for authentication

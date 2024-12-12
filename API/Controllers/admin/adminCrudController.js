@@ -143,96 +143,110 @@ export const addNewProduct = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 }
-export const updateProduct = (req, res) => {
-  const {
-    id,
-    new_name,
-    description,
-    price,
-    stock,
-    name_category,
-    name_brand,
-    release_date,
-    screen_size,
-    processor,
-    ram,
-    storage,
-    battery,
-    camera,
-  } = req.body;
+export const updateProduct = async (req, res) => {
+  try {
+    console.log("Files received:", req.files); // Debugging files
+    const { productId } = req.params;
+    console.log(req.params);
 
-  const categoryQuery = `SELECT category_id FROM categories WHERE category_name = ?`;
-  const brandQuery = `SELECT brand_id FROM brands WHERE brand_name = ?`;
-  const updateProductQuery = `UPDATE phones SET name=?,description = ?, price = ?, stock = ?, category_id = ?, brand_id = ?, release_date = ? WHERE phone_id = ?`;
-  const updateSpecificQuery = `UPDATE specifications SET screen_size = ?, processor = ?, ram = ?, storage = ?, battery = ?, camera = ? WHERE phone_id = ?`;
+    if (!productId) {
+      throw new Error("Product ID is required to update the product.");
+    }
+    // Parse `colors` (sent as JSON string)
+    let colors = [];
+    try {
+      colors = JSON.parse(req.body.colors); // Parse into an array
+      if (!Array.isArray(colors)) {
+        throw new Error("Invalid format for colors. Expected an array.");
+      }
+    } catch (err) {
+      throw new Error("Failed to parse colors. Ensure it is a valid JSON array.");
+    }
 
-  // Get category_id
-  pool.query(categoryQuery, name_category, (err, rows) => {
-    if (err)
-      return res.status(400).json({ message: "Something went wrong category" });
+    // Extract other fields from `req.body`
+    const {
+      name,
+      brand,
+      price,
+      date,
+      processor,
+      storage,
+      camera,
+      category,
+      description,
+      stock,
+      screenSize,
+      ram,
+      battery,
+    } = req.body;
 
-    const category_id = rows[0].category_id;
+    // Process image filenames (multer saves files in 'uploads/')
+    const images = req.files ? req.files.map((file) => file.filename) : [];
 
-    // Get brand_id
-    pool.query(brandQuery, name_brand, (err, rows) => {
-      if (err)
-        return res
-          .status(400)
-          .json({ message: "Something went wrong in brand" });
+    // Handle database operations
+    const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
+    const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
+    const updateProductQuery =
+      "UPDATE phones SET name=?, description=?, price=?, stock=?, category_id=?, brand_id=?, release_date=? WHERE phone_id=?";
+    const updateSpecificationsQuery =
+      "UPDATE specifications SET screen_size=?, processor=?, ram=?, storage=?, battery=?, camera=? WHERE phone_id=?";
+    const deleteColorsQuery = "DELETE FROM phone_colors WHERE phone_id=?";
+    const deleteImagesQuery = "DELETE FROM productimage WHERE phone_id=?";
+    const addColorsQuery = "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
+    const addImageQuery = "INSERT INTO productimage(phone_id, image) VALUES (?,?)";
 
-      const brand_id = rows[0].brand_id;
+    // Database operations (same as your previous code)
+    const [categoryRows] = await pool.promise().query(category_query, [category]);
+    if (!categoryRows.length) throw new Error("Category not found");
+    const category_id = categoryRows[0].category_id;
 
-      // Update the phones table
-      const valueProduct = [
-        new_name,
-        description,
-        price,
-        stock,
-        category_id,
-        brand_id,
-        release_date,
-        id,
-      ];
-      pool.query(updateProductQuery, valueProduct, (err, result) => {
-        if (err)
-          return res
-            .status(400)
-            .json({ message: "Something went wrong product" });
+    const [brandRows] = await pool.promise().query(brand_query, [brand]);
+    if (!brandRows.length) throw new Error("Brand not found");
+    const brand_id = brandRows[0].brand_id;
 
-        // If the product was found and updated
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ message: "Product not found" });
-        }
+    const productValues = [
+      name,
+      description,
+      price,
+      stock,
+      category_id,
+      brand_id,
+      date,
+      productId,
+    ];
 
-        const phoneIdQuery = `SELECT phone_id FROM phones WHERE name = ?`;
-        pool.query(phoneIdQuery, new_name, (err, rows) => {
-          if (err)
-            return res
-              .status(400)
-              .json({ message: "Something went wrong spec" });
+    await pool.promise().query(updateProductQuery, productValues);
 
-          // Update the specifications table
-          const valueSpecific = [
-            screen_size,
-            processor,
-            ram,
-            storage,
-            battery,
-            camera,
-            id,
-          ];
-          pool.query(updateSpecificQuery, valueSpecific, (err, result) => {
-            if (err)
-              return res.status(400).json({ message: "Something went wrong" });
+    const specificationValues = [
+      screenSize,
+      processor,
+      ram,
+      storage,
+      battery,
+      camera,
+      productId,
+    ];
+    await pool.promise().query(updateSpecificationsQuery, specificationValues);
 
-            res.status(200).json({ message: "Product updated successfully" });
-          });
-        });
-      });
-    });
-  });
+    // Update colors: delete existing and add new ones
+    await pool.promise().query(deleteColorsQuery, [productId]);
+    for (let color of colors) {
+      await pool.promise().query(addColorsQuery, [productId, color]);
+    }
+
+    // Update images: delete existing and add new ones (if provided)
+    if (images.length > 0) {
+      await pool.promise().query(deleteImagesQuery, [productId]);
+      for (let image of images) {
+        await pool.promise().query(addImageQuery, [productId, image]);
+      }
+    }
+    res.status(200).json({ message: "Product updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: err.message });
+  }
 };
-
 export const deleteProduct = async (req, res) => {
   const { deleteid } = req.query;
 
@@ -267,8 +281,6 @@ export const deleteProduct = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
-
 
 
 

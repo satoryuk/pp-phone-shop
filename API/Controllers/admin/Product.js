@@ -9,6 +9,7 @@ export const displayAllProduct = (req, res) => {
                         p.price,
                         p.stock,
                         p.release_date,
+                        p.color,
                         s.screen_size,
                         s.processor,
                         s.ram,
@@ -40,8 +41,8 @@ export const CountHeaderData = (req, res) => {
       SELECT 'Category' AS label, COUNT(category_id) AS quantity
       FROM categories
       UNION ALL
-      SELECT 'Inventory' AS label, COUNT(inventory_id) AS quantity
-      FROM inventory;
+      SELECT 'Inventory' AS label, COUNT(stock) AS quantity
+      FROM phones;
     `;
 
     pool.query(query, (error, rows) => {
@@ -79,6 +80,7 @@ export const displayByCategory = (req, res) => {
                         p.description,
                         p.price,
                         p.stock,
+                        p.color,
                         p.release_date,
                         s.screen_size,
                         s.processor,
@@ -93,6 +95,7 @@ export const displayByCategory = (req, res) => {
                     INNER JOIN brands b ON p.brand_id = b.brand_id 
                     INNER JOIN categories c ON p.category_id = c.category_id
                     WHERE c.category_name=?
+                    ORDER BY p.phone_id
                     `
 
     pool.query(query, category, (err, rows) => {
@@ -151,6 +154,62 @@ export const searchItems = (req, res) => {
         return res.status(200).json({
             data: rows,
             message: "Successfully retrieved products",
+        });
+    });
+};
+
+export const searchItemsByID = (req, res) => {
+    const { id } = req.params;
+
+    // Validate if 'id' is provided
+    if (!id) {
+        return res.status(400).json({ message: "ID parameter is missing" });
+    }
+
+    console.log(`Searching for item with ID: ${id}`);
+
+    const query = `
+        SELECT
+    p.phone_id,
+    p.name,
+    p.description,
+    p.price,
+    p.stock,
+    p.release_date,
+    p.color,
+    s.screen_size,
+    s.processor,
+    s.ram,
+    s.storage,
+    s.battery,
+    s.camera,
+    b.brand_name,
+    c.category_name,
+    GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images  -- Combines distinct images into a single string
+FROM phones p
+LEFT JOIN specifications s ON p.phone_id = s.phone_id
+INNER JOIN brands b ON p.brand_id = b.brand_id
+INNER JOIN categories c ON p.category_id = c.category_id
+LEFT JOIN productimage pi ON pi.phone_id = p.phone_id
+WHERE p.phone_id = 25
+GROUP BY
+    p.phone_id, p.name, p.description, p.price, p.stock, p.release_date,
+    s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera,
+    b.brand_name, c.category_name;
+        `;
+
+    pool.query(query, [id], (err, rows) => {
+        if (err) {
+            console.error("Database query error:", err);
+            return res.status(500).json({ message: "An error occurred while retrieving data" });
+        }
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Item not found" });
+        }
+        res.status(200).json({
+            data: rows,
+            message: "Data retrieved successfully"
         });
     });
 };

@@ -88,7 +88,8 @@ export const displayByDate = (req, res) => {
                   s.camera,
                   b.brand_name,
                   b.img AS brand_img,
-                  c.category_name
+                  c.category_name,
+                  p.color
               FROM phones p 
               LEFT JOIN specifications s ON p.phone_id = s.phone_id 
               INNER JOIN brands b ON p.brand_id = b.brand_id 
