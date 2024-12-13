@@ -5,7 +5,7 @@ import { addNewBrand, addNewCategory, addNewProduct, deleteProduct, updateProduc
 import { category, CountHeaderData, displayAllProduct, displayByCategory, searchItems, searchItemsByID } from "../Controllers/admin/Product.js";
 import { dashboardHeader, dashboardHeaderAll, displayByDate } from "../Controllers/admin/DashBoard.js";
 import { OrderTable, updateOrder } from "../Controllers/admin/Order.js";
-import { offerDisplay, offerInsert } from "../Controllers/admin/Offer.js";
+import { offerDelete, offerDisplay, offerInsert, offerUpdate } from "../Controllers/admin/Offer.js";
 
 const adminRouter = Router();
 adminRouter.use(validateToken_refresh_token);
@@ -28,6 +28,8 @@ adminRouter.get('/tableOrder', OrderTable);
 adminRouter.put('/UpdateOrder/:order_id', updateOrder);
 adminRouter.get('/offerDisplay', offerDisplay)
 adminRouter.get('/offerInsert', offerInsert)
+adminRouter.get('/offerUpdate/:offerID', offerUpdate)
+adminRouter.get('/offerDelete/:offerID', offerDelete)
 
 
 export default adminRouter;

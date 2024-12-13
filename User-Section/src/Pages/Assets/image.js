@@ -10,6 +10,11 @@ import home_address from "../Assets/home_address.png";
 import facebook from "../Assets/facebook.png";
 import instagram from "../Assets/instagram.png";
 import telegram from "../Assets/telegram.png";
+import call_green from "../Assets/call_green.png";
+import buy_green from "../Assets/buy_green.png";
+import telegram_green from "../Assets/telegram_green.png";
+import messenger_green from "../Assets/messenger_green.png";
+import favorite_green from "../Assets/favorite_green.png";
 
 export {
   logo,
@@ -24,4 +29,9 @@ export {
   facebook,
   instagram,
   telegram,
+  call_green,
+  buy_green,
+  messenger_green,
+  telegram_green,
+  favorite_green,
 };

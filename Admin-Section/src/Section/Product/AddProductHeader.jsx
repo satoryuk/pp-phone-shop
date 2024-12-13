@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 const AddProductHeader = ({ btn1, btn2, route1, route2 }) => {
   return (
     <div className="flex gap-14 justify-end mr-10">

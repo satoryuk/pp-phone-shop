@@ -52,15 +52,15 @@ export const addNewProduct = async (req, res) => {
     }
 
     // Parse `colors` (sent as JSON string)
-    let colors = [];
-    try {
-      colors = JSON.parse(req.body.colors); // Parse into an array
-      if (!Array.isArray(colors)) {
-        throw new Error("Invalid format for colors. Expected an array.");
-      }
-    } catch (err) {
-      throw new Error("Failed to parse colors. Ensure it is a valid JSON array.");
-    }
+    // let colors = [];
+    // try {
+    //   colors = JSON.parse(req.body.colors); // Parse into an array
+    //   if (!Array.isArray(colors)) {
+    //     throw new Error("Invalid format for colors. Expected an array.");
+    //   }
+    // } catch (err) {
+    //   throw new Error("Failed to parse colors. Ensure it is a valid JSON array.");
+    // }
 
     // Extract other fields from `req.body`
     const {
@@ -68,6 +68,7 @@ export const addNewProduct = async (req, res) => {
       brand,
       price,
       date,
+      color,
       processor,
       storage,
       camera,
@@ -86,11 +87,11 @@ export const addNewProduct = async (req, res) => {
     const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
     const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
     const addProductQuery =
-      "INSERT INTO phones (name, description, price, stock, category_id, brand_id, release_date) VALUES(?,?,?,?,?,?,?)";
+      "INSERT INTO phones (name, description, price,color, stock, category_id, brand_id, release_date) VALUES(?,?,?,?,?,?,?,?)";
     const addSpecificationsQuery =
       "INSERT INTO specifications (phone_id, screen_size, processor, ram, storage, battery, camera) VALUES(?,?,?,?,?,?,?)";
-    const addColorsQuery =
-      "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
+    // const addColorsQuery =
+    //   "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
     const addImageQuery =
       "INSERT INTO productimage(phone_id, image) VALUES (?,?)";
 
@@ -107,6 +108,7 @@ export const addNewProduct = async (req, res) => {
       name,
       description,
       price,
+      color,
       stock,
       category_id,
       brand_id,
@@ -123,14 +125,12 @@ export const addNewProduct = async (req, res) => {
       ram,
       storage,
       battery,
-      camera,
+      camera
     ];
     await pool.promise().query(addSpecificationsQuery, specificationValues);
 
     // Insert colors
-    for (let color of colors) {
-      await pool.promise().query(addColorsQuery, [phone_id, color]);
-    }
+
 
     // Insert images
     for (let image of images) {
@@ -153,15 +153,15 @@ export const updateProduct = async (req, res) => {
       throw new Error("Product ID is required to update the product.");
     }
     // Parse `colors` (sent as JSON string)
-    let colors = [];
-    try {
-      colors = JSON.parse(req.body.colors); // Parse into an array
-      if (!Array.isArray(colors)) {
-        throw new Error("Invalid format for colors. Expected an array.");
-      }
-    } catch (err) {
-      throw new Error("Failed to parse colors. Ensure it is a valid JSON array.");
-    }
+    // let colors = [];
+    // try {
+    //   colors = JSON.parse(req.body.colors); // Parse into an array
+    //   if (!Array.isArray(colors)) {
+    //     throw new Error("Invalid format for colors. Expected an array.");
+    //   }
+    // } catch (err) {
+    //   throw new Error("Failed to parse colors. Ensure it is a valid JSON array.");
+    // }
 
     // Extract other fields from `req.body`
     const {
@@ -170,6 +170,7 @@ export const updateProduct = async (req, res) => {
       price,
       date,
       processor,
+      color,
       storage,
       camera,
       category,
@@ -187,12 +188,12 @@ export const updateProduct = async (req, res) => {
     const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
     const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
     const updateProductQuery =
-      "UPDATE phones SET name=?, description=?, price=?, stock=?, category_id=?, brand_id=?, release_date=? WHERE phone_id=?";
+      "UPDATE phones SET name=?, description=?, price=?,color=?, stock=?, category_id=?, brand_id=?, release_date=? WHERE phone_id=?";
     const updateSpecificationsQuery =
       "UPDATE specifications SET screen_size=?, processor=?, ram=?, storage=?, battery=?, camera=? WHERE phone_id=?";
-    const deleteColorsQuery = "DELETE FROM phone_colors WHERE phone_id=?";
+    // const deleteColorsQuery = "DELETE FROM phone_colors WHERE phone_id=?";
     const deleteImagesQuery = "DELETE FROM productimage WHERE phone_id=?";
-    const addColorsQuery = "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
+    // const addColorsQuery = "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
     const addImageQuery = "INSERT INTO productimage(phone_id, image) VALUES (?,?)";
 
     // Database operations (same as your previous code)
@@ -208,6 +209,7 @@ export const updateProduct = async (req, res) => {
       name,
       description,
       price,
+      color,
       stock,
       category_id,
       brand_id,
@@ -229,10 +231,10 @@ export const updateProduct = async (req, res) => {
     await pool.promise().query(updateSpecificationsQuery, specificationValues);
 
     // Update colors: delete existing and add new ones
-    await pool.promise().query(deleteColorsQuery, [productId]);
-    for (let color of colors) {
-      await pool.promise().query(addColorsQuery, [productId, color]);
-    }
+    // await pool.promise().query(deleteColorsQuery, [productId]);
+    // for (let color of colors) {
+    //   await pool.promise().query(addColorsQuery, [productId, color]);
+    // }
 
     // Update images: delete existing and add new ones (if provided)
     if (images.length > 0) {

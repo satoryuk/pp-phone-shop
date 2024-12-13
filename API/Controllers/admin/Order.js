@@ -9,6 +9,7 @@ export const OrderTable = (req, res) => {
     p.name AS phone_name,
     c.address AS Address,
     p.price AS phone_price,
+    p.color AS phone_color,
     
     oi.quantity AS order_quantity,
     oi.price AS order_price
@@ -26,7 +27,6 @@ GROUP BY
     o.order_id, 
     c.customer_id, 
     p.phone_id, 
-    pc.id, 
     oi.quantity, 
     oi.price,
     c.address;
@@ -94,3 +94,4 @@ export const updateOrder = (req, res) => {
             res.status(500).json({ message: "Something went wrong", error: error.message });
         });
 };
+export const headerOrder = 3

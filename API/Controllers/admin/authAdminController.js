@@ -45,3 +45,45 @@ export const adminLogin = async (req, res) => {
     return res.status(500).json({ message: "An internal server error occurred" });
   }
 };
+
+
+export const adminRegister = async (req, res) => {
+  const { username, email, password } = req.body;
+
+  // Validate that all fields are provided
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: "All fields must be filled" });
+  }
+
+  try {
+    // Hash the password for secure storage
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const values = [username, email, hashedPassword];
+    const queryInsert =
+      "INSERT INTO customers (username,email,password,phone,address) VALUES (?, ?, ?)";
+
+    // Insert user into the database
+    pool.query(queryInsert, values, (error, result) => {
+      if (error) {
+        console.error("Database insert error:", error); // Log for debugging
+        return res
+          .status(500)
+          .json({ message: "Something went wrong while inserting the user" });
+      }
+
+      // Generate tokens using input data (if ID isn't required immediately)
+      const payload = { username: username, role: 1 };
+      const accessToken = generateAccessToken(payload);
+      const refreshToken = generateRefreshToken(payload);
+
+      // Set tokens in session
+      res.cookie('access-token', accessToken, cookieConfig);
+      res.cookie('refresh-token', refreshToken, cookieConfig);
+
+      return res.json({ message: "User registered successfully", accessToken });
+    });
+  } catch (error) {
+    console.error("Error:", error.message); // Log for debugging
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}

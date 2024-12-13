@@ -74,8 +74,6 @@ const ProductCaterogy = () => {
       <TableProduct title="All Product" items={items} />
       {console.log("here is your items")
       }
-      {console.log(items)
-      }
     </>
   );
 };

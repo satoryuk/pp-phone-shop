@@ -263,3 +263,16 @@ export const OrderTableFetch = async () => {
     console.error("Error fetching order table:", error);
   }
 };
+
+
+export const productByID = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL_Admin}/searchProductByID/${id}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    throw error; // Re-throw the error for the caller to handle
+  }
+};

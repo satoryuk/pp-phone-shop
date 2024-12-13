@@ -10,9 +10,12 @@ import {
   blackColor,
   silverColor,
   naturalColor,
+  call_green,
+  telegram_green,
+  buy_green,
+  messenger_green,
+  favorite_green,
 } from "../Assets/image";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
 
 const ProductDetail = () => {
   const [selectedStorage, setSelectedStorage] = useState("256 GB");
@@ -50,7 +53,6 @@ const ProductDetail = () => {
 
   return (
     <div>
-
       <div className="max-w-6xl mx-auto p-4">
         {/* Product Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
@@ -109,10 +111,11 @@ const ProductDetail = () => {
                   <button
                     key={storage}
                     onClick={() => setSelectedStorage(storage)}
-                    className={`px-4 py-2 border rounded ${selectedStorage === storage
-                      ? "bg-green-600 text-white"
-                      : "bg-gray-100"
-                      }`}
+                    className={`px-4 py-2 border rounded ${
+                      selectedStorage === storage
+                        ? "bg-green-600 text-white"
+                        : "bg-gray-100"
+                    }`}
                   >
                     {storage}
                   </button>
@@ -133,10 +136,11 @@ const ProductDetail = () => {
                   <button
                     key={color}
                     onClick={() => setSelectedColor(color)}
-                    className={`px-4 py-2 border rounded ${selectedColor === color
-                      ? "bg-green-600 text-white"
-                      : "bg-gray-100"
-                      }`}
+                    className={`px-4 py-2 border rounded ${
+                      selectedColor === color
+                        ? "bg-green-600 text-white"
+                        : "bg-gray-100"
+                    }`}
                   >
                     {color}
                   </button>
@@ -146,31 +150,46 @@ const ProductDetail = () => {
 
             {/* Contact Options */}
             <div className="flex flex-col items-start gap-2">
-              <a
-                href="https://t.me/yourtelegramusername"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-inherit hover:text-green-600"
-              >
-                Contact to Telegram chat
-              </a>
-              <a
-                href="https://m.me/yourmessengerusername"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-inherit hover:text-green-600"
-              >
-                Contact to Messenger chat
-              </a>
-              <a
-                href="tel:+1234567890"
-                className="text-inherit hover:text-green-600"
-              >
-                Contact to Phone call
-              </a>
-              <a href="/cart" className="text-inherit hover:text-green-600">
-                Or add to cart for Order
-              </a>
+              <div className="flex justify-center items-center">
+                <img src={telegram_green} alt="" className="w-5 mr-1" />
+                <a
+                  href="https://t.me/yourtelegramusername"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-inherit hover:text-green-600"
+                >
+                  Contact to Telegram chat
+                </a>
+              </div>
+
+              <div className="flex justify-center items-center">
+                <img src={messenger_green} alt="" className="w-5 mr-1" />
+                <a
+                  href="https://m.me/yourmessengerusername"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-inherit hover:text-green-600"
+                >
+                  Contact to Messenger chat
+                </a>
+              </div>
+
+              <div className="flex justify-center items-center">
+                <img src={call_green} alt="" className="w-5 mr-1" />
+                <a
+                  href="tel:+1234567890"
+                  className="text-inherit hover:text-green-600"
+                >
+                  Contact to Phone call
+                </a>
+              </div>
+
+              <div className="flex justify-center items-center">
+                <img src={buy_green} alt="" className="w-5 mr-1" />
+                <a href="/cart" className="text-inherit hover:text-green-600">
+                  Or add to cart for Order
+                </a>
+              </div>
             </div>
 
             {/* Add to cart and Fav */}
@@ -178,7 +197,12 @@ const ProductDetail = () => {
               <button className="w-[300px] p-2 bg-green-400 hover:bg-green-500 text-white rounded transition-all duration-300">
                 Add To Cart
               </button>
-              <button className="hover:text-green-500">Add to Favorite</button>
+              <div className="flex">
+                <img src={favorite_green} alt="" className="w-5 mr-1" />
+                <button className="hover:text-green-500">
+                  Add to Favorite
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -301,9 +325,6 @@ const ProductDetail = () => {
             </details>
           </div>
         </div>
-      </div>
-      <div>
-        <Footer />
       </div>
     </div>
   );

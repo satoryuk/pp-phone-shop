@@ -3,26 +3,38 @@ import pool from "../../db/db_handle.js";
 export const displayAllProduct = (req, res) => {
 
     const query = `SELECT 
-                        p.phone_id,
-                        p.name,
-                        p.description,
-                        p.price,
-                        p.stock,
-                        p.release_date,
-                        p.color,
-                        s.screen_size,
-                        s.processor,
-                        s.ram,
-                        s.storage,
-                        s.battery,
-                        s.camera,
-                        b.brand_name,
-                        b.img AS brand_img,
-                        c.category_name
+                    p.phone_id,
+                    p.name,
+                    p.description,
+                    CASE 
+                        WHEN pm.status = "Active" THEN p.price * (100 - pm.discount_percentage) / 100
+                        ELSE p.price
+                    END AS price,
+                    p.stock,
+                    p.release_date,
+                    p.color,
+                    GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images, -- Combines distinct images into a single string
+                    s.screen_size,
+                    s.processor,
+                    s.ram,
+                    s.storage,
+                    s.battery,
+                    s.camera,
+                    b.brand_name,
+                    b.img AS brand_img,
+                    c.category_name
                     FROM phones p 
                     LEFT JOIN specifications s ON p.phone_id = s.phone_id 
                     INNER JOIN brands b ON p.brand_id = b.brand_id 
-                    INNER JOIN categories c ON p.category_id = c.category_id;
+                    INNER JOIN categories c ON p.category_id = c.category_id
+                    LEFT JOIN promotions pm ON pm.phone_id = p.phone_id
+                    LEFT JOIN productimage pi ON pi.phone_id = p.phone_id -- Join for product images
+                    GROUP BY p.phone_id, p.name, p.description, p.stock, p.release_date, p.color,
+                    s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera,
+                    b.brand_name, b.img, c.category_name, pm.status, pm.discount_percentage;
+                    
+
+
                     `
     pool.query(query, (err, rows) => {
         if (err) return res.status(400).json({ message: "something went wrong" });
@@ -78,7 +90,10 @@ export const displayByCategory = (req, res) => {
                         p.phone_id,
                         p.name,
                         p.description,
-                        p.price,
+                        CASE 
+                            WHEN pm.status = "Active" THEN p.price * (100 - pm.discount_percentage) / 100
+                            ELSE p.price
+                        END AS final_price,
                         p.stock,
                         p.color,
                         p.release_date,
@@ -89,13 +104,21 @@ export const displayByCategory = (req, res) => {
                         s.battery,
                         s.camera,
                         b.brand_name,
-                        c.category_name
+                        c.category_name,
+                        GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images -- Combines distinct images into a single string
                     FROM phones p 
                     LEFT JOIN specifications s ON p.phone_id = s.phone_id 
                     INNER JOIN brands b ON p.brand_id = b.brand_id 
                     INNER JOIN categories c ON p.category_id = c.category_id
-                    WHERE c.category_name=?
-                    ORDER BY p.phone_id
+                    LEFT JOIN promotions pm ON pm.phone_id = p.phone_id
+                    LEFT JOIN productimage pi ON pi.phone_id = p.phone_id -- Join for product images
+                    WHERE c.category_name = "phone"
+                    GROUP BY 
+                        p.phone_id, p.name, p.description, p.stock, p.color, p.release_date, 
+                        s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera, 
+                        b.brand_name, c.category_name, pm.status, pm.discount_percentage
+                    ORDER BY p.phone_id;
+
                     `
 
     pool.query(query, category, (err, rows) => {
@@ -117,11 +140,14 @@ export const searchItems = (req, res) => {
     }
 
     const query = `
-        SELECT
+       SELECT
             p.phone_id,
             p.name,
             p.description,
-            p.price,
+            CASE 
+                WHEN pm.status = "Active" THEN p.price * (100 - pm.discount_percentage) / 100
+                ELSE p.price
+            END AS price,
             p.stock,
             p.release_date,
             s.screen_size,
@@ -131,12 +157,20 @@ export const searchItems = (req, res) => {
             s.battery,
             s.camera,
             b.brand_name,
-            c.category_name
-        FROM phones p 
-        LEFT JOIN specifications s ON p.phone_id = s.phone_id 
-        INNER JOIN brands b ON p.brand_id = b.brand_id 
+            c.category_name,
+            GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images -- Aggregate images into a single field
+        FROM phones p
+        LEFT JOIN specifications s ON p.phone_id = s.phone_id
+        INNER JOIN brands b ON p.brand_id = b.brand_id
         INNER JOIN categories c ON p.category_id = c.category_id
-        WHERE p.name = ?;
+        LEFT JOIN promotions pm ON pm.phone_id = p.phone_id
+        LEFT JOIN productimage pi ON pi.phone_id = p.phone_id -- Join for images
+        WHERE p.name = "phone90"
+        GROUP BY 
+            p.phone_id, p.name, p.description, p.stock, p.release_date, 
+            s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera, 
+            b.brand_name, c.category_name, pm.status, pm.discount_percentage;
+
     `;
 
     pool.query(query, [searchData], (err, rows) => {
@@ -169,33 +203,33 @@ export const searchItemsByID = (req, res) => {
     console.log(`Searching for item with ID: ${id}`);
 
     const query = `
-        SELECT
-    p.phone_id,
-    p.name,
-    p.description,
-    p.price,
-    p.stock,
-    p.release_date,
-    p.color,
-    s.screen_size,
-    s.processor,
-    s.ram,
-    s.storage,
-    s.battery,
-    s.camera,
-    b.brand_name,
-    c.category_name,
-    GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images  -- Combines distinct images into a single string
-FROM phones p
-LEFT JOIN specifications s ON p.phone_id = s.phone_id
-INNER JOIN brands b ON p.brand_id = b.brand_id
-INNER JOIN categories c ON p.category_id = c.category_id
-LEFT JOIN productimage pi ON pi.phone_id = p.phone_id
-WHERE p.phone_id = 25
-GROUP BY
-    p.phone_id, p.name, p.description, p.price, p.stock, p.release_date,
-    s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera,
-    b.brand_name, c.category_name;
+            SELECT
+        p.phone_id,
+        p.name,
+        p.description,
+        p.price,
+        p.stock,
+        p.release_date,
+        p.color,
+        s.screen_size,
+        s.processor,
+        s.ram,
+        s.storage,
+        s.battery,
+        s.camera,
+        b.brand_name,
+        c.category_name,
+        GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images
+    FROM phones p
+    LEFT JOIN specifications s ON p.phone_id = s.phone_id
+    INNER JOIN brands b ON p.brand_id = b.brand_id
+    INNER JOIN categories c ON p.category_id = c.category_id
+    LEFT JOIN productimage pi ON pi.phone_id = p.phone_id
+    WHERE p.phone_id = 25
+    GROUP BY
+        p.phone_id, p.name, p.description, p.price, p.stock, p.release_date,
+        s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera,
+        b.brand_name, c.category_name;
         `;
 
     pool.query(query, [id], (err, rows) => {

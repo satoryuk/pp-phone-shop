@@ -14,7 +14,7 @@ function Invoice() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('hi');
+
 
       } catch (error) {
         console.log(error);

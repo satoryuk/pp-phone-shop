@@ -6,13 +6,11 @@ import Popup from "reactjs-popup";
 import NotificationCard from "./Notification_Card";
 
 const Navbar = ({ token, onLogin, onLogout }) => {
-
   useEffect(() => {
     if (!token) {
-      onLogin
+      onLogin;
     }
   }, [token, onLogin]);
-
 
   return (
     <nav className="bg-white shadow-md">
@@ -92,26 +90,25 @@ const Navbar = ({ token, onLogin, onLogout }) => {
             )}
           </div>
         </div>
-
-        {/* Navigation Links */}
-        <div className="bg-green-600">
-          <div className="flex justify-center space-x-6 py-3 text-white">
-            <Link to="/">
-              <span className="hover:text-gray-200">Home</span>
-            </Link>
-            <a href="#" className="hover:text-gray-200">
-              Accessories
-            </a>
-            <a href="#" className="hover:text-gray-200">
-              Pre-Order
-            </a>
-            <a href="#" className="hover:text-gray-200">
-              Contact Us
-            </a>
-            <a href="#" className="hover:text-gray-200">
-              News
-            </a>
-          </div>
+      </div>
+      {/* Navigation Links */}
+      <div className="bg-green-600">
+        <div className="flex justify-center space-x-6 py-3 text-white">
+          <Link to="/">
+            <span className="hover:text-gray-200">Home</span>
+          </Link>
+          <a href="#" className="hover:text-gray-200">
+            Accessories
+          </a>
+          <a href="#" className="hover:text-gray-200">
+            Pre-Order
+          </a>
+          <a href="#" className="hover:text-gray-200">
+            Contact Us
+          </a>
+          <a href="#" className="hover:text-gray-200">
+            News
+          </a>
         </div>
       </div>
     </nav>
