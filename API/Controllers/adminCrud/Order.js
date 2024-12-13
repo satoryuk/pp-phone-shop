@@ -1,3 +1,4 @@
+import { query } from "express"
 import pool from "../../db/db_handle.js"
 
 export const OrderTable = (req, res) => {
@@ -94,4 +95,56 @@ export const updateOrder = (req, res) => {
             res.status(500).json({ message: "Something went wrong", error: error.message });
         });
 };
-export const headerOrder = 3
+
+export const deleteOrder = (req, res) => {
+    const { DeleteOrderID } = req.params;
+    const queryDelete = `
+                        DELETE o.*,oi.* FROM orders o 
+                        INNER JOIN order_items oi ON
+                        oi.order_id=o.order_id
+                        WHERE o.order_id=?
+    `
+    try {
+        pool.promise().query(queryDelete, [DeleteOrderID]).then(([rows]) => {
+            res.status(200).json({
+                message: "successfully",
+                data: rows
+            })
+        }).catch((error) => {
+            console.log(error);
+            res.status(400).json({
+                message: "something went wrong"
+            })
+
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            message: "something went wrong"
+        })
+
+    }
+}
+export const headerOrder = (req, res) => {
+    const query = `
+        SELECT status,COUNT(status) FROM orders
+        group by status
+    `
+    try {
+        pool.promise().query(query).then((rows) => {
+            res.status(200).json({
+                message: "successfully",
+                data: rows[0]
+            })
+        }).catch((error) => {
+            res.status(400).json({
+                message: "something went wrong",
+            })
+        })
+    } catch (error) {
+        console.log(error);
+        res.status.json({
+            message: "something went wrong"
+        })
+    }
+}

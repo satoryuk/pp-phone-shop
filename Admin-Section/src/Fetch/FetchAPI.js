@@ -4,6 +4,7 @@ import axios from "axios";
 const API_URL_Auth = "http://localhost:3000/auth";
 // const API_URL2 = 'http://localhost:3000/user/functionality';
 const API_URL_Admin = "http://localhost:3000/admin";
+const API_URL_COMMON = "http://localhost:3000/common";
 
 export const signIn = async ({ email, password }) => {
   return axios.post(`${API_URL_Auth}/login`, { email, password });
@@ -24,7 +25,7 @@ export const register = async ({ profile, username, email, password }) => {
 };
 export const productData = async () => {
   try {
-    const response = await axios.get(`${API_URL_Admin}/getAllProduct`, { withCredentials: true });
+    const response = await axios.get(`${API_URL_COMMON}/getAllProduct`, { withCredentials: true });
     return response.data; // return the data from the response
   } catch (error) {
     console.error("Error fetching product data:", error);
@@ -90,7 +91,7 @@ export const dashboardHeaderAll = async () => {
 export const tableByDate = async (date) => {
 
   try {
-    const response = await axios.get(`${API_URL_Admin}/getAllProductbydate`, {
+    const response = await axios.get(`${API_URL_COMMON}/getAllProductbydate`, {
       params: { date: date },
       withCredentials: true
     })
@@ -111,7 +112,7 @@ export const categoryFetch = async () => {
 }
 export const tableByCategory = async (category) => {
   try {
-    const response = await axios.get(`${API_URL_Admin}/getAllProductbyCategory`, {
+    const response = await axios.get(`${API_URL_COMMON}/getAllProductbyCategory`, {
       params: category,
       withCredentials: true
     });
