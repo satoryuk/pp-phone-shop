@@ -19,7 +19,7 @@ export const nav_bar = [
   { img: order, label: "Order", path: "order" },
   { img: product, label: "Product", path: "product" },
   { img: addGreen, label: "Add Product", path: "addProduct" },
-  { img: offer, label: "Offer", path: "offer" },
+  { img: offer, label: "Promotion", path: "offer" },
 ];
 export const inventory_title = [
   { title: "Total Product" },
@@ -95,9 +95,9 @@ export const tableHeadProduct = [
   "ID",
   "Product Name",
   "Category",
-  "Inventory",
   "Price",
-
+  "Inventory",
+  "Release Date"
 ];
 export const tableHeadOrder = [
   "ID",
@@ -106,6 +106,7 @@ export const tableHeadOrder = [
   "Date",
   "Amount",
 ]
+
 export const tableInfor = [
   {
     id: "1",
@@ -206,19 +207,20 @@ export const tableInfor = [
 ];
 
 export const order_header = [
-  { img: addToCart, title: "Order", quantity: 32 },
-  { img: pending, title: "Pending", quantity: 32 },
-  { img: delivery, title: "Delivery", quantity: 32 },
+  { img: addToCart },
+  { img: pending },
+  { img: delivery },
 ];
 export const offer_header = [
-  { label: "Product ID" },
-  { label: "Product Name" },
-  { label: "Discount" },
-  { label: "Start" },
-  { label: "End" },
+  { label: "Product Name", dbLabel: "phone_name" },
+  { label: "Promotion Name", dbLabel: "promo_name" },
+  { label: "Discount Percentage", dbLabel: "discount_percent" },
+  { label: "Start Date", dbLabel: "start_date" },
+  { label: "End Date", dbLabel: "end_date" },
 ];
 export const productHeader = [
   { img: phone },
   { img: category },
   { img: stock }
 ]
+export const tableHeadOffer = ["ID", "Product_Name", "Promotion Name", "Price", "Category", "Relase Date", "Stock"];

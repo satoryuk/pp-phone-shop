@@ -54,24 +54,11 @@ const ProductCaterogy = () => {
             ))}
           </select>
         </div>
-        <div className="flex justify-center items-center gap-2">
-          <h2 className="text-primary text-2xl font-bold font-Roboto">
-            Sort By:
-          </h2>
-          <select
-            name="category"
-            id="category"
-            className="border-2 py-2 px-9 rounded-xl "
-          >
-            {ProductSort.map(({ label }) => (
-              <option value={label} key={label} className="">
-                {label}{" "}
-              </option>
-            ))}
-          </select>
-        </div>
+
       </section>
       <TableProduct title="All Product" items={items} />
+      {console.log("here is your items")
+      }
     </>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import TableProduct from "../../Component/TableProduct";
 import Order_main from "../../Section/Order/Order_main";
 import { OrderTableFetch, productData } from "../../Fetch/FetchAPI";
+import TableOrder from "../../Component/TableOrder";
 
 const Order = () => {
   const [items, setItems] = useState([]);
@@ -24,8 +25,7 @@ const Order = () => {
   return (
     <section>
       <Order_main />
-
-      <TableProduct title="Order" items={items.data} />
+      <TableOrder title="Order" items={items.data} />
     </section>
   );
 };

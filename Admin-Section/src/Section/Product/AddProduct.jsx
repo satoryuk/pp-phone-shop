@@ -68,17 +68,15 @@ const AddProduct = () => {
     }
     try {
       const result = await addNewProductAPI(formdata);
-
+      handleClear(); // Clear form after successful submission
       console.log(result);
-
     } catch (error) {
       console.log(error);
-
     }
   };
 
-  const handleClear = (e) => {
-    e.preventDefault();
+
+  const handleClear = () => {
 
     setName('');
     setBrand('');

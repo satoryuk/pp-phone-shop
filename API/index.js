@@ -7,6 +7,8 @@ import { validateToken_refresh_token } from "./Utils/jwt_validation_refresh_toke
 import cors from "cors";
 import adminRouter from "./Routs/AdminHandle.js";
 import AuthRouter from "./Routs/Auth.js";
+import commonRouter from "./Routs/Common.js";
+
 
 config();
 
@@ -50,7 +52,8 @@ app.use(
 
 app.use("/auth", AuthRouter);
 app.use("/admin", adminRouter);
-
+app.use("/common", commonRouter);
+// app.use("/user",userRouter);
 // Example protected route with token validation
 
 // Route for authentication

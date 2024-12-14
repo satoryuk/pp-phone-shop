@@ -37,7 +37,7 @@ const RootLayOut = () => {
             <NavLink
               key={label}
               to={path}
-              className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 ${location.pathname === `/${path}` ? "bg-gray-100" : ""
+              className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 ${location.pathname === `/dashboard/${path}` ? "bg-gray-100" : ""
                 }`}
             >
               <img src={img} alt={`${label} icon`} className="w-5 h-5" />

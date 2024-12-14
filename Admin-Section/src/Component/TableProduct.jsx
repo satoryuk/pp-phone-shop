@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { trash } from "../Assets";
-import { tableHeadOrder, tableHeadProduct } from "../Constants";
+import { tableHeadProduct } from "../Constants";
 import { Link } from "react-router-dom";
 import { removeOneFetch, searchFetch } from "../Fetch/FetchAPI.js";
 
 const TableProduct = ({ title, items }) => {
-  const [datatable, setDataTable] = useState(items || []);
+  const [datatable, setDataTable] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]); // Track selected row IDs
   const [searchData, setSearchData] = useState("");
@@ -125,7 +125,7 @@ const TableProduct = ({ title, items }) => {
         <table className="w-full border-separate border-spacing-0">
           <thead>
             <tr className="bg-DarkLightGray text-white border-b-2 border-gray-300">
-              {tableHeadOrder.map((header, index) => (
+              {tableHeadProduct.map((header, index) => (
                 <th
                   key={index}
                   className={`table-data text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg" : ""
@@ -167,15 +167,15 @@ const TableProduct = ({ title, items }) => {
                       className="mr-2 sm:mr-3 h-4 sm:h-5 w-4 sm:w-5"
                     />
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
-                      {element.order_id}
+                      {element.phone_id}
                     </Link>
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.name}
@@ -183,26 +183,34 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
-                      {element.quantity}
+                      {element.category_name}
                     </Link>
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
-                      {formatDate(element.order_date)}
+                      {element.price}
                     </Link>
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/order/${element.order_id}`}
+                      to={`/dashboard/product/${element.phone_id}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.stock}
+                    </Link>
+                  </td>
+                  <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
+                    <Link
+                      to={`/dashboard/product/${element.phone_id}`}
+                      className="hover:underline text-sm sm:text-base"
+                    >
+                      {formatDate(element.release_date)}
                     </Link>
                   </td>
                   <td className="table-data flex gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">

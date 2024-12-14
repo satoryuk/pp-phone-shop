@@ -14,6 +14,11 @@ const TableOrder = ({ title, items }) => {
         setDataTable(items);
     }, [items]);
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    };
+
     const handleSelectAll = () => {
         const newSelectAll = !selectAll;
         setSelectAll(newSelectAll);
@@ -88,8 +93,6 @@ const TableOrder = ({ title, items }) => {
 
     return (
         <section className="mt-16 bg-white rounded-lg p-6 sm:p-10 shadow-lg border border-gray-400">
-            {console.log(datatable)
-            }
             <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-10 mb-5 sm:mb-10">
                 <h1 className="green-text mt-4 sm:mt-10 font-semibold text-lg lg:text-3xl">
                     {title}
@@ -160,12 +163,12 @@ const TableOrder = ({ title, items }) => {
 
                                         <input
                                             type="checkbox"
-                                            checked={selectedRows.includes(element.phone_id)}
-                                            onChange={() => handleRowSelect(element.phone_id)}
+                                            checked={selectedRows.includes(element.order_id)}
+                                            onChange={() => handleRowSelect(element.order_id)}
                                             className="mr-2 sm:mr-3 h-4 sm:h-5 w-4 sm:w-5"
                                         />
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
                                             {element.order_id}
@@ -173,31 +176,31 @@ const TableOrder = ({ title, items }) => {
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.username}
+                                            {element.customer_id}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.quatity}
+                                            {element.order_quantity}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.order_date}
+                                            {formatDate(element.order_date)}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/order/${element.phone_id}`}
+                                            to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
                                             {element.total_amount}
@@ -205,7 +208,7 @@ const TableOrder = ({ title, items }) => {
                                     </td>
                                     <td className="table-data flex gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">
                                         <button
-                                            onClick={() => handleRemove(element.phone_id)}
+                                            onClick={() => handleRemove(element.order_id)}
                                             className="flex"
                                         >
                                             <img src={trash} alt="Delete" className="cursor-pointer" />
