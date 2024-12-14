@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { trash } from "../Assets";
-import { tableHeadOrder } from "../Constants";
+import { tableHeadOffer } from "../Constants";
 import { Link } from "react-router-dom";
-import { removeOneFetch, searchFetch } from "../Fetch/FetchAPI.js";
+import { removeOffer, searchPromotion } from "../Fetch/FetchAPI.js";
 
-const TableOrder = ({ title, items }) => {
+const TableOffer = ({ title, items }) => {
     const [datatable, setDataTable] = useState(items || []);
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]); // Track selected row IDs
@@ -12,19 +12,16 @@ const TableOrder = ({ title, items }) => {
 
     useEffect(() => {
         setDataTable(items);
-    }, [items]);
+        console.log(items);
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    };
+    }, [items]);
 
     const handleSelectAll = () => {
         const newSelectAll = !selectAll;
         setSelectAll(newSelectAll);
 
         if (newSelectAll) {
-            const allIds = datatable?.data?.map((item) => item.phone_id) || [];
+            const allIds = datatable?.data?.map((item) => item.promo_id) || [];
             setSelectedRows(allIds);
         } else {
             setSelectedRows([]);
@@ -39,28 +36,27 @@ const TableOrder = ({ title, items }) => {
 
     const handleRemove = async (id) => {
         try {
-            await removeOneFetch({ deleteid: id });
+            await removeOffer({ deleteid: id });
             setDataTable((prev) => ({
                 ...prev,
-                data: prev.data.filter((item) => item.phone_id !== id),
+                data: prev.data.filter((item) => item.promo_id !== id),
             }));
         } catch (error) {
             console.error("Error deleting row:", error);
         }
     };
-
     const handleSelectRemove = async (e) => {
         e.preventDefault();
         try {
             // Loop through each selected row ID and remove it using the removeOneFetch function
             for (const id of selectedRows) {
-                await removeOneFetch({ deleteid: id });
+                await removeOffer({ deleteid: id });
             }
 
             // Update the data table to remove the deleted rows
             setDataTable((prev) => ({
                 ...prev,
-                data: prev.data.filter((item) => !selectedRows.includes(item.phone_id)),
+                data: prev.data.filter((item) => !selectedRows.includes(item.promo_id)),
             }));
 
             // Reset selection states
@@ -74,7 +70,7 @@ const TableOrder = ({ title, items }) => {
 
     const searchDataFetch = async () => {
         try {
-            const data = await searchFetch({ searchData });
+            const data = await searchPromotion({ promo_name: searchData });
             setDataTable(data);
         } catch (error) {
             console.error("Error fetching search data:", error);
@@ -90,6 +86,11 @@ const TableOrder = ({ title, items }) => {
         console.log("Exporting rows:", selectedRows);
         // Add export logic here
     };
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    };
+
 
     return (
         <section className="mt-16 bg-white rounded-lg p-6 sm:p-10 shadow-lg border border-gray-400">
@@ -101,7 +102,7 @@ const TableOrder = ({ title, items }) => {
                 <form className="flex gap-2 sm:gap-10 items-center mt-3 sm:mt-10">
                     <input
                         type="text"
-                        placeholder="Search..."
+                        placeholder="Search Promotion Name"
                         className="input-style text-sm sm:text-base"
                         onChange={(e) => setSearchData(e.target.value)}
                     />
@@ -125,7 +126,7 @@ const TableOrder = ({ title, items }) => {
                 <table className="w-full border-separate border-spacing-0">
                     <thead>
                         <tr className="bg-DarkLightGray text-white border-b-2 border-gray-300">
-                            {tableHeadOrder.map((header, index) => (
+                            {tableHeadOffer.map((header, index) => (
                                 <th
                                     key={index}
                                     className={`table-data text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg" : ""
@@ -160,55 +161,70 @@ const TableOrder = ({ title, items }) => {
                                     className="hover:bg-gray-50 transition duration-200 border-b border-gray-200"
                                 >
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
-
                                         <input
                                             type="checkbox"
-                                            checked={selectedRows.includes(element.order_id)}
-                                            onChange={() => handleRowSelect(element.order_id)}
+                                            checked={selectedRows.includes(element.promo_id)}
+                                            onChange={() => handleRowSelect(element.promo_id)}
                                             className="mr-2 sm:mr-3 h-4 sm:h-5 w-4 sm:w-5"
                                         />
                                         <Link
-                                            to={`/dashboard/order/${element.order_id}`}
+                                            to={`/dashboard/product/${element.phone_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.order_id}
+                                            {element.promo_id}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/dashboard/order/${element.order_id}`}
+                                            to={`/dashboard/product/${element.phone_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.customer_id}
+                                            {element.name}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/dashboard/order/${element.order_id}`}
+                                            to={`/dashboard/product/${element.phone_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.order_quantity}
+                                            {element.promo_name}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/dashboard/order/${element.order_id}`}
+                                            to={`/dashboard/product/${element.phone_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {formatDate(element.order_date)}
+                                            {element.price}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                                         <Link
-                                            to={`/dashboard/order/${element.order_id}`}
+                                            to={`/dashboard/product/${element.phone_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.total_amount}
+                                            {element.category_name}
                                         </Link>
                                     </td>
-                                    <td className="table-data flex gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">
+                                    <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
+                                        <Link
+                                            to={`/dashboard/product/${element.phone_id}`}
+                                            className="hover:underline text-sm sm:text-base"
+                                        >
+                                            {formatDate(element.release_date)}
+                                        </Link>
+                                    </td>
+                                    <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
+                                        <Link
+                                            to={`/dashboard/product/${element.phone_id}`}
+                                            className="hover:underline text-sm sm:text-base"
+                                        >
+                                            {element.stock}
+                                        </Link>
+                                    </td>
+                                    <td className="table-data flex gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4 justify-center items-center">
                                         <button
-                                            onClick={() => handleRemove(element.order_id)}
+                                            onClick={() => handleRemove(element.promo_id)}
                                             className="flex"
                                         >
                                             <img src={trash} alt="Delete" className="cursor-pointer" />
@@ -230,4 +246,4 @@ const TableOrder = ({ title, items }) => {
     );
 };
 
-export default TableOrder;
+export default TableOffer;

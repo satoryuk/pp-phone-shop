@@ -26,7 +26,7 @@ adminRouter.get('/tableOrder', OrderTable);
 adminRouter.get('/headerOrder', headerOrder);
 adminRouter.put('/UpdateOrder/:order_id', updateOrder);
 adminRouter.delete('/deleleOrder/:DeleteOrderID', deleteOrder);
-adminRouter.get('/offerInsert', offerInsert)
+adminRouter.put('/offerInsert', offerInsert)
 adminRouter.get('/offerUpdate/:offerID', offerUpdate)
 adminRouter.delete('/offerDelete/:offerID', offerDelete)
 

@@ -277,3 +277,79 @@ export const productByID = async (id) => {
     throw error; // Re-throw the error for the caller to handle
   }
 };
+export const headerOrder = async () => {
+  try {
+    const response = await axios.get(`${API_URL_Admin}/headerOrder`, {
+      withCredentials: true
+    })
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    throw error;
+  }
+}
+export const productDiscout = async () => {
+  try {
+    const response = await axios.get(`${API_URL_COMMON}/offerDisplay`, {
+      withCredentials: true
+    })
+    console.log(response);
+    return response.data;
+
+  } catch (error) {
+    console.error("Error fetching product ", error);
+
+  }
+}
+
+
+export const removeOffer = async ({ deleteid }) => {
+  try {
+    console.log("Deleting offer with ID:", deleteid);
+
+    const response = await axios.delete(`${API_URL_Admin}/offerDelete/${deleteid}`, {
+      withCredentials: true,
+    });
+
+    return response.data; // Explicitly return response data for clarity
+  } catch (error) {
+    console.error("Error removing offer:", error.message);
+
+    // Optionally throw the error to let the caller handle it
+    throw new Error(`Failed to remove offer: ${error.response?.data?.message || error.message}`);
+  }
+};
+
+export const searchPromotion = async ({ promo_name }) => {
+  if (!promo_name || promo_name.trim() === "") {
+    console.error("Promo name is required for the search.");
+    return { error: "Promo name is required." }; // Return an error response
+  }
+
+  try {
+    const response = await axios.get(`${API_URL_COMMON}/offerDisplayByName?promo_name=${promo_name}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching promotion data:", error.message);
+
+    // Return or rethrow error for the calling function to handle
+    return { error: error.message || "An error occurred while searching for promotions." };
+  }
+};
+export const insertPromotion = async ({ formData }) => {
+  try {
+    const response = await axios.put(`${API_URL_Admin}/offerInsert`, formData, {
+      withCredentials: true
+    });
+    // console.log(formData);
+
+    return response;
+
+  } catch (error) {
+    console.log(error);
+
+  }
+}

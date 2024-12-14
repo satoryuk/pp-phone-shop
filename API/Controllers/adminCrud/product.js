@@ -219,7 +219,9 @@ export const deleteProduct = async (req, res) => {
     const queries = [
         { query: "DELETE FROM productimage WHERE phone_id=?", errorMsg: "Failed to delete product images" },
         { query: "DELETE FROM specifications WHERE phone_id=?", errorMsg: "Failed to delete specifications" },
+        { query: "DELETE FROM promotions WHERE phone_id=?", errorMsg: "Failed to delete promotions" },
         { query: "DELETE FROM phones WHERE phone_id=?", errorMsg: "Failed to delete product" },
+
     ];
 
     try {

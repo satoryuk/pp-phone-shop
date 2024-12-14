@@ -127,7 +127,7 @@ export const deleteOrder = (req, res) => {
 }
 export const headerOrder = (req, res) => {
     const query = `
-        SELECT status,COUNT(status) FROM orders
+        SELECT status,COUNT(status)AS count FROM orders
         group by status
     `
     try {

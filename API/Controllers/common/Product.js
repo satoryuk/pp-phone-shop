@@ -7,7 +7,7 @@ export const displayAllProduct = (req, res) => {
                     p.name,
                     p.description,
                     CASE 
-                        WHEN pm.status = "Active" THEN p.price * (100 - pm.discount_percentage) / 100
+                        WHEN pm.status = "Active" THEN ROUND(p.price * (100 - pm.discount_percentage) / 100, 2)  / 100
                         ELSE p.price
                     END AS price,
                     p.stock,
@@ -67,10 +67,8 @@ export const displayByCategory = (req, res) => {
                         p.phone_id,
                         p.name,
                         p.description,
-                        CASE 
-                            WHEN pm.status = "Active" THEN p.price * (100 - pm.discount_percentage) / 100
-                            ELSE p.price
-                        END AS final_price,
+                        p.price,
+                       
                         p.stock,
                         p.color,
                         p.release_date,
@@ -122,7 +120,7 @@ export const searchItems = (req, res) => {
             p.name,
             p.description,
             CASE 
-                WHEN pm.status = "Active" THEN p.price * (100 - pm.discount_percentage) / 100
+                WHEN pm.status = "Active" THEN ROUND(p.price * (100 - pm.discount_percentage) / 100, 2) 
                 ELSE p.price
             END AS price,
             p.stock,
@@ -185,7 +183,7 @@ export const searchItemsByID = async (req, res) => {
                         p.name,
                         p.description,
                         CASE 
-                            WHEN pm.status = "Active" THEN p.price * (100 - pm.discount_percentage) / 100
+                            WHEN pm.status = "Active" THEN ROUND(p.price * (100 - pm.discount_percentage) / 100, 2) 
                             ELSE p.price
                         END AS final_price,
                         p.stock,

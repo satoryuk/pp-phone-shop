@@ -25,8 +25,6 @@ const Order = () => {
   return (
     <section>
       <Order_main />
-      {console.log(items.data)
-      }
       <TableOrder title="Order" items={items.data} />
     </section>
   );
