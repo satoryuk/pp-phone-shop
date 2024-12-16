@@ -3,5 +3,5 @@ export const cookieConfig = {
     secure: false,  // Set to true if using HTTPS
     sameSite: 'strict', // Prevents CSRF
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 3600000,
+    maxAge: 2592000,
 }

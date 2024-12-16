@@ -17,7 +17,7 @@ const port = process.env.PORT || 3000; // Capitalized PORT and added a default
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static('uploads'));
+app.use(express.static('uploads'))
 app.use(cors(
   {
     origin: "http://localhost:5173",
