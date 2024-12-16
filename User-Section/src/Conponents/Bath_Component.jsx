@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
-export const XTextfield = ({ label = "labelTextfield", placeHolder = "hintText", icon, suffixIcon, validation , onValueChange , onClick, inputType = "text"}) => {
-    const [inputValue, setInputValue] = useState("");
+export const XTextfield = ({ label = "labelTextfield", placeHolder = "hint Text", icon, suffixIcon, validation, onValueChange, onClick, inputType = "text" ,value=""}) => {
+    const [inputValue, setInputValue] = useState(value);
     const [error, setError] = useState("");
 
     const handleChange = (e) => {
@@ -30,13 +30,13 @@ export const XTextfield = ({ label = "labelTextfield", placeHolder = "hintText",
                     value={inputValue}
                     onChange={handleChange}
                 />
-                {suffixIcon && <span className="text-gray-400 mr-2"  
-           onClick={(e) => {
-            e.stopPropagation();
-            if (onClick) onClick(); 
-        }}
+                {suffixIcon && <span className="text-gray-400 mr-2"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (onClick) onClick();
+                    }}
                 >{suffixIcon}</span>}
-               
+
             </div>
 
         </div>

@@ -6,12 +6,13 @@ import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, Ai
 import Navbar from '../home/Navbar';
 import { Link } from 'react-router-dom';
 import { XTextfield } from '../../Conponents/Bath_Component';
-export const XButton = ({ label, icon }) => {
+export const XButton = ({ label, icon , onClick}) => {
     return (
         <div className='w-full'>
-            <button className="flex items-center justify-center bg-green-600 text-white rounded font-semibold w-full py-2">
+            <button className="flex items-center justify-center bg-green-600 text-white rounded font-semibold w-full py-2" onClick={onClick}>
                 {label}
                 {icon && <span className="mr-2">{icon}</span>}
+                
 
             </button>
         </div>

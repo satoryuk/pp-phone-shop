@@ -14,9 +14,10 @@ const RootLayout = () => {
 
   const handleLogout = () => {
     setToken(null);
+    console.log("TOken have been clear")
   };
   useEffect(() => {
-    setToken("dummy-token")
+    setToken(null)
   })
   return (
     <>
