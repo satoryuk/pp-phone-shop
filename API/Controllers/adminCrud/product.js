@@ -9,18 +9,6 @@ export const addNewProduct = async (req, res) => {
             throw new Error("No files uploaded. Please upload images.");
         }
 
-        // Parse `colors` (sent as JSON string)
-        // let colors = [];
-        // try {
-        //   colors = JSON.parse(req.body.colors); // Parse into an array
-        //   if (!Array.isArray(colors)) {
-        //     throw new Error("Invalid format for colors. Expected an array.");
-        //   }
-        // } catch (err) {
-        //   throw new Error("Failed to parse colors. Ensure it is a valid JSON array.");
-        // }
-
-        // Extract other fields from `req.body`
         const {
             name,
             brand,
@@ -87,10 +75,6 @@ export const addNewProduct = async (req, res) => {
         ];
         await pool.promise().query(addSpecificationsQuery, specificationValues);
 
-        // Insert colors
-
-
-        // Insert images
         for (let image of images) {
             await pool.promise().query(addImageQuery, [phone_id, image]);
         }
@@ -139,9 +123,11 @@ export const updateProduct = async (req, res) => {
             ram,
             battery,
         } = req.body;
+        console.log(req.body);
 
         // Process image filenames (multer saves files in 'uploads/')
         const images = req.files ? req.files.map((file) => file.filename) : [];
+        console.log(images);
 
         // Handle database operations
         const category_query = `SELECT category_id FROM categories WHERE category_name=?`;

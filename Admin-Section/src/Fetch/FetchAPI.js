@@ -124,16 +124,12 @@ export const tableByCategory = async (category) => {
   }
 }
 
-export const searchFetch = async (searchData) => {
+export const searchFetch = async ({ searchData }) => {
   try {
-    if (typeof searchData !== "object" || searchData === null) {
-      throw new TypeError("searchData must be a valid object.");
-    }
-
-    const response = await axios.get(`${API_URL_Admin}/searchProduct`, {
-      params: searchData,
+    const response = await axios.get(`${API_URL_COMMON}/searchProduct?searchData=${searchData}`, {
       withCredentials: true
     });
+    console.log(response);
 
     return response.data; // Explicitly return data
   } catch (error) {
@@ -146,6 +142,7 @@ export const searchFetch = async (searchData) => {
     }
     throw error; // Re-throw error if the caller needs to handle it
   }
+
 };
 export const addNewProductAPI = async (formdata) => {
   const formData = new FormData();
@@ -164,9 +161,9 @@ export const addNewProductAPI = async (formdata) => {
   formData.append("screenSize", formdata.screenSize);
   formData.append("ram", formdata.ram);
   formData.append("battery", formdata.battery);
+  formdata.color === null ? formData.append("color", "#000000") : formData.append("color", formdata.colors)
 
-  // Convert `colors` array to a JSON string and append it
-  formData.append("colors", JSON.stringify(formdata.colors));
+
 
   // Append `images` (files) to formData
   for (let image of formdata.images) {
@@ -268,7 +265,7 @@ export const OrderTableFetch = async () => {
 
 export const productByID = async (id) => {
   try {
-    const response = await axios.get(`${API_URL_Admin}/searchProductByID/${id}`, {
+    const response = await axios.get(`${API_URL_COMMON}/searchProductByID/${id}`, {
       withCredentials: true,
     });
     return response.data;
@@ -353,3 +350,47 @@ export const insertPromotion = async ({ formData }) => {
 
   }
 }
+
+
+export const updateProduct = async (formdata, id) => {
+  const formData = new FormData();
+
+  // Append all fields to FormData
+  formData.append("name", formdata.name);
+  formData.append("brand", formdata.brand);
+  formData.append("price", formdata.price);
+  formData.append("date", formdata.date);
+  formData.append("processor", formdata.processor);
+  formData.append("storage", formdata.storage);
+  formData.append("camera", formdata.camera);
+  formData.append("category", formdata.category);
+  formData.append("description", formdata.description);
+  formData.append("stock", formdata.stock);
+  formData.append("screenSize", formdata.screenSize);
+  formData.append("ram", formdata.ram);
+  formData.append("battery", formdata.battery);
+  formData.append("color", formdata.colors);
+
+  // Append images to FormData
+  for (let image of formdata.images) {
+    formData.append("images", image); // Ensure "images" matches the backend field
+  }
+
+  try {
+    const response = await axios.put(
+      `${API_URL_Admin}/updateProduct/${id}`,
+      formData, // Pass FormData directly
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true, // If authentication is required
+      }
+    );
+    console.log("Update successful:", response.data); // Log success response
+    return response.data; // Return the response data to the caller
+  } catch (error) {
+    console.error("Error updating product:", error);
+    throw error; // Re-throw the error to allow proper error handling
+  }
+};
