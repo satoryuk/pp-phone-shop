@@ -7,9 +7,7 @@ import {
   silverColor,
   naturalColor,
 } from "../Assets/image";
-import Navbar from "./Navbar";
 import Card from "./Card";
-import Footer from "./Footer";
 
 const products = [
   { id: 1, name: "Item Name", price: 1000, image: silverColor },
@@ -24,13 +22,9 @@ const products = [
 ];
 
 const HomePage = () => {
-
   return (
-
     <div>
-      <div>
-
-      </div>
+      <div></div>
       <div className="px-8 py-4">
         {/* Special Offer Section */}
         <div className="mb-8">

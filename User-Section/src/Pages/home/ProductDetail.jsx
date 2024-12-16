@@ -1,10 +1,4 @@
 import React, { useState } from "react";
-// import {
-//   FaTelegramPlane,
-//   FaFacebookMessenger,
-//   FaPhoneAlt,
-//   FaShoppingCart,
-// } from "react-icons/fa";
 import {
   desertColor,
   blackColor,
@@ -16,6 +10,7 @@ import {
   messenger_green,
   favorite_green,
 } from "../Assets/image";
+import { Link } from "react-router-dom";
 
 const ProductDetail = () => {
   const [selectedStorage, setSelectedStorage] = useState("256 GB");
