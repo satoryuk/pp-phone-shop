@@ -6,14 +6,14 @@ export const OrderTable = (req, res) => {
     o.*,
     c.username AS customer_name,
     c.email AS customer_email,
+    c.address AS Address,
     GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images,
     p.name AS phone_name,
-    c.address AS Address,
-    p.price AS phone_price,
     p.color AS phone_color,
     
     oi.quantity AS order_quantity,
-    oi.price AS order_price
+    oi.price AS order_price,
+    oi.amount AS amount_order_items
 FROM 
     orders o
 INNER JOIN 
@@ -30,6 +30,7 @@ GROUP BY
     p.phone_id, 
     oi.quantity, 
     oi.price,
+    oi.amount,
     c.address;
 
                 `
@@ -51,7 +52,6 @@ export const updateOrder = (req, res) => {
         SET 
             ot.phone_id = (SELECT p.phone_id FROM phones p WHERE p.name = ? LIMIT 1),
             ot.quantity = ?,
-            ot.price = (SELECT p.price FROM phones p WHERE p.name = ? LIMIT 1) * ?,
         WHERE 
             o.order_id = ?
             AND ot.order_item_id = ?
