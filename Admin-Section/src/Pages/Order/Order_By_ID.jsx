@@ -7,19 +7,21 @@ const Order_By_ID = () => {
 };
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { fetchOrderByID } from "../../Fetch/FetchAPI";
 
 function Invoice() {
   const { id } = useParams();
   const [items, setItems] = useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-
-
-      } catch (error) {
-        console.log(error);
-      }
+  const fetchData = async () => {
+    try {
+      const response = await fetchOrderByID();
+      setItems(response);
+    } catch (error) {
+      console.log(error);
     }
+  }
+  useEffect(() => {
+    fetchData();
   }, [])
   return (
     <section className="w-[1500px] mt-44">

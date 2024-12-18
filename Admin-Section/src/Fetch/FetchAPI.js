@@ -144,6 +144,17 @@ export const searchFetch = async ({ searchData }) => {
   }
 
 };
+export const searchOrder = async ({ username }) => {
+  try {
+
+    const response = await axios.get(`${API_URL_Admin}/searchTableOrder?username=${username}`, { withCredentials: true })
+    return response.data;
+
+  } catch (error) {
+    console.log(error);
+
+  }
+}
 export const addNewProductAPI = async (formdata) => {
   const formData = new FormData();
 
@@ -225,6 +236,18 @@ export const removeOneFetch = async (deleteid) => {
     console.log(error);
 
   }
+}
+export const removeOrder = async ({ deleteid }) => {
+  try {
+    console.log(`${API_URL_Admin}/deleleOrder/${deleteid}`);
+
+    const response = await axios.delete(`${API_URL_Admin}/deleleOrder/${deleteid}`, { withCredentials: true })
+    return response;
+  } catch (error) {
+    console.log(error);
+
+  }
+
 }
 export const loginFetch = async (email, password) => {
   try {
@@ -394,3 +417,10 @@ export const updateProduct = async (formdata, id) => {
     throw error; // Re-throw the error to allow proper error handling
   }
 };
+export const fetchOrderByID = async () => {
+  const response = await Promise().axios.get(`${API_URL_Admin}/tableOrder`, {
+    withCredentials: true
+  })
+  console.log(response);
+
+}

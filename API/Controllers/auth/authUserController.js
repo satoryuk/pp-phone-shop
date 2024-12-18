@@ -77,7 +77,7 @@ export const register = async (req, res) => {
           .status(500)
           .json({ message: "Something went wrong while inserting the user" });
       }
-
+      
       // Generate tokens using input data (if ID isn't required immediately)
       const payload = { username: username, role: 2 };
       const accessToken = generateAccessToken(payload);

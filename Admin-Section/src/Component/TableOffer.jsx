@@ -203,6 +203,14 @@ const TableOffer = ({ title, items }) => {
                                             to={`/dashboard/product/${element.phone_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
+                                            {element.price}
+                                        </Link>
+                                    </td>
+                                    <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
+                                        <Link
+                                            to={`/dashboard/product/${element.phone_id}`}
+                                            className="hover:underline text-sm sm:text-base"
+                                        >
                                             {element.category_name}
                                         </Link>
                                     </td>
