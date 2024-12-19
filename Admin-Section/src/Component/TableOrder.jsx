@@ -122,7 +122,7 @@ const TableOrder = ({ title, items }) => {
 
             {/* Table Section */}
             <div className="overflow-x-auto">
-                <table className="w-full border-separate border-spacing-0">
+                <table className="table-auto w-full border-separate border-spacing-0">
                     <thead>
                         <tr className="bg-DarkLightGray text-white border-b-2 border-gray-300">
                             {tableHeadOrder.map((header, index) => (

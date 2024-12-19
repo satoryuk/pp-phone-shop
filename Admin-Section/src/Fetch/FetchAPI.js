@@ -417,10 +417,32 @@ export const updateProduct = async (formdata, id) => {
     throw error; // Re-throw the error to allow proper error handling
   }
 };
-export const fetchOrderByID = async () => {
-  const response = await Promise().axios.get(`${API_URL_Admin}/tableOrder`, {
-    withCredentials: true
-  })
-  console.log(response);
+export const fetchOrderItemsByID = async (id) => {
+  try {
+    // console.log(id);
 
+    const response = await axios.get(`${API_URL_Admin}/tableOrderItemsByID/${id}`, {
+      withCredentials: true
+    })
+    // console.log(response.data.data);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+export const fetchOrderByID = async ({ id }) => {
+  try {
+    const response = await axios.get(`${API_URL_Admin}/orderByID/${id}`, {
+      withCredentials: true
+    })
+    // console.log(response.data);
+
+    return response.data;
+
+  } catch (error) {
+    console.log(error);
+
+  }
 }
