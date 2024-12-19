@@ -15,6 +15,8 @@ import buy_green from "../Assets/buy_green.png";
 import telegram_green from "../Assets/telegram_green.png";
 import messenger_green from "../Assets/messenger_green.png";
 import favorite_green from "../Assets/favorite_green.png";
+import menu from "../Assets/Menu.png";
+import buy from "../Assets/Buy.png";
 
 export {
   logo,
@@ -34,4 +36,6 @@ export {
   messenger_green,
   telegram_green,
   favorite_green,
+  menu,
+  buy,
 };
