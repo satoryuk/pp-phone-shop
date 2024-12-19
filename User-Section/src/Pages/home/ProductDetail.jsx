@@ -11,6 +11,7 @@ import {
   favorite_green,
 } from "../Assets/image";
 import { Link } from "react-router-dom";
+import Installment_Card from "./Installment_Payment_Card";
 
 const ProductDetail = () => {
   const [selectedStorage, setSelectedStorage] = useState("256 GB");
@@ -202,122 +203,129 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Specifications */}
-        <div className="mt-8">
-          <h3 className="text-2xl font-semibold">Specifications</h3>
-          <div className="mt-4 hover:cursor-pointer">
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Display</summary>
-              <div className="py-4">
-                <p className="pt-2 pl-14">
-                  Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby Vision,
-                  1000 nits (typ), 2000 nits (HBM)
-                </p>
-                <p className="pt-2 pl-14">
-                  Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
-                </p>
-                <p className="pt-2 pl-14">
-                  Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
-                  density)
-                </p>
-                <p className="pt-2 pl-14">
-                  Protection : Ceramic Shield glass (2024 gen), Always-On
-                  display
-                </p>
-              </div>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Body</summary>
-              <div className="py-4">
-                <p className="pt-2 pl-14">
-                  Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby Vision,
-                  1000 nits (typ), 2000 nits (HBM)
-                </p>
-                <p className="pt-2 pl-14">
-                  Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
-                </p>
-                <p className="pt-2 pl-14">
-                  Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
-                  density)
-                </p>
-                <p className="pt-2 pl-14">
-                  Protection : Ceramic Shield glass (2024 gen), Always-On
-                  display
-                </p>
-              </div>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Camera</summary>
-              <div className="py-4">
-                <p className="pt-2 pl-14">
-                  Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby Vision,
-                  1000 nits (typ), 2000 nits (HBM)
-                </p>
-                <p className="pt-2 pl-14">
-                  Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
-                </p>
-                <p className="pt-2 pl-14">
-                  Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
-                  density)
-                </p>
-                <p className="pt-2 pl-14">
-                  Protection : Ceramic Shield glass (2024 gen), Always-On
-                  display
-                </p>
-              </div>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Sound</summary>
-              <div className="py-4">
-                <p className="pt-2 pl-14">
-                  Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby Vision,
-                  1000 nits (typ), 2000 nits (HBM)
-                </p>
-                <p className="pt-2 pl-14">
-                  Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
-                </p>
-                <p className="pt-2 pl-14">
-                  Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
-                  density)
-                </p>
-                <p className="pt-2 pl-14">
-                  Protection : Ceramic Shield glass (2024 gen), Always-On
-                  display
-                </p>
-              </div>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Platform</summary>
-              <p>6.7-inch Super Retina XDR display</p>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Memory</summary>
-              <p>Aluminum and ceramic glass construction</p>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">launch</summary>
-              <p>48MP main camera with advanced features</p>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Network</summary>
-              <p>Stereo speakers with spatial audio support</p>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Comms</summary>
-              <p>Aluminum and ceramic glass construction</p>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Features</summary>
-              <p>48MP main camera with advanced features</p>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">Battery</summary>
-              <p>Stereo speakers with spatial audio support</p>
-            </details>
-            <details className="border rounded mb-2 p-2">
-              <summary className="font-semibold">MISC</summary>
-              <p>Stereo speakers with spatial audio support</p>
-            </details>
+        <div className="flex flex-wrap gap-4 mt-8">
+          {/* Specifications */}
+          <div className="flex-1">
+            <h3 className="text-2xl font-semibold">Specifications</h3>
+            <div className="mt-4 hover:cursor-pointer">
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Display</summary>
+                <div className="py-4">
+                  <p className="pt-2 pl-14">
+                    Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby
+                    Vision, 1000 nits (typ), 2000 nits (HBM)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
+                    density)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Protection : Ceramic Shield glass (2024 gen), Always-On
+                    display
+                  </p>
+                </div>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Body</summary>
+                <div className="py-4">
+                  <p className="pt-2 pl-14">
+                    Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby
+                    Vision, 1000 nits (typ), 2000 nits (HBM)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
+                    density)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Protection : Ceramic Shield glass (2024 gen), Always-On
+                    display
+                  </p>
+                </div>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Camera</summary>
+                <div className="py-4">
+                  <p className="pt-2 pl-14">
+                    Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby
+                    Vision, 1000 nits (typ), 2000 nits (HBM)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
+                    density)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Protection : Ceramic Shield glass (2024 gen), Always-On
+                    display
+                  </p>
+                </div>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Sound</summary>
+                <div className="py-4">
+                  <p className="pt-2 pl-14">
+                    Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby
+                    Vision, 1000 nits (typ), 2000 nits (HBM)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
+                    density)
+                  </p>
+                  <p className="pt-2 pl-14">
+                    Protection : Ceramic Shield glass (2024 gen), Always-On
+                    display
+                  </p>
+                </div>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Platform</summary>
+                <p>6.7-inch Super Retina XDR display</p>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Memory</summary>
+                <p>Aluminum and ceramic glass construction</p>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">launch</summary>
+                <p>48MP main camera with advanced features</p>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Network</summary>
+                <p>Stereo speakers with spatial audio support</p>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Comms</summary>
+                <p>Aluminum and ceramic glass construction</p>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Features</summary>
+                <p>48MP main camera with advanced features</p>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">Battery</summary>
+                <p>Stereo speakers with spatial audio support</p>
+              </details>
+              <details className="border rounded mb-2 p-2">
+                <summary className="font-semibold">MISC</summary>
+                <p>Stereo speakers with spatial audio support</p>
+              </details>
+            </div>
+          </div>
+
+          {/* Installment Payment Card */}
+          <div className="flex-shrink-0 w-60">
+            <Installment_Card />
           </div>
         </div>
       </div>

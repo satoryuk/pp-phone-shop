@@ -21,7 +21,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
 
   return (
     <nav className="bg-white shadow-md">
-      <div className="w-full  px-4 mx-auto">
+      <div className="w-full  px-10 mx-auto">
         <div className="flex justify-between items-center h-20">
           {/* Logo and Name */}
           <div className="flex items-center">
