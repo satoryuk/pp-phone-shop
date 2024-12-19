@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { offer_header } from "../../Constants";
 import { insertPromotion } from "../../Fetch/FetchAPI";
@@ -11,7 +12,6 @@ const HeadMainOffer = () => {
         }, {})
     );
 
-
     // Handle input change
     const handleInputChange = (e) => {
         const { id, value } = e.target; // Use id to identify the field
@@ -24,8 +24,10 @@ const HeadMainOffer = () => {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await insertPromotion({ formData: formData })
-        window.location.reload();
+        const response = await insertPromotion({ formData: formData });
+        if (response.length !== 0) {
+            window.location.reload();
+        }
         console.log("Submitted Data:", response);
         // Add your submission logic here (e.g., API call)
     };
@@ -48,6 +50,7 @@ const HeadMainOffer = () => {
                             label={element.label}
                             value={formData[element.dbLabel]} // Bind value to dbLabel
                             onChange={handleInputChange}
+                            type={["start_date", "end_date"].includes(element.dbLabel) ? "date" : "text"} // Conditionally set input type
                         />
                     ))}
                     <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-end">
@@ -63,13 +66,13 @@ const HeadMainOffer = () => {
     );
 };
 
-const FormField = ({ id, label, value, onChange }) => (
+const FormField = ({ id, label, value, onChange, type }) => (
     <div className="flex flex-col items-start">
         <label htmlFor={id} className="text-sm font-medium text-primary mb-2">
             {label}
         </label>
         <input
-            type="text"
+            type={type} // Dynamically set input type
             id={id} // Use dbLabel as the input ID
             value={value} // Bind the input value to the corresponding state
             onChange={onChange} // Call the onChange handler
@@ -80,4 +83,3 @@ const FormField = ({ id, label, value, onChange }) => (
 );
 
 export default HeadMainOffer;
-

@@ -123,7 +123,7 @@ const TableOffer = ({ title, items }) => {
 
             {/* Table Section */}
             <div className="overflow-x-auto">
-                <table className="w-full border-separate border-spacing-0">
+                <table className="table-auto w-full border-separate border-spacing-0">
                     <thead>
                         <tr className="bg-DarkLightGray text-white border-b-2 border-gray-300">
                             {tableHeadOffer.map((header, index) => (
@@ -188,6 +188,14 @@ const TableOffer = ({ title, items }) => {
                                             className="hover:underline text-sm sm:text-base"
                                         >
                                             {element.promo_name}
+                                        </Link>
+                                    </td>
+                                    <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
+                                        <Link
+                                            to={`/dashboard/product/${element.phone_id}`}
+                                            className="hover:underline text-sm sm:text-base"
+                                        >
+                                            {element.price}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { trash } from "../Assets";
 import { tableHeadOrder } from "../Constants";
 import { Link } from "react-router-dom";
-import { removeOneFetch, searchFetch } from "../Fetch/FetchAPI.js";
+import { removeOrder, searchFetch, searchOrder } from "../Fetch/FetchAPI.js";
 
 const TableOrder = ({ title, items }) => {
     const [datatable, setDataTable] = useState(items || []);
@@ -24,7 +24,7 @@ const TableOrder = ({ title, items }) => {
         setSelectAll(newSelectAll);
 
         if (newSelectAll) {
-            const allIds = datatable?.data?.map((item) => item.phone_id) || [];
+            const allIds = datatable?.data?.map((item) => item.order_id) || [];
             setSelectedRows(allIds);
         } else {
             setSelectedRows([]);
@@ -39,10 +39,10 @@ const TableOrder = ({ title, items }) => {
 
     const handleRemove = async (id) => {
         try {
-            await removeOneFetch({ deleteid: id });
+            await removeOrder({ deleteid: id });
             setDataTable((prev) => ({
                 ...prev,
-                data: prev.data.filter((item) => item.phone_id !== id),
+                data: prev.data.filter((item) => item.order_id !== id),
             }));
         } catch (error) {
             console.error("Error deleting row:", error);
@@ -54,13 +54,13 @@ const TableOrder = ({ title, items }) => {
         try {
             // Loop through each selected row ID and remove it using the removeOneFetch function
             for (const id of selectedRows) {
-                await removeOneFetch({ deleteid: id });
+                await removeOrder({ deleteid: id });
             }
 
             // Update the data table to remove the deleted rows
             setDataTable((prev) => ({
                 ...prev,
-                data: prev.data.filter((item) => !selectedRows.includes(item.phone_id)),
+                data: prev.data.filter((item) => !selectedRows.includes(item.order_id)),
             }));
 
             // Reset selection states
@@ -74,7 +74,7 @@ const TableOrder = ({ title, items }) => {
 
     const searchDataFetch = async () => {
         try {
-            const data = await searchFetch({ searchData });
+            const data = await searchOrder({ username: searchData });
             setDataTable(data);
         } catch (error) {
             console.error("Error fetching search data:", error);
@@ -122,7 +122,7 @@ const TableOrder = ({ title, items }) => {
 
             {/* Table Section */}
             <div className="overflow-x-auto">
-                <table className="w-full border-separate border-spacing-0">
+                <table className="table-auto w-full border-separate border-spacing-0">
                     <thead>
                         <tr className="bg-DarkLightGray text-white border-b-2 border-gray-300">
                             {tableHeadOrder.map((header, index) => (
@@ -179,7 +179,7 @@ const TableOrder = ({ title, items }) => {
                                             to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.customer_id}
+                                            {element.username}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
@@ -187,7 +187,7 @@ const TableOrder = ({ title, items }) => {
                                             to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.order_quantity}
+                                            {element.address}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">

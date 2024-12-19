@@ -122,7 +122,7 @@ const TableProduct = ({ title, items }) => {
 
       {/* Table Section */}
       <div className="overflow-x-auto">
-        <table className="w-full border-separate border-spacing-0">
+        <table className="min-w-full table-auto w-full border-separate border-spacing-0">
           <thead>
             <tr className="bg-DarkLightGray text-white border-b-2 border-gray-300">
               {tableHeadProduct.map((header, index) => (
@@ -146,7 +146,7 @@ const TableProduct = ({ title, items }) => {
                   )}
                 </th>
               ))}
-              <th className="rounded-r-lg text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 border-l border-gray-200">
+              <th className="rounded-r-lg text-sm sm:text-lg px-4 sm:px-6 py-3 sm:py-4 border-l border-gray-200">
                 <button onClick={(e) => handleSelectRemove(e)}><img src={trash} alt="" /></button>
               </th>
             </tr>
@@ -218,7 +218,11 @@ const TableProduct = ({ title, items }) => {
                       onClick={() => handleRemove(element.phone_id)}
                       className="flex"
                     >
-                      <img src={trash} alt="Delete" className="cursor-pointer" />
+                      <img
+                        src={trash}
+                        alt="Remove"
+                        className="w-4 sm:w-6 lg:w-8 h-4 sm:h-6 lg:h-8 object-contain"
+                      />
                     </button>
                   </td>
                 </tr>
