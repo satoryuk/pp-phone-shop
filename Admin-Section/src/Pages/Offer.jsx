@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { productByID } from "../Fetch/FetchAPI";
-import { useParams } from "react-router-dom";
+import { productByID, removeOneFetch } from "../Fetch/FetchAPI";
+import { useNavigate, useParams } from "react-router-dom";
 import { trash } from "../Assets";
 import Model from "../Utils/Model/Model";
 
@@ -10,6 +10,7 @@ const Offer = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [open, setOpen] = useState(false);  // Modal open state
   const { id } = useParams();  // Get product id from URL params
+  const nav = useNavigate();
 
   const fetchData = async () => {
     try {
@@ -27,6 +28,15 @@ const Offer = () => {
       console.error("Error fetching data:", error);
     }
   };
+  const handleDelete = async ({ deleteid }) => {
+    try {
+      const response = await removeOneFetch({ deleteid })
+      nav(-1);
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
 
   useEffect(() => {
     fetchData();
@@ -115,13 +125,20 @@ const Offer = () => {
             <div className="text-lg">
               <span className="font-semibold">Storage:</span> {items[0].storage}
             </div>
-
-            <button
-              className="mt-6 bg-green-500 text-white py-4 px-10 rounded-lg shadow-md hover:bg-green-600 transition duration-300 transform hover:scale-105"
-              onClick={() => setOpen(true)}
-            >
-              Update
-            </button>
+            <div className="flex gap-10">
+              <button
+                className="mt-6 bg-green-500 text-white py-4 px-10 rounded-lg shadow-md hover:bg-green-600 transition duration-300 transform hover:scale-105"
+                onClick={() => setOpen(true)}
+              >
+                Update
+              </button>
+              <button
+                className="mt-6 bg-red-500 text-white py-4 px-10 rounded-lg shadow-md hover:bg-red-600 transition duration-300 transform hover:scale-105"
+                onClick={() => handleDelete({ deleteid: items[0].phone_id })}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       ) : (

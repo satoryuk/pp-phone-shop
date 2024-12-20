@@ -129,7 +129,7 @@ const TableOffer = ({ title, items }) => {
                             {tableHeadOffer.map((header, index) => (
                                 <th
                                     key={index}
-                                    className={`table-data text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg" : ""
+                                    className={`table-data text-sm sm:text-lg px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg " : ""
                                         } border-r border-gray-200`}
                                 >
                                     {header === "ID" ? (

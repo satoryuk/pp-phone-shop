@@ -1,4 +1,5 @@
 import Product from "../../Pages/Product";
+import UpdateOrder from "../../Section/Order/UpdateOrder";
 import AddProduct from "../../Section/Product/AddProduct";
 
 const Model = ({ open, onClose, id, product_id }) => {
@@ -21,7 +22,8 @@ const Model = ({ open, onClose, id, product_id }) => {
         >
           X
         </button>
-        {id === "addProduct" ? <AddProduct product_id={product_id} /> : <Product />}
+        {id === "addProduct" ? <AddProduct product_id={product_id} /> : (id === "updateOrder" ? <UpdateOrder /> : null)}
+
       </div>
     </div>
   );

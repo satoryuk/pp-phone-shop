@@ -213,7 +213,7 @@ const TableProduct = ({ title, items }) => {
                       {formatDate(element.release_date)}
                     </Link>
                   </td>
-                  <td className="table-data flex gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">
+                  <td className="table-data flex justify-center gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">
                     <button
                       onClick={() => handleRemove(element.phone_id)}
                       className="flex"
