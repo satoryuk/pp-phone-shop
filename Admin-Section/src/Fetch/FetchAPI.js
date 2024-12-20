@@ -446,3 +446,13 @@ export const fetchOrderByID = async ({ id }) => {
 
   }
 }
+export const deleteOrderItemByID = async ({ id }) => {
+  try {
+    const response = await axios.delete(`${API_URL_Admin}/deleteOrderItems/${id}`, { withCredentials: true })
+    return response;
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+
