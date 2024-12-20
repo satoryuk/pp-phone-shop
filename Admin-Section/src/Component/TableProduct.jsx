@@ -147,7 +147,7 @@ const TableProduct = ({ title, items }) => {
                 </th>
               ))}
               <th className="rounded-r-lg text-sm sm:text-lg px-4 sm:px-6 py-3 sm:py-4 border-l border-gray-200">
-                <button onClick={(e) => handleSelectRemove(e)}><img src={trash} alt="" /></button>
+                <p><button onClick={(e) => handleSelectRemove(e)}><img src={trash} alt="" /></button></p>
               </th>
             </tr>
           </thead>
