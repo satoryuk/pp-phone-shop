@@ -286,9 +286,9 @@ export const OrderTableFetch = async () => {
 };
 
 
-export const productByID = async (id) => {
+export const productByID = async (query) => {
   try {
-    const response = await axios.get(`${API_URL_COMMON}/searchProductByID/${id}`, {
+    const response = await axios.get(`${API_URL_COMMON}/searchProductByName?phone_name=${query}`, {
       withCredentials: true,
     });
     return response.data;
