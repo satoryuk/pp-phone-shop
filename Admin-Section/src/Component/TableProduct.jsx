@@ -167,7 +167,7 @@ const TableProduct = ({ title, items }) => {
                       className="mr-2 sm:mr-3 h-4 sm:h-5 w-4 sm:w-5"
                     />
                     <Link
-                      to={`/dashboard/product/${element.phone_id}`}
+                      to={`/dashboard/productByName?phone_name=${element.name}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.phone_id}
@@ -175,7 +175,7 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/dashboard/product/${element.phone_id}`}
+                      to={`/dashboard/productByName?phone_name=${element.name}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.name}
@@ -183,7 +183,7 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/dashboard/product/${element.phone_id}`}
+                      to={`/dashboard/productByName?phone_name=${element.name}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.category_name}
@@ -191,7 +191,7 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/dashboard/product/${element.phone_id}`}
+                      to={`/dashboard/productByName?phone_name=${element.name}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.price}
@@ -199,7 +199,7 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/dashboard/product/${element.phone_id}`}
+                      to={`/dashboard/productByName?phone_name=${element.name}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {element.stock}
@@ -207,7 +207,7 @@ const TableProduct = ({ title, items }) => {
                   </td>
                   <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
                     <Link
-                      to={`/dashboard/product/${element.phone_id}`}
+                      to={`/dashboard/productByName?phone_name=${element.name}`}
                       className="hover:underline text-sm sm:text-base"
                     >
                       {formatDate(element.release_date)}

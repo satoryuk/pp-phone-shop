@@ -30,12 +30,7 @@ const ProductCaterogy = () => {
   }, [select])
   return (
     <>
-      {console.log(items.data)
 
-
-      }
-      {console.log(select)
-      }
       <section className="flex my-24 justify-between">
         <div className="flex justify-center items-center gap-2">
           <h2 className="text-primary text-2xl font-bold font-Roboto">
