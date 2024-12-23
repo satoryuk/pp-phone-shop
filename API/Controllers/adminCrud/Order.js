@@ -2,47 +2,115 @@ import { query } from "express"
 import pool from "../../db/db_handle.js"
 
 
-export const OrderTableByID = (req, res) => {
-    const { order_id } = req.params;
-    const query = `SELECT 
-    o.*,
-    c.username AS customer_name,
-    c.email AS customer_email,
-    c.address AS Address,
-    GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images,
-    p.name AS phone_name,
-    p.color AS phone_color,
-    
-    oi.quantity AS order_quantity,
-    oi.price AS order_price,
-    oi.amount AS amount_order_items
+export const OrderTableItemsByID = (req, res) => {
+    const { order_items_id } = req.params;
+
+    const query = `WITH DiscountedOrders AS (
+    SELECT 
+        o.*,
+        oi.order_item_id AS order_items,
+        c.username AS customer_name,
+        c.email AS customer_email,
+        c.address AS Address,
+        c.phone AS Phone_Number,
+        GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images,
+        p.name AS phone_name,
+        pm.discount_percentage AS Discount_Percentage,
+        CASE
+            WHEN pm.status = "Active" THEN ROUND(oi.price * (100 - pm.discount_percentage) / 100, 2)
+            ELSE oi.price
+        END AS discount_price_unit,
+        CASE 
+            WHEN pm.status = "Active" THEN ROUND((oi.price * (100 - pm.discount_percentage) / 100) * oi.quantity, 2)
+            ELSE oi.amount
+        END AS discount_amount,
+        p.color AS phone_color,
+        oi.quantity AS order_quantity,
+        oi.price AS order_price,
+        o.total_amount AS totalAmount,
+        oi.amount AS amount_order_items
+    FROM 
+        orders o
+    INNER JOIN 
+        order_items oi ON oi.order_id = o.order_id 
+    INNER JOIN 
+        customers c ON c.customer_id = o.customer_id
+    INNER JOIN 
+        phones p ON p.phone_id = oi.phone_id 
+    LEFT JOIN 
+        productimage pi ON pi.phone_id = p.phone_id
+    LEFT JOIN 
+        promotions pm ON pm.phone_id = p.phone_id
+    WHERE 
+        o.order_id = ?
+    GROUP BY 
+        o.order_id, 
+        oi.order_item_id,
+        c.username, 
+        c.email, 
+        c.address, 
+        c.phone, 
+        p.name, 
+        p.color, 
+        oi.quantity, 
+        oi.price, 
+        oi.amount, 
+        pm.discount_percentage, 
+        pm.status
+)
+SELECT 
+    order_id,
+    order_items,
+    customer_name,
+    customer_email,
+    Address,
+    Phone_Number,
+    phone_name,
+    images,
+    Discount_Percentage,
+    phone_color,
+    order_quantity,
+    order_price,
+    discount_price_unit,
+    amount_order_items,
+    discount_amount,
+    totalAmount,
+    SUM(discount_amount) OVER (PARTITION BY order_id) AS total_discount_amount -- Aggregates within the group
 FROM 
-    orders o
-INNER JOIN 
-    order_items oi ON oi.order_id = o.order_id 
-INNER JOIN 
-    customers c ON c.customer_id = o.customer_id
-INNER JOIN 
-    phones p ON p.phone_id = oi.phone_id 
-LEFT JOIN 
-    productimage pi ON pi.phone_id = p.phone_id
-    WHERE o.order_id=?
-GROUP BY 
-    o.order_id, 
-    c.customer_id, 
-    p.phone_id, 
-    oi.quantity, 
-    oi.price,
-    oi.amount,
-    c.address;
+    DiscountedOrders;
+
+
                 `
-    pool.query(query, [order_id], (err, rows) => {
+    pool.query(query, [order_items_id], (err, rows) => {
         if (err) return res.status(400).json({ message: "Something went wrong" })
         return res.status(200).json({
             data: rows,
             message: "succesfully"
         })
     })
+}
+export const orderByID = (req, res) => {
+    const { order_id } = req.params;
+
+
+    const query = `SELECT * FROM orders o
+                    INNER JOIN customers c ON
+                    c.customer_id=o.customer_id
+                    WHERE order_id=?`
+    pool.promise().query(query, [order_id])
+        .then(([rows]) => {
+            return res.status(200).json({
+                message: "successfully",
+                data: rows
+            })
+        })
+        .catch((error) => {
+            return res.status(400).json({
+                message: "something went wrong",
+                error: error
+            })
+        })
+
 }
 export const orderTable = async (req, res) => {
     const query = `SELECT * 

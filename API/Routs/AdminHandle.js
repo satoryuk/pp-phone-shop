@@ -4,7 +4,7 @@ import { validateToken_refresh_token } from "../Utils/jwt_validation_refresh_tok
 import { addNewBrand, addNewCategory, addNewProduct, CountHeaderData, deleteProduct, updateProduct } from "../Controllers/adminCrud/Product.js";
 import { category } from "../Controllers/common/product.js";
 import { dashboardHeader, dashboardHeaderAll } from "../Controllers/adminCrud/DashBoard.js"
-import { deleteOrder, deleteOrderItems, orderTable, OrderTableByID, searchOrder, updateOrder } from "../Controllers/adminCrud/Order.js";
+import { deleteOrder, deleteOrderItems, orderByID, orderTable, OrderTableItemsByID, searchOrder, updateOrder } from "../Controllers/adminCrud/Order.js";
 
 import { offerDelete, offerInsert, offerUpdate } from "../Controllers/adminCrud/Offer.js";
 import { headerOrder } from "../Controllers/adminCrud/Order.js";
@@ -22,7 +22,8 @@ adminRouter.get('/productHead', CountHeaderData)
 adminRouter.get('/dashboardHead', dashboardHeader);
 adminRouter.get('/dashboardHeadAll', dashboardHeaderAll);
 adminRouter.get('/category', category);
-adminRouter.get('/tableOrderByID/:order_id', OrderTableByID);
+adminRouter.get('/tableOrderItemsByID/:order_items_id', OrderTableItemsByID);
+adminRouter.get('/orderByID/:order_id', orderByID);
 adminRouter.get('/tableOrder', orderTable);
 adminRouter.get('/searchTableOrder', searchOrder);
 adminRouter.get('/headerOrder', headerOrder);

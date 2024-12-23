@@ -2,36 +2,18 @@ import pool from "../../db/db_handle.js";
 
 export const displayAllProduct = (req, res) => {
 
-    const query = `SELECT 
-                    p.phone_id,
-                    p.name,
-                    p.description,
-                    CASE 
-                        WHEN pm.status = "Active" THEN ROUND(p.price * (100 - pm.discount_percentage) / 100, 2)  / 100
-                        ELSE p.price
-                    END AS price,
-                    p.stock,
-                    p.release_date,
-                    p.color,
-                    GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images, -- Combines distinct images into a single string
-                    s.screen_size,
-                    s.processor,
-                    s.ram,
-                    s.storage,
-                    s.battery,
-                    s.camera,
-                    b.brand_name,
-                    b.img AS brand_img,
-                    c.category_name
-                    FROM phones p 
-                    LEFT JOIN specifications s ON p.phone_id = s.phone_id 
-                    INNER JOIN brands b ON p.brand_id = b.brand_id 
-                    INNER JOIN categories c ON p.category_id = c.category_id
-                    LEFT JOIN promotions pm ON pm.phone_id = p.phone_id
-                    LEFT JOIN productimage pi ON pi.phone_id = p.phone_id -- Join for product images
-                    GROUP BY p.phone_id, p.name, p.description, p.stock, p.release_date, p.color,
-                    s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera,
-                    b.brand_name, b.img, c.category_name, pm.status, pm.discount_percentage;
+    const query = `SELECT ranked.phone_id,ranked.name, ranked.description, pv.price, pv.color,c.category_name,ranked.release_date,ranked.stock
+FROM (
+    SELECT phone_id,name, description,category_id,release_date,stock,
+           ROW_NUMBER() OVER (PARTITION BY name ORDER BY name) AS row_num
+    FROM phones
+) AS ranked 
+INNER JOIN categories c ON 
+c.category_id=ranked.category_id
+LEFT JOIN phone_variants pv ON 
+pv.phone_id=ranked.phone_id
+WHERE row_num = 1 
+ORDER BY ranked.name
                     
 
 
@@ -63,39 +45,21 @@ export const displayByCategory = (req, res) => {
 
 
 
-    const query = `SELECT 
-                        p.phone_id,
-                        p.name,
-                        p.description,
-                        p.price,
-                        p.stock,
-                        p.color,
-                        p.release_date,
-                        s.screen_size,
-                        s.processor,
-                        s.ram,
-                        s.storage,
-                        s.battery,
-                        s.camera,
-                        b.brand_name,
-                        c.category_name,
-                        GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images -- Combines distinct images into a single string
-                    FROM phones p 
-                    LEFT JOIN specifications s ON p.phone_id = s.phone_id 
-                    INNER JOIN brands b ON p.brand_id = b.brand_id 
-                    INNER JOIN categories c ON p.category_id = c.category_id
-                    LEFT JOIN promotions pm ON pm.phone_id = p.phone_id
-                    LEFT JOIN productimage pi ON pi.phone_id = p.phone_id -- Join for product images
-                    WHERE c.category_name = ?
-                    GROUP BY 
-                        p.phone_id, p.name, p.description, p.stock, p.color, p.release_date, 
-                        s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera, 
-                        b.brand_name, c.category_name, pm.status, pm.discount_percentage
-                    ORDER BY p.phone_id;
-
+    const query = ` SELECT ranked.phone_id,ranked.name, ranked.description, pv.price, pv.color,c.category_name,ranked.release_date,ranked.stock
+FROM (
+    SELECT phone_id,name, description,category_id,release_date,stock,
+           ROW_NUMBER() OVER (PARTITION BY name ORDER BY name) AS row_num
+    FROM phones
+) AS ranked 
+INNER JOIN categories c ON 
+c.category_id=ranked.category_id
+LEFT JOIN phone_variants pv ON 
+pv.phone_id=ranked.phone_id
+WHERE row_num = 1 AND c.category_name=?
+ORDER BY ranked.name
                     `
 
-    pool.query(query, category, (err, rows) => {
+    pool.query(query, [category], (err, rows) => {
         if (err) {
             return res.status(400).json({ message: "something went wrong" });
         }
@@ -114,37 +78,18 @@ export const searchItems = (req, res) => {
     }
 
     const query = `
-      SELECT
-            p.phone_id,
-            p.name,
-            p.description,
-            CASE 
-                WHEN pm.status = "Active" THEN ROUND(p.price * (100 - pm.discount_percentage) / 100, 2) 
-                ELSE p.price
-            END AS price,
-            p.stock,
-            p.color,
-            p.release_date,
-            s.screen_size,
-            s.processor,
-            s.ram,
-            s.storage,
-            s.battery,
-            s.camera,
-            b.brand_name,
-            c.category_name,
-            GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images -- Aggregate images into a single field
-        FROM phones p
-        LEFT JOIN specifications s ON p.phone_id = s.phone_id
-        INNER JOIN brands b ON p.brand_id = b.brand_id
-        INNER JOIN categories c ON p.category_id = c.category_id
-        LEFT JOIN promotions pm ON pm.phone_id = p.phone_id
-        LEFT JOIN productimage pi ON pi.phone_id = p.phone_id -- Join for images
-        WHERE p.name = ?
-        GROUP BY 
-            p.phone_id, p.name, p.description, p.stock, p.release_date, 
-            s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera, 
-            b.brand_name, c.category_name, pm.status, pm.discount_percentage;
+      SELECT ranked.phone_id,ranked.name, ranked.description, pv.price, pv.color,c.category_name,ranked.release_date,ranked.stock
+FROM (
+    SELECT phone_id,name, description,category_id,release_date,stock,
+           ROW_NUMBER() OVER (PARTITION BY name ORDER BY name) AS row_num
+    FROM phones
+) AS ranked 
+INNER JOIN categories c ON 
+c.category_id=ranked.category_id
+LEFT JOIN phone_variants pv ON 
+pv.phone_id=ranked.phone_id
+WHERE row_num = 1 AND ranked.name=?
+ORDER BY ranked.name
 
     `;
 
@@ -167,27 +112,28 @@ export const searchItems = (req, res) => {
     });
 };
 
-export const searchItemsByID = async (req, res) => {
-    const { id } = req.params;
+export const searchItemsByName = async (req, res) => {
+    const { phone_name } = req.query;
 
     // Validate if 'id' is provided
-    if (!id) {
+    if (!phone_name) {
         return res.status(400).json({ message: "ID parameter is missing" });
     }
 
     // console.log(`Searching for item with ID: ${id}`);
 
     const query = `
-        SELECT 
+      SELECT 
                         p.phone_id,
                         p.name,
                         p.description,
+                        pv.price,
                         CASE 
-                            WHEN pm.status = "Active" THEN ROUND(p.price * (100 - pm.discount_percentage) / 100, 2) 
-                            ELSE p.price
-                        END AS price,
+                            WHEN pm.status = "Active" THEN ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2) 
+                            ELSE pv.price
+                        END AS Discount_price,
                         p.stock,
-                        p.color,
+                        pv.color,
                         p.release_date,
                         s.screen_size,
                         s.processor,
@@ -200,21 +146,22 @@ export const searchItemsByID = async (req, res) => {
                         GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images 
                     FROM phones p 
                     LEFT JOIN specifications s ON p.phone_id = s.phone_id 
-                    INNER JOIN brands b ON p.brand_id = b.brand_id 
-                    INNER JOIN categories c ON p.category_id = c.category_id
+                    LEFT JOIN brands b ON p.brand_id = b.brand_id 
+                    LEFT JOIN categories c ON p.category_id = c.category_id
                     LEFT JOIN promotions pm ON pm.phone_id = p.phone_id
                     LEFT JOIN productimage pi ON pi.phone_id = p.phone_id 
-                    WHERE p.phone_id =?
+                    LEFT JOIN phone_variants pv ON pv.phone_id=p.phone_id
+					 WHERE p.name=?
                     GROUP BY 
-                        p.phone_id, p.name, p.description, p.stock, p.color, p.release_date, 
+                        p.phone_id, p.name, p.description, p.stock, pv.color, p.release_date, 
                         s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera, 
-                        b.brand_name, c.category_name, pm.status, pm.discount_percentage
+                        b.brand_name, c.category_name, pm.status, pm.discount_percentage,pv.price
                     
     `;
 
     try {
         // Use await instead of promise chaining
-        const [rows] = await pool.promise().query(query, [id]);
+        const [rows] = await pool.promise().query(query, [phone_name]);
 
         if (rows.length === 0) {
             return res.status(404).json({ message: "Item not found" });

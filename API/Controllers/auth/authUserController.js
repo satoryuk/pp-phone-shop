@@ -54,8 +54,10 @@ export const handlelogin = async (req, res) => {
   }
 };
 
+
 export const register = async (req, res) => {
   const { username, email, password, phone, address } = req.body;
+  console.log(req.body);
 
   // Validate that all fields are provided
   if (!username || !email || !password || !phone || !address) {
@@ -65,29 +67,35 @@ export const register = async (req, res) => {
   try {
     // Hash the password for secure storage
     const hashedPassword = await bcrypt.hash(password, 10);
-    const values = [username, email, hashedPassword, phone, address];
-    const queryInsert =
-      "INSERT INTO customers (username,email,password,phone,address) VALUES (?, ?, ?, ?,?)";
 
     // Insert user into the database
+    const queryInsert =
+      "INSERT INTO customers (username, email, password, phone, address) VALUES (?, ?, ?, ?, ?)";
+    const values = [username, email, hashedPassword, phone, address];
+
     pool.query(queryInsert, values, (error, result) => {
       if (error) {
-        console.error("Database insert error:", error); // Log for debugging
+        console.error("Database insert error:", error.message); // Log for debugging
+        if (error.code === "ER_DUP_ENTRY") {
+          return res.status(400).json({ message: "Email or phone already exists" });
+        }
         return res
           .status(500)
           .json({ message: "Something went wrong while inserting the user" });
       }
-      
-      // Generate tokens using input data (if ID isn't required immediately)
-      const payload = { username: username, role: 2 };
+
+      // Generate tokens using input data
+      const payload = { username, role: 2 };
       const accessToken = generateAccessToken(payload);
       const refreshToken = generateRefreshToken(payload);
 
-      // Set tokens in session
-      res.cookie('access-token', accessToken, cookieConfig);
-      res.cookie('refresh-token', refreshToken, cookieConfig);
+      // Set tokens in cookies
+      res.cookie("access-token", accessToken, cookieConfig);
+      res.cookie("refresh-token", refreshToken, cookieConfig);
 
-      return res.json({ message: "User registered successfully", accessToken });
+      return res
+        .status(201)
+        .json({ message: "User registered successfully", accessToken });
     });
   } catch (error) {
     console.error("Error:", error.message); // Log for debugging

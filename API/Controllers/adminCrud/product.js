@@ -1,3 +1,4 @@
+import { query } from "express";
 import pool from "../../db/db_handle.js";
 
 
@@ -206,6 +207,7 @@ export const deleteProduct = async (req, res) => {
         { query: "DELETE FROM productimage WHERE phone_id=?", errorMsg: "Failed to delete product images" },
         { query: "DELETE FROM specifications WHERE phone_id=?", errorMsg: "Failed to delete specifications" },
         { query: "DELETE FROM promotions WHERE phone_id=?", errorMsg: "Failed to delete promotions" },
+        { query: "DELETE FROM phone_variants WHERE phone_id=?", errorMsg: "Failed to delete promotions" },
         { query: "DELETE FROM phones WHERE phone_id=?", errorMsg: "Failed to delete product" },
 
     ];
