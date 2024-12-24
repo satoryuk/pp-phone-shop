@@ -9,15 +9,15 @@
   "routes": [
     {
       "src": "/common/(.*)",
-      "dest": "/api/common/$1"
+      "dest": "/Routs/common.js"
     },
     {
       "src": "/admin/(.*)",
-      "dest": "/api/admin/$1"
+      "dest": "/Routs/admin.js"
     },
     {
       "src": "/auth/(.*)",
-      "dest": "/api/auth/$1"
+      "dest": "/Routs/auth.js"
     },
     {
       "src": "/(.*)",
