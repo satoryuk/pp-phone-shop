@@ -94,6 +94,8 @@ const TableProduct = ({ title, items }) => {
   return (
     <section className="mt-16 bg-white rounded-lg p-6 sm:p-10 shadow-lg border border-gray-400">
       <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-10 mb-5 sm:mb-10">
+        {console.log(items)
+        }
         <h1 className="green-text mt-4 sm:mt-10 font-semibold text-lg lg:text-3xl">
           {title}
         </h1>
