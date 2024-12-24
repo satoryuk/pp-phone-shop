@@ -10,7 +10,6 @@ const Offer = () => {
   const [open, setOpen] = useState(false); // Modal open state
   const searchParams = new URLSearchParams(location.search);
   const query = searchParams.get("phone_name"); // Get product id from URL params
-  const nav = useNavigate();
   const [Index, setIndex] = useState(0);
 
   // Fetch product data based on query and Index
@@ -35,16 +34,15 @@ const Offer = () => {
   }, [query, Index]);
 
   // Handle deletion of a product
-  const handleDelete = useCallback(
+  const handleDelete = (
     async ({ deleteid }) => {
       try {
         await removeOneFetch({ deleteid });
-        nav(-1); // Navigate back
+        window.location.reload(); // Navigate back
       } catch (error) {
         console.log("Error deleting item:", error);
       }
-    },
-    [nav]
+    }
   );
 
   // Handle image click to update the selected image
@@ -75,21 +73,25 @@ const Offer = () => {
                 className="w-96 h-96 object-contain rounded-xl shadow-lg transition-transform transform hover:scale-105"
               />
             </div>
-            <div className="flex gap-6 mt-4 overflow-x-auto">
+            <div className="flex justify-start gap-6 mt-4 overflow-x-auto overflow-y-hidden max-h-24 max-w-96 scroll-smooth p-2">
               {arrayImage.map((image, index) => (
                 <div
                   key={index}
-                  className="w-20 h-20 cursor-pointer"
+                  className="w-20 h-20 cursor-pointer flex-shrink-0"
                   onClick={() => handleImageClick(image)} // Set large image on click
                 >
                   <img
                     src={`http://localhost:3000/${image}`}
                     alt={`Thumbnail Image ${index + 1}`}
-                    className="w-full h-full object-cover rounded-md transform transition duration-200 hover:scale-110"
+                    className="w-full h-full object-cover rounded-md transform transition duration-200 hover:scale-110 hover:shadow-lg"
+                    loading="lazy" // Enable lazy loading for images
                   />
                 </div>
               ))}
             </div>
+
+
+
           </div>
 
           {/* Product Details */}
