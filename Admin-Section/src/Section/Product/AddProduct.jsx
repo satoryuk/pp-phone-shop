@@ -104,9 +104,7 @@ const AddProduct = ({ product_id }) => {
     }
     try {
       const result = await updateProduct(formdata, id);
-
-      // window.location.reload()
-
+      window.location.reload();
 
     } catch (error) {
       console.log(error);
