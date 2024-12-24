@@ -89,7 +89,7 @@ pv.phone_id=ranked.phone_id
 WHERE row_num = 1 AND ranked.release_date >=CURRENT_DATE()-INTERVAL ? MONTH
 ORDER BY ranked.name
               `
-    pool.query(query, date, (err, rows) => {
+    pool.query(query, [date], (err, rows) => {
         if (err) return res.status(400).json({ message: "something went wrong" });
         res.status(200).json({
             data: rows,
