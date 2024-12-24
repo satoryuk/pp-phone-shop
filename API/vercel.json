@@ -1,1 +1,27 @@
-{ "version": 2, "rewrites": [{ "source": "/(.*)", "destination": "/api" }] }
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "./index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/common/(.*)",
+      "dest": "/Routs/Common.js/$1"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "Routs/AdminHandle.js/$1"
+    },
+    {
+      "src": "/auth/(.*)",
+      "dest": "Routs/Auth.js/$1"
+    },
+    {
+      "src": "/(?!api)(.*)",
+      "dest": "/"
+    }
+  ]
+}
