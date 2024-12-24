@@ -134,13 +134,15 @@ export const updateProduct = async (req, res) => {
         const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
         const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
         const updateProductQuery =
-            "UPDATE phones SET name=?, description=?, price=?,color=?, stock=?, category_id=?, brand_id=?, release_date=? WHERE phone_id=?";
+            "UPDATE phones SET name=?, description=?, stock=?, category_id=?, brand_id=?, release_date=? WHERE phone_id=?";
         const updateSpecificationsQuery =
             "UPDATE specifications SET screen_size=?, processor=?, ram=?, storage=?, battery=?, camera=? WHERE phone_id=?";
         // const deleteColorsQuery = "DELETE FROM phone_colors WHERE phone_id=?";
         const deleteImagesQuery = "DELETE FROM productimage WHERE phone_id=?";
+
         // const addColorsQuery = "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
         const addImageQuery = "INSERT INTO productimage(phone_id, image) VALUES (?,?)";
+        const addColorQuery = "UPDATE phone_variants SET color=?,price=? WHERE phone_id=?";
 
         // Database operations (same as your previous code)
         const [categoryRows] = await pool.promise().query(category_query, [category]);
@@ -162,7 +164,7 @@ export const updateProduct = async (req, res) => {
             date,
             productId,
         ];
-
+        await pool.promise().query(addColorQuery, [color, price, productId])
         await pool.promise().query(updateProductQuery, productValues);
 
         const specificationValues = [
