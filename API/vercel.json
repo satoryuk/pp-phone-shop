@@ -1,23 +1,17 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
     {
-      "src": "/auth/*",
-      "dest": "/Routs/auth.js"
+      "src": "/auth/(.*)",
+      "dest": "/api/auth.js"
     },
     {
-      "src": "/common/*",
-      "dest": "/Routs/common.js"
+      "src": "/common/(.*)",
+      "dest": "/api/common.js"
     },
     {
-      "src": "/admin/*",
-      "dest": "/Routs/admin.js"
+      "src": "/admin/(.*)",
+      "dest": "/api/admin.js"
     },
     {
       "src": "/(.*)",
