@@ -8,20 +8,20 @@
   ],
   "routes": [
     {
-      "src": "/common/(.*)",
-      "dest": "/api/common/$1"
+      "src": "/auth/(.*)",
+      "dest": "/index.js"
     },
     {
       "src": "/admin/(.*)",
-      "dest": "/api/admin/$1"
+      "dest": "/index.js"
     },
     {
-      "src": "/auth/(.*)",
-      "dest": "/api/auth/$1"
+      "src": "/common/(.*)",
+      "dest": "/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/index.js"
     }
   ]
 }
