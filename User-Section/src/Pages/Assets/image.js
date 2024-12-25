@@ -17,6 +17,7 @@ import messenger_green from "../Assets/messenger_green.png";
 import favorite_green from "../Assets/favorite_green.png";
 import menu from "../Assets/Menu.png";
 import buy from "../Assets/Buy.png";
+import back_sign from "../Assets/back_sign.png";
 
 export {
   logo,
@@ -38,4 +39,5 @@ export {
   favorite_green,
   menu,
   buy,
+  back_sign,
 };

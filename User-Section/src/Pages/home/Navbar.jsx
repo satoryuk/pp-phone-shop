@@ -52,14 +52,16 @@ const Navbar = ({ token, onLogin, onLogout }) => {
 
           {/* Account Btn */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="relative">
-              <span role="img" aria-label="cart">
-                <img src={buy} alt="buy_cart" className="w-[30px] h-auto" />
-              </span>
-              <span className="absolute top-0 right-0 transform translate-x-[25%] bg-red-600 text-white text-xs rounded-full px-1">
-                0
-              </span>
-            </button>
+            <Link to="/add-to-cart">
+              <button className="relative">
+                <span role="img" aria-label="cart">
+                  <img src={buy} alt="buy_cart" className="w-[30px] h-auto" />
+                </span>
+                <span className="absolute top-0 right-0 transform translate-x-[25%] bg-red-600 text-white text-xs rounded-full px-1">
+                  0
+                </span>
+              </button>
+            </Link>
 
             {/* Conditional Rendering Based on Token */}
             {token ? (
