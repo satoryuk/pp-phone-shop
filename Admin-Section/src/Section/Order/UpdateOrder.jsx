@@ -9,7 +9,7 @@ const UpdateOrder = ({ order_detail }) => {
             <h1>Order Update</h1>
             <form onSubmit={handleSubmit}>
                 <div className='flex flex-col'>
-                    <label>Product</label>
+                    <label className='text-sm font-medium text-primary mb-2'>Product</label>
                     <input type="text" />
                 </div>
             </form>
