@@ -24,7 +24,7 @@ export const OrderTableItemsByID = (req, res) => {
             WHEN pm.status = "Active" THEN ROUND((oi.price * (100 - pm.discount_percentage) / 100) * oi.quantity, 2)
             ELSE oi.amount
         END AS discount_amount,
-        p.color AS phone_color,
+        oi.color AS phone_color,
         oi.quantity AS order_quantity,
         oi.price AS order_price,
         o.total_amount AS totalAmount,
@@ -51,7 +51,7 @@ export const OrderTableItemsByID = (req, res) => {
         c.address, 
         c.phone, 
         p.name, 
-        p.color, 
+        oi.color, 
         oi.quantity, 
         oi.price, 
         oi.amount, 
@@ -110,7 +110,6 @@ export const orderByID = (req, res) => {
                 error: error
             })
         })
-
 }
 export const orderTable = async (req, res) => {
     const query = `SELECT * 

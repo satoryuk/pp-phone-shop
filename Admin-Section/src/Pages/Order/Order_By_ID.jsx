@@ -11,6 +11,7 @@ const Order_By_ID = () => {
   const [ordersItems, setOrdersItems] = useState([]);
   const [orders, setOrders] = useState(null);
   const [open, setOpen] = useState(false);
+  const [idEdit, setIDEdit] = useState(0);
   const nav = useNavigate();
 
   const fetchDataOrderItems = async () => {
@@ -45,24 +46,7 @@ const Order_By_ID = () => {
 
       // Call the API to delete the order item by ID
       const response = await deleteOrderItemByID({ id });
-      console.log('API response:', response);  // Debugging line to check API response
-
-      // Update the ordersItems state and recalculate totals
-      setOrdersItems((prev) => {
-        if (!prev || !prev.data) {
-          console.error("Invalid previous state structure.");
-          return prev; // Return the previous state if it's invalid
-        }
-
-        // Filter out the deleted item
-        const updatedItems = prev.data.filter((item) => item.order_items !== id);
-
-        return {
-          ...prev,
-          data: updatedItems,
-        };
-      });
-
+      window.location.reload();
       console.log(`Item with ID ${id} removed successfully.`);
     } catch (error) {
       console.error("Error removing item:", error);
@@ -91,7 +75,7 @@ const Order_By_ID = () => {
   useEffect(() => {
     fetchDataOrderItems();
     fetchDataOrder();
-  }, [id, ordersItems]);
+  }, [id]);
 
   return (
     <div className="container bg-white rounded-lg shadow-xl max-w-8xl mt-8 p-4 lg:p-8">
@@ -135,9 +119,9 @@ const Order_By_ID = () => {
                 <p className="text-center hidden md:block">Discount price </p>
               </div>
               {ordersItems.length > 0 ? (
-                ordersItems.map((item) => (
+                ordersItems.map((item, index) => (
                   <div
-                    key={item.id}
+                    key={index}
                     className="grid grid-cols-6 md:grid-cols-9 items-center py-4 border-t"
                   >
                     <div className="col-span-2 flex items-center gap-4">
@@ -156,7 +140,13 @@ const Order_By_ID = () => {
                     <p className="text-center font-semibold hidden md:block">{item.discount_amount}$</p>
                     <div className="flex justify-center gap-4">
                       <button >
-                        <img src={edit} alt="Remove" onClick={(e) => handleRemoveItems(e, { id: item.order_items })} />
+                        <img src={edit} alt="Edit" onClick={(e) => {
+                          e.preventDefault();
+                          setOpen(true);
+                          setIDEdit(index)
+
+                        }
+                        } />
                       </button>
                       <button >
                         <img src={trash} alt="Remove" onClick={(e) => handleRemoveItems(e, { id: item.order_items })} />
@@ -187,12 +177,6 @@ const Order_By_ID = () => {
 
           <div className="flex justify-end gap-10 ">
             <button
-              className="bg-green-500 text-white py-4 px-6 md:px-10 rounded-lg shadow-md hover:bg-green-600 transition duration-300 transform hover:scale-105"
-              onClick={() => setOpen(true)}
-            >
-              Update Order
-            </button>
-            <button
               className="bg-red-500 text-white py-4 px-6 md:px-10 rounded-lg shadow-md hover:bg-red-600 transition duration-300 transform hover:scale-105"
               onClick={() => removeOrderFetch({ id: orders[0].order_id })}
             >
@@ -204,11 +188,12 @@ const Order_By_ID = () => {
             open={open}
             onClose={() => setOpen(false)}
             id="updateOrder"
-            order_id={orders[0]?.id || id}
+            order_id={orders[idEdit]?.id || id}
+            value={ordersItems[idEdit]}
           >
             <div className="text-center">
               <h3 className="text-lg font-black text-gray-800">Update Order</h3>
-              <p className="text-sm text-gray-500">Modify the order details below.</p>
+              <p className="text-sm text-black-500">Modify the order details below.</p>
             </div>
           </Model>
         </div>
