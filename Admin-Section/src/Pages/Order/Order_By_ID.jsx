@@ -19,6 +19,8 @@ const Order_By_ID = () => {
       const response = await fetchOrderItemsByID(id);
       if (response && response.data) {
         setOrdersItems(response.data);
+        console.log(ordersItems);
+
       } else {
         console.error("No order items data received");
       }
@@ -189,7 +191,7 @@ const Order_By_ID = () => {
             onClose={() => setOpen(false)}
             id="updateOrder"
             order_id={orders[idEdit]?.id || id}
-            value={ordersItems[idEdit]}
+            value={ordersItems[idEdit].order_items}
           >
             <div className="text-center">
               <h3 className="text-lg font-black text-gray-800">Update Order</h3>

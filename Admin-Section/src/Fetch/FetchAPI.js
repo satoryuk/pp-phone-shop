@@ -26,7 +26,7 @@ export const register = async ({ profile, username, email, password }) => {
 export const productData = async () => {
   try {
     const response = await axios.get(`${API_URL_COMMON}/getAllProduct`, { withCredentials: true });
-    return response.data; // return the data from the response
+    return response; // return the data from the response
   } catch (error) {
     console.error("Error fetching product data:", error);
     throw error; // Rethrow the error so it can be handled by the caller
@@ -455,4 +455,17 @@ export const deleteOrderItemByID = async ({ id }) => {
 
   }
 }
+export const updateOrderItems = async ({ value }) => {
+  try {
+    const response = await axios.put(`${API_URL_Admin}/updateOrderItems`, value, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
 
+  }
+}

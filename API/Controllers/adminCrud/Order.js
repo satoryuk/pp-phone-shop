@@ -17,16 +17,16 @@ export const OrderTableItemsByID = (req, res) => {
         p.name AS phone_name,
         pm.discount_percentage AS Discount_Percentage,
         CASE
-            WHEN pm.status = "Active" THEN ROUND(oi.price * (100 - pm.discount_percentage) / 100, 2)
-            ELSE oi.price
+            WHEN pm.status = "Active" THEN ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2)
+            ELSE pv.price
         END AS discount_price_unit,
         CASE 
-            WHEN pm.status = "Active" THEN ROUND((oi.price * (100 - pm.discount_percentage) / 100) * oi.quantity, 2)
+            WHEN pm.status = "Active" THEN ROUND((pv.price * (100 - pm.discount_percentage) / 100) * oi.quantity, 2)
             ELSE oi.amount
         END AS discount_amount,
-        oi.color AS phone_color,
+        pv.color AS phone_color,
         oi.quantity AS order_quantity,
-        oi.price AS order_price,
+        pv.price AS order_price,
         o.total_amount AS totalAmount,
         oi.amount AS amount_order_items
     FROM 
@@ -35,12 +35,15 @@ export const OrderTableItemsByID = (req, res) => {
         order_items oi ON oi.order_id = o.order_id 
     INNER JOIN 
         customers c ON c.customer_id = o.customer_id
+	LEFT JOIN 
+		phone_variants pv ON pv.idphone_variants=oi.phone_variants_id
     INNER JOIN 
-        phones p ON p.phone_id = oi.phone_id 
+        phones p ON p.phone_id = pv.phone_id 
     LEFT JOIN 
         productimage pi ON pi.phone_id = p.phone_id
     LEFT JOIN 
         promotions pm ON pm.phone_id = p.phone_id
+	
     WHERE 
         o.order_id = ?
     GROUP BY 
@@ -51,9 +54,9 @@ export const OrderTableItemsByID = (req, res) => {
         c.address, 
         c.phone, 
         p.name, 
-        oi.color, 
+        pv.color, 
         oi.quantity, 
-        oi.price, 
+        pv.price, 
         oi.amount, 
         pm.discount_percentage, 
         pm.status
@@ -134,43 +137,38 @@ export const orderTable = async (req, res) => {
         console.log(error);
     }
 }
-export const updateOrder = (req, res) => {
+export const updateOrderitems = (req, res) => {
     // The SQL query to update the order
     const query = `
-        UPDATE 
-            order_items ot
-        INNER JOIN 
-            orders o ON o.order_id = ot.order_id
-        SET 
-            ot.phone_id = (SELECT p.phone_id FROM phones p WHERE p.name = ? LIMIT 1),
-            ot.quantity = ?,
-        WHERE 
-            o.order_id = ?
-            AND ot.order_item_id = ?
+        UPDATE order_items ot
+        SET ot.quantity=?,
+            ot.phone_variants_id=(SELECT pv.idphone_variants FROM phone_variants pv
+                                INNER JOIN phones p ON
+                                pv.phone_id=p.phone_id
+                                WHERE p.name=? AND pv.color=?
+                                LIMIT 1),
+            ot.amount=(SELECT price FROM phone_variants WHERE idphone_variants=ot.phone_variants_id)*ot.quantity
+        WHERE order_item_id=?;
     `;
 
     // Accessing parameters from the request
-    const { order_id } = req.params;
-    const { order_items_id } = req.query; // Query parameter
-    const { phone_name, quantity, color } = req.body; // Request body
+
+    const { phone_name, quantity, color, order_items_id } = req.body; // Request body
 
     // Validate the parameters
-    if (!phone_name || !quantity || !color || !order_id || !order_items_id) {
+    if (!phone_name || !quantity || !color || !order_items_id) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
     // Prepare the values for the SQL query
     const values = [
-        phone_name,
         quantity,
         phone_name,
-        quantity,
         color,
-        order_id,
         order_items_id
     ];
 
-    console.log("Values for query:", values);
+
 
     // Execute the query with the prepared values using .then() and .catch()
     pool.promise().query(query, values)
@@ -245,8 +243,22 @@ export const deleteOrderItems = (req, res) => {
 }
 export const headerOrder = (req, res) => {
     const query = `
-        SELECT status,COUNT(status)AS count FROM orders
-        group by status
+        SELECT 
+    s.status,
+    COUNT(o.status) AS count
+FROM 
+    (SELECT 'pending' AS status
+     UNION ALL
+     SELECT 'completed'
+     UNION ALL
+     SELECT 'canceled') s
+LEFT JOIN 
+    orders o
+ON 
+    s.status = o.status
+GROUP BY 
+    s.status;
+
     `
     try {
         pool.promise().query(query).then((rows) => {
