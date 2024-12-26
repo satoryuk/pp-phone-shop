@@ -14,9 +14,6 @@ LEFT JOIN phone_variants pv ON
 pv.phone_id=ranked.phone_id
 WHERE row_num = 1 
 ORDER BY ranked.name
-                    
-
-
                     `
     pool.query(query, (err, rows) => {
         if (err) return res.status(400).json({ message: "something went wrong" });

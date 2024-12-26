@@ -15,7 +15,7 @@ export const addNewProduct = async (req, res) => {
             brand,
             price,
             date,
-            color,
+            colors,
             processor,
             storage,
             camera,
@@ -30,15 +30,19 @@ export const addNewProduct = async (req, res) => {
         // Process image filenames (multer saves files in 'uploads/')
         const images = req.files.map((file) => file.filename);
 
+
         // Handle database operations
+
         const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
         const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
         const addProductQuery =
-            "INSERT INTO phones (name, description, price,color, stock, category_id, brand_id, release_date) VALUES(?,?,?,?,?,?,?,?)";
+            "INSERT INTO phones (name, description, stock, category_id, brand_id, release_date) VALUES(?,?,?,?,?,?)";
         const addSpecificationsQuery =
             "INSERT INTO specifications (phone_id, screen_size, processor, ram, storage, battery, camera) VALUES(?,?,?,?,?,?,?)";
         // const addColorsQuery =
         //   "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
+        const addColorQuery =
+            "INSERT INTO phone_variants (phone_id,color,price) VALUES (?,?,?)"
         const addImageQuery =
             "INSERT INTO productimage(phone_id, image) VALUES (?,?)";
 
@@ -54,8 +58,6 @@ export const addNewProduct = async (req, res) => {
         const productValues = [
             name,
             description,
-            price,
-            color,
             stock,
             category_id,
             brand_id,
@@ -78,6 +80,9 @@ export const addNewProduct = async (req, res) => {
 
         for (let image of images) {
             await pool.promise().query(addImageQuery, [phone_id, image]);
+        }
+        for (let color of colors) {
+            await pool.promise().query(addColorQuery, [phone_id, color, price]);
         }
 
         res.status(201).json({ message: "Product added successfully" });

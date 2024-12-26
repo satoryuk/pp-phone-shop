@@ -10,10 +10,10 @@ export const offerDisplay = async (req, res) => {
                     pm.promo_name,
                     c.category_name,
                     p.description,
-                    ROUND(p.price * (100 - pm.discount_percentage) / 100, 2)  AS price,
+                    ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2)  AS price,
                     p.stock,
                     p.release_date,
-                    p.color,
+                    pv.color,
                     GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images, -- Combines distinct images into a single string
                     s.screen_size,
                     s.processor,
@@ -30,7 +30,8 @@ export const offerDisplay = async (req, res) => {
                     INNER JOIN categories c ON p.category_id = c.category_id
                     INNER JOIN promotions pm ON pm.phone_id = p.phone_id
                     LEFT JOIN productimage pi ON pi.phone_id = p.phone_id -- Join for product images
-                    GROUP BY pm.promo_id,p.phone_id, p.name,pm.promo_name,c.category_name, p.description, p.stock, p.release_date, p.color,
+                    LEFT JOIN phone_variants pv ON pv.phone_id=p.phone_id
+                    GROUP BY pm.promo_id,p.phone_id, p.name,pm.promo_name,c.category_name, p.description, p.stock, p.release_date, pv.color,pv.price,
                     s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera,
                     b.brand_name, b.img, c.category_name, pm.status, pm.discount_percentage;
                     `
@@ -52,14 +53,15 @@ export const offerDisplayByName = async (req, res) => {
     const { promo_name } = req.query;
     const query = `SELECT
                     pm.promo_id,
-                    pm.promo_name,
                     p.phone_id,
                     p.name,
+                    pm.promo_name,
+                    c.category_name,
                     p.description,
-                    ROUND(p.price * (100 - pm.discount_percentage) / 100, 2) AS price,
+                    ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2)  AS price,
                     p.stock,
                     p.release_date,
-                    p.color,
+                    pv.color,
                     GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images, -- Combines distinct images into a single string
                     s.screen_size,
                     s.processor,
@@ -76,10 +78,11 @@ export const offerDisplayByName = async (req, res) => {
                     INNER JOIN categories c ON p.category_id = c.category_id
                     INNER JOIN promotions pm ON pm.phone_id = p.phone_id
                     LEFT JOIN productimage pi ON pi.phone_id = p.phone_id -- Join for product images
+                    LEFT JOIN phone_variants pv ON pv.phone_id=p.phone_id
                     WHERE pm.promo_name=?
-                    GROUP BY pm.promo_id,pm.promo_name,p.phone_id, p.name, p.description, p.stock, p.release_date, p.color,
+                    GROUP BY pm.promo_id,p.phone_id, p.name,pm.promo_name,c.category_name, p.description, p.stock, p.release_date, pv.color,pv.price,
                     s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera,
-                    b.brand_name, b.img, c.category_name, pm.status, pm.discount_percentage
+                    b.brand_name, b.img, c.category_name, pm.status, pm.discount_percentage;
                     
                     `
     await pool.promise().query(query, [promo_name])
@@ -102,11 +105,13 @@ export const offerDisplayByID = async (req, res) => {
                     pm.promo_id,
                     p.phone_id,
                     p.name,
+                    pm.promo_name,
+                    c.category_name,
                     p.description,
-                    ROUND(p.price * (100 - pm.discount_percentage) / 100, 2)  AS price,
+                    ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2)  AS price,
                     p.stock,
                     p.release_date,
-                    p.color,
+                    pv.color,
                     GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images, -- Combines distinct images into a single string
                     s.screen_size,
                     s.processor,
@@ -123,10 +128,11 @@ export const offerDisplayByID = async (req, res) => {
                     INNER JOIN categories c ON p.category_id = c.category_id
                     INNER JOIN promotions pm ON pm.phone_id = p.phone_id
                     LEFT JOIN productimage pi ON pi.phone_id = p.phone_id -- Join for product images
+                    LEFT JOIN phone_variants pv ON pv.phone_id=p.phone_id
                     WHERE pm.promo_id=?
-                    GROUP BY pm.promo_id,p.phone_id, p.name, p.description, p.stock, p.release_date, p.color,
+                    GROUP BY pm.promo_id,p.phone_id, p.name,pm.promo_name,c.category_name, p.description, p.stock, p.release_date, pv.color,pv.price,
                     s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera,
-                    b.brand_name, b.img, c.category_name, pm.status, pm.discount_percentage
+                    b.brand_name, b.img, c.category_name, pm.status, pm.discount_percentage;
                     
                     `
     await pool.promise().query(query, [promo_id])
