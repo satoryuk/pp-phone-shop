@@ -1,5 +1,4 @@
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { offer_header } from "../../Constants";
 import { insertPromotion } from "../../Fetch/FetchAPI";
 
@@ -7,7 +6,7 @@ const HeadMainOffer = () => {
     // State to manage form inputs
     const [formData, setFormData] = useState(
         offer_header.reduce((acc, field) => {
-            acc[field.dbLabel] = ""; // Initialize each field with an empty string
+            acc[field.dbLabel] = field.dbLabel === "Color" ? [""] : ""; // Initialize Color as an array
             return acc;
         }, {})
     );
@@ -21,6 +20,30 @@ const HeadMainOffer = () => {
         }));
     };
 
+    // Handle color change for Color field
+    const handleColorChange = (index, value) => {
+        setFormData((prev) => ({
+            ...prev,
+            Color: prev.Color.map((color, i) => (i === index ? value : color)), // Update the specific color
+        }));
+    };
+
+    // Add a new color input
+    const addColor = () => {
+        setFormData((prev) => ({
+            ...prev,
+            Color: [...prev.Color, ""],
+        }));
+    };
+
+    // Remove a color input
+    const removeColor = (index) => {
+        setFormData((prev) => ({
+            ...prev,
+            Color: prev.Color.filter((_, i) => i !== index), // Remove the specific color
+        }));
+    };
+
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,7 +52,6 @@ const HeadMainOffer = () => {
             window.location.reload();
         }
         console.log("Submitted Data:", response);
-        // Add your submission logic here (e.g., API call)
     };
 
     return (
@@ -44,14 +66,69 @@ const HeadMainOffer = () => {
                     onSubmit={handleSubmit}
                 >
                     {offer_header.map((element, index) => (
-                        <FormField
+                        <div
                             key={index}
-                            id={element.dbLabel} // Use dbLabel as the input ID
-                            label={element.label}
-                            value={formData[element.dbLabel]} // Bind value to dbLabel
-                            onChange={handleInputChange}
-                            type={["start_date", "end_date"].includes(element.dbLabel) ? "date" : "text"} // Conditionally set input type
-                        />
+                            className="col-span-1 md:col-span-2 lg:col-span-3"
+                        >
+                            {element.dbLabel === "Color" ? (
+                                <>
+                                    <label
+                                        htmlFor="color"
+                                        className="text-sm font-medium text-primary mb-2"
+                                    >
+                                        {element.label}
+                                    </label>
+                                    {formData.Color.map((color, colorIndex) => (
+                                        <div
+                                            key={colorIndex}
+                                            className="flex items-center gap-4 mb-2"
+                                        >
+                                            <input
+                                                type="color"
+                                                value={color}
+                                                onChange={(e) =>
+                                                    handleColorChange(
+                                                        colorIndex,
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="h-10 w-10 p-0 border border-gray-300 rounded-md"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    removeColor(colorIndex)
+                                                }
+                                                className="text-sm font-medium text-red-600 hover:text-red-800"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ))}
+                                    <button
+                                        type="button"
+                                        onClick={addColor}
+                                        className="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md shadow-sm"
+                                    >
+                                        Add Color
+                                    </button>
+                                </>
+                            ) : (
+                                <FormField
+                                    id={element.dbLabel}
+                                    label={element.label}
+                                    value={formData[element.dbLabel]}
+                                    onChange={handleInputChange}
+                                    type={
+                                        ["start_date", "end_date"].includes(
+                                            element.dbLabel
+                                        )
+                                            ? "date"
+                                            : "text"
+                                    }
+                                />
+                            )}
+                        </div>
                     ))}
                     <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-end">
                         <input
@@ -72,10 +149,10 @@ const FormField = ({ id, label, value, onChange, type }) => (
             {label}
         </label>
         <input
-            type={type} // Dynamically set input type
-            id={id} // Use dbLabel as the input ID
-            value={value} // Bind the input value to the corresponding state
-            onChange={onChange} // Call the onChange handler
+            type={type}
+            id={id}
+            value={value}
+            onChange={onChange}
             className="input-style h-12 w-full px-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-0 transition"
             aria-label={label}
         />

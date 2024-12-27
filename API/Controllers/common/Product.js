@@ -87,7 +87,6 @@ LEFT JOIN phone_variants pv ON
 pv.phone_id=ranked.phone_id
 WHERE row_num = 1 AND ranked.name=?
 ORDER BY ranked.name
-
     `;
 
     pool.query(query, [searchData], (err, rows) => {
@@ -129,8 +128,9 @@ export const searchItemsByName = async (req, res) => {
                             WHEN pm.status = "Active" THEN ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2) 
                             ELSE pv.price
                         END AS Discount_price,
-                        p.stock,
+                        pv.stock,
                         pv.color,
+                        pv.idphone_variants,
                         p.release_date,
                         s.screen_size,
                         s.processor,
@@ -145,14 +145,16 @@ export const searchItemsByName = async (req, res) => {
                     LEFT JOIN specifications s ON p.phone_id = s.phone_id 
                     LEFT JOIN brands b ON p.brand_id = b.brand_id 
                     LEFT JOIN categories c ON p.category_id = c.category_id
-                    LEFT JOIN promotions pm ON pm.phone_id = p.phone_id
-                    LEFT JOIN productimage pi ON pi.phone_id = p.phone_id 
                     LEFT JOIN phone_variants pv ON pv.phone_id=p.phone_id
+                    LEFT JOIN promotions pm ON pm.phone_variants_id = pv.idphone_variants
+                    LEFT JOIN productimage pi ON pi.phone_variant_id = pv.idphone_variants
 					 WHERE p.name=?
                     GROUP BY 
                         p.phone_id, p.name, p.description, p.stock, pv.color, p.release_date, 
                         s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera, 
-                        b.brand_name, c.category_name, pm.status, pm.discount_percentage,pv.price
+                        b.brand_name, c.category_name, pm.status, pm.discount_percentage,pv.price,pv.idphone_variants
+                    
+                    
                     
     `;
 

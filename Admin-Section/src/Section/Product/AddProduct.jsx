@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { json, Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { addNewProductAPI, updateProduct } from "../../Fetch/FetchAPI";
-import { stringify } from "postcss";
+
 
 const AddProduct = ({ product_id }) => {
   const location = useLocation();
@@ -15,7 +15,7 @@ const AddProduct = ({ product_id }) => {
   const [storage, setStorage] = useState('');
   const [camera, setCamera] = useState('');
   const [category, setCategory] = useState('');
-  const [colors, setColors] = useState('#000000'); // Default to black
+  const [colors, setColors] = useState(["#000000"]); // Default to one color
   const [description, setDescription] = useState('');
   const [stock, setStock] = useState('');
   const [screenSize, setScreenSize] = useState('');
@@ -26,21 +26,28 @@ const AddProduct = ({ product_id }) => {
     setID(product_id)
   }, [product_id])
 
-  // const handleAddColor = () => {
-  //   setColors([...colors, '']); // Add an empty string to the array, creating a new color input field
-  // };
+  // Initialize colors as an array
 
-  // const handleRemoveColor = (index) => {
-  //   const newColors = [...colors];
-  //   newColors.splice(index, 1); // Remove the color at the specified index
-  //   setColors(newColors);
-  // };
 
-  // const handleColorChange = (index, value) => {
-  //   const newColors = [...colors];
-  //   newColors[index] = value; // Update the color value at the specified index
-  //   setColors(newColors);
-  // };
+  // Function to handle color value change
+  const handleColorChange = (index, value) => {
+    const newColors = [...colors];
+    newColors[index] = value; // Update the specific index
+    setColors(newColors);
+  };
+
+  // Add a new color input
+  const handleAddColor = () => {
+    setColors([...colors, ""]); // Add a new empty string for color
+  };
+
+  // Remove a color input
+  const handleRemoveColor = (index) => {
+    const newColors = [...colors];
+    newColors.splice(index, 1); // Remove the specific color
+    setColors(newColors);
+  };
+
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files); // Convert FileList to Array
@@ -74,9 +81,11 @@ const AddProduct = ({ product_id }) => {
     }
     try {
       const result = await addNewProductAPI(formdata, id);
-      console.log(formdata.images);
+      // console.log(formdata.colors);
 
-      handleClear(); // Clear form after successful submission
+      // console.log(formdata.images);
+
+      // handleClear(); // Clear form after successful submission
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -202,21 +211,45 @@ const AddProduct = ({ product_id }) => {
             ))}
           </div>
         </div>
-        {/* Color */}
+        {/* Colors Section */}
         <div className="flex flex-col">
+          <label className="text-sm font-medium text-primary mb-2">Colors</label>
+          <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-lg shadow-md">
+            {colors.map((color, index) => (
+              <div key={index} className="flex items-center gap-6">
+                {/* Color Picker */}
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-600">Color {index + 1}:</span>
+                  <input
+                    type="color"
+                    value={color}
+                    onChange={(e) => handleColorChange(index, e.target.value)}
+                    className="h-6 w-28 rounded-lg border-gray-300 shadow-sm focus:ring-primary focus:border-primary"
+                  />
+                </div>
 
-          <label className="text-sm font-medium text-primary mb-2">Color</label>
+                {/* Remove Button */}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveColor(index)}
+                  className={`bg-red-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition ${location.pathname === '/dashboard/addProduct' ? 'block' : 'hidden'}`}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
 
-          <div className="flex gap-4 items-center">
-            <input
-              type="color"
-              value={colors}
-              onChange={(e) => setColors(e.target.value)}
-              className="h-10 w-full rounded-lg border text-primary p-1"
-            />
+            {/* Add Color Button */}
+            <button
+              type="button"
+              onClick={handleAddColor}
+              className={`mt-4 bg-green-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-green-600 transition self-center ${location.pathname === '/dashboard/addProduct' ? 'block' : 'hidden'}`}
+            >
+              Add New Color
+            </button>
           </div>
-
         </div>
+
 
         {/* brand */}
         <div className="flex flex-col">
@@ -389,7 +422,7 @@ const AddProduct = ({ product_id }) => {
         <div className=" w-full gap-4 mt-4 grid grid-cols-2 justify-center items-center">
           <input
             type="submit"
-            value='submit'
+            value="submit"
             className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition"
           />
           <button
@@ -400,8 +433,8 @@ const AddProduct = ({ product_id }) => {
             Clear
           </button>
         </div>
-      </form>
-    </div>
+      </form >
+    </div >
   );
 };
 

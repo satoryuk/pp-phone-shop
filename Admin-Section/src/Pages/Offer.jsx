@@ -180,7 +180,7 @@ const Offer = () => {
         open={open}
         onClose={() => setOpen(false)}
         id="addProduct"
-        product_id={items[Index]?.phone_id || null}
+        product_id={items[Index]?.idphone_variants || null}
       />
     </div>
   );

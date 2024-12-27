@@ -172,7 +172,7 @@ export const addNewProductAPI = async (formdata) => {
   formData.append("screenSize", formdata.screenSize);
   formData.append("ram", formdata.ram);
   formData.append("battery", formdata.battery);
-  formdata.color === null ? formData.append("color", "#000000") : formData.append("color", formdata.colors)
+
 
 
 
@@ -180,7 +180,9 @@ export const addNewProductAPI = async (formdata) => {
   for (let image of formdata.images) {
     formData.append("images", image); // The key `images` must match the backend
   }
-
+  for (let color of formdata.colors) {
+    formData.append("colors", color)
+  }
   try {
     const response = await axios.post(`${API_URL_Admin}/addNewProduct`, formData, {
       headers: {
@@ -361,18 +363,37 @@ export const searchPromotion = async ({ promo_name }) => {
 };
 export const insertPromotion = async ({ formData }) => {
   try {
-    const response = await axios.put(`${API_URL_Admin}/offerInsert`, formData, {
-      withCredentials: true
-    });
-    // console.log(formData);
+    // Create a new FormData object
+    const formDataObj = new FormData();
 
-    return response;
+    // Append individual form fields to FormData
+    formDataObj.append('phone_name', formData.phone_name);
+    formDataObj.append('discount_percent', formData.discount_percent);
+    formDataObj.append('start_date', formData.start_date);
+    formDataObj.append('end_date', formData.end_date);
+    formDataObj.append('promo_name', formData.promo_name);
+
+    // Append each color from the formData.Color array to FormData
+    for (let color of formData.Color) {
+      formDataObj.append('colors', color);
+    }
+
+    // Make the API call using axios
+    const response = await axios.put(`${API_URL_Admin}/offerInsert`, formDataObj, {
+      withCredentials: true,
+      headers: {
+        // No need to manually set Content-Type for FormData
+        'Content-Type': "application/json"  // Optional, but can be used if you need to specify it
+      },
+    });
+
+    return response.data; // Assuming you need the response body
 
   } catch (error) {
-    console.log(error);
-
+    console.error("Error inserting promotion:", error);
+    return null; // Return null or handle the error based on your needs
   }
-}
+};
 
 
 export const updateProduct = async (formdata, id) => {

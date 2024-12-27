@@ -5,7 +5,7 @@ import pool from "../../db/db_handle.js";
 export const addNewProduct = async (req, res) => {
 
     try {
-        console.log("Files received:", req.files); // Debugging files
+        // console.log("Files received:", req.files); // Debugging files
         if (!req.files || req.files.length === 0) {
             throw new Error("No files uploaded. Please upload images.");
         }
@@ -94,29 +94,15 @@ export const addNewProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        console.log("Files received:", req.files); // Debugging files
-        const { productId } = req.params;
-        console.log(req.params);
 
-        if (!productId) {
+        const { product_id } = req.query;
+
+        if (!product_id) {
             throw new Error("Product ID is required to update the product.");
         }
-        // Parse `colors` (sent as JSON string)
-        // let colors = [];
-        // try {
-        //   colors = JSON.parse(req.body.colors); // Parse into an array
-        //   if (!Array.isArray(colors)) {
-        //     throw new Error("Invalid format for colors. Expected an array.");
-        //   }
-        // } catch (err) {
-        //   throw new Error("Failed to parse colors. Ensure it is a valid JSON array.");
-        // }
-
-        // Extract other fields from `req.body`
         const {
             name,
             brand,
-            price,
             date,
             processor,
             color,
@@ -124,35 +110,26 @@ export const updateProduct = async (req, res) => {
             camera,
             category,
             description,
-            stock,
             screenSize,
             ram,
             battery,
         } = req.body;
-        console.log(req.body);
 
         // Process image filenames (multer saves files in 'uploads/')
-        const images = req.files ? req.files.map((file) => file.filename) : [];
-        console.log(images);
-
         // Handle database operations
         const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
         const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
         const updateProductQuery =
-            "UPDATE phones SET name=?, description=?, stock=?, category_id=?, brand_id=?, release_date=? WHERE phone_id=?";
+            "UPDATE phones SET name=?, description=?, category_id=?, brand_id=?, release_date=? WHERE phone_id=?";
         const updateSpecificationsQuery =
             "UPDATE specifications SET screen_size=?, processor=?, ram=?, storage=?, battery=?, camera=? WHERE phone_id=?";
-        // const deleteColorsQuery = "DELETE FROM phone_colors WHERE phone_id=?";
-        const deleteImagesQuery = "DELETE FROM productimage WHERE phone_id=?";
 
-        // const addColorsQuery = "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
-        const addImageQuery = "INSERT INTO productimage(phone_id, image) VALUES (?,?)";
-        const addColorQuery = "UPDATE phone_variants SET color=?,price=? WHERE phone_id=?";
-
-        // Database operations (same as your previous code)
         const [categoryRows] = await pool.promise().query(category_query, [category]);
+
+
         if (!categoryRows.length) throw new Error("Category not found");
         const category_id = categoryRows[0].category_id;
+
 
         const [brandRows] = await pool.promise().query(brand_query, [brand]);
         if (!brandRows.length) throw new Error("Brand not found");
@@ -161,15 +138,11 @@ export const updateProduct = async (req, res) => {
         const productValues = [
             name,
             description,
-            price,
-            color,
-            stock,
             category_id,
             brand_id,
             date,
-            productId,
+            product_id,
         ];
-        await pool.promise().query(addColorQuery, [color, price, productId])
         await pool.promise().query(updateProductQuery, productValues);
 
         const specificationValues = [
@@ -179,23 +152,9 @@ export const updateProduct = async (req, res) => {
             storage,
             battery,
             camera,
-            productId,
+            product_id,
         ];
         await pool.promise().query(updateSpecificationsQuery, specificationValues);
-
-        // Update colors: delete existing and add new ones
-        // await pool.promise().query(deleteColorsQuery, [productId]);
-        // for (let color of colors) {
-        //   await pool.promise().query(addColorsQuery, [productId, color]);
-        // }
-
-        // Update images: delete existing and add new ones (if provided)
-        if (images.length > 0) {
-            await pool.promise().query(deleteImagesQuery, [productId]);
-            for (let image of images) {
-                await pool.promise().query(addImageQuery, [productId, image]);
-            }
-        }
         res.status(200).json({ message: "Product updated successfully" });
     } catch (err) {
         console.error(err);
@@ -216,7 +175,6 @@ export const deleteProduct = async (req, res) => {
         { query: "DELETE FROM promotions WHERE phone_id=?", errorMsg: "Failed to delete promotions" },
         { query: "DELETE FROM phone_variants WHERE phone_id=?", errorMsg: "Failed to delete promotions" },
         { query: "DELETE FROM phones WHERE phone_id=?", errorMsg: "Failed to delete product" },
-
     ];
 
     try {
@@ -303,7 +261,54 @@ export const CountHeaderData = (req, res) => {
         });
     });
 };
+export const updateProductVariants = async (req, res) => {
+    const { price, color, stock } = req.body;
+    const File = req.files;
+    const productImages = [];
+    for (let file of File) {
+        productImages.push(file.path)
+    }
 
+    const { productVariantID } = req.params;
+
+
+    const queryUpdateVariants = `UPDATE phone_variants
+                                    SET color=?,
+                                        price=?,
+                                        stock=? 
+                                    WHERE idphone_variants=?`
+    const queryDeleteImage = `DELETE FROM productimage
+                            WHERE phone_variant_id=?`
+    const queryInsertImage = `INSERT INTO productimage(phone_variant_id,image)
+                            VALUES(?,?)`
+    try {
+        const [variantsRow] = await pool.promise().query(queryUpdateVariants, [color, price, stock, productVariantID])
+        const [DeleteRow] = await pool.promise().query(queryDeleteImage, [productVariantID])
+        for (let image of productImages) {
+            const [InsertRow] = await pool.promise().query(queryInsertImage, [productVariantID, image])
+            if (!InsertRow.length === 0) {
+                return res.status(400).json({
+                    message: "something went wrong"
+                })
+            }
+        }
+        if (!variantsRow.length === 0, !DeleteRow.length === 0) {
+            return res.status(400).json({
+                message: "something went wrong"
+            })
+        }
+        return res.status(200).json({
+            message: "sucessfully"
+        })
+    } catch (error) {
+        console.log(error);
+
+        return res.status(400).json({
+            message: "something went wrong",
+            error: error
+        })
+    }
+}
 
 
 

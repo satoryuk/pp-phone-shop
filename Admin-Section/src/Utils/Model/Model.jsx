@@ -1,6 +1,7 @@
 import Product from "../../Pages/Product";
 import UpdateOrder from "../../Section/Order/UpdateOrder";
 import AddProduct from "../../Section/Product/AddProduct";
+import UpdateProductVariants from "./UpdateProductVariant";
 
 const Model = ({ open, onClose, id, product_id, value }) => {
   const handleClose = (e) => {
@@ -15,15 +16,21 @@ const Model = ({ open, onClose, id, product_id, value }) => {
       id="wrapper"
       onClick={handleClose}
     >
-      <div className="w-[1400px] bg-white p-6 rounded-lg shadow-lg">
+      <div
+        className="w-[1400px] max-h-[90vh] bg-white p-6 rounded-lg shadow-lg overflow-y-auto"
+        style={{ maxHeight: "90vh" }} // Optional inline styling
+      >
         <button
           className="text-primary text-2xl place-self-end"
           onClick={onClose}
         >
           X
         </button>
-        {id === "addProduct" ? <AddProduct product_id={product_id} /> : (id === "updateOrder" ? <UpdateOrder order_items_id={value} /> : null)}
-
+        {id === "addProduct" ? (
+          <UpdateProductVariants product_id={product_id} />
+        ) : id === "updateOrder" ? (
+          <UpdateOrder order_items_id={value} />
+        ) : null}
       </div>
     </div>
   );

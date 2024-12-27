@@ -4,7 +4,7 @@ import { deleteOrderItemByID, fetchOrderByID, fetchOrderItemsByID, removeOrder }
 import Model from "../../Utils/Model/Model";
 import { edit, trash } from "../../Assets";
 import { data } from "autoprefixer";
-import axios from "axios";
+
 
 const Order_By_ID = () => {
   const { id } = useParams();
@@ -20,7 +20,6 @@ const Order_By_ID = () => {
       if (response && response.data) {
         setOrdersItems(response.data);
         console.log(ordersItems);
-
       } else {
         console.error("No order items data received");
       }

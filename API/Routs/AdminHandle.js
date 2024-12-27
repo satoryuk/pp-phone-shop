@@ -1,7 +1,7 @@
 import { Router } from "express";
 import upload from "../Utils/handleimg.js";
 import { validateToken_refresh_token } from "../Utils/jwt_validation_refresh_token.js";
-import { addNewBrand, addNewCategory, addNewProduct, CountHeaderData, deleteProduct, updateProduct } from "../Controllers/adminCrud/Product.js";
+import { addNewBrand, addNewCategory, addNewProduct, CountHeaderData, deleteProduct, updateProduct, updateProductVariants } from "../Controllers/adminCrud/Product.js";
 import { category } from "../Controllers/common/product.js";
 import { dashboardHeader, dashboardHeaderAll } from "../Controllers/adminCrud/DashBoard.js"
 import { deleteOrder, deleteOrderItems, orderByID, orderTable, OrderTableItemsByID, searchOrder, updateOrderitems } from "../Controllers/adminCrud/Order.js";
@@ -16,7 +16,7 @@ adminRouter.use(validateToken_refresh_token);
 adminRouter.post("/addNewBrand", upload.single('images'), addNewBrand);
 adminRouter.post("/addNewCategory", addNewCategory);
 adminRouter.post("/addNewProduct", upload.array("images", 10), addNewProduct);
-adminRouter.put("/updateProduct/:productId", upload.array("images", 10), updateProduct);
+adminRouter.put("/updateProduct", updateProduct);
 adminRouter.delete("/deleteProduct", deleteProduct);
 adminRouter.get('/productHead', CountHeaderData)
 adminRouter.get('/dashboardHead', dashboardHeader);
@@ -33,6 +33,7 @@ adminRouter.delete('/deleteOrderItems/:orderItemsID', deleteOrderItems);
 adminRouter.put('/offerInsert', offerInsert)
 adminRouter.get('/offerUpdate/:offerID', offerUpdate)
 adminRouter.delete('/offerDelete/:offerID', offerDelete)
+adminRouter.put('/updateVariants/:productVariantID', upload.array('productImages', 10), updateProductVariants);
 
 
 export default adminRouter;

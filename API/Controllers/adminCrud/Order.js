@@ -42,7 +42,7 @@ export const OrderTableItemsByID = (req, res) => {
     LEFT JOIN 
         productimage pi ON pi.phone_id = p.phone_id
     LEFT JOIN 
-        promotions pm ON pm.phone_id = p.phone_id
+        promotions pm ON pm.phone_variants_id = pv.idphone_variants
 	
     WHERE 
         o.order_id = ?

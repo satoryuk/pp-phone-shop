@@ -149,7 +149,11 @@ const TableProduct = ({ title, items }) => {
                 </th>
               ))}
               <th className="rounded-r-lg text-sm sm:text-lg px-4 sm:px-6 py-3 sm:py-4 border-l border-gray-200">
-                <p><button onClick={(e) => handleSelectRemove(e)}><img src={trash} alt="" /></button></p>
+                <p><button onClick={(e) => handleSelectRemove(e)}><img
+                  src={trash}
+                  alt="Delete"
+                  className="cursor-pointer max-w-[25px] max-h-[25px] sm:max-w-[30px] sm:max-h-[30px]"
+                /></button></p>
               </th>
             </tr>
           </thead>
