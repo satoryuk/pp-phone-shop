@@ -47,7 +47,7 @@ const Login = () => {
         try {
             const res = await fetch(`${apiBaseUrl}${AUTHENDPOINT.LOGIN}`, {
                 method: "POST",
-                headers: {
+                headers: {   
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ email, password: passwordState })
