@@ -1,7 +1,7 @@
 import { Router } from "express";
 import upload from "../Utils/handleimg.js";
 import { validateToken_refresh_token } from "../Utils/jwt_validation_refresh_token.js";
-import { addNewBrand, addNewCategory, addNewProduct, CountHeaderData, deleteProduct, updateProduct, updateProductVariants } from "../Controllers/adminCrud/Product.js";
+import { addNewBrand, addNewCategory, addNewProduct, CountHeaderData, deleteProduct, deleteVariants, updateProduct, updateProductVariants } from "../Controllers/adminCrud/Product.js";
 import { category } from "../Controllers/common/product.js";
 import { dashboardHeader, dashboardHeaderAll } from "../Controllers/adminCrud/DashBoard.js"
 import { deleteOrder, deleteOrderItems, orderByID, orderTable, OrderTableItemsByID, searchOrder, updateOrderitems } from "../Controllers/adminCrud/Order.js";
@@ -18,6 +18,7 @@ adminRouter.post("/addNewCategory", addNewCategory);
 adminRouter.post("/addNewProduct", upload.array("images", 10), addNewProduct);
 adminRouter.put("/updateProduct", updateProduct);
 adminRouter.delete("/deleteProduct", deleteProduct);
+adminRouter.delete("/deleteVariants", deleteVariants);
 adminRouter.get('/productHead', CountHeaderData)
 adminRouter.get('/dashboardHead', dashboardHeader);
 adminRouter.get('/dashboardHeadAll', dashboardHeaderAll);

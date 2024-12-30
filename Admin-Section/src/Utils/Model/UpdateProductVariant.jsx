@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { addNewProductAPI, updateProduct } from "../../Fetch/FetchAPI";
+import { updateProductVariants } from "../../Fetch/FetchAPI";
 
 
 const UpdateProductVariants = ({ product_id }) => {
@@ -8,14 +8,12 @@ const UpdateProductVariants = ({ product_id }) => {
     const [id, setID] = useState('');
     const [images, setImages] = useState([]);
     const [price, setPrice] = useState('');
-    const [colors, setColors] = useState(["#000000"]); // Default to one color
+    const [colors, setColors] = useState("#000000"); // Default to one color
     const [stock, setStock] = useState('');
 
     useEffect(() => {
         setID(product_id)
     }, [product_id])
-
-
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files); // Convert FileList to Array
         setImages([...images, ...files]); // Append new files to the existing ones
@@ -27,26 +25,26 @@ const UpdateProductVariants = ({ product_id }) => {
         setImages(newImages);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formdata = {
-            images,
-            price,
-            colors,
-            stock
-        }
-        try {
-            const result = await addNewProductAPI(formdata, id);
-            // console.log(formdata.colors);
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     const formdata = {
+    //         images,
+    //         price,
+    //         colors,
+    //         stock
+    //     }
+    //     try {
+    //         const result = await addNewProductAPI(formdata, id);
+    //         // console.log(formdata.colors);
 
-            // console.log(formdata.images);
+    //         // console.log(formdata.images);
 
-            // handleClear(); // Clear form after successful submission
-            console.log(result);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    //         // handleClear(); // Clear form after successful submission
+    //         console.log(result);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
     const handleUpdate = async (e) => {
 
         e.preventDefault();
@@ -57,8 +55,9 @@ const UpdateProductVariants = ({ product_id }) => {
             stock,
         }
         try {
-            const result = await updateProduct(formdata, id);
+            const result = await updateProductVariants(formdata, id);
             window.location.reload();
+            console.log(result);
 
         } catch (error) {
             console.log(error);
@@ -79,7 +78,7 @@ const UpdateProductVariants = ({ product_id }) => {
                 <h1>Update Product</h1>
             </h1>
             <form
-                onSubmit={(location.pathname === "/dashboard/addProduct") ? handleSubmit : handleUpdate}
+                onSubmit={handleUpdate}
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:items-center gap-10 py-10 "
             >
                 {/* Price */}
@@ -100,20 +99,17 @@ const UpdateProductVariants = ({ product_id }) => {
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-primary mb-2">Colors</label>
                     <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-lg shadow-md">
-                        {colors.map((color, index) => (
-                            <div key={index} className="flex items-center gap-6">
-                                {/* Color Picker */}
-                                <div className="flex items-center gap-2">
-                                    <span className="text-sm text-gray-600">Color {index + 1}:</span>
-                                    <input
-                                        type="color"
-                                        value={color}
-                                        onChange={(e) => setColors(e.target.value)}
-                                        className="h-6 w-48 rounded-lg border-gray-300 shadow-sm focus:ring-primary focus:border-primary"
-                                    />
-                                </div>
+                        <div className="flex items-center gap-6">
+                            {/* Color Picker */}
+                            <div className="flex items-center gap-2">
+                                <input
+                                    type="color"
+                                    value={colors}
+                                    onChange={(e) => setColors(e.target.value)}
+                                    className="h-6 w-56 rounded-lg border-gray-300 shadow-sm focus:ring-primary focus:border-primary"
+                                />
                             </div>
-                        ))}
+                        </div>
                     </div>
                 </div>
                 {/* image */}
@@ -148,17 +144,6 @@ const UpdateProductVariants = ({ product_id }) => {
                     </div>
                 </div>
 
-
-
-                {/* brand */}
-
-
-
-
-
-
-
-                {/* Stock */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-primary mb-2">Stock</label>
                     <input
@@ -171,8 +156,6 @@ const UpdateProductVariants = ({ product_id }) => {
                         required
                     />
                 </div>
-
-
 
                 <div className=" w-full gap-4 mt-4 grid grid-cols-2 justify-center items-center">
                     <input

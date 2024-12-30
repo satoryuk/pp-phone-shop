@@ -27,10 +27,10 @@ const Model = ({ open, onClose, id, product_id, value }) => {
           X
         </button>
         {id === "addProduct" ? (
-          <UpdateProductVariants product_id={product_id} />
+          <AddProduct product_id={product_id} />
         ) : id === "updateOrder" ? (
           <UpdateOrder order_items_id={value} />
-        ) : null}
+        ) : id === "updateVariants" ? <UpdateProductVariants product_id={product_id} /> : null}
       </div>
     </div>
   );

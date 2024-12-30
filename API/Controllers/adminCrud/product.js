@@ -164,16 +164,16 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
     const { deleteid } = req.query;
+    console.log(deleteid);
 
     if (!deleteid) {
         return res.status(400).json({ message: "Product ID is required" });
     }
 
     const queries = [
-        { query: "DELETE FROM productimage WHERE phone_id=?", errorMsg: "Failed to delete product images" },
         { query: "DELETE FROM specifications WHERE phone_id=?", errorMsg: "Failed to delete specifications" },
-        { query: "DELETE FROM promotions WHERE phone_id=?", errorMsg: "Failed to delete promotions" },
-        { query: "DELETE FROM phone_variants WHERE phone_id=?", errorMsg: "Failed to delete promotions" },
+        { query: "DELETE FROM productimage WHERE phone_id=?", errorMsg: "Failed to delete productimage" },
+        { query: "DELETE FROM phone_variants WHERE phone_id=?", errorMsg: "Fail to delete phone variants" },
         { query: "DELETE FROM phones WHERE phone_id=?", errorMsg: "Failed to delete product" },
     ];
 
@@ -197,6 +197,37 @@ export const deleteProduct = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
+export const deleteVariants = async (req, res) => {
+    const { variants_id } = req.query;
+
+    const deleteVariantsQuery = `DELETE FROM phone_variants WHERE idphone_variants = ?`;
+    const deleteImageQuery = `DELETE FROM productimage WHERE phone_variant_id = ?`;
+    console.log(variants_id);
+
+    try {
+        // Delete images associated with the variant
+        const [imageRow] = await pool.promise().query(deleteImageQuery, [variants_id]);
+
+        // Delete the variant
+        const [variantRow] = await pool.promise().query(deleteVariantsQuery, [variants_id]);
+
+        // Check if any rows were affected
+        if (variantRow.affectedRows === 0) {
+            return res.status(404).json({ message: "Variant not found or already deleted" });
+        }
+
+        return res.status(200).json({
+            message: "Variant and associated images deleted successfully",
+        });
+    } catch (error) {
+        console.error("Error deleting variant:", error);
+        return res.status(400).json({
+            message: "Something went wrong",
+            error: error.message,
+        });
+    }
+};
+
 
 
 export const addNewBrand = (req, res) => {

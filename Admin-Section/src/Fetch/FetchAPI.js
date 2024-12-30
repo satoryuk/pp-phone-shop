@@ -1,4 +1,5 @@
 import axios from "axios";
+import { stock } from "../Assets";
 
 
 const API_URL_Auth = "http://localhost:3000/auth";
@@ -225,10 +226,20 @@ export const addNewCategoryAPI = async (category) => {
     throw error;
   }
 };
-export const removeOneFetch = async (deleteid) => {
+export const removeOneFetch = async ({ deleteid }) => {
   try {
-    const response = await axios.delete(`${API_URL_Admin}/deleteProduct`, {
-      params: deleteid,
+    const response = await axios.delete(`${API_URL_Admin}/deleteProduct?deleteid=${deleteid}`, {
+      withCredentials: true
+    })
+    return response;
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+export const removeVariants = async ({ deleteid }) => {
+  try {
+    const response = await axios.delete(`${API_URL_Admin}/deleteVariants?variants_id=${deleteid}`, {
       withCredentials: true
     })
     return response;
@@ -396,33 +407,26 @@ export const insertPromotion = async ({ formData }) => {
 };
 
 
-export const updateProduct = async (formdata, id) => {
+export const updateProductVariants = async (formdata, id) => {
   const formData = new FormData();
 
   // Append all fields to FormData
-  formData.append("name", formdata.name);
-  formData.append("brand", formdata.brand);
+
   formData.append("price", formdata.price);
-  formData.append("date", formdata.date);
-  formData.append("processor", formdata.processor);
-  formData.append("storage", formdata.storage);
-  formData.append("camera", formdata.camera);
-  formData.append("category", formdata.category);
-  formData.append("description", formdata.description);
   formData.append("stock", formdata.stock);
-  formData.append("screenSize", formdata.screenSize);
-  formData.append("ram", formdata.ram);
-  formData.append("battery", formdata.battery);
   formData.append("color", formdata.colors);
 
   // Append images to FormData
   for (let image of formdata.images) {
-    formData.append("images", image); // Ensure "images" matches the backend field
+    formData.append("productImages", image); // Ensure "images" matches the backend field
   }
+  console.log(id);
+
+
 
   try {
     const response = await axios.put(
-      `${API_URL_Admin}/updateProduct/${id}`,
+      `${API_URL_Admin}/updateVariants/${id}`,
       formData, // Pass FormData directly
       {
         headers: {

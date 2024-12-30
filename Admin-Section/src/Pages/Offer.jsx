@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { productByID, removeOneFetch } from "../Fetch/FetchAPI";
+import { productByID, removeOneFetch, removeVariants } from "../Fetch/FetchAPI";
 import { useNavigate } from "react-router-dom";
 import Model from "../Utils/Model/Model";
 
@@ -10,6 +10,7 @@ const Offer = () => {
   const [open, setOpen] = useState(false); // Modal open state
   const searchParams = new URLSearchParams(location.search);
   const query = searchParams.get("phone_name"); // Get product id from URL params
+  const locate = useNavigate();
   const [Index, setIndex] = useState(0);
 
   // Fetch product data based on query and Index
@@ -20,30 +21,31 @@ const Offer = () => {
         console.log("No data received or something went wrong");
         return;
       }
-      console.log(response);
 
       setItems(response.data);
-      const images = response.data[Index].images
-        .split(",")
-        .map((image) => image.replaceAll(" ", ""));
+      const images = response.data[Index]?.images
+        .split(",") // Split by comma
+        .map((image) => image.replaceAll("uploads\\", "").replace(/\s+/g, "")); // Remove backslashes and all whitespaces
       setArrayImage(images);
-      setSelectedImage(images[0]); // Set the first image as the default large image
+
+
+      if (images.length > 0) {
+        setSelectedImage(images[0]); // Set the first image as the default large image
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }, [query, Index]);
 
   // Handle deletion of a product
-  const handleDelete = (
-    async ({ deleteid }) => {
-      try {
-        await removeOneFetch({ deleteid });
-        window.location.reload(); // Navigate back
-      } catch (error) {
-        console.log("Error deleting item:", error);
-      }
+  const handleDelete = async ({ deleteid }) => {
+    try {
+      await removeVariants({ deleteid });
+      setItems(items.filter((item) => item.idphone_variants !== deleteid)); // Remove item from state instead of reloading page
+    } catch (error) {
+      console.log("Error deleting item:", error);
     }
-  );
+  };
 
   // Handle image click to update the selected image
   const handleImageClick = useCallback(
@@ -54,24 +56,25 @@ const Offer = () => {
     },
     [selectedImage]
   );
-
   // Fetch data whenever query or Index changes
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
   return (
     <div className="container mx-auto bg-white rounded-lg shadow-xl max-w-6xl mt-8 p-8">
-      {items.length > 0 ? (
+      {items.length > 0 && items[Index]?.idphone_variants !== null ? (
+
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Image Gallery */}
           <div className="flex flex-col items-center lg:items-start gap-6">
             <div className="w-full">
-              <img
-                src={`http://localhost:3000/${selectedImage}`} // Use selectedImage here
-                alt="Product Image"
-                className="w-96 h-96 object-contain rounded-xl shadow-lg transition-transform transform hover:scale-105"
-              />
+              {selectedImage && (
+                <img
+                  src={`http://localhost:3000/${selectedImage}`} // Use selectedImage here
+                  alt="Product Image"
+                  className="w-96 h-96 object-contain rounded-xl shadow-lg transition-transform transform hover:scale-105"
+                />
+              )}
             </div>
             <div className="flex justify-start gap-6 mt-4 overflow-x-auto overflow-y-hidden max-h-24 max-w-96 scroll-smooth p-2">
               {arrayImage.map((image, index) => (
@@ -89,9 +92,6 @@ const Offer = () => {
                 </div>
               ))}
             </div>
-
-
-
           </div>
 
           {/* Product Details */}
@@ -99,6 +99,9 @@ const Offer = () => {
             <h1 className="text-4xl font-bold text-green-600 mb-6">Product Details</h1>
             <div className="text-3xl font-semibold text-gray-800">
               Product Code: {items[Index]?.phone_id}
+            </div>
+            <div className="text-2xl font-semibold text-gray-800">
+              Color Code: {items[Index]?.idphone_variants}
             </div>
             <div className="text-3xl font-semibold text-gray-800">
               Product Name: {items[Index]?.name}
@@ -164,7 +167,7 @@ const Offer = () => {
               </button>
               <button
                 className="mt-6 bg-red-500 text-white py-4 px-10 rounded-lg shadow-md hover:bg-red-600 transition duration-300 transform hover:scale-105"
-                onClick={() => handleDelete({ deleteid: items[Index]?.phone_id })}
+                onClick={() => handleDelete({ deleteid: items[Index]?.idphone_variants })}
               >
                 Delete
               </button>
@@ -179,7 +182,7 @@ const Offer = () => {
       <Model
         open={open}
         onClose={() => setOpen(false)}
-        id="addProduct"
+        id="updateVariants"
         product_id={items[Index]?.idphone_variants || null}
       />
     </div>

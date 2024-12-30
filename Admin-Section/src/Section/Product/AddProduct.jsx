@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { addNewProductAPI, updateProduct } from "../../Fetch/FetchAPI";
+import { addNewProductAPI } from "../../Fetch/FetchAPI";
 
 
 const AddProduct = ({ product_id }) => {
@@ -91,35 +91,6 @@ const AddProduct = ({ product_id }) => {
       console.log(error);
     }
   };
-  const handleUpdate = async (e) => {
-
-    e.preventDefault();
-    const formdata = {
-      name,
-      brand,
-      images,
-      price,
-      date,
-      processor,
-      storage,
-      camera,
-      category,
-      colors,
-      description,
-      stock,
-      screenSize,
-      ram,
-      battery,
-    }
-    try {
-      const result = await updateProduct(formdata, id);
-      window.location.reload();
-
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
 
   const handleClear = () => {
 
@@ -142,10 +113,10 @@ const AddProduct = ({ product_id }) => {
   return (
     <div className="bg-white border-gray-300 border p-12 rounded-lg w-full max-w-9xl mx-auto mt-12 shadow-lg">
       <h1 className="text-center text-3xl text-primary font-bold mb-8">
-        {location.pathname === "/dashboard/addProduct" ? <h1>Add Product</h1> : <h1>Update Product</h1>}
+        <h1>Add Product</h1>
       </h1>
       <form
-        onSubmit={(location.pathname === "/dashboard/addProduct") ? handleSubmit : handleUpdate}
+        onSubmit={handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:items-center gap-10 "
       >
         {/* Product Name */}
