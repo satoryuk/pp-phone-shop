@@ -11,6 +11,7 @@ const AddCategory = () => {
 
     try {
       const data = await addNewCategoryAPI(category);
+      setCategory('');
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -44,6 +45,7 @@ const AddCategory = () => {
             placeholder="Enter brand name"
             onChange={(e) => setCategory(e.target.value)}
             className="input-style"
+
             required
           />
         </div>

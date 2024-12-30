@@ -76,18 +76,25 @@ export const displayByDate = (req, res) => {
     const { date } = req.query;
 
 
-    const query = `SELECT ranked.phone_id,ranked.name, ranked.description, pv.price, pv.color,c.category_name,ranked.release_date,ranked.stock
+    const query = `SELECT *
 FROM (
-    SELECT phone_id,name, description,category_id,release_date,stock,
-           ROW_NUMBER() OVER (PARTITION BY name ORDER BY name) AS row_num
-    FROM phones
-) AS ranked 
-INNER JOIN categories c ON 
-c.category_id=ranked.category_id
-LEFT JOIN phone_variants pv ON 
-pv.phone_id=ranked.phone_id
-WHERE row_num = 1 AND ranked.release_date >=CURRENT_DATE()-INTERVAL ? MONTH
-ORDER BY ranked.name
+     SELECT 
+        p.*, 
+        c.category_name, 
+        b.brand_name,
+        pv.idphone_variants,
+        pv.price, 
+        pv.color,
+        pm.image,
+        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY pv.price ASC) AS row_num
+    FROM phones p
+    INNER JOIN categories c ON c.category_id = p.category_id
+    INNER JOIN brands b ON b.brand_id = p.brand_id
+    INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+    LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
+    ORDER BY phone_id
+) AS ranked
+WHERE row_num = 1 AND ranked.release_date >=CURRENT_DATE()-INTERVAL ? MONTH;
               `
     pool.query(query, [date], (err, rows) => {
         if (err) return res.status(400).json({ message: "something went wrong" });

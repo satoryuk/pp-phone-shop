@@ -125,9 +125,9 @@ export const tableByCategory = async (category) => {
   }
 }
 
-export const searchFetch = async ({ searchData }) => {
+export const searchFetch = async ({ searchData, Category }) => {
   try {
-    const response = await axios.get(`${API_URL_COMMON}/searchProduct?searchData=${searchData}`, {
+    const response = await axios.get(`${API_URL_COMMON}/searchProduct?searchData=${searchData}&Category=${Category}`, {
       withCredentials: true
     });
     console.log(response);
@@ -173,6 +173,7 @@ export const addNewProductAPI = async (formdata) => {
   formData.append("screenSize", formdata.screenSize);
   formData.append("ram", formdata.ram);
   formData.append("battery", formdata.battery);
+  formData.append("colors", formdata.colors);
 
 
 
@@ -181,9 +182,7 @@ export const addNewProductAPI = async (formdata) => {
   for (let image of formdata.images) {
     formData.append("images", image); // The key `images` must match the backend
   }
-  for (let color of formdata.colors) {
-    formData.append("colors", color)
-  }
+
   try {
     const response = await axios.post(`${API_URL_Admin}/addNewProduct`, formData, {
       headers: {
@@ -195,6 +194,28 @@ export const addNewProductAPI = async (formdata) => {
     // console.log(formdata);
 
 
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+export const addNewColorFetch = async (formdata) => {
+  try {
+    const formData = new FormData();
+    formData.append('productName', formdata.productName);
+    formData.append('color', formdata.color);
+    formData.append('price', formdata.price);
+    formData.append('stock', formdata.stock);
+    for (let image of formdata.images) {
+      formData.append('productImages', image)
+    }
+    const response = await axios.post(`${API_URL_Admin}/addNewVariants`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      withCredentials: true,
+    })
+    return response;
   } catch (error) {
     console.log(error);
 
@@ -226,6 +247,18 @@ export const addNewCategoryAPI = async (category) => {
     throw error;
   }
 };
+
+export const addNewDetail = async ({ formdata }) => {
+  try {
+    const response = await axios.post(`${API_URL_Admin}/addNewSpecification`, { formdata }, {
+      withCredentials: true
+    })
+    return response;
+  } catch (error) {
+    console.log(error);
+
+  }
+}
 export const removeOneFetch = async ({ deleteid }) => {
   try {
     const response = await axios.delete(`${API_URL_Admin}/deleteProduct?deleteid=${deleteid}`, {
@@ -444,12 +477,10 @@ export const updateProductVariants = async (formdata, id) => {
 };
 export const fetchOrderItemsByID = async (id) => {
   try {
-    // console.log(id);
-
     const response = await axios.get(`${API_URL_Admin}/tableOrderItemsByID/${id}`, {
       withCredentials: true
     })
-    // console.log(response.data.data);
+    // console.log(id);
 
     return response.data;
   } catch (error) {
@@ -457,20 +488,20 @@ export const fetchOrderItemsByID = async (id) => {
 
   }
 }
-export const fetchOrderByID = async ({ id }) => {
-  try {
-    const response = await axios.get(`${API_URL_Admin}/orderByID/${id}`, {
-      withCredentials: true
-    })
-    // console.log(response.data);
+// export const fetchOrderByID = async ({ id }) => {
+//   try {
+//     const response = await axios.get(`${API_URL_Admin}/orderByID/${id}`, {
+//       withCredentials: true
+//     })
+//     // console.log(response.data);
 
-    return response.data;
+//     return response.data;
 
-  } catch (error) {
-    console.log(error);
+//   } catch (error) {
+//     console.log(error);
 
-  }
-}
+//   }
+// }
 export const deleteOrderItemByID = async ({ id }) => {
   try {
     const response = await axios.delete(`${API_URL_Admin}/deleteOrderItems/${id}`, { withCredentials: true })

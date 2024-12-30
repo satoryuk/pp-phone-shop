@@ -17,6 +17,9 @@ import AddProductPage from "./Pages/AddProductPage";
 import AddBrandPage from "./Pages/AddBrandPage";
 import AddCategoryPage from "./Pages/AddCategoryPage";
 import MainOffer from "./Pages/MainOffer";
+import AddColor from "./Section/Product/AddColor";
+import AddColorPage from "./Pages/AddColorPage";
+import AddDetailPage from "./Pages/AddDetailPage";
 
 
 const router = createBrowserRouter(
@@ -35,6 +38,8 @@ const router = createBrowserRouter(
         <Route path="addProduct" element={<AddProductPage />} />
         <Route path="addBrand" element={<AddBrandPage />} />
         <Route path="addCategory" element={<AddCategoryPage />} />
+        <Route path="addColor" element={<AddColorPage />} />
+        <Route path="addDetail" element={<AddDetailPage />} />
         <Route path="offer" element={<MainOffer />} />
         <Route path="offer/:id" element={<Offer />} />
       </Route>

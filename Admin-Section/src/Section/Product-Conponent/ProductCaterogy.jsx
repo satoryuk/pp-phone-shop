@@ -51,7 +51,7 @@ const ProductCaterogy = () => {
         </div>
 
       </section>
-      <TableProduct title="All Product" items={items} />
+      <TableProduct title="All Product" items={items} category={select} />
       {console.log("here is your items")
       }
     </>

@@ -2,18 +2,26 @@ import pool from "../../db/db_handle.js";
 
 export const displayAllProduct = (req, res) => {
 
-    const query = `SELECT ranked.phone_id,ranked.name, ranked.description, pv.price, pv.color,c.category_name,ranked.release_date,ranked.stock
+    const query = `SELECT *
 FROM (
-    SELECT phone_id,name, description,category_id,release_date,stock,
-           ROW_NUMBER() OVER (PARTITION BY name ORDER BY name) AS row_num
-    FROM phones
-) AS ranked 
-INNER JOIN categories c ON 
-c.category_id=ranked.category_id
-LEFT JOIN phone_variants pv ON 
-pv.phone_id=ranked.phone_id
-WHERE row_num = 1 
-ORDER BY ranked.name
+    SELECT 
+        p.*, 
+        c.category_name, 
+        b.brand_name,
+        pv.idphone_variants,
+        pv.price, 
+        pv.color,
+        pm.image,
+        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY pv.price ASC) AS row_num
+        
+    FROM phones p
+    INNER JOIN categories c ON c.category_id = p.category_id
+    INNER JOIN brands b ON b.brand_id = p.brand_id
+    INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+    LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
+) AS ranked
+WHERE row_num = 1;
+
                     `
     pool.query(query, (err, rows) => {
         if (err) return res.status(400).json({ message: "something went wrong" });
@@ -42,18 +50,25 @@ export const displayByCategory = (req, res) => {
 
 
 
-    const query = ` SELECT ranked.phone_id,ranked.name, ranked.description, pv.price, pv.color,c.category_name,ranked.release_date,ranked.stock
+    const query = ` SELECT *
 FROM (
-    SELECT phone_id,name, description,category_id,release_date,stock,
-           ROW_NUMBER() OVER (PARTITION BY name ORDER BY name) AS row_num
-    FROM phones
-) AS ranked 
-INNER JOIN categories c ON 
-c.category_id=ranked.category_id
-LEFT JOIN phone_variants pv ON 
-pv.phone_id=ranked.phone_id
-WHERE row_num = 1 AND c.category_name=?
-ORDER BY ranked.name
+     SELECT 
+        p.*, 
+        c.category_name, 
+        b.brand_name,
+        pv.idphone_variants,
+        pv.price, 
+        pv.color,
+        pm.image,
+         ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY pv.price ASC) AS row_num
+    FROM phones p
+    INNER JOIN categories c ON c.category_id = p.category_id
+    INNER JOIN brands b ON b.brand_id = p.brand_id
+    INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+    LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
+    ORDER BY phone_id
+) AS ranked
+WHERE row_num = 1 AND category_name=?;
                     `
 
     pool.query(query, [category], (err, rows) => {
@@ -68,28 +83,37 @@ ORDER BY ranked.name
 }
 
 export const searchItems = (req, res) => {
-    const { searchData } = req.query;
+    const { searchData, Category } = req.query;
+
+    console.log(req.query);
 
     if (!searchData) {
         return res.status(400).json({ message: "Missing search data" });
     }
 
     const query = `
-      SELECT ranked.phone_id,ranked.name, ranked.description, pv.price, pv.color,c.category_name,ranked.release_date,ranked.stock
+      SELECT *
 FROM (
-    SELECT phone_id,name, description,category_id,release_date,stock,
-           ROW_NUMBER() OVER (PARTITION BY name ORDER BY name) AS row_num
-    FROM phones
-) AS ranked 
-INNER JOIN categories c ON 
-c.category_id=ranked.category_id
-LEFT JOIN phone_variants pv ON 
-pv.phone_id=ranked.phone_id
-WHERE row_num = 1 AND ranked.name=?
-ORDER BY ranked.name
+     SELECT 
+        p.*, 
+        c.category_name, 
+        b.brand_name,
+        pv.idphone_variants,
+        pv.price, 
+        pv.color,
+        pm.image,
+        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY pv.price ASC) AS row_num
+    FROM phones p
+    INNER JOIN categories c ON c.category_id = p.category_id
+    INNER JOIN brands b ON b.brand_id = p.brand_id
+    INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+    LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
+    ORDER BY phone_id
+) AS ranked
+WHERE row_num = 1 AND ranked.name=? AND ranked.category_name=?;
     `;
 
-    pool.query(query, [searchData], (err, rows) => {
+    pool.query(query, [searchData, Category], (err, rows) => {
         if (err) {
             console.error("Database Error:", err);
             return res.status(500).json({ message: "Internal server error" });
@@ -142,10 +166,11 @@ export const searchItemsByName = async (req, res) => {
                         c.category_name,
                         GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images 
                     FROM phones p 
-                    LEFT JOIN specifications s ON p.phone_id = s.phone_id 
+                    
                     LEFT JOIN brands b ON p.brand_id = b.brand_id 
                     LEFT JOIN categories c ON p.category_id = c.category_id
                     LEFT JOIN phone_variants pv ON pv.phone_id=p.phone_id
+                    LEFT JOIN specifications s ON s.phone_variant_id = pv.idphone_variants
                     LEFT JOIN promotions pm ON pm.phone_variants_id = pv.idphone_variants
                     LEFT JOIN productimage pi ON pi.phone_variant_id = pv.idphone_variants
 					 WHERE p.name=?

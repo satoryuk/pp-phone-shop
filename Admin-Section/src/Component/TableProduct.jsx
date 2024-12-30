@@ -4,14 +4,16 @@ import { tableHeadProduct } from "../Constants";
 import { Link } from "react-router-dom";
 import { removeOneFetch, searchFetch } from "../Fetch/FetchAPI.js";
 
-const TableProduct = ({ title, items }) => {
+const TableProduct = ({ title, items, category }) => {
   const [datatable, setDataTable] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]); // Track selected row IDs
   const [searchData, setSearchData] = useState("");
+  const [Category, setCategory] = useState('');
 
   useEffect(() => {
     setDataTable(items);
+    setCategory(category);
   }, [items]);
 
   const handleSelectAll = () => {
@@ -69,7 +71,9 @@ const TableProduct = ({ title, items }) => {
 
   const searchDataFetch = async () => {
     try {
-      const data = await searchFetch({ searchData });
+      const data = await searchFetch({ searchData, Category });
+      // console.log(Category);
+      setSearchData('');
       setDataTable(data);
     } catch (error) {
       console.error("Error fetching search data:", error);
@@ -106,10 +110,12 @@ const TableProduct = ({ title, items }) => {
             placeholder="Search..."
             className="input-style text-sm sm:text-base"
             onChange={(e) => setSearchData(e.target.value)}
+            value={searchData}
           />
           <button
             className="green-btn h-10 sm:h-12 w-[100px] sm:w-[150px] text-sm sm:text-base"
             onClick={handleSearch}
+
           >
             Search
           </button>

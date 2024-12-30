@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { addNewProductAPI } from "../../Fetch/FetchAPI";
 
 
 const AddProduct = ({ product_id }) => {
   const location = useLocation();
+  const fileRef = useRef();
   const [id, setID] = useState('');
   const [name, setName] = useState('');
   const [brand, setBrand] = useState('');
@@ -15,7 +16,7 @@ const AddProduct = ({ product_id }) => {
   const [storage, setStorage] = useState('');
   const [camera, setCamera] = useState('');
   const [category, setCategory] = useState('');
-  const [colors, setColors] = useState(["#000000"]); // Default to one color
+  const [colors, setColors] = useState("#000000"); // Default to one color
   const [description, setDescription] = useState('');
   const [stock, setStock] = useState('');
   const [screenSize, setScreenSize] = useState('');
@@ -25,28 +26,6 @@ const AddProduct = ({ product_id }) => {
   useEffect(() => {
     setID(product_id)
   }, [product_id])
-
-  // Initialize colors as an array
-
-
-  // Function to handle color value change
-  const handleColorChange = (index, value) => {
-    const newColors = [...colors];
-    newColors[index] = value; // Update the specific index
-    setColors(newColors);
-  };
-
-  // Add a new color input
-  const handleAddColor = () => {
-    setColors([...colors, ""]); // Add a new empty string for color
-  };
-
-  // Remove a color input
-  const handleRemoveColor = (index) => {
-    const newColors = [...colors];
-    newColors.splice(index, 1); // Remove the specific color
-    setColors(newColors);
-  };
 
 
   const handleImageChange = (e) => {
@@ -160,6 +139,7 @@ const AddProduct = ({ product_id }) => {
             type="file"
             accept="image/*"
             multiple // This allows multiple files selection
+            ref={fileRef}
             onChange={handleImageChange}
             className="h-10 w-full rounded-lg border border-gray-300 p-1 mb-2"
           />
@@ -186,38 +166,19 @@ const AddProduct = ({ product_id }) => {
         <div className="flex flex-col">
           <label className="text-sm font-medium text-primary mb-2">Colors</label>
           <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-lg shadow-md">
-            {colors.map((color, index) => (
-              <div key={index} className="flex items-center gap-6">
-                {/* Color Picker */}
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600">Color {index + 1}:</span>
-                  <input
-                    type="color"
-                    value={color}
-                    onChange={(e) => handleColorChange(index, e.target.value)}
-                    className="h-6 w-28 rounded-lg border-gray-300 shadow-sm focus:ring-primary focus:border-primary"
-                  />
-                </div>
 
-                {/* Remove Button */}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveColor(index)}
-                  className={`bg-red-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition ${location.pathname === '/dashboard/addProduct' ? 'block' : 'hidden'}`}
-                >
-                  Remove
-                </button>
+            <div className="flex items-center gap-6">
+              {/* Color Picker */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">Color </span>
+                <input
+                  type="color"
+                  value={colors}
+                  onChange={(e) => setColors(e.target.value)}
+                  className="h-6 w-28 rounded-lg border-gray-300 shadow-sm focus:ring-primary focus:border-primary"
+                />
               </div>
-            ))}
-
-            {/* Add Color Button */}
-            <button
-              type="button"
-              onClick={handleAddColor}
-              className={`mt-4 bg-green-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-green-600 transition self-center ${location.pathname === '/dashboard/addProduct' ? 'block' : 'hidden'}`}
-            >
-              Add New Color
-            </button>
+            </div>
           </div>
         </div>
 
