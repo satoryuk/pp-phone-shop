@@ -2,96 +2,97 @@ import { query } from "express"
 import pool from "../../db/db_handle.js"
 
 
-export const OrderTableItemsByID = (req, res) => {
-    const { order_items_id } = req.params;
+export const OrderTableItemsByID = async (req, res) => {
+    const { order_id } = req.params;
 
-    const query = `WITH DiscountedOrders AS (
-    SELECT 
-        o.*,
-        oi.order_item_id AS order_items,
-        c.username AS customer_name,
-        c.email AS customer_email,
-        c.address AS Address,
-        c.phone AS Phone_Number,
-        GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images,
-        p.name AS phone_name,
-        pm.discount_percentage AS Discount_Percentage,
-        CASE
-            WHEN pm.status = "Active" THEN ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2)
-            ELSE pv.price
-        END AS discount_price_unit,
-        CASE 
-            WHEN pm.status = "Active" THEN ROUND((pv.price * (100 - pm.discount_percentage) / 100) * oi.quantity, 2)
-            ELSE oi.amount
-        END AS discount_amount,
-        pv.color AS phone_color,
-        oi.quantity AS order_quantity,
-        pv.price AS order_price,
-        o.total_amount AS totalAmount,
-        oi.amount AS amount_order_items
-    FROM 
-        orders o
-    INNER JOIN 
-        order_items oi ON oi.order_id = o.order_id 
-    INNER JOIN 
-        customers c ON c.customer_id = o.customer_id
-	LEFT JOIN 
-		phone_variants pv ON pv.idphone_variants=oi.phone_variants_id
-    INNER JOIN 
-        phones p ON p.phone_id = pv.phone_id 
-    LEFT JOIN 
-        productimage pi ON pi.phone_id = p.phone_id
-    LEFT JOIN 
-        promotions pm ON pm.phone_id = p.phone_id
-	
-    WHERE 
-        o.order_id = ?
-    GROUP BY 
-        o.order_id, 
-        oi.order_item_id,
-        c.username, 
-        c.email, 
-        c.address, 
-        c.phone, 
-        p.name, 
-        pv.color, 
-        oi.quantity, 
-        pv.price, 
-        oi.amount, 
-        pm.discount_percentage, 
-        pm.status
-)
-SELECT 
-    order_id,
-    order_items,
-    customer_name,
-    customer_email,
-    Address,
-    Phone_Number,
-    phone_name,
-    images,
-    Discount_Percentage,
-    phone_color,
-    order_quantity,
-    order_price,
-    discount_price_unit,
-    amount_order_items,
-    discount_amount,
-    totalAmount,
-    SUM(discount_amount) OVER (PARTITION BY order_id) AS total_discount_amount -- Aggregates within the group
+    const queryOrderItems = `SELECT 
+    o.order_id,
+    o.order_date,
+    o.status,
+    ot.phone_variants_id,
+    ot.quantity,
+    ot.amount AS amount_per_total_orderItem,
+    pv.color,
+    pv.price AS price_per_unit,
+    pm.discount_percentage,
+    GROUP_CONCAT(pdm.image ORDER BY pdm.image SEPARATOR ',') AS images,
+    p.name,
+    CASE
+        WHEN pm.status = "Active" THEN ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2)
+        ELSE pv.price
+    END AS discount_price_per_unit,
+    o.total_amount AS total_before_discount,
+    CASE
+        WHEN pm.status = "Active" THEN ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2) * ot.quantity
+        ELSE pv.price * ot.quantity
+    END AS total_after_discount
 FROM 
-    DiscountedOrders;
+    orders o  
+INNER JOIN 
+    order_items ot ON ot.order_id = o.order_id
+INNER JOIN 
+    phone_variants pv ON pv.idphone_variants = ot.phone_variants_id
+INNER JOIN 
+    phones p ON p.phone_id = pv.phone_id
+LEFT JOIN 
+    promotions pm ON pm.phone_variants_id = pv.idphone_variants
+LEFT JOIN 
+    productimage pdm ON pdm.phone_variant_id = pv.idphone_variants
+WHERE 
+    o.order_id = ?
+GROUP BY 
+    o.order_id, 
+    o.order_date,
+    o.status,
+    ot.phone_variants_id, 
+    ot.quantity, 
+    ot.amount, 
+    pv.color, 
+    pv.price, 
+    pm.discount_percentage, 
+    p.name, 
+    pm.status, 
+    o.total_amount;
+`
 
+    const queryCustomer = `SELECT * FROM orders o
+                            INNER JOIN customers c ON 
+                            c.customer_id = o.customer_id
+                            WHERE o.order_id = ?;`
 
-                `
-    pool.query(query, [order_items_id], (err, rows) => {
-        if (err) return res.status(400).json({ message: "Something went wrong" })
+    try {
+        // Execute both queries
+        const orderItems = await new Promise((resolve, reject) => {
+            pool.query(queryOrderItems, [order_id], (err, rows) => {
+                if (err) {
+                    console.log(err);
+                    return reject(new Error("Order data error"));
+                }
+                resolve(rows);
+            });
+        });
+
+        const customerData = await new Promise((resolve, reject) => {
+            pool.query(queryCustomer, [order_id], (err, rows) => {
+                if (err) {
+                    console.log(err);
+                    return reject(new Error("Customer data error"));
+                }
+                resolve(rows);
+            });
+        });
+
+        // Return both results in the response
         return res.status(200).json({
-            data: rows,
-            message: "succesfully"
-        })
-    })
-}
+            orderItems,
+            customerData
+        });
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
+
 export const orderByID = (req, res) => {
     const { order_id } = req.params;
 

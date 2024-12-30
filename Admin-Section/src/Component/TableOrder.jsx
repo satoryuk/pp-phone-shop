@@ -211,7 +211,11 @@ const TableOrder = ({ title, items }) => {
                                             onClick={() => handleRemove(element.order_id)}
                                             className="flex"
                                         >
-                                            <img src={trash} alt="Delete" className="cursor-pointer" />
+                                            <img
+                                                src={trash}
+                                                alt="Delete"
+                                                className="cursor-pointer max-w-[25px] max-h-[25px] sm:max-w-[30px] sm:max-h-[30px]"
+                                            />
                                         </button>
                                     </td>
                                 </tr>

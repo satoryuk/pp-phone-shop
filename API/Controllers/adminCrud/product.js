@@ -1,11 +1,13 @@
 import { query } from "express";
 import pool from "../../db/db_handle.js";
+import { reject } from "bcrypt/promises.js";
+import { deleteOrder } from "./Order.js";
 
 
 export const addNewProduct = async (req, res) => {
 
     try {
-        console.log("Files received:", req.files); // Debugging files
+        // console.log("Files received:", req.files); // Debugging files
         if (!req.files || req.files.length === 0) {
             throw new Error("No files uploaded. Please upload images.");
         }
@@ -30,21 +32,21 @@ export const addNewProduct = async (req, res) => {
         // Process image filenames (multer saves files in 'uploads/')
         const images = req.files.map((file) => file.filename);
 
-
         // Handle database operations
 
         const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
         const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
         const addProductQuery =
-            "INSERT INTO phones (name, description, stock, category_id, brand_id, release_date) VALUES(?,?,?,?,?,?)";
+            "INSERT INTO phones (name, description, category_id, brand_id, release_date,stock) VALUES(?,?,?,?,?,0)";
+
         const addSpecificationsQuery =
             "INSERT INTO specifications (phone_id, screen_size, processor, ram, storage, battery, camera) VALUES(?,?,?,?,?,?,?)";
         // const addColorsQuery =
         //   "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
         const addColorQuery =
-            "INSERT INTO phone_variants (phone_id,color,price) VALUES (?,?,?)"
+            "INSERT INTO phone_variants (phone_id,color,price,stock) VALUES (?,?,?,?)"
         const addImageQuery =
-            "INSERT INTO productimage(phone_id, image) VALUES (?,?)";
+            "INSERT INTO productimage(phone_variant_id, image) VALUES (?,?)";
 
         // Database operations (same as your previous code)
         const [categoryRows] = await pool.promise().query(category_query, [category]);
@@ -58,7 +60,6 @@ export const addNewProduct = async (req, res) => {
         const productValues = [
             name,
             description,
-            stock,
             category_id,
             brand_id,
             date,
@@ -77,13 +78,24 @@ export const addNewProduct = async (req, res) => {
             camera
         ];
         await pool.promise().query(addSpecificationsQuery, specificationValues);
+        let variantID = [];
+        console.log(colors);
+
+        await pool.promise().query(addColorQuery, [phone_id, colors, price, stock])
+            .then(([rows]) => {
+                variantID.push(rows.insertId)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+
+        console.log(variantID);
 
         for (let image of images) {
-            await pool.promise().query(addImageQuery, [phone_id, image]);
+            await pool.promise().query(addImageQuery, [variantID, image]);
         }
-        for (let color of colors) {
-            await pool.promise().query(addColorQuery, [phone_id, color, price]);
-        }
+
 
         res.status(201).json({ message: "Product added successfully" });
     } catch (err) {
@@ -94,29 +106,15 @@ export const addNewProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        console.log("Files received:", req.files); // Debugging files
-        const { productId } = req.params;
-        console.log(req.params);
 
-        if (!productId) {
+        const { product_id } = req.query;
+
+        if (!product_id) {
             throw new Error("Product ID is required to update the product.");
         }
-        // Parse `colors` (sent as JSON string)
-        // let colors = [];
-        // try {
-        //   colors = JSON.parse(req.body.colors); // Parse into an array
-        //   if (!Array.isArray(colors)) {
-        //     throw new Error("Invalid format for colors. Expected an array.");
-        //   }
-        // } catch (err) {
-        //   throw new Error("Failed to parse colors. Ensure it is a valid JSON array.");
-        // }
-
-        // Extract other fields from `req.body`
         const {
             name,
             brand,
-            price,
             date,
             processor,
             color,
@@ -124,35 +122,26 @@ export const updateProduct = async (req, res) => {
             camera,
             category,
             description,
-            stock,
             screenSize,
             ram,
             battery,
         } = req.body;
-        console.log(req.body);
 
         // Process image filenames (multer saves files in 'uploads/')
-        const images = req.files ? req.files.map((file) => file.filename) : [];
-        console.log(images);
-
         // Handle database operations
         const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
         const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
         const updateProductQuery =
-            "UPDATE phones SET name=?, description=?, stock=?, category_id=?, brand_id=?, release_date=? WHERE phone_id=?";
+            "UPDATE phones SET name=?, description=?, category_id=?, brand_id=?, release_date=? WHERE phone_id=?";
         const updateSpecificationsQuery =
             "UPDATE specifications SET screen_size=?, processor=?, ram=?, storage=?, battery=?, camera=? WHERE phone_id=?";
-        // const deleteColorsQuery = "DELETE FROM phone_colors WHERE phone_id=?";
-        const deleteImagesQuery = "DELETE FROM productimage WHERE phone_id=?";
 
-        // const addColorsQuery = "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
-        const addImageQuery = "INSERT INTO productimage(phone_id, image) VALUES (?,?)";
-        const addColorQuery = "UPDATE phone_variants SET color=?,price=? WHERE phone_id=?";
-
-        // Database operations (same as your previous code)
         const [categoryRows] = await pool.promise().query(category_query, [category]);
+
+
         if (!categoryRows.length) throw new Error("Category not found");
         const category_id = categoryRows[0].category_id;
+
 
         const [brandRows] = await pool.promise().query(brand_query, [brand]);
         if (!brandRows.length) throw new Error("Brand not found");
@@ -161,15 +150,11 @@ export const updateProduct = async (req, res) => {
         const productValues = [
             name,
             description,
-            price,
-            color,
-            stock,
             category_id,
             brand_id,
             date,
-            productId,
+            product_id,
         ];
-        await pool.promise().query(addColorQuery, [color, price, productId])
         await pool.promise().query(updateProductQuery, productValues);
 
         const specificationValues = [
@@ -179,23 +164,9 @@ export const updateProduct = async (req, res) => {
             storage,
             battery,
             camera,
-            productId,
+            product_id,
         ];
         await pool.promise().query(updateSpecificationsQuery, specificationValues);
-
-        // Update colors: delete existing and add new ones
-        // await pool.promise().query(deleteColorsQuery, [productId]);
-        // for (let color of colors) {
-        //   await pool.promise().query(addColorsQuery, [productId, color]);
-        // }
-
-        // Update images: delete existing and add new ones (if provided)
-        if (images.length > 0) {
-            await pool.promise().query(deleteImagesQuery, [productId]);
-            for (let image of images) {
-                await pool.promise().query(addImageQuery, [productId, image]);
-            }
-        }
         res.status(200).json({ message: "Product updated successfully" });
     } catch (err) {
         console.error(err);
@@ -210,16 +181,59 @@ export const deleteProduct = async (req, res) => {
         return res.status(400).json({ message: "Product ID is required" });
     }
 
-    const queries = [
-        { query: "DELETE FROM productimage WHERE phone_id=?", errorMsg: "Failed to delete product images" },
-        { query: "DELETE FROM specifications WHERE phone_id=?", errorMsg: "Failed to delete specifications" },
-        { query: "DELETE FROM promotions WHERE phone_id=?", errorMsg: "Failed to delete promotions" },
-        { query: "DELETE FROM phone_variants WHERE phone_id=?", errorMsg: "Failed to delete promotions" },
-        { query: "DELETE FROM phones WHERE phone_id=?", errorMsg: "Failed to delete product" },
+    const variantQuery = `SELECT idphone_variants FROM phone_variants WHERE phone_id=?`;
+    const deleteImageQuery = `DELETE FROM productimage WHERE phone_variant_id=?`;
+    const deleteOrderItems = `DELETE FROM order_items WHERE phone_variants_id=?`;
+    const deletePromotion = `DELETE FROM promotions WHERE phone_variants_id=?`;
 
+    const queries = [
+        { query: "DELETE FROM specifications WHERE phone_variant_id=?", errorMsg: "Failed to delete specifications" },
+        { query: "DELETE FROM phone_variants WHERE phone_id=?", errorMsg: "Failed to delete phone variants" },
+        { query: "DELETE FROM phones WHERE phone_id=?", errorMsg: "Failed to delete product" },
     ];
 
     try {
+        // Fetch all variant IDs for the given phone ID
+        const [variantsID] = await pool.promise().query(variantQuery, [deleteid]);
+
+        // Delete associated order items and images for each variant
+        for (const variant of variantsID) {
+            const variantID = variant.idphone_variants;
+
+            // Delete order items
+            await new Promise((resolve, reject) => {
+                pool.query(deleteOrderItems, [variantID], (err, row) => {
+                    if (err) {
+                        console.error("Failed to delete order items:", err);
+                        return reject(new Error("Failed to delete order items"));
+                    }
+                    resolve(row);
+                });
+            });
+
+            await new Promise((resolve, reject) => {
+                pool.query(deletePromotion, [variantID], (err, row) => {
+                    if (err) {
+                        console.error("Failed to delete order items:", err);
+                        return reject(new Error("Failed to delete order items"));
+                    }
+                    resolve(row);
+                });
+            });
+
+            // Delete product images
+            await new Promise((resolve, reject) => {
+                pool.query(deleteImageQuery, [variantID], (err, row) => {
+                    if (err) {
+                        console.error("Failed to delete product images:", err);
+                        return reject(new Error("Failed to delete product images"));
+                    }
+                    resolve(row);
+                });
+            });
+        }
+
+        // Delete the main product records
         for (const { query, errorMsg } of queries) {
             await new Promise((resolve, reject) => {
                 pool.query(query, [deleteid], (err, rows) => {
@@ -236,9 +250,48 @@ export const deleteProduct = async (req, res) => {
             message: "Product deleted successfully",
         });
     } catch (error) {
+        console.error("Error deleting product:", error.message);
         return res.status(500).json({ message: error.message });
     }
 };
+
+export const deleteVariants = async (req, res) => {
+    const { variants_id } = req.query;
+
+    const queries = [
+        { query: `DELETE FROM productimage WHERE phone_variant_id = ?`, errorMsg: `Error productImage` },
+        { query: `DELETE FROM order_items WHERE phone_variants_id = ?`, errorMsg: `Error productOrders` },
+        { query: `DELETE FROM promotions WHERE phone_variants_id = ?`, errorMsg: `Error promotion` },
+        { query: `DELETE FROM phone_variants WHERE idphone_variants = ?`, errorMsg: `Error productVariants` },
+    ]
+    console.log(variants_id);
+
+    try {
+        // Delete images associated with the variant
+        for (const { query, errorMsg } of queries) {
+            await new Promise((resolve, reject) => {
+                pool.query(query, [variants_id], (err, rows) => {
+                    if (err) {
+                        console.error("fail to delete");
+                        return reject(new Error("Fail to delete" + errorMsg))
+
+                    }
+                    resolve(rows);
+                })
+            })
+        }
+        return res.status(200).json({
+            message: "Variant and associated images deleted successfully",
+        });
+    } catch (error) {
+        console.error("Error deleting variant:", error);
+        return res.status(400).json({
+            message: "Something went wrong",
+            error: error.message,
+        });
+    }
+};
+
 
 
 export const addNewBrand = (req, res) => {
@@ -303,9 +356,159 @@ export const CountHeaderData = (req, res) => {
         });
     });
 };
+export const updateProductVariants = async (req, res) => {
+    const { price, color, stock } = req.body;
+    const File = req.files;
+    const productImages = [];
+    for (let file of File) {
+        productImages.push(file.path)
+    }
+
+    const { productVariantID } = req.params;
 
 
+    const queryUpdateVariants = `UPDATE phone_variants
+                                    SET color=?,
+                                        price=?,
+                                        stock=? 
+                                    WHERE idphone_variants=?`
+    const queryDeleteImage = `DELETE FROM productimage
+                            WHERE phone_variant_id=?`
+    const queryInsertImage = `INSERT INTO productimage(phone_variant_id,image)
+                            VALUES(?,?)`
+    try {
+        const [variantsRow] = await pool.promise().query(queryUpdateVariants, [color, price, stock, productVariantID])
+        const [DeleteRow] = await pool.promise().query(queryDeleteImage, [productVariantID])
+        for (let image of productImages) {
+            const [InsertRow] = await pool.promise().query(queryInsertImage, [productVariantID, image])
+            if (!InsertRow.length === 0) {
+                return res.status(400).json({
+                    message: "something went wrong"
+                })
+            }
+        }
+        if (!variantsRow.length === 0, !DeleteRow.length === 0) {
+            return res.status(400).json({
+                message: "something went wrong"
+            })
+        }
+        return res.status(200).json({
+            message: "sucessfully"
+        })
+    } catch (error) {
+        console.log(error);
 
+        return res.status(400).json({
+            message: "something went wrong",
+            error: error
+        })
+    }
+}
+
+export const addVariants = async (req, res) => {
+    const { productName, color, price, stock } = req.body;
+    const productImages = req.files;
+
+    // Input Validation
+    if (!productName || !color || !price || !stock || !productImages) {
+        return res.status(400).json({
+            message: "Fill ALL fields"
+        });
+    }
+
+    try {
+        // Extract image filenames
+        const images = productImages.map((element) => element.filename);
+        console.log("Uploaded Images:", images);
+
+        // Database Queries
+        const findPhoneIDQuery = `SELECT phone_id FROM phones WHERE name=?`;
+        const insertVariantsQuery = `
+            INSERT INTO phone_variants(phone_id, color, price, stock)
+            VALUES(?, ?, ?, ?)
+        `;
+        const insertImageQuery = `
+            INSERT INTO productimage(phone_variant_id, image)
+            VALUES(?, ?)
+        `;
+
+        // Retrieve phone ID
+        const [phone] = await pool.promise().query(findPhoneIDQuery, [productName]);
+        if (phone.length === 0) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+        const phone_id = phone[0].phone_id;
+
+        // Insert variant
+        const variantValues = [phone_id, color, price, stock];
+        const [variantResult] = await pool.promise().query(insertVariantsQuery, variantValues);
+        const variantID = variantResult.insertId;
+
+        // Insert images
+        for (let image of images) {
+            await pool.promise().query(insertImageQuery, [variantID, image]);
+        }
+
+        // Success Response
+        return res.status(201).json({
+            message: "Variant added successfully",
+            variantID,
+            images,
+        });
+    } catch (error) {
+        console.error("Error adding variant:", error);
+        return res.status(500).json({ message: "Internal server error", error });
+    }
+};
+export const addNewSpecificate = async (req, res) => {
+    const { product_name, color, screen_size, processor, ram, storage, battery, camera } = req.body.formdata;
+    // console.log(req.body.formdata);
+
+    // Input Validation
+    if (!product_name || !color || !screen_size || !processor || !ram || !storage || !battery || !camera) {
+        return res.status(400).json({
+            message: "Fill all fields"
+        });
+    }
+
+    try {
+        // Find Product ID
+        const findProductIDQuery = `SELECT phone_id FROM phones WHERE name=?`;
+        const [productResult] = await pool.promise().query(findProductIDQuery, [product_name]);
+        if (productResult.length === 0) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+        const productID = productResult[0].phone_id;
+
+        // Find Variant ID
+        const findVariantsIDQuery = `SELECT idphone_variants FROM phone_variants WHERE phone_id=? AND color=?`;
+        const [variantResult] = await pool.promise().query(findVariantsIDQuery, [productID, color]);
+        if (variantResult.length === 0) {
+            return res.status(404).json({ message: "Variant not found" });
+        }
+        const variantID = variantResult[0].idphone_variants;
+
+        // Insert Specifications
+        const insertSpecificationsQuery = `
+            INSERT INTO specifications (phone_variant_id, screen_size, processor, ram, storage, battery, camera)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
+        const values = [variantID, screen_size, processor, ram, storage, battery, camera];
+        const [insertResult] = await pool.promise().query(insertSpecificationsQuery, values);
+
+        // Success Response
+        return res.status(201).json({
+            message: "Specifications added successfully",
+            data: insertResult,
+        });
+    } catch (error) {
+        console.error("Error adding specifications:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+};
 
 
 

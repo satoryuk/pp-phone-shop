@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteOrderItemByID, fetchOrderByID, fetchOrderItemsByID, removeOrder } from "../../Fetch/FetchAPI";
+import { deleteOrderItemByID, fetchOrderItemsByID, removeOrder } from "../../Fetch/FetchAPI.js";
 import Model from "../../Utils/Model/Model";
 import { edit, trash } from "../../Assets";
-import { data } from "autoprefixer";
-import axios from "axios";
 
 const Order_By_ID = () => {
   const { id } = useParams();
@@ -17,10 +15,9 @@ const Order_By_ID = () => {
   const fetchDataOrderItems = async () => {
     try {
       const response = await fetchOrderItemsByID(id);
-      if (response && response.data) {
-        setOrdersItems(response.data);
-        console.log(ordersItems);
-
+      if (response) {
+        setOrdersItems(response.orderItems);
+        setOrders(response.customerData);
       } else {
         console.error("No order items data received");
       }
@@ -29,27 +26,11 @@ const Order_By_ID = () => {
     }
   };
 
-  const fetchDataOrder = async () => {
-    try {
-      const response = await fetchOrderByID({ id });
-      if (response && response.data) {
-        setOrders(response.data);
-      } else {
-        console.error("No order data received");
-      }
-    } catch (error) {
-      console.error("Error fetching order data:", error);
-    }
-  };
-
   const handleRemoveItems = async (e, { id }) => {
     try {
       e.preventDefault();
-
-      // Call the API to delete the order item by ID
-      const response = await deleteOrderItemByID({ id });
+      await deleteOrderItemByID({ id });
       window.location.reload();
-      console.log(`Item with ID ${id} removed successfully.`);
     } catch (error) {
       console.error("Error removing item:", error);
     }
@@ -61,9 +42,8 @@ const Order_By_ID = () => {
       nav(-1);
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -76,13 +56,13 @@ const Order_By_ID = () => {
 
   useEffect(() => {
     fetchDataOrderItems();
-    fetchDataOrder();
   }, [id]);
 
   return (
-    <div className="container bg-white rounded-lg shadow-xl max-w-8xl mt-8 p-4 lg:p-8">
+    <div className="container mx-auto bg-white rounded-lg shadow-xl mt-8 p-4 lg:p-8">
       {orders ? (
         <div className="space-y-8">
+          {/* Customer Details Section */}
           <div className="bg-gray-100 p-6 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Customer Details</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -107,51 +87,85 @@ const Order_By_ID = () => {
             </div>
           </div>
 
+          {/* Ordered Products Section */}
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Ordered Products</h2>
             <div className="bg-gray-50 text-sm p-6 rounded-lg shadow-md">
-              <div className="grid grid-cols-9 font-semibold text-gray-500 mb-4">
+              <div className="hidden sm:grid grid-cols-6 md:grid-cols-8 lg:grid-cols-9 font-semibold text-gray-500 mb-4">
                 <p className="col-span-2">Product</p>
-
-                <p className="text-center">Product Color</p>
+                <p className="text-center">Color</p>
                 <p className="text-center">Qty</p>
                 <p className="text-center">Unit Price</p>
-                <p className="text-center">Discount</p>
-                <p className="text-center hidden md:block">Total</p>
-                <p className="text-center hidden md:block">Discount price </p>
+                <p className="text-center hidden lg:block">Discount</p>
+                <p className="text-center hidden lg:block">Total</p>
+                <p className="text-center hidden lg:block">Discounted Total</p>
               </div>
               {ordersItems.length > 0 ? (
                 ordersItems.map((item, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-6 md:grid-cols-9 items-center py-4 border-t"
+                    className="grid grid-cols-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-9 items-center py-4 border-t"
                   >
+                    {/* Product Details */}
                     <div className="col-span-2 flex items-center gap-4">
                       <img
-                        src={`http://localhost:3000/${item.images?.split(',')[0] || 'fallback.jpg'}`}
-                        alt={item.name}
-                        className="w-16 h-16 object-cover rounded-md"
-                      />
-                      <p className="truncate">{item.phone_name}</p>
-                    </div>
-                    <p className="text-center">{item.phone_color}</p>
-                    <p className="text-center">{item.order_quantity}</p>
-                    <p className="text-center">{item.order_price}$</p>
-                    <p className="text-center">{item.discount_price_unit}$</p>
-                    <p className="text-center font-semibold hidden md:block">{item.amount_order_items}$</p>
-                    <p className="text-center font-semibold hidden md:block">{item.discount_amount}$</p>
-                    <div className="flex justify-center gap-4">
-                      <button >
-                        <img src={edit} alt="Edit" onClick={(e) => {
-                          e.preventDefault();
-                          setOpen(true);
-                          setIDEdit(index)
-
+                        src={
+                          item.images
+                            ? `http://localhost:3000/${item.images
+                              .split(",")[0]
+                              .replace(/\\/g, "/")
+                              .replace("uploads/", "")}`
+                            : "http://localhost:3000/fallback.jpg"
                         }
-                        } />
+                        alt={item.name || "Product Image"}
+                        className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-md"
+                      />
+                      <p className="truncate">{item.name}</p>
+                    </div>
+
+                    {/* Color */}
+                    <div className="flex justify-center">
+                      <div
+                        className="w-4 h-4 sm:w-6 sm:h-6 rounded-full"
+                        style={{ backgroundColor: item.color }}
+                      ></div>
+                    </div>
+
+                    {/* Quantity */}
+                    <p className="text-center">{item.quantity}</p>
+
+                    {/* Unit Price */}
+                    <p className="text-center">{item.price_per_unit}$</p>
+
+                    {/* Discount */}
+                    <p className="text-center hidden lg:block">{item.discount_percentage}%</p>
+
+                    {/* Total */}
+                    <p className="text-center hidden lg:block">{item.amount_per_total_orderItem}$</p>
+
+                    {/* Discounted Total */}
+                    <p className="text-center hidden lg:block">{item.discount_price_per_unit}$</p>
+
+                    {/* Action Buttons */}
+                    <div className="flex justify-center gap-2">
+                      <button>
+                        <img
+                          src={edit}
+                          alt="Edit"
+                          className="w-6 h-6 cursor-pointer"
+                          onClick={() => {
+                            setOpen(true);
+                            setIDEdit(index);
+                          }}
+                        />
                       </button>
-                      <button >
-                        <img src={trash} alt="Remove" onClick={(e) => handleRemoveItems(e, { id: item.order_items })} />
+                      <button>
+                        <img
+                          src={trash}
+                          alt="Remove"
+                          className="w-6 h-6 cursor-pointer"
+                          onClick={(e) => handleRemoveItems(e, { id: item.phone_variants_id })}
+                        />
                       </button>
                     </div>
                   </div>
@@ -162,37 +176,40 @@ const Order_By_ID = () => {
             </div>
           </div>
 
-          <div className="text-right">
-            <div className="flex justify-end gap-8 text-lg mb-2">
+          {/* Order Summary Section */}
+          <div className="text-right space-y-2">
+            <div className="flex justify-between md:justify-end gap-8">
               <p className="text-gray-500">Subtotal</p>
-              <p className="text-black font-semibold">{ordersItems[0]?.totalAmount || "N/A"}$</p>
+              <p className="text-black font-semibold">
+                {ordersItems.reduce((total, item) => total + parseFloat(item.amount_per_total_orderItem), 0)}$
+              </p>
             </div>
-            <div className="flex justify-end gap-8 text-lg mb-2">
+            <div className="flex justify-between md:justify-end gap-8">
               <p className="text-gray-500">Discount</p>
-              <p className="text-black font-semibold">{ordersItems[0]?.total_discount_amount || "N/A"}$</p>
+              <p className="text-black font-semibold">
+                {ordersItems.reduce((total, item) => total + parseFloat(item.discount_price_per_unit) * item.quantity, 0).toFixed(2)}$
+              </p>
             </div>
-            <div className="flex justify-end gap-8 text-xl font-bold">
+            <div className="flex justify-between md:justify-end gap-8 text-xl font-bold">
               <p className="text-gray-600">Total</p>
-              <p className="text-green-600">{ordersItems[0]?.total_discount_amount || "N/A"}$</p>
+              <p className="text-black font-semibold">
+                {ordersItems.reduce((total, item) => total + parseFloat(item.discount_price_per_unit) * item.quantity, 0).toFixed(2)}$
+              </p>
             </div>
           </div>
 
-          <div className="flex justify-end gap-10 ">
+          {/* Delete Order Button */}
+          <div className="flex justify-end">
             <button
-              className="bg-red-500 text-white py-4 px-6 md:px-10 rounded-lg shadow-md hover:bg-red-600 transition duration-300 transform hover:scale-105"
+              className="bg-red-500 text-white py-2 px-6 rounded-lg shadow-md hover:bg-red-600 transition duration-300"
               onClick={() => removeOrderFetch({ id: orders[0].order_id })}
             >
               Delete Order
             </button>
           </div>
 
-          <Model
-            open={open}
-            onClose={() => setOpen(false)}
-            id="updateOrder"
-            order_id={orders[idEdit]?.id || id}
-            value={ordersItems[idEdit].order_items}
-          >
+          {/* Model for Update Order */}
+          <Model open={open} onClose={() => setOpen(false)} id="updateOrder">
             <div className="text-center">
               <h3 className="text-lg font-black text-gray-800">Update Order</h3>
               <p className="text-sm text-black-500">Modify the order details below.</p>
