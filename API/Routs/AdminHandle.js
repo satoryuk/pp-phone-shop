@@ -1,7 +1,7 @@
 import { Router } from "express";
 import upload from "../Utils/handleimg.js";
 import { validateToken_refresh_token } from "../Utils/jwt_validation_refresh_token.js";
-import { addNewBrand, addNewCategory, addNewProduct, addNewSpecificate, addVariants, CountHeaderData, deleteProduct, deleteVariants, updateProduct, updateProductVariants } from "../Controllers/adminCrud/Product.js";
+import { addNewBrand, addNewCategory, addNewProduct, addNewSpecificate, addVariants, CountHeaderData, deleteProduct, deleteSpecification, deleteVariants, updateProduct, updateProductVariants, UpdateSpecification } from "../Controllers/adminCrud/Product.js";
 import { category } from "../Controllers/common/product.js";
 import { dashboardHeader, dashboardHeaderAll } from "../Controllers/adminCrud/DashBoard.js"
 import { deleteOrder, deleteOrderItems, orderByID, orderTable, OrderTableItemsByID, searchOrder, updateOrderitems } from "../Controllers/adminCrud/Order.js";
@@ -17,6 +17,7 @@ adminRouter.post("/addNewBrand", upload.single('images'), addNewBrand);
 adminRouter.post("/addNewCategory", addNewCategory);
 adminRouter.post("/addNewProduct", upload.array("images", 10), addNewProduct);
 adminRouter.put("/updateProduct", updateProduct);
+adminRouter.put("/updateSpec", UpdateSpecification);
 adminRouter.delete("/deleteProduct", deleteProduct);
 adminRouter.delete("/deleteVariants", deleteVariants);
 adminRouter.get('/productHead', CountHeaderData)
@@ -30,6 +31,7 @@ adminRouter.get('/searchTableOrder', searchOrder);
 adminRouter.get('/headerOrder', headerOrder);
 adminRouter.put('/UpdateOrderItems', updateOrderitems);
 adminRouter.delete('/deleleOrder/:DeleteOrderID', deleteOrder);
+adminRouter.delete('/deleleSpec', deleteSpecification);
 adminRouter.delete('/deleteOrderItems/:orderItemsID', deleteOrderItems);
 adminRouter.put('/offerInsert', offerInsert)
 adminRouter.get('/offerUpdate/:offerID', offerUpdate)

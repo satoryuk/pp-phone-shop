@@ -78,21 +78,22 @@ export const displayByDate = (req, res) => {
 
     const query = `SELECT *
 FROM (
-     SELECT 
+    SELECT 
         p.*, 
         c.category_name, 
         b.brand_name,
         pv.idphone_variants,
-        pv.price, 
+        s.price, 
         pv.color,
         pm.image,
-        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY pv.price ASC) AS row_num
+        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price ASC) AS row_num
+        
     FROM phones p
     INNER JOIN categories c ON c.category_id = p.category_id
     INNER JOIN brands b ON b.brand_id = p.brand_id
     INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
     LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
-    ORDER BY phone_id
+    LEFT JOIN specifications s ON s.phone_variant_id=pv.idphone_variants
 ) AS ranked
 WHERE row_num = 1 AND ranked.release_date >=CURRENT_DATE()-INTERVAL ? MONTH;
               `

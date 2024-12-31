@@ -283,6 +283,20 @@ export const removeVariants = async ({ deleteid }) => {
 
   }
 }
+export const removeSpec = async (variantID, storage) => {
+  try {
+    const response = await axios.delete(`${API_URL_Admin}/deleleSpec?variantID=${variantID}&storage=${storage}`, {
+      withCredentials: true
+    })
+    // console.log(variantID);
+    // console.log(storage);
+
+    return response;
+  } catch (error) {
+    console.log(error);
+
+  }
+}
 export const removeOrder = async ({ deleteid }) => {
   try {
     console.log(`${API_URL_Admin}/deleleOrder/${deleteid}`);
@@ -475,6 +489,21 @@ export const updateProductVariants = async (formdata, id) => {
     throw error; // Re-throw the error to allow proper error handling
   }
 };
+export const updateSpec = async (formdata, queryParam) => {
+  try {
+    const response = await axios.put(`${API_URL_Admin}/updateSpec?variantID=${queryParam.variantID}&oldStorage=${queryParam.oldStorage}`, formdata, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      withCredentials: true
+    })
+    return response;
+
+  } catch (error) {
+    console.log(error);
+
+  }
+}
 export const fetchOrderItemsByID = async (id) => {
   try {
     const response = await axios.get(`${API_URL_Admin}/tableOrderItemsByID/${id}`, {
