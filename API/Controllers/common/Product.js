@@ -9,16 +9,17 @@ FROM (
         c.category_name, 
         b.brand_name,
         pv.idphone_variants,
-        pv.price, 
+        s.price, 
         pv.color,
         pm.image,
-        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY pv.price ASC) AS row_num
+        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price ASC) AS row_num
         
     FROM phones p
     INNER JOIN categories c ON c.category_id = p.category_id
     INNER JOIN brands b ON b.brand_id = p.brand_id
     INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
     LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
+    LEFT JOIN specifications s ON s.phone_variant_id=pv.idphone_variants
 ) AS ranked
 WHERE row_num = 1;
 
@@ -57,14 +58,15 @@ FROM (
         c.category_name, 
         b.brand_name,
         pv.idphone_variants,
-        pv.price, 
+        s.price, 
         pv.color,
         pm.image,
-         ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY pv.price ASC) AS row_num
+         ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price ASC) AS row_num
     FROM phones p
     INNER JOIN categories c ON c.category_id = p.category_id
     INNER JOIN brands b ON b.brand_id = p.brand_id
     INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+    LEFT JOIN specifications s ON s.phone_variant_id=pv.idphone_variants
     LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
     ORDER BY phone_id
 ) AS ranked
@@ -99,18 +101,19 @@ FROM (
         c.category_name, 
         b.brand_name,
         pv.idphone_variants,
-        pv.price, 
+        s.price, 
         pv.color,
         pm.image,
-        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY pv.price ASC) AS row_num
+        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price ASC) AS row_num
     FROM phones p
     INNER JOIN categories c ON c.category_id = p.category_id
     INNER JOIN brands b ON b.brand_id = p.brand_id
     INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+    LEFT JOIN specifications s ON s.phone_variant_id=pv.idphone_variants
     LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
     ORDER BY phone_id
 ) AS ranked
-WHERE row_num = 1 AND ranked.name=? AND ranked.category_name=?;
+WHERE row_num = 1 AND ranked.name=?AND ranked.category_name=?;
     `;
 
     pool.query(query, [searchData, Category], (err, rows) => {
@@ -143,44 +146,27 @@ export const searchItemsByName = async (req, res) => {
     // console.log(`Searching for item with ID: ${id}`);
 
     const query = `
-      SELECT 
-                        p.phone_id,
-                        p.name,
-                        p.description,
-                        pv.price,
-                        CASE 
-                            WHEN pm.status = "Active" THEN ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2) 
-                            ELSE pv.price
-                        END AS Discount_price,
-                        pv.stock,
-                        pv.color,
-                        pv.idphone_variants,
-                        p.release_date,
-                        s.screen_size,
-                        s.processor,
-                        s.ram,
-                        s.storage,
-                        s.battery,
-                        s.camera,
-                        b.brand_name,
-                        c.category_name,
-                        GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images 
-                    FROM phones p 
-                    
-                    LEFT JOIN brands b ON p.brand_id = b.brand_id 
-                    LEFT JOIN categories c ON p.category_id = c.category_id
-                    LEFT JOIN phone_variants pv ON pv.phone_id=p.phone_id
-                    LEFT JOIN specifications s ON s.phone_variant_id = pv.idphone_variants
-                    LEFT JOIN promotions pm ON pm.phone_variants_id = pv.idphone_variants
-                    LEFT JOIN productimage pi ON pi.phone_variant_id = pv.idphone_variants
-					 WHERE p.name=?
-                    GROUP BY 
-                        p.phone_id, p.name, p.description, p.stock, pv.color, p.release_date, 
-                        s.screen_size, s.processor, s.ram, s.storage, s.battery, s.camera, 
-                        b.brand_name, c.category_name, pm.status, pm.discount_percentage,pv.price,pv.idphone_variants
-                    
-                    
-                    
+      SELECT *
+FROM (
+     SELECT 
+        p.*, 
+        c.category_name, 
+        b.brand_name,
+        pv.idphone_variants,
+        s.price, 
+        pv.color,
+        pm.image,
+        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price ASC) AS row_num
+    FROM phones p
+    INNER JOIN categories c ON c.category_id = p.category_id
+    INNER JOIN brands b ON b.brand_id = p.brand_id
+    INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+    LEFT JOIN specifications s ON s.phone_variant_id=pv.idphone_variants
+    LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
+    ORDER BY phone_id
+) AS ranked
+WHERE row_num = 1 AND ranked.name=?;
+                                     
     `;
 
     try {

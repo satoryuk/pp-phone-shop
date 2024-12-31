@@ -262,6 +262,7 @@ export const deleteVariants = async (req, res) => {
         { query: `DELETE FROM productimage WHERE phone_variant_id = ?`, errorMsg: `Error productImage` },
         { query: `DELETE FROM order_items WHERE phone_variants_id = ?`, errorMsg: `Error productOrders` },
         { query: `DELETE FROM promotions WHERE phone_variants_id = ?`, errorMsg: `Error promotion` },
+        { query: `DELETE FROM specifications WHERE phone_variant_id=?`, errorMsg: `Error promotion` },
         { query: `DELETE FROM phone_variants WHERE idphone_variants = ?`, errorMsg: `Error productVariants` },
     ]
     console.log(variants_id);
@@ -357,7 +358,7 @@ export const CountHeaderData = (req, res) => {
     });
 };
 export const updateProductVariants = async (req, res) => {
-    const { price, color, stock } = req.body;
+    const { price, color } = req.body;
     const File = req.files;
     const productImages = [];
     for (let file of File) {
@@ -368,16 +369,14 @@ export const updateProductVariants = async (req, res) => {
 
 
     const queryUpdateVariants = `UPDATE phone_variants
-                                    SET color=?,
-                                        price=?,
-                                        stock=? 
+                                    SET color=?
                                     WHERE idphone_variants=?`
     const queryDeleteImage = `DELETE FROM productimage
                             WHERE phone_variant_id=?`
     const queryInsertImage = `INSERT INTO productimage(phone_variant_id,image)
                             VALUES(?,?)`
     try {
-        const [variantsRow] = await pool.promise().query(queryUpdateVariants, [color, price, stock, productVariantID])
+        const [variantsRow] = await pool.promise().query(queryUpdateVariants, [color, productVariantID])
         const [DeleteRow] = await pool.promise().query(queryDeleteImage, [productVariantID])
         for (let image of productImages) {
             const [InsertRow] = await pool.promise().query(queryInsertImage, [productVariantID, image])
@@ -509,8 +508,76 @@ export const addNewSpecificate = async (req, res) => {
         });
     }
 };
+export const UpdateSpecification = async (req, res) => {
+    const { variantID, oldStorage } = req.query;
+    const { processor, newStorage, ram, battery, camera, screen_size, stock, price } = req.body;
 
+    // Validate inputs
+    if (!variantID || !processor || !newStorage || !ram || !battery || !camera || !screen_size || !stock || !price) {
+        return res.status(400).json({
+            message: "Please fill all fields"
+        });
+    }
+    // console.log(req.body);
+    // console.log(req.query);
 
+    const queryUpdate = `UPDATE specifications
+                        SET storage=?, screen_size=?, processor=?, ram=?, battery=?, camera=?, stock=?, price=?
+                        WHERE phone_variant_id=? AND storage=?`;
+
+    const value = [
+        newStorage,
+        screen_size,
+        processor,
+        ram,
+        battery,
+        camera,
+        stock,
+        price,
+        variantID,
+        oldStorage
+    ];
+
+    try {
+        const [updateRows] = await pool.promise().query(queryUpdate, value);
+
+        if (updateRows.affectedRows === 0) {
+            return res.status(400).json({
+                message: "No rows were updated. Check if the variantID and oldStorage are correct."
+            });
+        }
+
+        return res.status(200).json({
+            data: updateRows,
+            message: "Successfully updated"
+        });
+    } catch (error) {
+        console.error("Database error:", error);
+        return res.status(500).json({
+            message: "Internal server error"
+        });
+    }
+};
+
+export const deleteSpecification = async (req, res) => {
+    const { variantID, storage } = req.query;
+    const queryDelete = `DELETE FROM specifications WHERE phone_variant_id=? AND storage=?`
+    try {
+        const [deleteRows] = await pool.promise().query(queryDelete, [variantID, storage])
+        if (deleteRows.length === 0) {
+            return res.status(400).json({
+                message: "something went wrong"
+            })
+        }
+        return res.status(200).json({
+            message: "successfully",
+            data: deleteRows
+        })
+    } catch (error) {
+        console.log(error);
+
+    }
+}
 
 
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { productByID, removeVariants } from "../Fetch/FetchAPI";
+import { productByID, removeSpec, removeVariants } from "../Fetch/FetchAPI";
 import { useNavigate } from "react-router-dom";
 import Model from "../Utils/Model/Model";
 
@@ -7,11 +7,13 @@ const Offer = () => {
   const [items, setItems] = useState([]);
   const [arrayImage, setArrayImage] = useState([]);
   const [selectedImage, setSelectedImage] = useState("");
-  const [open, setOpen] = useState(false);
+  const [openColor, setOpenColor] = useState(false);
+  const [openSpec, setOpenSpec] = useState(false);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedStorage, setSelectedStorage] = useState(null);
   const searchParams = new URLSearchParams(window.location.search);
   const [index, setIndex] = useState(0);
+  const [selectedSpec, setSelectedSpec] = useState({ idphone_variants: null, storage: null });
   const query = searchParams.get("phone_name");
   const navigate = useNavigate();
 
@@ -49,6 +51,16 @@ const Offer = () => {
       console.error("Error deleting item:", error);
     }
   };
+  const handleDeleteSpec = async (variant_id, storage) => {
+    try {
+      const response = await removeSpec(variant_id, storage)
+      window.location.reload();
+      return response;
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -66,9 +78,11 @@ const Offer = () => {
     setSelectedImage(images?.[0] || "");
   };
 
-  const handleStorageChange = (storage) => {
+  const handleStorageChange = (storage, spec) => {
     setSelectedStorage(storage);
+    setSelectedSpec({ idphone_variants: spec.idphone_variants, storage: spec.storage });
   };
+
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -77,6 +91,13 @@ const Offer = () => {
   };
 
   useEffect(() => {
+    if (items.length > 0) {
+      const defaultItem = items[0];
+      setSelectedSpec({
+        idphone_variants: defaultItem.idphone_variants,
+        storage: defaultItem.storage,
+      });
+    }
     fetchData();
   }, [fetchData]);
 
@@ -151,13 +172,15 @@ const Offer = () => {
                       ? "bg-green-500 text-white"
                       : "bg-gray-200 text-gray-800"
                       }`}
-                    onClick={() => handleStorageChange(item.storage)}
+                    onClick={() => handleStorageChange(item.storage, item)} // Passing the correct item
                   >
                     {item.storage}
                   </button>
                 ))}
+
               </div>
             </div>
+
 
             {/* Specifications */}
             <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
@@ -174,15 +197,27 @@ const Offer = () => {
             <div className="flex gap-4">
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
-                onClick={() => setOpen(true)}
+                onClick={() => setOpenColor(true)}
               >
-                Update
+                Update Color
+              </button>
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+                onClick={() => setOpenSpec(true)}
+              >
+                Update Spec
               </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
                 onClick={() => handleDelete(selectedItem.idphone_variants)}
               >
-                Delete
+                Delete Color
+              </button>
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
+                onClick={() => handleDeleteSpec(selectedSpec.idphone_variants, selectedSpec.storage)}
+              >
+                Delete Spec
               </button>
             </div>
           </div>
@@ -193,11 +228,20 @@ const Offer = () => {
 
       {/* Modal */}
       <Model
-        open={open}
-        onClose={() => setOpen(false)}
+        open={openColor}
+        onClose={() => setOpenColor(false)}
         id="updateVariants"
         product_id={selectedItem?.idphone_variants || null}
       />
+      <Model
+        open={openSpec}
+        onClose={() => setOpenSpec(false)}
+        id="updateSpec"
+        product_id={selectedSpec.idphone_variants} // Correctly pass idphone_variants
+        storage={selectedSpec.storage} // Correctly pass storage
+      />
+
+
     </div>
   );
 };

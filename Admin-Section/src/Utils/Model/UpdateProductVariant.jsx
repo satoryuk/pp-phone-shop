@@ -9,7 +9,7 @@ const UpdateProductVariants = ({ product_id }) => {
     const [images, setImages] = useState([]);
     const [price, setPrice] = useState('');
     const [colors, setColors] = useState("#000000"); // Default to one color
-    const [stock, setStock] = useState('');
+
 
     useEffect(() => {
         setID(product_id)
@@ -52,7 +52,7 @@ const UpdateProductVariants = ({ product_id }) => {
             images,
             price,
             colors,
-            stock,
+
         }
         try {
             const result = await updateProductVariants(formdata, id);
@@ -69,7 +69,7 @@ const UpdateProductVariants = ({ product_id }) => {
         setImages([]);
         setPrice('');
         setColors(['']);
-        setStock('');
+
 
     }
     return (
@@ -79,7 +79,7 @@ const UpdateProductVariants = ({ product_id }) => {
             </h1>
             <form
                 onSubmit={handleUpdate}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:items-center gap-10 py-10 "
+                className="grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 md:items-center gap-10 py-10 "
             >
                 {/* Price */}
                 <div className="flex flex-col">
@@ -144,18 +144,6 @@ const UpdateProductVariants = ({ product_id }) => {
                     </div>
                 </div>
 
-                <div className="flex flex-col">
-                    <label className="text-sm font-medium text-primary mb-2">Stock</label>
-                    <input
-                        type="number"
-                        name="stock"
-                        placeholder="Enter product stock quantity"
-                        className="input-style"
-                        value={stock}
-                        onChange={(e) => setStock(e.target.value)}
-                        required
-                    />
-                </div>
 
                 <div className=" w-full gap-4 mt-4 grid grid-cols-2 justify-center items-center">
                     <input
