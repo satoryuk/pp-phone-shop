@@ -4,8 +4,9 @@ import {
   desertColor,
   naturalColor,
   silverColor,
-} from "../assets/image";
-import Navbar from "./Navbar";
+} from "../Assets/image";
+import { Link } from "react-router-dom";
+import { back_sign } from "../Assets/image";
 
 const Add_to_favorite = () => {
   const [favorites, setFavorites] = useState([
@@ -23,10 +24,7 @@ const Add_to_favorite = () => {
   };
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      {/* <div>
-        <Navbar />
-      </div> */}
-      x<h1 className="text-3xl font-bold mb-6">Favorites</h1>
+      <h1 className="text-3xl font-bold mb-6">Favorites</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {favorites.map((item) => (
           <div
@@ -72,6 +70,14 @@ const Add_to_favorite = () => {
           </div>
         ))}
       </div>
+      <Link to="/">
+        <div className="flex items-center mt-4">
+          <img src={back_sign} alt="back_sign" className="w-[25px]" />
+          <a href="#" className="text-green-500 ml-2">
+            Back to Home
+          </a>
+        </div>
+      </Link>
     </div>
   );
 };

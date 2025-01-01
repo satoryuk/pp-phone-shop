@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { logo, menu, buy } from "../Assets/image";
+import { logo, menu, buy, favorite_packages } from "../Assets/image";
 import { Link, NavLink } from "react-router-dom";
 import { IoIosNotifications } from "react-icons/io";
 import Popup from "reactjs-popup";
@@ -56,6 +56,21 @@ const Navbar = ({ token, onLogin, onLogout }) => {
               <button className="relative">
                 <span role="img" aria-label="cart">
                   <img src={buy} alt="buy_cart" className="w-[30px] h-auto" />
+                </span>
+                <span className="absolute top-0 right-0 transform translate-x-[25%] bg-red-600 text-white text-xs rounded-full px-1">
+                  0
+                </span>
+              </button>
+            </Link>
+
+            <Link to="/add-to-favorite">
+              <button className="relative">
+                <span role="img" aria-label="cart">
+                  <img
+                    src={favorite_packages}
+                    alt="buy_cart"
+                    className="w-[30px] h-auto"
+                  />
                 </span>
                 <span className="absolute top-0 right-0 transform translate-x-[25%] bg-red-600 text-white text-xs rounded-full px-1">
                   0

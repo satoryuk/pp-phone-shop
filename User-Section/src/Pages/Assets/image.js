@@ -18,6 +18,7 @@ import favorite_green from "../Assets/favorite_green.png";
 import menu from "../Assets/Menu.png";
 import buy from "../Assets/Buy.png";
 import back_sign from "../Assets/back_sign.png";
+import favorite_packages from "../Assets/favorite_package.png";
 
 export {
   logo,
@@ -40,4 +41,5 @@ export {
   menu,
   buy,
   back_sign,
+  favorite_packages,
 };
