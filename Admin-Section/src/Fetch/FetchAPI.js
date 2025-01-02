@@ -1,5 +1,4 @@
 import axios from "axios";
-import { stock } from "../Assets";
 
 
 const API_URL_Auth = "http://localhost:3000/auth";
@@ -125,7 +124,7 @@ export const tableByCategory = async (category) => {
   }
 }
 
-export const searchFetch = async ({ searchData, Category }) => {
+export const searchFetchByCategory = async ({ searchData, Category }) => {
   try {
     const response = await axios.get(`${API_URL_COMMON}/searchProduct?searchData=${searchData}&Category=${Category}`, {
       withCredentials: true
@@ -348,7 +347,7 @@ export const OrderTableFetch = async () => {
 
 export const productByID = async (query) => {
   try {
-    const response = await axios.get(`${API_URL_COMMON}/searchProductByName?phone_name=${query}`, {
+    const response = await axios.get(`${API_URL_COMMON}/getProduct?phone_name=${query}`, {
       withCredentials: true,
     });
     return response.data;

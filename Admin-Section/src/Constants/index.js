@@ -214,10 +214,12 @@ export const order_header = [
 export const offer_header = [
   { label: "Product Name", dbLabel: "phone_name" },
   { label: "Promotion Name", dbLabel: "promo_name" },
+  { label: "Storage", dbLabel: "storage" },
   { label: "Discount Percentage", dbLabel: "discount_percent" },
   { label: "Start Date", dbLabel: "start_date" },
   { label: "End Date", dbLabel: "end_date" },
   { label: "Color", dbLabel: "Color" }
+
 ];
 
 export const productHeader = [

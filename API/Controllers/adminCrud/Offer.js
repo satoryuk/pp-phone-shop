@@ -2,7 +2,7 @@ import pool from "../../db/db_handle.js";
 
 
 export const offerInsert = async (req, res) => {
-    const { phone_name, promo_name, discount_percent, start_date, end_date, colors } = req.body;
+    const { phone_name, promo_name, sto, discount_percent, start_date, end_date, colors } = req.body;
     console.log(req.body);
 
     // Check if required fields are provided

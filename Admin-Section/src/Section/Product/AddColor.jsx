@@ -4,7 +4,6 @@ import { addNewColorFetch } from '../../Fetch/FetchAPI';
 const AddColor = () => {
     const [color, setColor] = useState([]);
     const [productName, setProductName] = useState();
-    const [price, setPrice] = useState();
     const [stock, setStock] = useState();
     const [images, setImages] = useState([]);
     const fileRef = useRef();
@@ -26,7 +25,6 @@ const AddColor = () => {
         const formdata = {
             color,
             productName,
-            price,
             stock,
             images
         }
@@ -42,7 +40,6 @@ const AddColor = () => {
     const handleClear = () => {
         setColor(''),
             setProductName(''),
-            setPrice(''),
             setStock(''),
             setImages([])
     }
@@ -69,17 +66,7 @@ const AddColor = () => {
                         required
                     />
                 </div>
-                <div className='flex flex-col'>
-                    <label className='text-sm font-medium text-primary mb-2'>Price</label>
-                    <input
-                        type="text"
-                        name='price'
-                        value={price}
-                        className='input-style'
-                        onChange={(e) => setPrice(e.target.value)}
 
-                    />
-                </div>
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-primary mb-2">Colors</label>
                     <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-lg shadow-md">
@@ -103,6 +90,7 @@ const AddColor = () => {
                     <input
                         type="text"
                         name='stock'
+                        placeholder='Enter Stock'
                         value={stock}
                         className='input-style'
                         onChange={(e) => setStock(e.target.value)}

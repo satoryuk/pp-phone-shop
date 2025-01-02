@@ -10,6 +10,8 @@ const AddDetail = () => {
     const [storage, setStorage] = useState("");
     const [battery, setBattery] = useState("");
     const [camera, setCamera] = useState("");
+    const [price, setPrice] = useState("");
+    const [stock, setStock] = useState("");
 
     // Handle form submission
     const handleSubmit = async (e) => {
@@ -40,6 +42,8 @@ const AddDetail = () => {
             storage,
             battery,
             camera,
+            price,
+            stock
         };
 
         try {
@@ -47,7 +51,7 @@ const AddDetail = () => {
             console.log("Response:", data);
 
             // Clear fields on successful submission
-            handleReset();
+            // handleReset();
         } catch (error) {
             console.error("Error:", error);
         }
@@ -93,10 +97,34 @@ const AddDetail = () => {
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-primary mb-2">Color</label>
                     <input
-                        type="text"
+                        type="color"
                         value={color}
                         onChange={(e) => setColor(e.target.value)}
                         placeholder="Enter color"
+                        className="input-style h-10"
+                        required
+                    />
+                </div>
+                {/*price*/}
+                <div className="flex flex-col">
+                    <label className="text-sm font-medium text-primary mb-2">Price</label>
+                    <input
+                        type="text"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        placeholder="Enter Price"
+                        className="input-style"
+                        required
+                    />
+                </div>
+
+                <div className="flex flex-col">
+                    <label className="text-sm font-medium text-primary mb-2">Stock</label>
+                    <input
+                        type="text"
+                        value={stock}
+                        onChange={(e) => setStock(e.target.value)}
+                        placeholder="Enter Price"
                         className="input-style"
                         required
                     />

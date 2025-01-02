@@ -40,11 +40,11 @@ export const addNewProduct = async (req, res) => {
             "INSERT INTO phones (name, description, category_id, brand_id, release_date,stock) VALUES(?,?,?,?,?,0)";
 
         const addSpecificationsQuery =
-            "INSERT INTO specifications (phone_id, screen_size, processor, ram, storage, battery, camera) VALUES(?,?,?,?,?,?,?)";
+            "INSERT INTO specifications (phone_variant_id, screen_size, processor, ram, storage, battery, camera) VALUES(?,?,?,?,?,?,?)";
         // const addColorsQuery =
         //   "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
         const addColorQuery =
-            "INSERT INTO phone_variants (phone_id,color,price,stock) VALUES (?,?,?,?)"
+            "INSERT INTO phone_variants (phone_id,color,stock) VALUES (?,?,?)"
         const addImageQuery =
             "INSERT INTO productimage(phone_variant_id, image) VALUES (?,?)";
 
@@ -68,8 +68,19 @@ export const addNewProduct = async (req, res) => {
         const [productRows] = await pool.promise().query(addProductQuery, productValues);
         const phone_id = productRows.insertId;
 
+
+        let variantID = [];
+        console.log(colors);
+
+        await pool.promise().query(addColorQuery, [phone_id, colors, stock])
+            .then(([rows]) => {
+                variantID.push(rows.insertId)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
         const specificationValues = [
-            phone_id,
+            variantID,
             screenSize,
             processor,
             ram,
@@ -78,17 +89,6 @@ export const addNewProduct = async (req, res) => {
             camera
         ];
         await pool.promise().query(addSpecificationsQuery, specificationValues);
-        let variantID = [];
-        console.log(colors);
-
-        await pool.promise().query(addColorQuery, [phone_id, colors, price, stock])
-            .then(([rows]) => {
-                variantID.push(rows.insertId)
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-
 
         console.log(variantID);
 
@@ -336,13 +336,13 @@ export const addNewCategory = (req, res) => {
 };
 export const CountHeaderData = (req, res) => {
     const query = `
-      SELECT 'Phone' AS label, COUNT(phone_id) AS quantity
+      SELECT 'Product' AS label, COUNT(phone_id) AS quantity
       FROM phones
       UNION ALL
       SELECT 'Category' AS label, COUNT(category_id) AS quantity
       FROM categories
       UNION ALL
-      SELECT 'Inventory' AS label, COUNT(stock) AS quantity
+      SELECT 'Inventory' AS label, SUM(stock) AS quantity
       FROM phones;
     `;
 
@@ -405,11 +405,11 @@ export const updateProductVariants = async (req, res) => {
 }
 
 export const addVariants = async (req, res) => {
-    const { productName, color, price, stock } = req.body;
+    const { productName, color, stock } = req.body;
     const productImages = req.files;
 
     // Input Validation
-    if (!productName || !color || !price || !stock || !productImages) {
+    if (!productName || !color || !productImages) {
         return res.status(400).json({
             message: "Fill ALL fields"
         });
@@ -423,8 +423,8 @@ export const addVariants = async (req, res) => {
         // Database Queries
         const findPhoneIDQuery = `SELECT phone_id FROM phones WHERE name=?`;
         const insertVariantsQuery = `
-            INSERT INTO phone_variants(phone_id, color, price, stock)
-            VALUES(?, ?, ?, ?)
+            INSERT INTO phone_variants(phone_id, color, stock)
+            VALUES(?, ?, ?)
         `;
         const insertImageQuery = `
             INSERT INTO productimage(phone_variant_id, image)
@@ -439,7 +439,7 @@ export const addVariants = async (req, res) => {
         const phone_id = phone[0].phone_id;
 
         // Insert variant
-        const variantValues = [phone_id, color, price, stock];
+        const variantValues = [phone_id, color, stock || 0];
         const [variantResult] = await pool.promise().query(insertVariantsQuery, variantValues);
         const variantID = variantResult.insertId;
 
@@ -460,15 +460,16 @@ export const addVariants = async (req, res) => {
     }
 };
 export const addNewSpecificate = async (req, res) => {
-    const { product_name, color, screen_size, processor, ram, storage, battery, camera } = req.body.formdata;
+    const { product_name, color, screen_size, processor, ram, storage, battery, camera, price, stock } = req.body.formdata;
     // console.log(req.body.formdata);
 
     // Input Validation
-    if (!product_name || !color || !screen_size || !processor || !ram || !storage || !battery || !camera) {
-        return res.status(400).json({
-            message: "Fill all fields"
-        });
-    }
+    // if (!product_name || !color || !screen_size || !processor || !ram || !storage || !battery || !camera || !price || !stock) {
+    //     return res.status(400).json({
+    //         message: "Fill all fields"
+    //     });
+    // }
+    console.log(req.body);
 
     try {
         // Find Product ID
@@ -489,10 +490,10 @@ export const addNewSpecificate = async (req, res) => {
 
         // Insert Specifications
         const insertSpecificationsQuery = `
-            INSERT INTO specifications (phone_variant_id, screen_size, processor, ram, storage, battery, camera)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO specifications (phone_variant_id, screen_size, processor, ram, storage, battery, camera,price,stock)
+            VALUES (?, ?, ?, ?, ?, ?, ?,?,?)
         `;
-        const values = [variantID, screen_size, processor, ram, storage, battery, camera];
+        const values = [variantID, screen_size, processor, ram, storage, battery, camera, price, stock];
         const [insertResult] = await pool.promise().query(insertSpecificationsQuery, values);
 
         // Success Response

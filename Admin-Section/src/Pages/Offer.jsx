@@ -90,6 +90,7 @@ const Offer = () => {
     return date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   };
 
+
   useEffect(() => {
     if (items.length > 0) {
       const defaultItem = items[0];
@@ -98,6 +99,12 @@ const Offer = () => {
         storage: defaultItem.storage,
       });
     }
+    console.log(selectedSpec.idphone_variants);
+    console.log(selectedSpec.storage);
+
+  }, [items]);
+
+  useEffect(() => {
     fetchData();
   }, [fetchData]);
 
@@ -147,6 +154,7 @@ const Offer = () => {
 
             {/* Colors */}
             <div>
+              <p className="text-gray-600 mb-4"><strong>Colors ID: {selectedItem.idphone_variants}</strong></p>
               <p className="text-gray-600 mb-2"><strong>Colors:</strong></p>
               <div className="flex gap-3">
                 {uniqueColors.map((color, idx) => (
@@ -185,6 +193,7 @@ const Offer = () => {
             {/* Specifications */}
             <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
               <h2 className="text-xl font-medium text-gray-700 mb-3">Specifications</h2>
+              <p><strong>Spec ID:</strong> {selectedItem.spec_id || "N/A"}</p>
               <p><strong>Processor:</strong> {selectedItem.processor || "N/A"}</p>
               <p><strong>RAM:</strong> {selectedItem.ram || "N/A"}</p>
               <p><strong>Battery:</strong> {selectedItem.battery || "N/A"}</p>
