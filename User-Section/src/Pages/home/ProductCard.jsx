@@ -16,7 +16,7 @@ const ProductCard = ({ product }) => {
       <img
         src={product.image}
         alt={product.name}
-        className="w-full h-48 object-cover rounded-md"
+        className="w-full h-auto object-cover rounded-md"
       />
       <h3 className="mt-2 text-center font-semibold text-gray-800">
         {product.name}

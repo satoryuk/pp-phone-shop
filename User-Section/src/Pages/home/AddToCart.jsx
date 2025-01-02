@@ -73,9 +73,10 @@ const AddToCart = () => {
   );
 
   return (
-    <div>
-      <div className="flex p-8">
-        <div className="w-2/3 pr-4">
+    <div className="p-4">
+      <div className="flex flex-col lg:flex-row lg:p-8">
+        {/* Cart Items Section */}
+        <div className="w-full lg:w-2/3 lg:pr-4 mb-6 lg:mb-0">
           <h1 className="text-2xl font-semibold mb-6">Phone Shop Cart</h1>
           <div className="border-b-2 mb-4 pb-2 font-semibold flex justify-between">
             <span>Product Details</span>
@@ -94,17 +95,27 @@ const AddToCart = () => {
               onRemove={() => handleRemoveQuantity(item.id)}
             />
           ))}
-          <Link to="/product-detail">
+
+          {/* Back to Shopping Link - Visible only on large screens */}
+          <Link to="/product-detail" className="hidden lg:block mt-4">
             <div className="flex items-center">
               <img src={back_sign} alt="back_sign" className="w-[25px]" />
-              <a href="#" className="text-green-500 ml-2">
-                Back to shopping
-              </a>
+              <span className="text-green-500 ml-2">Back to shopping</span>
             </div>
           </Link>
         </div>
-        <div className="w-1/3 pl-4">
+
+        {/* Order Summary Section */}
+        <div className="w-full lg:w-1/3 lg:pl-4">
           <OrderSummary items={cartItems} shipping={5} total={total + 5} />
+
+          {/* Back to Shopping Link - Visible only on small screens */}
+          <Link to="/product-detail" className="block lg:hidden mt-4">
+            <div className="flex items-center">
+              <img src={back_sign} alt="back_sign" className="w-[25px]" />
+              <span className="text-green-500 ml-2">Back to shopping</span>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

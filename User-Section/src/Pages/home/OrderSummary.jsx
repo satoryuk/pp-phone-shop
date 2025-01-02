@@ -1,10 +1,10 @@
 import React from "react";
 import {
   desertColor,
+  naturalColor,
   blackColor,
   silverColor,
-  naturalColor,
-} from "../assets/image";
+} from "../Assets/image";
 
 const OrderSummary = () => {
   const items = [
@@ -29,7 +29,7 @@ const OrderSummary = () => {
 
   const totalAmount = items.reduce(
     (total, item) => total + item.price * item.quantity,
-    0,
+    0
   );
 
   return (
