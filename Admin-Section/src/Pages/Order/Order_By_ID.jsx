@@ -138,33 +138,22 @@ const Order_By_ID = () => {
                     <p className="text-center">{item.price_per_unit}$</p>
 
                     {/* Discount */}
-                    <p className="text-center hidden lg:block">{item.discount_percentage}%</p>
+                    <p className="text-center hidden lg:block">{item.discount_percentage || 0}%</p>
 
                     {/* Total */}
-                    <p className="text-center hidden lg:block">{item.amount_per_total_orderItem}$</p>
+                    <p className="text-center hidden lg:block">{item.total_before_discount}$</p>
 
                     {/* Discounted Total */}
-                    <p className="text-center hidden lg:block">{item.discount_price_per_unit}$</p>
+                    <p className="text-center hidden lg:block">{item.total_after_discount}$</p>
 
                     {/* Action Buttons */}
                     <div className="flex justify-center gap-2">
                       <button>
                         <img
-                          src={edit}
-                          alt="Edit"
-                          className="w-6 h-6 cursor-pointer"
-                          onClick={() => {
-                            setOpen(true);
-                            setIDEdit(index);
-                          }}
-                        />
-                      </button>
-                      <button>
-                        <img
                           src={trash}
                           alt="Remove"
                           className="w-6 h-6 cursor-pointer"
-                          onClick={(e) => handleRemoveItems(e, { id: item.phone_variants_id })}
+                          onClick={(e) => handleRemoveItems(e, { id: item.order_item_id })}
                         />
                       </button>
                     </div>
@@ -209,12 +198,6 @@ const Order_By_ID = () => {
           </div>
 
           {/* Model for Update Order */}
-          <Model open={open} onClose={() => setOpen(false)} id="updateOrder">
-            <div className="text-center">
-              <h3 className="text-lg font-black text-gray-800">Update Order</h3>
-              <p className="text-sm text-black-500">Modify the order details below.</p>
-            </div>
-          </Model>
         </div>
       ) : (
         <div className="text-center text-gray-600">Loading order details...</div>

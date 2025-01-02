@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { trash } from "../Assets";
 import { tableHeadOrder } from "../Constants";
 import { Link } from "react-router-dom";
-import { removeOrder, searchFetch, searchOrder } from "../Fetch/FetchAPI.js";
+import { removeOrder, searchOrder } from "../Fetch/FetchAPI.js";
 
 const TableOrder = ({ title, items }) => {
     const [datatable, setDataTable] = useState(items || []);

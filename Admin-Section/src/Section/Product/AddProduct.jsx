@@ -64,7 +64,7 @@ const AddProduct = ({ product_id }) => {
 
       // console.log(formdata.images);
 
-      // handleClear(); // Clear form after successful submission
+      handleClear(); // Clear form after successful submission
       console.log(result);
     } catch (error) {
       console.log(error);

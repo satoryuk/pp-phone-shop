@@ -9,22 +9,25 @@ export const OrderTableItemsByID = async (req, res) => {
     o.order_id,
     o.order_date,
     o.status,
+    ot.order_item_id,
     ot.phone_variants_id,
     ot.quantity,
     ot.amount AS amount_per_total_orderItem,
     pv.color,
-    pv.price AS price_per_unit,
+    pv.idphone_variants,
+    s.spec_id,
+    s.price AS price_per_unit,
     pm.discount_percentage,
-    GROUP_CONCAT(pdm.image ORDER BY pdm.image SEPARATOR ',') AS images,
-    p.name,
+    GROUP_CONCAT(DISTINCT pdm.image ORDER BY pdm.image SEPARATOR ',') AS images,
+    p.name AS phone_name,
     CASE
-        WHEN pm.status = "Active" THEN ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2)
-        ELSE pv.price
+        WHEN pm.status = "Active" THEN ROUND(s.price * (100 - pm.discount_percentage) / 100, 2)
+        ELSE s.price
     END AS discount_price_per_unit,
     o.total_amount AS total_before_discount,
     CASE
-        WHEN pm.status = "Active" THEN ROUND(pv.price * (100 - pm.discount_percentage) / 100, 2) * ot.quantity
-        ELSE pv.price * ot.quantity
+        WHEN pm.status = "Active" THEN ROUND(s.price * (100 - pm.discount_percentage) / 100, 2) * ot.quantity
+        ELSE s.price * ot.quantity
     END AS total_after_discount
 FROM 
     orders o  
@@ -38,21 +41,28 @@ LEFT JOIN
     promotions pm ON pm.phone_variants_id = pv.idphone_variants
 LEFT JOIN 
     productimage pdm ON pdm.phone_variant_id = pv.idphone_variants
+LEFT JOIN 
+    specifications s ON s.spec_id = ot.spec_id
+
 WHERE 
     o.order_id = ?
 GROUP BY 
     o.order_id, 
     o.order_date,
     o.status,
-    ot.phone_variants_id, 
-    ot.quantity, 
-    ot.amount, 
-    pv.color, 
-    pv.price, 
-    pm.discount_percentage, 
-    p.name, 
-    pm.status, 
+    ot.order_item_id,
+    ot.phone_variants_id,
+    pv.idphone_variants,
+    ot.quantity,
+    ot.amount,
+    pv.color,
+    s.spec_id,
+    s.price,
+    pm.discount_percentage,
+    p.name,
+    pm.status,
     o.total_amount;
+
 `
 
     const queryCustomer = `SELECT * FROM orders o
