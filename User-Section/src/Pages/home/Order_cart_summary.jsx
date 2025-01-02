@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const OrderSummary = ({ items, shipping, total, onApplyPromo }) => {
   return (
@@ -11,7 +12,7 @@ const OrderSummary = ({ items, shipping, total, onApplyPromo }) => {
       </div>
       <div className="flex justify-between mb-8">
         <span>Shipping</span>
-        <select className="border p-1 rounded">
+        <select className="border p-1 rounded fo">
           <option>Standard Delivery - $5.00</option>
         </select>
       </div>
@@ -33,9 +34,11 @@ const OrderSummary = ({ items, shipping, total, onApplyPromo }) => {
         <span>Total Cost:</span>
         <span className="text-red-600">${total}</span>
       </div>
-      <button className="bg-green-400 text-white w-full py-2 rounded mt-8 hover:bg-green-500">
-        CHECKOUT
-      </button>
+      <Link to="/checkout">
+        <button className="bg-green-400 text-white w-full py-2 rounded mt-8 hover:bg-green-500">
+          CHECKOUT
+        </button>
+      </Link>
     </div>
   );
 };
