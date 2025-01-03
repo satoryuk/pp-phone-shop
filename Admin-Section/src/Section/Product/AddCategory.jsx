@@ -5,16 +5,23 @@ import { addNewCategoryAPI } from "../../Fetch/FetchAPI";
 const AddCategory = () => {
 
   const [category, setCategory] = useState('');
-
+  const [error, setError] = useState('')
+  const [result, setResult] = useState('')
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const data = await addNewCategoryAPI(category);
+      if (data.length !== 0) {
+        setResult("Add Success")
+        setError('')
+      }
       setCategory('');
       console.log(data);
     } catch (error) {
       console.log(error);
+      setResult('')
+      setError('Something went wrong')
 
     }
 
@@ -69,6 +76,10 @@ const AddCategory = () => {
           </button>
         </div>
       </form>
+      <div className="mt-16">
+        {error && <p className="text-red-500">{error}</p>}
+        {result && <p className="text-primary">{result}</p>}
+      </div>
     </div>
   );
 };

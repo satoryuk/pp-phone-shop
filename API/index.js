@@ -8,6 +8,7 @@ import cors from "cors";
 import adminRouter from "./Routs/AdminHandle.js";
 import AuthRouter from "./Routs/Auth.js";
 import commonRouter from "./Routs/Common.js";
+import userRouter from "./Routs/User.js";
 
 
 config();
@@ -53,6 +54,7 @@ app.use(
 app.use("/auth", AuthRouter);
 app.use("/admin", adminRouter);
 app.use("/common", commonRouter);
+app.use("/user", userRouter)
 // app.use("/user",userRouter);
 // Example protected route with token validation
 

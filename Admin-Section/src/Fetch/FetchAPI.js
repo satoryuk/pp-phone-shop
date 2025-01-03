@@ -91,8 +91,9 @@ export const dashboardHeaderAll = async () => {
 export const tableByDate = async (date) => {
 
   try {
-    const response = await axios.get(`${API_URL_COMMON}/getAllProductbydate`, {
-      params: { date: date },
+    console.log(date);
+
+    const response = await axios.get(`${API_URL_COMMON}/getAllProductbydate?date=${date}`, {
       withCredentials: true
     })
 
@@ -356,6 +357,20 @@ export const productByID = async (query) => {
     throw error; // Re-throw the error for the caller to handle
   }
 };
+export const fetchOfferByID = async (param) => {
+  try {
+    const response = await axios.get(`${API_URL_COMMON}/offerDisplayByID/${param.id}`,
+      {
+        withCredentials: true
+      }
+    )
+    return response.data;
+
+  } catch (error) {
+    console.log(error);
+
+  }
+}
 export const headerOrder = async () => {
   try {
     const response = await axios.get(`${API_URL_Admin}/headerOrder`, {
@@ -429,13 +444,13 @@ export const insertPromotion = async ({ formData }) => {
     formDataObj.append('start_date', formData.start_date);
     formDataObj.append('end_date', formData.end_date);
     formDataObj.append('promo_name', formData.promo_name);
-
+    formDataObj.append('color', formData.Color)
+    formDataObj.append('storage', formData.storage)
     // Append each color from the formData.Color array to FormData
-    for (let color of formData.Color) {
-      formDataObj.append('colors', color);
-    }
 
     // Make the API call using axios
+    // console.log(formData);
+
     const response = await axios.put(`${API_URL_Admin}/offerInsert`, formDataObj, {
       withCredentials: true,
       headers: {

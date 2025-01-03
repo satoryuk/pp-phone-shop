@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
-import { productByID, removeSpec, removeVariants } from "../Fetch/FetchAPI";
-import { useNavigate } from "react-router-dom";
+import { fetchOfferByID, productByID, removeOffer, removeSpec, removeVariants } from "../Fetch/FetchAPI";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Model from "../Utils/Model/Model";
+import { Bold } from "react-feather";
 
 const Offer = () => {
   const [items, setItems] = useState([]);
@@ -11,15 +12,25 @@ const Offer = () => {
   const [openSpec, setOpenSpec] = useState(false);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedStorage, setSelectedStorage] = useState(null);
-  const searchParams = new URLSearchParams(window.location.search);
   const [index, setIndex] = useState(0);
   const [selectedSpec, setSelectedSpec] = useState({ idphone_variants: null, storage: null });
+  const searchParams = new URLSearchParams(window.location.search);
   const query = searchParams.get("phone_name");
   const navigate = useNavigate();
+  const location = useLocation();
+  const param = useParams();
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await productByID(query);
+      let response;
+      if (location.pathname === `/dashboard/offer/${param.id}`) {
+        // Fetch data for offer page
+        response = await fetchOfferByID(param);
+      } else {
+        // Fetch data for product page
+        response = await productByID(query);
+      }
+
       if (!response || !response.data || response.data.length === 0) {
         console.error("No data received or something went wrong");
         return;
@@ -28,10 +39,10 @@ const Offer = () => {
       const productData = response.data;
       setItems(productData);
 
+      // Initialize images and colors
       const images = productData[index]?.images
         ?.split(",")
         .map((image) => image.trim().replaceAll("uploads\\", "").replace(/\s+/g, ""));
-
       setArrayImage(images || []);
       setSelectedImage(images?.[0] || "");
       setSelectedColor(productData[index]?.color || null);
@@ -39,26 +50,33 @@ const Offer = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [query, index]);
+  }, [query, index, location.pathname, param]);
 
   const handleDelete = async (deleteId) => {
     try {
       await removeVariants({ deleteid: deleteId });
-      setItems((prevItems) =>
-        prevItems.filter((item) => item.idphone_variants !== deleteId)
-      );
+      setItems((prevItems) => prevItems.filter((item) => item.idphone_variants !== deleteId));
     } catch (error) {
       console.error("Error deleting item:", error);
     }
   };
+
   const handleDeleteSpec = async (variant_id, storage) => {
     try {
-      const response = await removeSpec(variant_id, storage)
+      await removeSpec(variant_id, storage);
+      window.location.reload(); // Reload page after deleting
+    } catch (error) {
+      console.log("Error deleting spec:", error);
+    }
+  };
+  const handleDeletePromotion = async ({ promo_id }) => {
+    try {
+      // console.log(promo_id);
+
+      await removeOffer({ deleteid: promo_id });
       window.location.reload();
-      return response;
     } catch (error) {
       console.log(error);
-
     }
   }
 
@@ -69,8 +87,9 @@ const Offer = () => {
   const handleColorChange = (color) => {
     setSelectedColor(color);
     const firstItemWithColor = items.find((item) => item.color === color);
-    setSelectedStorage(firstItemWithColor?.storage || null);
 
+    // Update storage and images based on color selection
+    setSelectedStorage(firstItemWithColor?.storage || null);
     const images = firstItemWithColor?.images
       ?.split(",")
       .map((image) => image.trim().replaceAll("uploads\\", "").replace(/\s+/g, ""));
@@ -83,13 +102,15 @@ const Offer = () => {
     setSelectedSpec({ idphone_variants: spec.idphone_variants, storage: spec.storage });
   };
 
-
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   };
 
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   useEffect(() => {
     if (items.length > 0) {
@@ -99,21 +120,12 @@ const Offer = () => {
         storage: defaultItem.storage,
       });
     }
-    console.log(selectedSpec.idphone_variants);
-    console.log(selectedSpec.storage);
-
   }, [items]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   const uniqueColors = Array.from(new Set(items.map((item) => item.color)));
   const filteredItemsByColor = items.filter((item) => item.color === selectedColor);
-
-  const selectedItem = filteredItemsByColor.find(
-    (item) => item.storage === selectedStorage
-  ) || items[index];
+  const selectedItem =
+    filteredItemsByColor.find((item) => item.storage === selectedStorage) || items[index];
 
   return (
     <div className="container mx-auto bg-white rounded-lg shadow-lg max-w-7xl mt-10 p-8">
@@ -148,8 +160,13 @@ const Offer = () => {
             <p className="text-gray-600">
               <strong>Product Code:</strong> {selectedItem.phone_id}
             </p>
-            <p className="text-gray-600">
-              <strong>Price:</strong> ${selectedItem.price}
+            <p className="text-gray-600 flex gap-x-3">
+              <strong>Price:</strong> {selectedItem.price_discount !== null ? (
+                <s>{selectedItem.price}</s>
+              ) : (
+                <p>{selectedItem.price}</p>
+              )}
+              {selectedItem.price_discount && <p className="font-bold">{selectedItem.price_discount}</p>}
             </p>
 
             {/* Colors */}
@@ -185,10 +202,8 @@ const Offer = () => {
                     {item.storage}
                   </button>
                 ))}
-
               </div>
             </div>
-
 
             {/* Specifications */}
             <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
@@ -205,35 +220,41 @@ const Offer = () => {
             {/* Actions */}
             <div className="flex gap-4">
               <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+                className={`bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 ${location.pathname === `/dashboard/offer/${param.id}` && "hidden"}`}
                 onClick={() => setOpenColor(true)}
               >
                 Update Color
               </button>
               <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+                className={`bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 ${location.pathname === `/dashboard/offer/${param.id}` && "hidden"}`}
                 onClick={() => setOpenSpec(true)}
               >
                 Update Spec
               </button>
               <button
-                className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
+                className={`bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 ${location.pathname === `/dashboard/offer/${param.id}` && "hidden"}`}
                 onClick={() => handleDelete(selectedItem.idphone_variants)}
               >
                 Delete Color
               </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
-                onClick={() => handleDeleteSpec(selectedSpec.idphone_variants, selectedSpec.storage)}
+                onClick={
+                  location.pathname === `/dashboard/offer/${param.id}` ? () => handleDeletePromotion({ promo_id: selectedItem.promo_id }) :
+                    () => handleDeleteSpec(selectedSpec.idphone_variants, selectedSpec.storage)
+
+                }
               >
-                Delete Spec
+                {location.pathname === `/dashboard/offer/${param.id}` ? 'Delete Promotion' : 'Delete Spec'}
               </button>
+
             </div>
           </div>
         </div>
       ) : (
         <div className="text-center text-gray-500">No data available</div>
-      )}
+      )
+      }
 
       {/* Modal */}
       <Model
@@ -249,9 +270,7 @@ const Offer = () => {
         product_id={selectedSpec.idphone_variants} // Correctly pass idphone_variants
         storage={selectedSpec.storage} // Correctly pass storage
       />
-
-
-    </div>
+    </div >
   );
 };
 

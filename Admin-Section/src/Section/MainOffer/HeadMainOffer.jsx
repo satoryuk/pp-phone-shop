@@ -6,57 +6,47 @@ const HeadMainOffer = () => {
     // State to manage form inputs
     const [formData, setFormData] = useState(
         offer_header.reduce((acc, field) => {
-            acc[field.dbLabel] = field.dbLabel === "Color" ? [""] : ""; // Initialize Color as an array
+            acc[field.dbLabel] = ""; // Initialize all fields as empty strings
             return acc;
         }, {})
     );
 
+    // State to handle feedback messages
+    const [feedbackMessage, setFeedbackMessage] = useState("");
+
     // Handle input change
     const handleInputChange = (e) => {
-        const { id, value } = e.target; // Use id to identify the field
+        const { id, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [id]: value, // Update the corresponding field in the state
-        }));
-    };
-
-    // Handle color change for Color field
-    const handleColorChange = (index, value) => {
-        setFormData((prev) => ({
-            ...prev,
-            Color: prev.Color.map((color, i) => (i === index ? value : color)), // Update the specific color
-        }));
-    };
-
-    // Add a new color input
-    const addColor = () => {
-        setFormData((prev) => ({
-            ...prev,
-            Color: [...prev.Color, ""],
-        }));
-    };
-
-    // Remove a color input
-    const removeColor = (index) => {
-        setFormData((prev) => ({
-            ...prev,
-            Color: prev.Color.filter((_, i) => i !== index), // Remove the specific color
+            [id]: value,
         }));
     };
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await insertPromotion({ formData: formData });
-        if (response.length !== 0) {
-            window.location.reload();
+        try {
+            const response = await insertPromotion({ formData: formData });
+
+            if (!response || response.length === 0) {
+                // Handle case when response is null or empty
+                setFeedbackMessage("No data returned. Please check your input or try again.");
+            } else {
+                // Handle case when response has data
+                setFeedbackMessage("Promotion submitted successfully!");
+                console.log("Submitted Data:", response);
+                // Optionally reload or reset form here
+            }
+        } catch (error) {
+            // Handle errors from the API call
+            console.error("Submission Error:", error);
+            setFeedbackMessage("An error occurred during submission. Please try again.");
         }
-        console.log("Submitted Data:", response);
     };
 
     return (
         <div className="p-6">
-            {console.log(formData)}
             <section className="max-w-4xl mx-auto">
                 <h1 className="green-title mb-20 green-text font-semibold text-center">
                     Offer Discount
@@ -66,53 +56,23 @@ const HeadMainOffer = () => {
                     onSubmit={handleSubmit}
                 >
                     {offer_header.map((element, index) => (
-                        <div
-                            key={index}
-                            className="col-span-1 md:col-span-2 lg:col-span-3"
-                        >
+                        <div key={index} className="col-span-1">
+                            <label
+                                htmlFor={element.dbLabel}
+                                className="text-sm font-medium text-primary mb-2"
+                            >
+                                {element.label}
+                            </label>
                             {element.dbLabel === "Color" ? (
-                                <>
-                                    <label
-                                        htmlFor="color"
-                                        className="text-sm font-medium text-primary mb-2"
-                                    >
-                                        {element.label}
-                                    </label>
-                                    {formData.Color.map((color, colorIndex) => (
-                                        <div
-                                            key={colorIndex}
-                                            className="flex items-center gap-4 mb-2"
-                                        >
-                                            <input
-                                                type="color"
-                                                value={color}
-                                                onChange={(e) =>
-                                                    handleColorChange(
-                                                        colorIndex,
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="h-10 w-10 p-0 border border-gray-300 rounded-md"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    removeColor(colorIndex)
-                                                }
-                                                className="text-sm font-medium text-red-600 hover:text-red-800"
-                                            >
-                                                Remove
-                                            </button>
-                                        </div>
-                                    ))}
-                                    <button
-                                        type="button"
-                                        onClick={addColor}
-                                        className="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md shadow-sm"
-                                    >
-                                        Add Color
-                                    </button>
-                                </>
+                                <div className="flex items-center gap-4 mb-2">
+                                    <input
+                                        type="color"
+                                        id={element.dbLabel}
+                                        value={formData[element.dbLabel]}
+                                        onChange={handleInputChange}
+                                        className="h-10 w-64 p-0 border border-gray-300 rounded-md"
+                                    />
+                                </div>
                             ) : (
                                 <FormField
                                     id={element.dbLabel}
@@ -138,6 +98,11 @@ const HeadMainOffer = () => {
                         />
                     </div>
                 </form>
+                {feedbackMessage && (
+                    <p className="text-center text-sm mt-4 text-red-600">
+                        {feedbackMessage}
+                    </p>
+                )}
             </section>
         </div>
     );
@@ -145,9 +110,6 @@ const HeadMainOffer = () => {
 
 const FormField = ({ id, label, value, onChange, type }) => (
     <div className="flex flex-col items-start">
-        <label htmlFor={id} className="text-sm font-medium text-primary mb-2">
-            {label}
-        </label>
         <input
             type={type}
             id={id}

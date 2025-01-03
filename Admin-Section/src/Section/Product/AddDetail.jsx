@@ -12,6 +12,8 @@ const AddDetail = () => {
     const [camera, setCamera] = useState("");
     const [price, setPrice] = useState("");
     const [stock, setStock] = useState("");
+    const [error, setError] = useState('');
+    const [result, setResult] = useState('');
 
     // Handle form submission
     const handleSubmit = async (e) => {
@@ -49,11 +51,16 @@ const AddDetail = () => {
         try {
             const data = await addNewDetail({ formdata: formData });
             console.log("Response:", data);
-
+            if (data.length !== 0) {
+                setResult("Add New Spec Success")
+            }
             // Clear fields on successful submission
-            // handleReset();
+            setError('')
+            handleReset();
         } catch (error) {
             console.error("Error:", error);
+            setResult('')
+            setError('Something went wrong')
         }
     };
 
@@ -67,6 +74,8 @@ const AddDetail = () => {
         setStorage("");
         setBattery("");
         setCamera("");
+        setStorage("");
+        setPrice("");
     };
 
     return (
@@ -233,6 +242,8 @@ const AddDetail = () => {
                     </button>
                 </div>
             </form>
+            {error && <p className="text-red-500">{error}</p>}
+            {result && <p className="text-primary">{result}</p>}
         </div>
     );
 };

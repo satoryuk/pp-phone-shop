@@ -38,11 +38,11 @@ INNER JOIN
 INNER JOIN 
     phones p ON p.phone_id = pv.phone_id
 LEFT JOIN 
-    promotions pm ON pm.phone_variants_id = pv.idphone_variants
-LEFT JOIN 
     productimage pdm ON pdm.phone_variant_id = pv.idphone_variants
 LEFT JOIN 
     specifications s ON s.spec_id = ot.spec_id
+LEFT JOIN 
+    promotions pm ON pm.spec_id = s.spec_id
 
 WHERE 
     o.order_id = ?

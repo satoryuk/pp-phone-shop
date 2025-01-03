@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { trash } from "../Assets";
 import { tableHeadOffer } from "../Constants";
 import { removeOffer, searchPromotion } from "../Fetch/FetchAPI.js";
+import { Link } from "react-router-dom";
 
 const TableOffer = ({ title, items }) => {
     const [datatable, setDataTable] = useState(items || []);
@@ -144,22 +145,10 @@ const TableOffer = ({ title, items }) => {
                                     )}
                                 </th>
                             ))}
-                            <th className="rounded-r-lg text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 border-l border-gray-200">
-                                <button
-                                    onClick={(e) => handleSelectRemove(e)}
-                                    className="flex justify-center items-center"
-                                >
-                                    <img
-                                        src={trash}
-                                        alt="Delete"
-                                        className="cursor-pointer max-w-[20px] max-h-[20px] sm:max-w-[22px] sm:max-h-[22px]"
-                                    />
-                                </button>
-                            </th>
+
 
                         </tr>
                     </thead>
-
 
                     <tbody>
                         {Array.isArray(datatable?.data) && datatable.data.length > 0 ? (
@@ -173,55 +162,64 @@ const TableOffer = ({ title, items }) => {
                                             type="checkbox"
                                             checked={selectedRows.includes(element.promo_id)}
                                             onChange={() => handleRowSelect(element.promo_id)}
-                                            className="mr-2 sm:mr-3 h-3  w-3 lg:w-4 lg:h-4 border-1 border-white rounded"
+                                            className="mr-2 sm:mr-3 h-3 w-3 lg:w-4 lg:h-4 border-1 border-white rounded"
                                         />
-                                        <p className="text-sm sm:text-base">
+                                        <Link
+                                            to={`${element.phone_id}`}
+                                            className="text-sm sm:text-base"
+                                        >
                                             {element.promo_id}
-                                        </p>
+                                        </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
-                                        <p className="text-sm sm:text-base">
+                                        <Link
+                                            to={`${element.phone_id}`}
+                                            className="text-sm sm:text-base"
+                                        >
                                             {element.name}
-                                        </p>
+                                        </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4 ">
-                                        <p className="text-sm sm:text-base">
+                                        <Link
+                                            to={`${element.phone_id}`}
+                                            className="text-sm sm:text-base"
+                                        >
                                             {element.promo_name}
-                                        </p>
+                                        </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
-                                        <p className="text-sm sm:text-base">
+                                        <Link
+                                            to={`${element.phone_id}`}
+                                            className="text-sm sm:text-base"
+                                        >
                                             {element.price}
-                                        </p>
+                                        </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
-                                        <p className="text-sm sm:text-base">
+                                        <Link
+                                            to={`${element.phone_id}`}
+                                            className="text-sm sm:text-base"
+                                        >
                                             {element.price_discount}
-                                        </p>
+                                        </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
-                                        <p className="text-sm sm:text-base">
+                                        <Link
+                                            to={`${element.phone_id}`}
+                                            className="text-sm sm:text-base"
+                                        >
                                             {element.discount_percentage}
-                                        </p>
+                                        </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">
-                                        <p className="text-sm sm:text-base">
+                                        <Link
+                                            to={`${element.phone_id}`}
+                                            className="text-sm sm:text-base"
+                                        >
                                             {formatDate(element.end_date)}
-                                        </p>
+                                        </Link>
                                     </td>
 
-                                    <td className="table-data flex gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4 justify-center items-center">
-                                        <button
-                                            onClick={() => handleRemove(element.promo_id)}
-                                            className="flex"
-                                        >
-                                            <img
-                                                src={trash}
-                                                alt="Delete"
-                                                className="cursor-pointer max-w-[20px] max-h-[20px] sm:max-w-[22px] sm:max-h-[22px]"
-                                            />
-                                        </button>
-                                    </td>
                                 </tr>
                             ))
                         ) : (
@@ -232,6 +230,7 @@ const TableOffer = ({ title, items }) => {
                             </tr>
                         )}
                     </tbody>
+
                 </table>
             </div>
         </section>

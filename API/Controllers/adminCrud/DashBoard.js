@@ -75,7 +75,6 @@ export const dashboardHeaderAll = (req, res) => {
 export const displayByDate = (req, res) => {
     const { date } = req.query;
 
-
     const query = `SELECT *
 FROM (
     SELECT 
@@ -86,7 +85,8 @@ FROM (
         s.price, 
         pv.color,
         pm.image,
-        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price ASC) AS row_num
+        
+        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price DESC) AS row_num
         
     FROM phones p
     INNER JOIN categories c ON c.category_id = p.category_id
@@ -95,7 +95,7 @@ FROM (
     LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
     LEFT JOIN specifications s ON s.phone_variant_id=pv.idphone_variants
 ) AS ranked
-WHERE row_num = 1 AND ranked.release_date >=CURRENT_DATE()-INTERVAL ? MONTH;
+WHERE row_num = 1 AND release_date >=CURRENT_DATE()-INTERVAL ? MONTH;
               `
     pool.query(query, [date], (err, rows) => {
         if (err) return res.status(400).json({ message: "something went wrong" });
