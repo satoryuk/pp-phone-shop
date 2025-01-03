@@ -19,6 +19,7 @@ import menu from "../Assets/Menu.png";
 import buy from "../Assets/Buy.png";
 import back_sign from "../Assets/back_sign.png";
 import favorite_packages from "../Assets/favorite_package.png";
+import compare from "../Assets/compare.png";
 
 export {
   logo,
@@ -42,4 +43,5 @@ export {
   buy,
   back_sign,
   favorite_packages,
+  compare,
 };
