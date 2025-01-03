@@ -16,9 +16,6 @@ const CheckoutPage = () => {
           Shopping
         </a>
         <a href="#" className="hover:text-green-600 hover:underline">
-          Payment
-        </a>
-        <a href="#" className="hover:text-green-600 hover:underline">
           Order Review
         </a>
       </div>

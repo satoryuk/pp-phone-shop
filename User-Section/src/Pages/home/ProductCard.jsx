@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div
-      className="bg-white shadow-md rounded-lg p-4 cursor-pointer"
+      className="bg-white shadow-md rounded-lg p-4 cursor-pointer hover:p-2 hover:shadow-lg transition-all duration-300"
       onClick={handleProductClick}
     >
       <img

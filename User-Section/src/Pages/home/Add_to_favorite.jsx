@@ -44,7 +44,7 @@ const Add_to_favorite = () => {
             <div className="p-4 text-center bg-gray-50">
               <h2 className="text-lg font-bold">{item.name}</h2>
               {/* Hide Price and Monthly Cost on Hover */}
-              <div className="group-hover:hidden">
+              <div className="group-hover:hidden transition-all duration-500">
                 <p className="text-red-500 text-sm font-semibold mb-2">
                   Price: ${item.price.toFixed(2)}
                 </p>

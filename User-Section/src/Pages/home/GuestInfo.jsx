@@ -10,7 +10,7 @@ const GuestInfo = () => {
           <input
             type="email"
             placeholder="Email Address"
-            className="input-field w-full"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="col-span-1">
@@ -18,7 +18,7 @@ const GuestInfo = () => {
           <input
             type="text"
             placeholder="First Name"
-            className="input-field w-full"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="col-span-1">
@@ -26,12 +26,12 @@ const GuestInfo = () => {
           <input
             type="text"
             placeholder="Last Name"
-            className="input-field w-full"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="col-span-1 md:col-span-2">
           <h4 className="pb-2">Delivery Express</h4>
-          <select className="input-field w-full">
+          <select className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
             <option>Select Delivery Type</option>
             <option>Standard</option>
             <option>Express</option>
@@ -42,7 +42,7 @@ const GuestInfo = () => {
           <input
             type="text"
             placeholder="Village"
-            className="input-field w-full"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="col-span-1">
@@ -50,7 +50,7 @@ const GuestInfo = () => {
           <input
             type="text"
             placeholder="Commune"
-            className="input-field w-full"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="col-span-1">
@@ -58,7 +58,7 @@ const GuestInfo = () => {
           <input
             type="text"
             placeholder="District"
-            className="input-field w-full"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="col-span-1">
@@ -66,7 +66,7 @@ const GuestInfo = () => {
           <input
             type="text"
             placeholder="Province"
-            className="input-field w-full"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
       </form>
