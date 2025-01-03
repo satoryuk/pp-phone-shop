@@ -24,7 +24,21 @@ const products = [
 const HomePage = () => {
   return (
     <div>
-      <div></div>
+      {/* Top section */}
+      <div>
+        <div>
+          <img src="#" alt="" />
+        </div>
+      </div>
+
+      {/* Popular brand section */}
+      <div className="px-8 py-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-[20px] font-bold">POPULAR BRAND</h2>
+          <img src="#" alt="" />
+        </div>
+      </div>
+
       <div className="px-8 py-4">
         {/* Special Offer Section */}
         <div className="mb-8">

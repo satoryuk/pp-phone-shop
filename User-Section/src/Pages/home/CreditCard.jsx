@@ -20,19 +20,23 @@ const CreditCard = () => {
           <input
             type="text"
             placeholder="Card Number"
-            className="input-field"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="col-span-1">
           <h4 className="pb-2">Card Name</h4>
-          <input type="text" placeholder="Card Name" className="input-field" />
+          <input
+            type="text"
+            placeholder="Card Name"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
         </div>
         <div className="col-span-1">
           <h4 className="pb-2">Expiry Date</h4>
           <input
-            type="text"
+            type="date"
             placeholder="Expiry Date (MM/YY)"
-            className="input-field"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="col-span-1">
@@ -40,7 +44,7 @@ const CreditCard = () => {
           <input
             type="text"
             placeholder="Security Code"
-            className="input-field"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
         <div className="col-span-1">
@@ -48,7 +52,7 @@ const CreditCard = () => {
           <input
             type="text"
             placeholder="ZIP / Postal Code"
-            className="input-field"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
       </form>
