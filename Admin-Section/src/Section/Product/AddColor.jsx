@@ -1,13 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react';
 import { addNewColorFetch } from '../../Fetch/FetchAPI';
+import { AxiosError } from 'axios';
 
 const AddColor = () => {
-    const [color, setColor] = useState([]);
-    const [productName, setProductName] = useState();
-    const [stock, setStock] = useState();
+    const [color, setColor] = useState('#000000');
+    const [productName, setProductName] = useState('');
+    const [stock, setStock] = useState('');
     const [images, setImages] = useState([]);
+    const [result, setResult] = useState('');
+    const [error, setError] = useState('');
     const fileRef = useRef();
-
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files); // Convert FileList to Array
@@ -20,93 +22,109 @@ const AddColor = () => {
         setImages(newImages);
     };
 
+    const validateForm = () => {
+        if (!productName.trim()) {
+            setError('Product name is required.');
+            return false;
+        }
+        if (!color) {
+            setError('Please select a color.');
+            return false;
+        }
+        if (!images.length) {
+            setError('Please upload at least one image.');
+            return false;
+        }
+        setError('');
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formdata = {
+        if (!validateForm()) return;
+
+        const formData = {
             color,
             productName,
-            stock,
-            images
-        }
+            stock: stock || 0, // Default stock to 0 if empty
+            images,
+        };
+
         try {
-            const result = await addNewColorFetch(formdata);
+            const response = await addNewColorFetch(formData);
             handleClear(); // Clear form after successful submission
-            console.log(result);
-        } catch (error) {
-            console.log(error);
+            if (response.length !== 0) {
+                setResult('Successfully added the new color.');
+            }
+            setError('');
+        } catch (err) {
+            console.error(err);
+            setError('Failed to add the new color. Please try again.');
+            setResult('');
         }
     };
 
     const handleClear = () => {
-        setColor(''),
-            setProductName(''),
-            setStock(''),
-            setImages([])
-    }
+        setColor('');
+        setProductName('');
+        setStock('');
+        setImages([]);
+        setError('');
+        setResult('');
+    };
 
     return (
         <div className="bg-white border-gray-300 border p-8 rounded-lg w-full max-w-4xl mx-auto mt-12 shadow-lg">
-            <h1 className="text-center text-3xl text-primary font-bold mb-8">
-                Add New Color
-            </h1>
-            <form
-                // onSubmit={handleSubmit}
-                className="grid grid-cols-1 md:grid-cols-2 md:items-center gap-6"
-            >
-                {/* category */}
+            <h1 className="text-center text-3xl text-primary font-bold mb-8">Add New Color</h1>
+            <form className="grid grid-cols-1 md:grid-cols-2 md:items-center gap-6">
+                {/* Product Name */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-primary mb-2">Product Name</label>
                     <input
                         type="text"
-                        name="brand"
                         value={productName}
-                        placeholder="Enter brand name"
+                        placeholder="Enter product name"
                         onChange={(e) => setProductName(e.target.value)}
                         className="input-style"
                         required
                     />
                 </div>
 
+                {/* Color */}
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-primary mb-2">Colors</label>
-                    <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-lg shadow-md">
-
-                        <div className="flex items-center gap-6">
-
-                            <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-600">Color </span>
-                                <input
-                                    type="color"
-                                    value={color}
-                                    onChange={(e) => setColor(e.target.value)}
-                                    className="h-6 w-28 rounded-lg border-gray-300 shadow-sm focus:ring-primary focus:border-primary"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className='flex flex-col'>
-                    <label className='text-sm font-medium text-primary mb-2'>Stock</label>
+                    <label className="text-sm font-medium text-primary mb-2">Color</label>
                     <input
-                        type="text"
-                        name='stock'
-                        placeholder='Enter Stock'
-                        value={stock}
-                        className='input-style'
-                        onChange={(e) => setStock(e.target.value)}
+                        type="color"
+                        value={color}
+                        onChange={(e) => setColor(e.target.value)}
+                        className="h-10 w-28 rounded-lg border-gray-300 shadow-sm focus:ring-primary focus:border-primary"
+                        required
                     />
                 </div>
+
+                {/* Stock */}
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-primary mb-2">
-                        Product Images
-                    </label>
+                    <label className="text-sm font-medium text-primary mb-2">Stock</label>
+                    <input
+                        type="text"
+                        value={stock}
+                        placeholder="Enter stock"
+                        onChange={(e) => setStock(e.target.value)}
+                        className="input-style"
+                    />
+                </div>
+
+                {/* Images */}
+                <div className="flex flex-col">
+                    <label className="text-sm font-medium text-primary mb-2">Product Images</label>
                     <input
                         type="file"
                         accept="image/*"
-                        multiple // This allows multiple files selection
+                        multiple
                         ref={fileRef}
                         onChange={handleImageChange}
                         className="h-10 w-full rounded-lg border border-gray-300 p-1 mb-2"
+                        required
                     />
                     <div className="flex flex-wrap gap-4 mt-2">
                         {images.map((image, index) => (
@@ -132,22 +150,26 @@ const AddColor = () => {
                 <div className="md:col-span-2 flex justify-center items-center gap-4 mt-4">
                     <button
                         type="submit"
-                        onClick={(e) => handleSubmit(e)}
+                        onClick={handleSubmit}
                         className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition"
                     >
                         Submit
                     </button>
                     <button
-                        onClick={(e) => handleClear(e)}
                         type="reset"
+                        onClick={handleClear}
                         className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg transition"
                     >
                         Reset
                     </button>
                 </div>
             </form>
-        </div>
-    )
-}
 
-export default AddColor
+            {/* Feedback */}
+            {error && <p className="text-red-600 mt-4">{error}</p>}
+            {result && <p className="text-green-600 mt-4">{result}</p>}
+        </div>
+    );
+};
+
+export default AddColor;

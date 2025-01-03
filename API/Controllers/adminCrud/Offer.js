@@ -2,66 +2,87 @@ import pool from "../../db/db_handle.js";
 
 
 export const offerInsert = async (req, res) => {
-    const { phone_name, promo_name, sto, discount_percent, start_date, end_date, colors } = req.body;
+    const {
+        phone_name,
+        promo_name,
+        storage,
+        discount_percent,
+        start_date,
+        end_date,
+        color,
+    } = req.body;
     console.log(req.body);
 
-    // Check if required fields are provided
-    if (!phone_name || !promo_name || !discount_percent || !start_date || !end_date) {
+    if (
+        !phone_name ||
+        !promo_name ||
+        !discount_percent ||
+        !start_date ||
+        !end_date ||
+        !color
+    ) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
-    const findPhoneQuery = `SELECT * FROM phones p
-                            INNER JOIN phone_variants pv 
-                            ON pv.phone_id = p.phone_id
+    const findPhoneQuery = `SELECT pv.idphone_variants 
+                            FROM phones p
+                            INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
                             WHERE p.name = ? AND pv.color = ?`;
 
-    const insertPromote = `INSERT INTO promotions (phone_variants_id, promo_name, discount_percentage, start_date, end_date) 
+    const findSpec = `SELECT spec_id 
+                      FROM specifications 
+                      WHERE phone_variant_id = ? AND storage = ?`;
+
+    const insertPromote = `INSERT INTO promotions (spec_id, promo_name, discount_percentage, start_date, end_date) 
                            VALUES (?, ?, ?, ?, ?)`;
 
     try {
-        const phone_variants_id = [];
+        // Step 1: Find phone variant ID
+        const [phoneRows] = await pool.promise().query(findPhoneQuery, [
+            phone_name,
+            color,
+        ]);
 
-        // Find all phone IDs by looping through colors
-        for (let color of colors) {
-            const [rows] = await pool.promise().query(findPhoneQuery, [phone_name, color]);
-            if (rows.length > 0) {
-                rows.forEach(row => phone_variants_id.push(row.idphone_variants));
-            }
-        }
-        // console.log(phone_variants_id);
-
-
-        if (phone_variants_id.length === 0) {
+        if (phoneRows.length === 0) {
             return res.status(404).json({ message: "No matching phones found" });
         }
 
-        // Insert promotion details for each phone ID
-        const insertResults = [];
-        for (let id of phone_variants_id) {
-            const [result] = await pool.promise().query(insertPromote, [
-                id,
-                promo_name,
-                discount_percent,
-                start_date,
-                end_date
-            ]);
-            insertResults.push(result);
+        const phone_variants_id = phoneRows[0].idphone_variants;
+
+        // Step 2: Find specification ID
+        const [specRows] = await pool.promise().query(findSpec, [
+            phone_variants_id,
+            storage,
+        ]);
+
+        if (specRows.length === 0) {
+            return res.status(404).json({ message: "Specification not found" });
         }
 
+        const spec_id = specRows[0].spec_id;
+
+        // Step 3: Insert promotion
+        const [result] = await pool.promise().query(insertPromote, [
+            spec_id,
+            promo_name,
+            discount_percent,
+            start_date,
+            end_date,
+        ]);
 
         res.status(200).json({
             message: "Promotions inserted successfully",
-            data: insertResults,
+            data: result,
         });
-
     } catch (error) {
         console.error("Database query error:", error);
-        return res.status(500).json({
+        res.status(500).json({
             message: "Something went wrong",
             error: error.message,
         });
     }
 };
+
 
 
 export const offerUpdate = async (req, res) => {

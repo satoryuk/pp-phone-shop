@@ -5,8 +5,8 @@ const AddBrand = () => {
   const [brand, setBrand] = useState('');
   const [img, setImg] = useState(null);  // Initially null, no image selected
   const fileInputRef = useRef(null); // Create a ref for the file input
-
-  // Handle form submission
+  const [error, setError] = useState('')
+  const [result, setResult] = useState('')  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -28,10 +28,15 @@ const AddBrand = () => {
       setImg(null);  // Reset img state
       setBrand('');  // Reset brand input
       fileInputRef.current.value = '';  // Manually reset the file input value
-
+      if (result.length !== 0) {
+        setResult("Add Success")
+        setError('')
+      }
       // Handle success response here (e.g., show success message, clear fields)
     } catch (error) {
       console.log(error);
+      setResult('')
+      setError('Something went wrong')
       // Handle error response here
     }
   };
@@ -105,6 +110,10 @@ const AddBrand = () => {
           </button>
         </div>
       </form>
+      <div className="mt-16">
+        {error && <p className="text-red-500">{error}</p>}
+        {result && <p className="text-primary">{result}</p>}
+      </div>
     </div>
   );
 };

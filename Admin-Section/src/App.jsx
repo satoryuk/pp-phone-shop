@@ -17,7 +17,7 @@ import AddProductPage from "./Pages/AddProductPage";
 import AddBrandPage from "./Pages/AddBrandPage";
 import AddCategoryPage from "./Pages/AddCategoryPage";
 import MainOffer from "./Pages/MainOffer";
-import AddColor from "./Section/Product/AddColor";
+
 import AddColorPage from "./Pages/AddColorPage";
 import AddDetailPage from "./Pages/AddDetailPage";
 

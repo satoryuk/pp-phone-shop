@@ -9,7 +9,7 @@ const commonRouter = Router();
 
 commonRouter.get('/offerDisplay', offerDisplay);
 commonRouter.get('/offerDisplayByName', offerDisplayByName);
-commonRouter.get('/offerDisplayByID/:promo_id', offerDisplayByID);
+commonRouter.get('/offerDisplayByID/:id', offerDisplayByID);
 commonRouter.get("/getAllProduct", displayAllProduct);
 commonRouter.get("/searchProduct", searchItems);
 commonRouter.get("/searchProductByName", searchItemsByName);

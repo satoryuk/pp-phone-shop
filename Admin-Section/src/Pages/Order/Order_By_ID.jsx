@@ -120,7 +120,7 @@ const Order_By_ID = () => {
                         alt={item.name || "Product Image"}
                         className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-md"
                       />
-                      <p className="truncate">{item.name}</p>
+                      <p className="truncate">{item.phone_name}</p>
                     </div>
 
                     {/* Color */}

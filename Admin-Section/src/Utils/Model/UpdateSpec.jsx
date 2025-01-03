@@ -38,7 +38,7 @@ const UpdateSpec = ({ product_id, storage }) => {
         }
         try {
             const result = await updateSpec(formdata, queryParam);
-            // window.location.reload();
+            window.location.reload();
             console.log(result);
             // console.log(formdata);
             // console.log(queryParam);

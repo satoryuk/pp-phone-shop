@@ -22,6 +22,8 @@ const AddProduct = ({ product_id }) => {
   const [screenSize, setScreenSize] = useState('');
   const [ram, setRam] = useState('');
   const [battery, setBattery] = useState('');
+  const [error, setError] = useState('')
+  const [result, setResult] = useState('')
 
   useEffect(() => {
     setID(product_id)
@@ -60,6 +62,10 @@ const AddProduct = ({ product_id }) => {
     }
     try {
       const result = await addNewProductAPI(formdata, id);
+      if (result.lenght !== 0) {
+        setResult("Add New Product Success")
+        setError('')
+      }
       // console.log(formdata.colors);
 
       // console.log(formdata.images);
@@ -67,6 +73,8 @@ const AddProduct = ({ product_id }) => {
       handleClear(); // Clear form after successful submission
       console.log(result);
     } catch (error) {
+      setError("Something Went Wrong")
+      setResult('')
       console.log(error);
     }
   };
@@ -366,6 +374,10 @@ const AddProduct = ({ product_id }) => {
           </button>
         </div>
       </form >
+      <div className="mt-16">
+        {error && <p className="text-red-500">{error}</p>}
+        {result && <p className="text-primary">{result}</p>}
+      </div>
     </div >
   );
 };

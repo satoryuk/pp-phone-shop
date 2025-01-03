@@ -3,6 +3,7 @@ import AddProductHeader from "../Section/Product/AddProductHeader";
 import AddBrand from "../Section/Product/AddBrand";
 
 const AddBrandPage = () => {
+
   return (
     <div className="mt-10">
       <AddProductHeader

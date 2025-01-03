@@ -232,7 +232,11 @@ export const getProduct = async (req, res) => {
     p.release_date,
     pv.color,
     pv.stock AS color_stock,
-    GROUP_CONCAT(DISTINCT pm.image) AS images,
+    CASE
+        WHEN pmt.status = "Active" THEN ROUND(s.price * (100 - pmt.discount_percentage) / 100, 2)
+        ELSE NULL
+    END AS price_discount,
+    GROUP_CONCAT(DISTINCT pm.image SEPARATOR ', ') AS images,
     s.spec_id,
     s.screen_size,
     s.processor,
@@ -246,8 +250,10 @@ FROM phones p
 INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
 LEFT JOIN productimage pm ON pm.phone_variant_id = pv.idphone_variants
 INNER JOIN specifications s ON s.phone_variant_id = pv.idphone_variants
+LEFT JOIN promotions pmt ON pmt.spec_id = s.spec_id
 WHERE p.name = ?
 GROUP BY 
+    p.phone_id,
     p.name,
     p.description,
     p.release_date,
@@ -262,7 +268,9 @@ GROUP BY
     s.battery,
     s.camera,
     s.price,
-    s.stock;
+    s.stock,
+    pmt.promo_id;
+
 `
     const [rows] = await pool.promise().query(query, phone_name);
     if (rows.length === 0) {
