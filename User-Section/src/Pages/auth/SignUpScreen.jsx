@@ -1,19 +1,33 @@
 
 // import React from 'react';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser } from 'react-icons/ai';
 import Navbar from '../home/Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { XTextfield } from '../../Conponents/Bath_Component';
-export const XButton = ({ label, icon , onClick}) => {
+import axios from 'axios';
+import { AUTHENDPOINT, NETWORK_CONFIG } from '../../network/Network_EndPoint';
+export const XButton = ({ label, icon, onClick, loading }) => {
     return (
         <div className='w-full'>
-            <button className="flex items-center justify-center bg-green-600 text-white rounded font-semibold w-full py-2" onClick={onClick}>
-                {label}
-                {icon && <span className="mr-2">{icon}</span>}
-                
-
+            <button
+                className="flex items-center justify-center bg-green-600 text-white rounded font-semibold w-full py-2"
+                onClick={onClick}
+                disabled={loading}
+            >
+                {loading ? (
+                    <div className="flex items-center justify-center w-6 h-6">
+                        <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 rounded-full text-white" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        {label}
+                        {icon && <span>{icon}</span>}
+                    </>
+                )}
             </button>
         </div>
     );
@@ -22,14 +36,19 @@ export const XButton = ({ label, icon , onClick}) => {
 
 
 
+
 const Signup = () => {
     const [toggleIconState, setIconToggle] = useState(false)
+    const [email, setEmail] = useState("")
+    const [username, setUsername] = useState("")
     const [toggleIconConfirmState, setConfirmIconToggle] = useState(false)
     const [passwordState, setPassword] = useState("")
     const [passwordStrength, setPasswordStrength] = useState("");
     const [confirmPasswordState, setConfirmPassword] = useState("")
     const [passwordMatch, setPasswordMatch] = useState(false);
-
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate();
+    useEffect(() => { signUp() }, []);
     const toggleIcon = () => {
         setIconToggle(!toggleIconState)
     }
@@ -68,6 +87,34 @@ const Signup = () => {
                 return "gray";
         }
     }
+    const onEmailChange = (value) => {
+        setEmail(value)
+    }
+    const onUsernameChange = (value) => {
+        setUsername(value)
+    }
+    const signUp = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        const userBody = {
+            username: username,
+            email: email,
+            password: passwordState,
+            phone: "1234567890",
+            address: "Russian Blvd, Phnom Penh"
+        }
+        await axios.post(`${NETWORK_CONFIG.apiBaseUrl}${AUTHENDPOINT.REGISTER}`, userBody)
+            .then(function (response) {
+                if (response.status === 201) {
+                    console.log(response.data)
+                    setLoading(false)
+                    navigate('/Auth/login')
+                }
+            }).catch(function (error) {
+                console.log(error);
+            }).finally(() => { setLoading(false) });
+        ;
+    };
     return (
         <div>
             <Navbar />
@@ -79,12 +126,16 @@ const Signup = () => {
                     <XTextfield
                         label="Full Name"
                         placeholder="X_AE_A13b"
+                        value={username}
+                        onValueChange={onUsernameChange}
                         icon={<AiOutlineUser />}
                     />
                     <Spacer />
                     <XTextfield
                         label="Email Address"
                         placeholder="X_AE_A13b"
+                        value={email}
+                        onValueChange={onEmailChange}
                         icon={<AiOutlineMail />}
                     />
                     <Spacer />
@@ -131,7 +182,7 @@ const Signup = () => {
                         </p>
                     )}
                     <Spacer />
-                    <XButton label="Sign Up" icon={<AiOutlineLogout />} />
+                    <XButton label="Sign Up" icon={<AiOutlineLogout />} onClick={signUp} />
                     <Spacer />
                     <div className='flex items-center justify-center'>
 
