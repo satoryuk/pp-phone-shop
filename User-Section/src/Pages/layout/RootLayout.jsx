@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import Footer from "../home/Footer";
 
 const RootLayout = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      setToken(token)
+    }
+  }, []);
   const [token, setToken] = useState(null);
 
   const handleLogin = () => {
@@ -14,11 +20,10 @@ const RootLayout = () => {
 
   const handleLogout = () => {
     setToken(null);
+    localStorage.removeItem("authToken");
     console.log("TOken have been clear")
   };
-  useEffect(() => {
-    setToken(null)
-  })
+
   return (
     <>
       <header>

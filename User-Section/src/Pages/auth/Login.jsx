@@ -1,18 +1,20 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineEyeInvisible, AiOutlineLock, AiOutlineLogout, AiOutlineMail, AiOutlineUser, AiOutlineEye } from 'react-icons/ai';
 import Navbar from '../home/Navbar';
 import { Spacer } from './SignUpScreen';
 import { XTextfield } from '../../Conponents/Bath_Component';
 import { XButton } from './SignUpScreen';
-import { AUTHENDPOINT } from '../../network/Network_EndPoint';
+import { AUTHENDPOINT, NETWORK_CONFIG } from '../../network/Network_EndPoint';
 
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const Login = () => {
     const [passwordToggle, setPasswordToggle] = useState(false)
-    const [passwordState, setPassword] = useState("1234")
+    const [passwordState, setPassword] = useState("")
     const [passwordStrength, setPasswordStrength] = useState("");
-    const [email, setEmail] = useState("kongming@gmail.com")
+    const [email, setEmail] = useState("")
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
 
     const toggleValidateIcon = () => {
@@ -20,7 +22,7 @@ const Login = () => {
     }
     const handlePasswordLength = (value) => {
         setPassword(value)
-        // validatePasswordLength(value)
+        validatePasswordLength(value)
     }
     const validatePasswordLength = (passwordState) => {
         if (passwordState.length === 0) {
@@ -40,29 +42,33 @@ const Login = () => {
         }
     }
 
-    const apiBaseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
+
+    useEffect(() => {
+        login()
+    }, []);
+
+    //function to login
     const login = async (e) => {
         e.preventDefault();
-        console.log(`>>>> ${apiBaseUrl}${AUTHENDPOINT.LOGIN}`);
-        try {
-            const res = await fetch(`${apiBaseUrl}${AUTHENDPOINT.LOGIN}`, {
-                method: "POST",
-                headers: {   
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password: passwordState })
-            });
-            if (res.ok) {
-                const responseData = await res.json();
-                console.log("Login successful: ", responseData);
+        console.log(email)
+        setLoading(true)
+        console.log(passwordState)
+        await axios.post(`${NETWORK_CONFIG.apiBaseUrl}${AUTHENDPOINT.LOGIN}`, {
+            email: email,
+            password: passwordState,
+
+        }).then(function (response) {
+            if (response.status === 200) {
+                setLoading(false)
+                const token = response.data.accessToken;
+                localStorage.setItem('authToken', token); // save token to local storage
+                console.log('Token saved:', token);
+                console.log(response.data)
                 navigate('/')
-            } else {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Login failed");
             }
-        } catch (error) {
-            console.error(error);
-        }
+        }).catch(function (error) {
+            console.log(error);
+        }).finally(() => { setLoading(false) });
     }
 
     return (
@@ -82,7 +88,7 @@ const Login = () => {
                         label="Email Address"
                         placeHolder="@gmail.com"
                         value={email}
-                        onValueChange={(value) => console.log(value)}
+                        onValueChange={(value) => setEmail(value)}
                         icon={<AiOutlineMail />}
                     />
                     <Spacer width={null} />
@@ -91,7 +97,7 @@ const Login = () => {
                         placeHolder="X_AE_A13b"
                         value={passwordState}
                         icon={<AiOutlineLock />}
-                        // validation={validatePasswordLength}
+                        validation={validatePasswordLength}
                         onValueChange={handlePasswordLength}
                         suffixIcon={passwordToggle ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                         onClick={toggleValidateIcon}
@@ -109,7 +115,7 @@ const Login = () => {
                         </p>
                     )}
                     <Spacer width={null} />
-                    <XButton label="Sign In" icon={<AiOutlineLogout />} onClick={login} />
+                    <XButton label="Sign In" icon={<AiOutlineLogout />} onClick={login} loading={loading} />
 
                     <Spacer width={null} />
                     <div className='flex items-center justify-center'>
