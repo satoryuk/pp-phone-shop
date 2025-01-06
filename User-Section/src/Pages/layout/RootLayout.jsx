@@ -7,6 +7,12 @@ import store from "../../store/store";
 import AddToCart from "../home/AddToCart";
 
 const RootLayout = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      setToken(token)
+    }
+  }, []);
   const [token, setToken] = useState(null);
   const stateTabCart = useSelector(store => store.cart?.statusTab);
 
@@ -18,11 +24,10 @@ const RootLayout = () => {
 
   const handleLogout = () => {
     setToken(null);
+    localStorage.removeItem("authToken");
     console.log("TOken have been clear")
   };
-  useEffect(() => {
-    setToken(null)
-  })
+
   return (
     <>
       <header>
