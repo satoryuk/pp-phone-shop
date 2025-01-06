@@ -49,7 +49,7 @@ const CartItem = ({ product }) => {
         .replace(/\s+/g, '')}`;
 
     return (
-        <div className='flex flex-col sm:flex-row items-start sm:items-center bg-gray-800 text-white p-4 border-b border-gray-700 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200'>
+        <div className='flex flex-col sm:flex-row items-start sm:items-center bg-green-600 text-white p-4 border-b border-gray-700 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200'>
             <img
                 src={imageUrl}
                 alt={detail.name}
@@ -61,20 +61,23 @@ const CartItem = ({ product }) => {
             <div className='flex-1 ml-4 flex flex-col justify-between'>
                 <div className='flex justify-between items-center mb-2'>
                     <h3 className='text-lg font-semibold'>{detail.name || 'Unknown Product'}</h3>
-                    <p className='text-xl font-bold text-green-500'>
-                        ${(detail.price_discount != null ? detail.price_discount : detail.price * quantity)}
+                    <p className='text-xl font-bold text-white'>
+                        ${(detail.price_discount != null
+                            ? Number(detail.price_discount)
+                            : Number(detail.price) * quantity).toFixed(2)}
+
                     </p>
                 </div>
                 <div className='flex items-center gap-3'>
                     <button
-                        className='bg-gray-700 text-white rounded-full p-2 hover:bg-gray-600 transition-colors duration-200'
+                        className='bg-white  text-green-600 rounded-full p-2 hover:bg-gray-600 transition-colors duration-200'
                         onClick={handleMinusQuantity}
                     >
                         <span className='text-lg'>-</span>
                     </button>
                     <span className='text-lg font-medium'>{quantity}</span>
                     <button
-                        className='bg-gray-700 text-white rounded-full p-2 hover:bg-gray-600 transition-colors duration-200'
+                        className='bg-white  text-green-600 rounded-full p-2 hover:bg-gray-600 transition-colors duration-200'
                         onClick={handlePlusQuantity}
                     >
                         <span className='text-lg'>+</span>

@@ -58,3 +58,12 @@ export const fetchSearchDataByName = async ({ phone_name }) => {
 
     }
 }
+export const fetchProductByCategory = async ({ category }) => {
+    try {
+        const response = await axios.get(`${API_URL_COMMON}/getAllProductbyCategory?category=${category}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+
+    }
+}

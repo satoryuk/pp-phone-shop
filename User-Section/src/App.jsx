@@ -12,13 +12,15 @@ import Add_to_favorite from "./Pages/home/Add_to_favorite";
 import Home from "./Pages/home/Home"; // Make sure Home is imported
 import Payment from "./Pages/home/Payment";
 import UserProfile from "./Pages/home/UserProfile";
-import After_home_page from "./Pages/home/After_home_page";
+
 import Login from "./Pages/auth/Login";
 import ProductDetail from "./Pages/home/ProductDetail";
 import CheckoutPage from "./Pages/home/Checkout";
 import MyOrderPage from "./Pages/home/My_Order";
 import AddToCart from "./Pages/home/AddToCart";
 import Category from "./Pages/home/Category";
+import Search from "./Pages/home/Search";
+import AfterHomePage from "./Pages/home/AfterHomePage";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -34,9 +36,10 @@ export default function App() {
           <Route path="add-to-cart" element={<AddToCart />} />
           <Route path="payment" element={<Payment />} />
           <Route path="user-profile" element={<UserProfile />} /> {/* Updated path */}
-          <Route path="after-home-page" element={<After_home_page />} /> {/* Updated path */}
+          <Route path="Search" element={<Search />} /> {/* Updated path */}
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="myorder" element={<MyOrderPage />} />
+          <Route path="AfterHomePage" element={<AfterHomePage />} />
         </Route>
 
         <Route path="/auth" element={<AuthLayout />}> {/* Updated path */}

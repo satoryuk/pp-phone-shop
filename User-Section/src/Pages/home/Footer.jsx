@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   email,
   call,
@@ -10,8 +10,9 @@ import {
 } from "../Assets/image";
 
 const Footer = () => {
+  const footerRef = useRef();
   return (
-    <div className="bg-green-600 text-white">
+    <div ref={footerRef} className="bg-green-600 text-white">
       {/* Footer Top*/}
       <div className="px-8 py-4 flex justify-between">
         <div className="">

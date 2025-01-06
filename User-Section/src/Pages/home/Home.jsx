@@ -10,6 +10,7 @@ import {
 import Card from "./Card";
 import { fetchdataProduct, fetchProductByDate, fetchProductDiscount } from "../../FetchAPI/Fetch";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 // const products = [
 //   { id: 1, name: "Item Name", price: 1000, image: silverColor },
@@ -72,9 +73,9 @@ const HomePage = () => {
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <h2 className="text-[20px] font-bold">SPECIAL OFFER</h2>
-            <a href="#" className="text-blue-500">
+            <Link to={`/AfterHomePage?page=DISCOUNT`} className="text-blue-500">
               VIEW ALL
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4 bg-gray-100 p-4 rounded-lg">
             {discountProduct.map((product) => (
@@ -88,9 +89,9 @@ const HomePage = () => {
         <div>
           <div className="flex justify-between items-center">
             <h2 className="text-[20px] font-bold">NEW ARRIVAL</h2>
-            <a href="#" className="text-blue-500">
+            <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="text-blue-500">
               VIEW ALL
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
             {newArrival.map((product) => (
@@ -113,9 +114,9 @@ const HomePage = () => {
         <div>
           <div className="flex justify-between items-center">
             <h2 className="text-[20px] font-bold">SPECIAL OFFER</h2>
-            <a href="#" className="text-blue-500">
+            <Link to={`/AfterHomePage?page=DISCOUNT`} className="text-blue-500">
               VIEW ALL
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
             {products.map((product) => (

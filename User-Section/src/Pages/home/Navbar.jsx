@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { logo, menu, buy, favorite_packages, compare } from "../Assets/image";
 import { Link, NavLink } from "react-router-dom";
 import { IoIosNotifications } from "react-icons/io";
@@ -18,6 +18,17 @@ const Navbar = ({ token, onLogin, onLogout }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [searchData, setSearchData] = useState('');
 
+  // Create a reference to the footer
+  const footerRef = useRef(null);
+
+  // Scroll to footer when "Contact Us" link is clicked
+  const scrollToFooter = () => {
+    if (footerRef.current) {
+      footerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      console.log("Footer reference is not set properly.");
+    }
+  };
   useEffect(() => {
     if (!token) {
       onLogin;
@@ -27,9 +38,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
     setTotalQuantity(total);
   }, [token, onLogin, cart]);
 
-  // const toggleMenu = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
+  // Scroll to the footer when the "Contact" link is clicked
 
   const handleOpenTabCart = () => {
     dispatch(toggleStatusTab()); // Dispatch the action to open the cart tab
@@ -44,8 +53,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
             <Link to='/'><img src={logo} alt="Phone Shop Logo" className="h-10 w-10" /></Link>
             <Link to='/'><span className="text-green-600 text-2xl font-bold ml-2">
               Phone Shop
-            </span>
-            </Link>
+            </span></Link>
           </div>
 
           {/* Search Bar */}
@@ -63,7 +71,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
             <Link
               className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-4 py-1 rounded"
               style={{ borderRadius: "4px" }}
-              to={`after-home-page?productName=${searchData}`}
+              to={`Search?productName=${searchData}`}
             >
               SEARCH
             </Link>
@@ -84,7 +92,6 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                   </span>
                 </div>
               ) : (
-
                 <NavLink
                   key={element.label}
                   to={element.href}
@@ -103,11 +110,11 @@ const Navbar = ({ token, onLogin, onLogout }) => {
               // Show Notification Pop-up and Logout Button if token exists
               <div className="flex items-center space-x-4">
                 <Popup
-                  trigger={
+                  trigger={(
                     <div className="cursor-pointer">
                       <IoIosNotifications size={24} />
                     </div>
-                  }
+                  )}
                   position="bottom center"
                   arrow={true}
                   closeOnDocumentClick
@@ -157,147 +164,49 @@ const Navbar = ({ token, onLogin, onLogout }) => {
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
-      {isMenuOpen && (
-        <div className="bg-white shadow-md md:hidden">
-          <div className="flex flex-row items-center justify-center gap-8 pb-4">
-
-            <button className="relative" onClick={() => setToggleMenu(!toggleMenu)}>
-              <span role="img" aria-label="cart">
-                <img src={buy} alt="buy_cart" className="w-[30px] h-auto" />
-              </span>
-              <span className="absolute top-0 right-0 transform translate-x-[25%] bg-red-600 text-white text-xs rounded-full px-1">
-                0
-              </span>
-            </button>
-
-
-            <Link to="/add-to-favorite">
-              <button className="relative">
-                <span role="img" aria-label="cart">
-                  <img
-                    src={favorite_packages}
-                    alt="buy_cart"
-                    className="w-[30px] h-auto"
-                  />
-                </span>
-                <span className="absolute top-0 right-0 transform translate-x-[25%] bg-red-600 text-white text-xs rounded-full px-1">
-                  0
-                </span>
-              </button>
-            </Link>
-
-            <Link to="/">
-              <button className="relative">
-                <span role="img" aria-label="cart">
-                  <img
-                    src={compare}
-                    alt="buy_cart"
-                    className="w-[35px] h-auto"
-                  />
-                </span>
-              </button>
-            </Link>
-
-            {token ? (
-              <button
-                onClick={onLogout}
-                className="bg-green-600 text-white px-4 py-2 rounded-full mb-2"
-              >
-                Log Out
-              </button>
-            ) : (
-              <>
-                <Link to="/auth/Login">
-                  <button className="text-gray-800 mb-2">Log In</button>
-                </Link>
-                <NavLink to="/auth/Signup">
-                  <button className="bg-green-600 text-white px-4 py-2 rounded-full">
-                    Sign Up
-                  </button>
-                </NavLink>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-
       {/* Navigation Links */}
       <div className="bg-green-600 max-lg:hidden">
         <div className="flex justify-center space-x-32 py-3 text-white">
           <Link to="/">
             <span className="hover:text-gray-200">Home</span>
           </Link>
-          <a href="#" className="hover:text-gray-200">
-            Accessories
-          </a>
-          <a href="#" className="hover:text-gray-200">
+          <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="hover:text-gray-200">
             NEW ARRIVAL
-          </a>
-          <a href="#" className="hover:text-gray-200">
+          </Link>
+          <Link to={`/AfterHomePage?page=DISCOUNT`} className="hover:text-gray-200">
             DISCOUNT
-          </a>
-          <a href="#" className="hover:text-gray-200">
+          </Link>
+          <span
+            onClick={scrollToFooter}
+            className="cursor-pointer hover:text-gray-200"
+          >
             Contact Us
-          </a>
+          </span>
         </div>
       </div>
-      <div
-        className={`fixed inset-0 z-40 flex flex-col bg-gray-800 bg-opacity-50 lg:hidden transition-transform transform ${toggleMenu ? "translate-x-0" : "translate-x-full"}`}
-        onClick={() => setToggleMenu(false)}
-      >
-        <div
-          className="w-64 bg-[white] h-full shadow-lg"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="relative flex-1 mx-3 mt-3 ">
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-full px-3 py-2 border border-gray-300 rounded-full focus:outline-none "
-              style={{ borderRadius: "8px" }}
-            />
 
+      {/* Mobile Dropdown Menu */}
+      {isMenuOpen && (
+        <div className="bg-white shadow-md md:hidden">
+          <div className="flex flex-row items-center justify-center gap-8 pb-4">
+            <Link to="/">
+              <button className="relative">
+                <span role="img" aria-label="cart">
+                  <img src={buy} alt="buy_cart" className="w-[30px] h-auto" />
+                </span>
+              </button>
+            </Link>
+            {/* Other buttons here */}
             <button
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-2 py-1 rounded"
-              style={{ borderRadius: "4px" }}
+              onClick={scrollToFooter}
+              className="text-gray-800 mb-2"
             >
-              SEARCH
+              Contact Us
             </button>
           </div>
-          <div className="bg-green-600">
-            <div className="flex flex-col justify-center items-center text-white">
-              <div className="border-2 border-gray-200 w-full py-2 h-full flex justify-center items-center">
-                <Link to="/">
-                  <span className="hover:text-gray-200 w-full">Home</span>
-                </Link>
-              </div>
-              <div className="border-2 border-gray-200 w-full py-2 h-full flex justify-center items-center">
-                <Link to="/">
-                  <span className="hover:text-gray-200 w-full">Accessories</span>
-                </Link>
-              </div>
-              <div className="border-2 border-gray-200 w-full py-2 h-full flex justify-center items-center">
-                <Link to="/">
-                  <span className="hover:text-gray-200 w-full">NEW ARRIVAL</span>
-                </Link>
-              </div>
-              <div className="border-2 border-gray-200 w-full py-2 h-full flex justify-center items-center">
-                <Link to="/">
-                  <span className="hover:text-gray-200 w-full">CONTECT</span>
-                </Link>
-              </div>
-              <div className="border-2 border-gray-200 w-full py-2 h-full flex justify-center items-center">
-                <Link to="/">
-                  <span className="hover:text-gray-200 w-full">DISCOUNT</span>
-                </Link>
-              </div>
-
-            </div>
-          </div>
         </div>
-      </div>
-    </nav >
+      )}
+    </nav>
   );
 };
 

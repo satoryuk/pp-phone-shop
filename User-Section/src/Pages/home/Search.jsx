@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { fetchSearchDataByName } from "../../FetchAPI/Fetch";
 import ProductCard from "./ProductCard";
 
-const After_home_page = () => {
+const Search = () => {
   const search = window.location.search;
   const params = new URLSearchParams(search);
   const productName = params.get("productName");
@@ -109,4 +109,4 @@ const After_home_page = () => {
   );
 };
 
-export default After_home_page;
+export default Search;
