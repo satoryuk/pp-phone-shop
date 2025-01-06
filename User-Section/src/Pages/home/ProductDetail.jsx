@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   desertColor,
   blackColor,
@@ -9,327 +9,331 @@ import {
   buy_green,
   messenger_green,
   favorite_green,
+  addToCartWhite,
+  telegramWhite,
+  messengerWhite,
+  heartFill,
+  heart
 } from "../Assets/image";
 import { Link } from "react-router-dom";
 import Installment_Card from "./Installment_Payment_Card";
+import { fetchdataProduct, fetchProductByName } from "../../FetchAPI/Fetch";
+import { addToCart, toggleStatusTab } from "../../store/cart";
+import { useDispatch, useSelector } from "react-redux";
+import { addtofavorite, removeFromFavorite } from "../../store/favorite";
+import ProductCard from "./ProductCard";
 
 const ProductDetail = () => {
-  const [selectedStorage, setSelectedStorage] = useState("256 GB");
-  const [selectedColor, setSelectedColor] = useState("Black Titanium");
-  const [mainImage, setMainImage] = useState(desertColor);
+  const [items, setItems] = useState([]);
+  const [arrayImage, setArrayImage] = useState([]);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedStorage, setSelectedStorage] = useState(null);
+  const [selectedSpec, setSelectedSpec] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const favorite = useSelector(store => store.favorite.favorite);
+  const [product, setProduct] = useState([]);
 
-  const handleThumbnaiClick = (image) => {
-    setMainImage(image);
+  const searchParams = new URLSearchParams(window.location.search);
+  const query = searchParams.get("phone_name");
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetchProductByName({ phone_name: query });
+
+      if (!response || !response.data || response.data.length === 0) {
+        throw new Error("No data found for the product.");
+      }
+
+      const productData = response.data;
+      setItems(productData);
+
+      // Set default values
+      const defaultProduct = productData[0];
+      const images = defaultProduct.images
+        ?.split(",")
+        .map((image) => image.trim().replaceAll("uploads\\", "").replace(/\s+/g, ""));
+      setArrayImage(images || []);
+      setSelectedImage(images?.[0] || "");
+      setSelectedColor(defaultProduct.color);
+      setSelectedStorage(defaultProduct.storage);
+      setSelectedSpec({
+        idphone_variants: defaultProduct.idphone_variants,
+        storage: defaultProduct.storage,
+        specs: defaultProduct.specs || {},
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [query]);
+
+
+  const handlefetchProduct = async () => {
+    const response = await fetchdataProduct();
+    setProduct(response.data);
+    // console.log(response.data);
+  }
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        productId: selectedItem.spec_id,
+        productName: selectedItem.name,
+        quantity: 1,
+        price: selectedItem.price_discount || selectedItem.price,
+      })
+    );
+    dispatch(toggleStatusTab());
   };
 
-  const priceData = {
-    "256 GB": {
-      "Black Titanium": 1199,
-      "Silver Titanium": 1249,
-      "Natural Titanium": 1299,
-      "Desert Titanium": 1349,
-    },
-    " GB512": {
-      "Black Titanium": 1399,
-      "Silver Titanium": 1449,
-      "Black Titanium": 1499,
-      "Desert Titanium": 1549,
-    },
-    "1 T": {
-      "Black Titanium": 1599,
-      "Silver Titanium": 1649,
-      "Natural Titanium": 1699,
-      "Desert Titanium": 1749,
-    },
+  useEffect(() => {
+    fetchData();
+    handlefetchProduct();
+  }, [fetchData, query]);
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
   };
 
-  const getPrice = () => {
-    return priceData[selectedStorage][selectedColor];
+  const handleColorChange = (color) => {
+    setSelectedColor(color);
+    const productByColor = items.find((item) => item.color === color);
+
+    if (productByColor) {
+      const images = productByColor.images
+        ?.split(",")
+        .map((image) => image.trim().replaceAll("uploads\\", "").replace(/\s+/g, ""));
+      setArrayImage(images || []);
+      setSelectedImage(images?.[0] || "");
+      setSelectedStorage(productByColor.storage);
+      setSelectedSpec({
+        idphone_variants: productByColor.idphone_variants,
+        storage: productByColor.storage,
+        specs: productByColor.specs || {},
+      });
+    }
   };
+
+  const handeAddToFavorite = () => {
+    if (favorite.findIndex((element) => element === selectedItem.phone_id) >= 0) {
+      dispatch(removeFromFavorite({ productId: selectedItem.phone_id }));
+    } else {
+      dispatch(addtofavorite({ productId: selectedItem.phone_id }));
+    }
+  }
+
+  const handleStorageChange = (storage) => {
+    setSelectedStorage(storage);
+    const productByStorage = items.find(
+      (item) => item.color === selectedColor && item.storage === storage
+    );
+    if (productByStorage) {
+      setSelectedSpec({
+        idphone_variants: productByStorage.idphone_variants,
+        storage: productByStorage.storage,
+        specs: productByStorage.specs || {},
+      });
+    }
+  };
+
+  if (loading) return <p className="text-center text-xl">Loading product details...</p>;
+  if (error) return <p className="text-center text-red-600">{`Error: ${error}`}</p>;
+
+  const uniqueColors = [...new Set(items.map((item) => item.color))];
+  const selectedItem = items.find(
+    (item) => item.color === selectedColor && item.storage === selectedStorage
+  );
 
   return (
-    <div>
-      <div className="mx-auto p-4">
-        {/* Product Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-          {/* Product Images */}
-          <div className="flex flex-col items-center">
-            <img
-              src={mainImage}
-              alt="Main Product"
-              className="w-[500px] h-auto mb-4"
-            />
-            <div className="flex mt-4 space-x-4">
+    <div className="mx-auto p-4 max-w-7xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
+        {/* Product Images */}
+        <div className="flex flex-col items-center">
+          <img
+            src={`http://localhost:3000/${selectedImage}`}
+            alt="Main Product"
+            className="w-[500px] h-96 object-contain mb-4 shadow-lg rounded-lg"
+          />
+          <div className="flex mt-4 space-x-4">
+            {arrayImage.map((image, idx) => (
               <img
-                src={silverColor}
-                alt="Thumbnail 1"
-                className="w-20 h-20 transition-transform duration-300 ease-in-out hover:scale-110"
-                onClick={() => handleThumbnaiClick(silverColor)}
+                key={idx}
+                src={`http://localhost:3000/${image}`}
+                alt={`Thumbnail ${idx + 1}`}
+                className="w-20 h-20 transition-transform duration-300 ease-in-out rounded-lg hover:scale-110 cursor-pointer"
+                onClick={() => handleImageClick(image)}
               />
-              <img
-                src={naturalColor}
-                alt="Thumbnail 2"
-                className="w-20 h-20 transition-transform duration-300 ease-in-out hover:scale-110"
-                onClick={() => handleThumbnaiClick(naturalColor)}
-              />
-              <img
-                src={blackColor}
-                alt="Thumbnail 3"
-                className="w-20 h-20 transition-transform duration-300 ease-in-out hover:scale-110"
-                onClick={() => handleThumbnaiClick(blackColor)}
-              />
-              <img
-                src={desertColor}
-                alt="Thumbnail 3"
-                className="w-20 h-20 transition-transform duration-300 ease-in-out hover:scale-110"
-                onClick={() => handleThumbnaiClick(desertColor)}
-              />
-            </div>
-          </div>
-
-          {/* Product Details */}
-          <div>
-            {/* Product Name */}
-            <h2 className="text-3xl font-semibold">IPhone 16 Pro Max</h2>
-            <div className="flex items-center gap-4 my-5">
-              <p className="text-2xl text-red-600 font-bold">
-                Price: ${getPrice().toFixed(2)}
-              </p>
-              <span className="h-6 border-l border-gray-400"></span>
-              <p className="text-gray-600">Warranty for two years</p>
-            </div>
-
-            {/* Storage Options */}
-            <div className="mb-4">
-              <h3 className="font-semibold">Storage</h3>
-              <div className="flex space-x-4 mt-2">
-                {["256 GB", "512 GB", "1 TB"].map((storage) => (
-                  <button
-                    key={storage}
-                    onClick={() => setSelectedStorage(storage)}
-                    className={`px-4 py-2 border rounded ${
-                      selectedStorage === storage
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-100"
-                    }`}
-                  >
-                    {storage}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Color Options */}
-            <div className="mb-4">
-              <h3 className="font-semibold">Color</h3>
-              <div className="flex space-x-4 mt-2">
-                {[
-                  "Black Titanium",
-                  "Silver Titanium",
-                  "Natural Titanium",
-                  "Desert Titanium",
-                ].map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => setSelectedColor(color)}
-                    className={`px-4 py-2 border rounded ${
-                      selectedColor === color
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-100"
-                    }`}
-                  >
-                    {color}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Contact Options */}
-            <div className="flex flex-col items-start gap-2">
-              <div className="flex justify-center items-center">
-                <img src={telegram_green} alt="" className="w-5 mr-1" />
-                <a
-                  href="https://t.me/yourtelegramusername"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-inherit hover:text-green-600"
-                >
-                  Contact to Telegram chat
-                </a>
-              </div>
-
-              <div className="flex justify-center items-center">
-                <img src={messenger_green} alt="" className="w-5 mr-1" />
-                <a
-                  href="https://m.me/yourmessengerusername"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-inherit hover:text-green-600"
-                >
-                  Contact to Messenger chat
-                </a>
-              </div>
-
-              <div className="flex justify-center items-center">
-                <img src={call_green} alt="" className="w-5 mr-1" />
-                <a
-                  href="tel:+1234567890"
-                  className="text-inherit hover:text-green-600"
-                >
-                  Contact to Phone call
-                </a>
-              </div>
-
-              <div className="flex justify-center items-center">
-                <img src={buy_green} alt="" className="w-5 mr-1" />
-                <a href="/cart" className="text-inherit hover:text-green-600">
-                  Or add to cart for Order
-                </a>
-              </div>
-            </div>
-
-            {/* Add to cart and Fav */}
-            <div className="flex gap-4 mt-4 space-y-2">
-              <button className="w-[300px] p-2 bg-green-400 hover:bg-green-500 text-white rounded transition-all duration-300">
-                Add To Cart
-              </button>
-              <div className="flex">
-                <img src={favorite_green} alt="" className="w-5 mr-1" />
-                <button className="hover:text-green-500">
-                  Add to Favorite
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-4 mt-8 mx-12">
-          {/* Specifications */}
-          <div className="flex-1">
-            <h3 className="text-2xl font-semibold">Specifications</h3>
-            <div className="mt-4 hover:cursor-pointer">
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Display</summary>
-                <div className="py-4">
-                  <p className="pt-2 pl-14">
-                    Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby
-                    Vision, 1000 nits (typ), 2000 nits (HBM)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
-                    density)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Protection : Ceramic Shield glass (2024 gen), Always-On
-                    display
-                  </p>
-                </div>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Body</summary>
-                <div className="py-4">
-                  <p className="pt-2 pl-14">
-                    Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby
-                    Vision, 1000 nits (typ), 2000 nits (HBM)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
-                    density)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Protection : Ceramic Shield glass (2024 gen), Always-On
-                    display
-                  </p>
-                </div>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Camera</summary>
-                <div className="py-4">
-                  <p className="pt-2 pl-14">
-                    Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby
-                    Vision, 1000 nits (typ), 2000 nits (HBM)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
-                    density)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Protection : Ceramic Shield glass (2024 gen), Always-On
-                    display
-                  </p>
-                </div>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Sound</summary>
-                <div className="py-4">
-                  <p className="pt-2 pl-14">
-                    Type : LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby
-                    Vision, 1000 nits (typ), 2000 nits (HBM)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Size : 6.9 inches, 115.6 cm2 (~91.4% screen-to-body ratio)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Resolution : 1320 x 2868 pixels, 19.5:9 ratio (~460 ppi
-                    density)
-                  </p>
-                  <p className="pt-2 pl-14">
-                    Protection : Ceramic Shield glass (2024 gen), Always-On
-                    display
-                  </p>
-                </div>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Platform</summary>
-                <p>6.7-inch Super Retina XDR display</p>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Memory</summary>
-                <p>Aluminum and ceramic glass construction</p>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">launch</summary>
-                <p>48MP main camera with advanced features</p>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Network</summary>
-                <p>Stereo speakers with spatial audio support</p>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Comms</summary>
-                <p>Aluminum and ceramic glass construction</p>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Features</summary>
-                <p>48MP main camera with advanced features</p>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">Battery</summary>
-                <p>Stereo speakers with spatial audio support</p>
-              </details>
-              <details className="border rounded mb-2 p-2">
-                <summary className="font-semibold">MISC</summary>
-                <p>Stereo speakers with spatial audio support</p>
-              </details>
+        {/* Product Details */}
+        <div>
+          <h2 className="text-3xl font-semibold text-gray-800">{selectedItem?.name || "Product"}</h2>
+          <div className="flex items-center gap-4 my-5">
+            <p className="text-2xl text-red-600 font-bold flex">
+              Price: {
+                selectedItem?.price_discount ? (
+                  <>
+                    <s>{selectedItem?.price}$</s>
+                    <p className="ml-5">{selectedItem?.price_discount}$</p>
+                  </>
+                ) : (
+                  <p>{selectedItem?.price}$</p>
+                )
+              }
+
+            </p>
+            <span className="h-6 border-l border-gray-400 "></span>
+            <button className="flex justify-center gap-2 items-center text-white bg-green-600 p-3 w-52 rounded-xl"
+              onClick={() => handeAddToFavorite(selectedItem.phone_id)
+              }
+            >
+              <img className="w-6" src={favorite.findIndex((element) => element === selectedItem.phone_id) >= 0
+                ? heartFill
+                : heart} alt="" />
+              <p className="max-lg:hidden">Add To Favorite</p></button>
+            <p className="text-gray-600">Release Date: {new Date(selectedItem?.release_date).toLocaleDateString()}</p>
+          </div>
+
+          {/* Storage Options */}
+          <div className="mb-6">
+            <h3 className="font-semibold text-xl text-gray-800">Storage</h3>
+            <div className="flex space-x-4 mt-2">
+              {items
+                .filter((item) => item.color === selectedColor)
+                .map((item) => (
+                  <button
+                    key={item.storage}
+                    onClick={() => handleStorageChange(item.storage)}
+                    className={`px-4 py-2 border rounded-lg text-gray-800 font-semibold ${selectedStorage === item.storage
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-200 hover:bg-gray-300"
+                      }`}
+                  >
+                    {item.storage}
+                  </button>
+                ))}
             </div>
           </div>
 
-          {/* Installment Payment Card */}
-          <div className="flex-shrink-0 w-60">
-            <Installment_Card />
+          {/* Color Options */}
+          <div className="mb-6">
+            <h3 className="font-semibold text-xl text-gray-800">Color</h3>
+            <div className="flex space-x-4 mt-2">
+              {uniqueColors.map((color) => (
+                <button
+                  key={color}
+                  onClick={() => handleColorChange(color)}
+                  className={`w-6 h-6 rounded-full cursor-pointer border ${selectedColor === color ? "ring-2 ring-green-500" : "border-gray-300"
+                    }`}
+                  style={{ backgroundColor: color }}                >
+
+                </button>
+              ))}
+            </div>
+
+          </div>
+          {/* Product Specifications */}
+
+
+          {/* Contact and Purchase Options */}
+          <div className="flex flex-col items-start gap-4">
+            <button
+              href="/cart"
+              className="flex bg-green-600 p-3 px-5 rounded-xl items-center gap-2 text-white font-semibold hover:text-green-800"
+              onClick={() => handleAddToCart()}
+            >
+              <img src={addToCartWhite} alt="Add to Cart" className="w-5" />
+              Add to Cart
+            </button>
+            <a
+              href="https://t.me/yourtelegramusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex bg-green-600 p-3 text-white  items-center gap-2 rounded-xl font-semibold hover:text-green-800"
+            >
+              <img src={telegramWhite} alt="Telegram" className="w-5" />
+              Contact on Telegram
+            </a>
+            <a
+              href="https://m.me/yourmessengerusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-green-600 p-3 text-white rounded-xl font-semibold hover:text-green-800"
+            >
+              <img src={messengerWhite} alt="Messenger" className="w-5" />
+              Contact on Messenger
+            </a>
           </div>
         </div>
       </div>
-    </div>
+      <div className="flex-1">
+        <h3 className="text-2xl font-semibold">Specifications</h3>
+        <div className="mt-4 hover:cursor-pointer">
+          <details className="border rounded mb-2 p-2">
+            <summary className="font-semibold">Screen</summary>
+            <div className="py-4">
+              <p className="pt-2 pl-14">
+                Size:{selectedItem.screen_size}
+              </p>
+            </div>
+          </details>
+          <details className="border rounded mb-2 p-2">
+            <summary className="font-semibold">Battery</summary>
+            <div className="py-4">
+              <p className="pt-2 pl-14">
+                Battery:{selectedItem.battery}
+              </p>
+            </div>
+          </details>
+          <details className="border rounded mb-2 p-2">
+            <summary className="font-semibold">Camera</summary>
+            <div className="py-4">
+              <p className="pt-2 pl-14">
+                Camera:{selectedItem.camera}
+              </p>
+            </div>
+          </details>
+          <details className="border rounded mb-2 p-2">
+            <summary className="font-semibold">Processor</summary>
+            <div className="py-4">
+              <p className="pt-2 pl-14">
+                Processor:{selectedItem.processor}
+              </p>
+            </div>
+          </details>
+          <details className="border rounded mb-2 p-2">
+            <summary className="font-semibold">Ram</summary>
+            <p>Ram:{selectedItem.ram}</p>
+          </details>
+        </div>
+      </div>
+      <div>
+        <div className="flex justify-between items-center mt-16">
+          <a href="#" className="text-blue-500">
+            VIEW ALL
+          </a>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
+          {product.map((product, index) => (
+            <div key={index} onClick={() => {
+              window.location.reload(); // Reload the page
+              window.scrollTo(0, 0);    // Scroll to the top of the page
+            }}>
+              <ProductCard key={product.id} product={product} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div >
   );
 };
 

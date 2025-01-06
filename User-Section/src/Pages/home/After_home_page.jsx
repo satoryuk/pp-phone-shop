@@ -1,10 +1,35 @@
+import { useEffect, useState } from "react";
+import { fetchSearchDataByName } from "../../FetchAPI/Fetch";
+
 const After_home_page = () => {
+
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const productName = params.get('productName');
+
+  const [data, setData] = useState();
+
+  const handleSearch = async () => {
+    try {
+      const response = await fetchSearchDataByName({ phone_name: productName });
+      setData(response.data);
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+
+  useEffect(() => {
+    handleSearch();
+  }, [])
+
   return (
     <div className="p-6 bg-gray-100">
       {/* Main Container */}
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Categories Section (Left Side) */}
-        <div className="w-full lg:w-1/3 bg-white shadow-md rounded-md p-6">
+        <div className="w-full lg:w-1/5 bg-white shadow-md rounded-md p-6">
           <h2 className="text-2xl font-bold mb-6">Categories</h2>
           <div className="space-y-6">
             {[
@@ -34,7 +59,7 @@ const After_home_page = () => {
 
         {/* Compare Space Section (Removed Content, just white background) */}
         <div className="flex-1 bg-white shadow-md rounded-md p-6">
-          {/* Empty section with white background */}
+            
         </div>
       </div>
 
@@ -64,6 +89,7 @@ const After_home_page = () => {
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );

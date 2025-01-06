@@ -11,7 +11,7 @@ FROM (
         pv.idphone_variants,
         s.price, 
         pv.color,
-        pm.image,
+        pm.image AS images,
         ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price DESC) AS row_num
         
     FROM phones p
@@ -22,8 +22,7 @@ FROM (
     LEFT JOIN specifications s ON s.phone_variant_id=pv.idphone_variants
 ) AS ranked
 WHERE row_num = 1;
-
-                    `
+`
     pool.query(query, (err, rows) => {
         if (err) return res.status(400).json({ message: "something went wrong" });
         res.status(200).json({
@@ -33,6 +32,51 @@ WHERE row_num = 1;
     });
 
 };
+export const displayAllProductByName = (req, res) => {
+    const { phone_name } = req.query;
+
+    // Ensure phone_name exists and is properly sanitized
+    if (!phone_name) {
+        return res.status(400).json({ message: "Phone name is required" });
+    }
+
+    const query = `
+        SELECT *
+        FROM (
+            SELECT 
+                p.*, 
+                c.category_name, 
+                b.brand_name,
+                pv.idphone_variants,
+                s.price, 
+                pv.color,
+                pm.image AS images,
+                ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price DESC) AS row_num
+            FROM phones p
+            INNER JOIN categories c ON c.category_id = p.category_id
+            INNER JOIN brands b ON b.brand_id = p.brand_id
+            INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+            LEFT JOIN productimage pm ON pm.phone_variant_id = pv.idphone_variants
+            LEFT JOIN specifications s ON s.phone_variant_id = pv.idphone_variants
+        ) AS ranked
+        WHERE row_num = 1 AND name LIKE ?
+    `;
+
+    // Add % wildcard to phone_name for LIKE query
+    const searchTerm = `%${phone_name}%`;
+
+    pool.query(query, [searchTerm], (err, rows) => {
+        if (err) {
+            console.error(err);
+            return res.status(400).json({ message: "Something went wrong" });
+        }
+        res.status(200).json({
+            data: rows,
+            message: "Successfully fetched data",
+        });
+    });
+};
+
 
 export const category = (req, res) => {
     const query = `SELECT category_name FROM categories ORDER BY category_id`

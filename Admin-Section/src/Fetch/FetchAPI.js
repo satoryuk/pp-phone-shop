@@ -25,7 +25,7 @@ export const register = async ({ profile, username, email, password }) => {
 };
 export const productData = async () => {
   try {
-    const response = await axios.get(`${API_URL_COMMON}/getAllProduct`, { withCredentials: true });
+    const response = await axios.get(`${API_URL_COMMON}/getAllProduct`);
     return response; // return the data from the response
   } catch (error) {
     console.error("Error fetching product data:", error);
@@ -42,7 +42,7 @@ export const adminLogin = async ({ email, password }) => {
       headers: {
         "Content-Type": "application/json", // Use JSON for the body content
       },
-      withCredentials: true
+      // withCredentials: true
     });
 
     // Return the response (can be useful to handle the response in the component)

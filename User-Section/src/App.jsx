@@ -18,6 +18,7 @@ import ProductDetail from "./Pages/home/ProductDetail";
 import CheckoutPage from "./Pages/home/Checkout";
 import MyOrderPage from "./Pages/home/My_Order";
 import AddToCart from "./Pages/home/AddToCart";
+import Category from "./Pages/home/Category";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -26,19 +27,25 @@ export default function App() {
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Home />} />
           <Route path="product-detail" element={<ProductDetail />} />
+          <Route path="product-detail" element={<ProductDetail />} />
+          <Route path="category" element={<Category />} />
           <Route path="compare-product" element={<Compare />} />
           <Route path="add-to-favorite" element={<Add_to_favorite />} />
           <Route path="add-to-cart" element={<AddToCart />} />
           <Route path="payment" element={<Payment />} />
-          <Route path="User-Profile" element={<UserProfile />} />
-          <Route path="After-home-page" element={<After_home_page />} />
+          <Route path="user-profile" element={<UserProfile />} /> {/* Updated path */}
+          <Route path="after-home-page" element={<After_home_page />} /> {/* Updated path */}
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="myorder" element={<MyOrderPage />} />
         </Route>
-        <Route path="/Auth" element={<AuthLayout />}>
-          <Route path="Signup" element={<Signup />} />
-          <Route path="Login" element={<Login />} />
+
+        <Route path="/auth" element={<AuthLayout />}> {/* Updated path */}
+          <Route path="signup" element={<Signup />} /> {/* Updated path */}
+          <Route path="login" element={<Login />} /> {/* Updated path */}
         </Route>
+
+        {/* Fallback route for undefined paths */}
+        <Route path="*" element={<h1>Page Not Found</h1>} />
       </>
     )
   );
