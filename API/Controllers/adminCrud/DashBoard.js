@@ -84,8 +84,7 @@ FROM (
         pv.idphone_variants,
         s.price, 
         pv.color,
-        pm.image,
-        
+        pm.image AS images,
         ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price DESC) AS row_num
         
     FROM phones p

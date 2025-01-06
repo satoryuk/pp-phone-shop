@@ -18,7 +18,7 @@ export const offerDisplay = async (req, res) => {
         pv.color,
         pm.discount_percentage,
         pm.end_date,
-        GROUP_CONCAT(DISTINCT pi.image SEPARATOR ', ') AS images, -- Combines distinct images into a single string
+        pi.image AS images,
         s.screen_size,
         s.processor,
         s.ram,
@@ -56,10 +56,12 @@ export const offerDisplay = async (req, res) => {
         s.battery, 
         s.camera, 
         b.brand_name, 
-        b.img
+        b.img,
+        pi.image
 )
 SELECT * FROM RankedPhones
 WHERE RankedPhones.row_num=1
+
 
                     `
     await pool.promise().query(query)

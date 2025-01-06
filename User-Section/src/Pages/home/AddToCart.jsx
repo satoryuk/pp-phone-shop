@@ -1,120 +1,71 @@
-import React, { useState } from "react";
-import CartItem from "./Cart_item";
-import OrderSummary from "./Order_cart_summary";
-import { back_sign } from "../Assets/image";
-import { Link } from "react-router-dom";
-import {
-  blackColor,
-  desertColor,
-  naturalColor,
-  silverColor,
-} from "../Assets/image";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import CartItem from './CartItem';
+import { toggleStatusTab } from '../../store/cart';
+import store from '../../store/store';
 
 const AddToCart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Name Product",
-      price: 1000,
-      quantity: 1,
-      image: desertColor,
-    },
-    {
-      id: 2,
-      name: "Name Product",
-      price: 1000,
-      quantity: 2,
-      image: silverColor,
-    },
-    {
-      id: 3,
-      name: "Name Product",
-      price: 1000,
-      quantity: 1,
-      image: blackColor,
-    },
-    {
-      id: 4,
-      name: "Name Product",
-      price: 1000,
-      quantity: 2,
-      image: silverColor,
-    },
-    {
-      id: 5,
-      name: "Name Product",
-      price: 1000,
-      quantity: 1,
-      image: naturalColor,
-    },
-  ]);
+  const carts = useSelector(store => store.cart.items);
+  const statusTab = useSelector(store => store.cart.statusTab);
+  const dispatch = useDispatch();
 
-  const handleAddQuantity = (id) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+  const handleCloseTabCart = () => {
+    dispatch(toggleStatusTab());
   };
-
-  const handleRemoveQuantity = (id) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
-
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
 
   return (
-    <div className="p-4">
-      <div className="flex flex-col lg:flex-row lg:p-8">
-        {/* Cart Items Section */}
-        <div className="w-full lg:w-2/3 lg:pr-4 mb-6 lg:mb-0">
-          <h1 className="text-2xl font-semibold mb-6">Phone Shop Cart</h1>
-          <div className="border-b-2 mb-4 pb-2 font-semibold flex justify-between">
-            <span>Product Details</span>
-            <span>Quantity</span>
-            <span>Price</span>
-            <span>Total</span>
+    <div
+      className={`fixed top-0 right-0 bg-white shadow-xl w-96 h-full flex flex-col
+      transform transition-transform duration-500
+      ${statusTab === false ? "translate-x-full" : "translate-x-0"}`}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between bg-green-600 text-white px-5 py-4">
+        <h2 className="text-lg font-semibold">Shopping Cart</h2>
+        <button
+          className="text-lg bg-white text-green-600 font-bold px-3 py-1 rounded hover:text-white hover:bg-gray-800 transition-colors"
+          onClick={handleCloseTabCart}
+        >
+          ×
+        </button>
+      </div>
+
+      {/* Cart Items */}
+      <div className="flex-1 p-5 overflow-y-auto">
+        {carts.length > 0 ? (
+          carts.map((item) => (
+            <CartItem key={item.productId} product={item} />
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full">
+
+            <p className="text-gray-600 text-center">Your cart is empty</p>
           </div>
-          {cartItems.map((item) => (
-            <CartItem
-              key={item.id}
-              image={item.image}
-              name={item.name}
-              price={item.price}
-              quantity={item.quantity}
-              onAdd={() => handleAddQuantity(item.id)}
-              onRemove={() => handleRemoveQuantity(item.id)}
-            />
-          ))}
+        )}
+      </div>
 
-          {/* Back to Shopping Link - Visible only on large screens */}
-          <Link to="/product-detail" className="hidden lg:block mt-4">
-            <div className="flex items-center">
-              <img src={back_sign} alt="back_sign" className="w-[25px]" />
-              <span className="text-green-500 ml-2">Back to shopping</span>
-            </div>
-          </Link>
+      {/* Footer */}
+      <div className="bg-green-600 p-4 border-t border-gray-200">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-white">Total:</span>
+          <span className="text-xl font-bold text-white">
+            ${carts.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
+          </span>
         </div>
-
-        {/* Order Summary Section */}
-        <div className="w-full lg:w-1/3 lg:pl-4">
-          <OrderSummary items={cartItems} shipping={5} total={total + 5} />
-
-          {/* Back to Shopping Link - Visible only on small screens */}
-          <Link to="/product-detail" className="block lg:hidden mt-4">
-            <div className="flex items-center">
-              <img src={back_sign} alt="back_sign" className="w-[25px]" />
-              <span className="text-green-500 ml-2">Back to shopping</span>
-            </div>
+        <div className="grid  grid-cols-2 gap-2">
+          <button
+            className="bg-gray-800 text-white py-2 font-bold rounded hover:bg-gray-700 transition-colors"
+            onClick={handleCloseTabCart}
+          >
+            Close
+          </button>
+          <Link
+            className="bg-white text-green-600 font-bold py-2 rounded flex justify-center items-center hover:bg-green-500 transition-colors"
+            to="/checkout"
+            onClick={handleCloseTabCart}
+          >
+            Checkout
           </Link>
         </div>
       </div>

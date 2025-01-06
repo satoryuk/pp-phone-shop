@@ -10,7 +10,6 @@ export const OrderTableItemsByID = async (req, res) => {
     o.order_date,
     o.status,
     ot.order_item_id,
-    ot.phone_variants_id,
     ot.quantity,
     ot.amount AS amount_per_total_orderItem,
     pv.color,
@@ -33,17 +32,16 @@ FROM
     orders o  
 INNER JOIN 
     order_items ot ON ot.order_id = o.order_id
+LEFT JOIN 
+    specifications s ON s.spec_id = ot.spec_id
 INNER JOIN 
-    phone_variants pv ON pv.idphone_variants = ot.phone_variants_id
+    phone_variants pv ON pv.idphone_variants = s.phone_variant_id
 INNER JOIN 
     phones p ON p.phone_id = pv.phone_id
 LEFT JOIN 
     productimage pdm ON pdm.phone_variant_id = pv.idphone_variants
 LEFT JOIN 
-    specifications s ON s.spec_id = ot.spec_id
-LEFT JOIN 
     promotions pm ON pm.spec_id = s.spec_id
-
 WHERE 
     o.order_id = ?
 GROUP BY 
@@ -51,17 +49,17 @@ GROUP BY
     o.order_date,
     o.status,
     ot.order_item_id,
-    ot.phone_variants_id,
-    pv.idphone_variants,
     ot.quantity,
     ot.amount,
     pv.color,
+    pv.idphone_variants,
     s.spec_id,
     s.price,
     pm.discount_percentage,
     p.name,
     pm.status,
-    o.total_amount;
+    o.total_amount
+
 
 `
 
