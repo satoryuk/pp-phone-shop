@@ -181,79 +181,54 @@ export const deleteProduct = async (req, res) => {
         return res.status(400).json({ message: "Product ID is required" });
     }
 
-    const variantQuery = `SELECT idphone_variants FROM phone_variants WHERE phone_id=?`;
     const deleteImageQuery = `DELETE FROM productimage WHERE phone_variant_id=?`;
-    const deleteOrderItems = `DELETE FROM order_items WHERE phone_variants_id=?`;
-    const deletePromotion = `DELETE FROM promotions WHERE phone_variants_id=?`;
-
-    const queries = [
-        { query: "DELETE FROM specifications WHERE phone_variant_id=?", errorMsg: "Failed to delete specifications" },
-        { query: "DELETE FROM phone_variants WHERE phone_id=?", errorMsg: "Failed to delete phone variants" },
-        { query: "DELETE FROM phones WHERE phone_id=?", errorMsg: "Failed to delete product" },
-    ];
+    const variantQuery = "SELECT idphone_variants FROM phone_variants WHERE phone_id=?";
+    const specQuery = "SELECT spec_id FROM specifications WHERE phone_variant_id=?";
+    const deleteSpecQuery = "DELETE FROM specifications WHERE spec_id=?";
+    const deleteOrderItemsQuery = "DELETE FROM order_items WHERE spec_id=?";
+    const deletePromotionsQuery = "DELETE FROM promotions WHERE spec_id=?";
+    const deleteVariantsQuery = "DELETE FROM phone_variants WHERE phone_id=?";
+    const deleteProductQuery = "DELETE FROM phones WHERE phone_id=?";
 
     try {
-        // Fetch all variant IDs for the given phone ID
-        const [variantsID] = await pool.promise().query(variantQuery, [deleteid]);
+        // Fetch all variant IDs for the given product ID
+        const [variantRows] = await pool.promise().query(variantQuery, [deleteid]);
 
-        // Delete associated order items and images for each variant
-        for (const variant of variantsID) {
-            const variantID = variant.idphone_variants;
-
-            // Delete order items
-            await new Promise((resolve, reject) => {
-                pool.query(deleteOrderItems, [variantID], (err, row) => {
-                    if (err) {
-                        console.error("Failed to delete order items:", err);
-                        return reject(new Error("Failed to delete order items"));
-                    }
-                    resolve(row);
-                });
-            });
-
-            await new Promise((resolve, reject) => {
-                pool.query(deletePromotion, [variantID], (err, row) => {
-                    if (err) {
-                        console.error("Failed to delete order items:", err);
-                        return reject(new Error("Failed to delete order items"));
-                    }
-                    resolve(row);
-                });
-            });
-
-            // Delete product images
-            await new Promise((resolve, reject) => {
-                pool.query(deleteImageQuery, [variantID], (err, row) => {
-                    if (err) {
-                        console.error("Failed to delete product images:", err);
-                        return reject(new Error("Failed to delete product images"));
-                    }
-                    resolve(row);
-                });
-            });
+        if (!variantRows.length) {
+            return res.status(404).json({ message: "No variants found for the given product ID" });
         }
 
-        // Delete the main product records
-        for (const { query, errorMsg } of queries) {
-            await new Promise((resolve, reject) => {
-                pool.query(query, [deleteid], (err, rows) => {
-                    if (err) {
-                        console.error(errorMsg, err);
-                        return reject(new Error(errorMsg));
-                    }
-                    resolve(rows);
-                });
-            });
+        // Collect all spec IDs associated with the variants
+        let specIds = [];
+        for (const variant of variantRows) {
+            const [specRows] = await pool.promise().query(specQuery, [variant.idphone_variants]);
+            specIds.push(...specRows.map(row => row.spec_id));
         }
 
-        return res.status(200).json({
-            message: "Product deleted successfully",
-        });
+        // Delete associated records for each spec ID
+        for (const specId of specIds) {
+            await pool.promise().query(deleteOrderItemsQuery, [specId]);
+            await pool.promise().query(deletePromotionsQuery, [specId]);
+            await pool.promise().query(deleteSpecQuery, [specId]);
+        }
+
+        // Delete product images and variants
+        for (const variant of variantRows) {
+            await pool.promise().query(deleteImageQuery, [variant.idphone_variants]);
+        }
+
+        await pool.promise().query(deleteVariantsQuery, [deleteid]);
+
+        // Finally, delete the product itself
+        await pool.promise().query(deleteProductQuery, [deleteid]);
+
+        return res.status(200).json({ message: "Product deleted successfully" });
     } catch (error) {
         console.error("Error deleting product:", error.message);
-        return res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: "An error occurred while deleting the product" });
     }
 };
+
 
 export const deleteVariants = async (req, res) => {
     const { variants_id } = req.query;
@@ -358,7 +333,12 @@ export const CountHeaderData = (req, res) => {
     });
 };
 export const updateProductVariants = async (req, res) => {
-    const { price, color } = req.body;
+    const { color } = req.body;
+    // console.log(req.user.user.username.name);
+    // const { name } = req.user.user.username;
+    // console.log(name);
+
+
     const File = req.files;
     const productImages = [];
     for (let file of File) {

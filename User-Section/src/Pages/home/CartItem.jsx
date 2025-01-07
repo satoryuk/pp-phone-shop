@@ -60,12 +60,11 @@ const CartItem = ({ product }) => {
             />
             <div className='flex-1 ml-4 flex flex-col justify-between'>
                 <div className='flex justify-between items-center mb-2'>
-                    <h3 className='text-lg font-semibold'>{detail.name || 'Unknown Product'}</h3>
-                    <p className='text-xl font-bold text-white'>
+                    <h3 className='text-sm font-semibold'>{detail.name || 'Unknown Product'}</h3>
+                    <p className='text-lg font-bold text-white'>
                         ${(detail.price_discount != null
                             ? Number(detail.price_discount)
-                            : Number(detail.price) * quantity).toFixed(2)}
-
+                            : Number(detail.price)).toFixed(2)}
                     </p>
                 </div>
                 <div className='flex items-center gap-3'>

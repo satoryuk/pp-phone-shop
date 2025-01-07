@@ -2,17 +2,17 @@ import pool from "../../db/db_handle.js";
 
 export const checkout = async (req, res) => {
     try {
-        const { customerName, items } = req.body;
+        const { userName } = req.user.user.username;
+        const { items } = req.body;
 
-        if (!customerName || !items || !Array.isArray(items)) {
+        if (!userName || !items || !Array.isArray(items)) {
             return res.status(400).json({ message: "Invalid input data" });
         }
 
-        console.log("Customer Name:", customerName);
 
         // Find the customer ID
         const queryFindCustomerID = `SELECT customer_id FROM customers WHERE username = ?`;
-        const [customerRows] = await pool.promise().query(queryFindCustomerID, [customerName]);
+        const [customerRows] = await pool.promise().query(queryFindCustomerID, [userName]);
 
         if (customerRows.length === 0) {
             return res.status(404).json({ message: "Customer not found" });

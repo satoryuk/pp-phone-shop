@@ -104,7 +104,7 @@ FROM (
         pv.idphone_variants,
         s.price, 
         pv.color,
-        pm.image,
+        pm.image AS images,
          ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price DESC) AS row_num
     FROM phones p
     INNER JOIN categories c ON c.category_id = p.category_id
@@ -320,6 +320,67 @@ GROUP BY
     if (rows.length === 0) {
         return res.json({
             message: "something went wrong"
+        })
+    }
+    return res.status(200).json({
+        message: "successfully",
+        data: rows
+    })
+}
+export const getOneItemBySpecID = async (req, res) => {
+    const { spec_id } = req.query;
+
+    const query = `SELECT 
+    p.phone_id,
+    p.name,
+    p.description,
+    pv.idphone_variants,
+    p.release_date,
+    pv.color,
+    pv.stock AS color_stock,
+    CASE
+        WHEN pmt.status = "Active" THEN ROUND(s.price * (100 - pmt.discount_percentage) / 100, 2)
+        ELSE NULL
+    END AS price_discount,
+    GROUP_CONCAT(DISTINCT pm.image SEPARATOR ', ') AS images,
+    s.spec_id,
+    s.screen_size,
+    s.processor,
+    s.ram,
+    s.storage,
+    s.battery,
+    s.camera,
+    s.price,
+    s.stock AS spec_stock
+FROM phones p
+INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+LEFT JOIN productimage pm ON pm.phone_variant_id = pv.idphone_variants
+INNER JOIN specifications s ON s.phone_variant_id = pv.idphone_variants
+LEFT JOIN promotions pmt ON pmt.spec_id = s.spec_id
+WHERE s.spec_id=?
+GROUP BY 
+    p.phone_id,
+    p.name,
+    p.description,
+    p.release_date,
+    pv.idphone_variants,
+    pv.color,
+    pv.stock,
+    s.spec_id,
+    s.screen_size,
+    s.processor,
+    s.ram,
+    s.storage,
+    s.battery,
+    s.camera,
+    s.price,
+    s.stock,
+    pmt.promo_id;`
+    const [rows] = await pool.promise().query(query, [spec_id]);
+    if (!rows.length) {
+        console.log("something went wrong");
+        return res.status(400).json({
+            message: "something went wrong",
         })
     }
     return res.status(200).json({

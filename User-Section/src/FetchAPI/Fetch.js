@@ -67,3 +67,12 @@ export const fetchProductByCategory = async ({ category }) => {
 
     }
 }
+export const fetchProductBySpecID = async ({ spec_id }) => {
+    try {
+        const response = await axios.get(`${API_URL_COMMON}/getOneItemBySpecID?spec_id=${spec_id}`)
+        return response.data;
+    } catch (error) {
+        console.log(error);
+
+    }
+}

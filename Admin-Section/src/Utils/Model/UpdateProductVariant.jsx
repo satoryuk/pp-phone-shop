@@ -7,7 +7,7 @@ const UpdateProductVariants = ({ product_id }) => {
     const location = useLocation();
     const [id, setID] = useState('');
     const [images, setImages] = useState([]);
-    const [price, setPrice] = useState('');
+
     const [colors, setColors] = useState("#000000"); // Default to one color
 
 
@@ -50,7 +50,7 @@ const UpdateProductVariants = ({ product_id }) => {
         e.preventDefault();
         const formdata = {
             images,
-            price,
+
             colors,
 
         }
@@ -67,7 +67,7 @@ const UpdateProductVariants = ({ product_id }) => {
 
     const handleClear = () => {
         setImages([]);
-        setPrice('');
+
         setColors(['']);
 
 
@@ -79,21 +79,9 @@ const UpdateProductVariants = ({ product_id }) => {
             </h1>
             <form
                 onSubmit={handleUpdate}
-                className="grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 md:items-center gap-10 py-10 "
+                className="grid grid-cols-1   xl:grid-cols-2 md:items-center gap-10 py-10 "
             >
-                {/* Price */}
-                <div className="flex flex-col">
-                    <label className="text-sm font-medium text-primary mb-2">Price</label>
-                    <input
-                        type="number"
-                        name="price"
-                        placeholder="Enter product price"
-                        value={price}
-                        className="input-style"
-                        onChange={(e) => setPrice(e.target.value)}
-                        required
-                    />
-                </div>
+
 
                 {/* Colors Section */}
                 <div className="flex flex-col">

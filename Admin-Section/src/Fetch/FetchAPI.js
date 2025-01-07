@@ -473,7 +473,6 @@ export const updateProductVariants = async (formdata, id) => {
 
   // Append all fields to FormData
 
-  formData.append("price", formdata.price);
   formData.append("stock", formdata.stock);
   formData.append("color", formdata.colors);
 

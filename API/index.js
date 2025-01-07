@@ -55,6 +55,10 @@ app.use("/auth", AuthRouter);
 app.use("/admin", adminRouter);
 app.use("/common", commonRouter);
 app.use("/user", userRouter)
+app.get('/', (req, res) => {
+
+
+})
 // app.use("/user",userRouter);
 // Example protected route with token validation
 
