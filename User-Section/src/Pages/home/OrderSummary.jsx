@@ -19,18 +19,12 @@ const OrderSummary = ({ totalQuantity, totalPrice }) => {
         <p>Quantity</p>
         <p>Price</p>
       </div>
-      <div className="mt-4 border-t pt-4 py-4">
+      <div className=" border-t pt-4 py-4">
         {cart.map((element, index) => (
           <CheckoutCart items={element} />
         ))}
         <p className="flex justify-between py-2 mt-5">
           <span>Amount Quantity:</span> <span>{totalQuantity | 0}</span>
-        </p>
-        {/* <p className="flex justify-between py-2">
-          <span>Delivery:</span> <span>$5.00</span>
-        </p> */}
-        <p className="flex justify-between py-2">
-          <span>Discount:</span> <span className="text-red-600">-$0.00</span>
         </p>
         {/* <p className="flex justify-between py-2">
           <span>Tax:</span> <span>$0.00</span>

@@ -39,7 +39,7 @@ const CheckoutPage = () => {
             <CreditCard />
           </div>
         </div>
-        <div className="w-full lg:w-1/2 mt-8 lg:mt-0 lg:ml-6 bg-white p-6 rounded-lg shadow-md">
+        <div className="w-full  lg:w-1/2 mt-8 lg:mt-0 lg:ml-6 bg-white p-6 rounded-lg shadow-md">
           <OrderSummary totalQuantity={totalQuatity} totalPrice={cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)} />
         </div>
       </div>

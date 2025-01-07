@@ -53,15 +53,7 @@ app.use(
 app.use("/auth", AuthRouter);
 app.use("/admin", adminRouter);
 app.use("/common", commonRouter);
-<<<<<<< HEAD
-app.use("/user", userRouter)
-app.get('/', (req, res) => {
-
-
-})
-=======
 app.use("/user", userRouter);
->>>>>>> e41e980b81899edcbb60b237aabe607e221138f8
 // app.use("/user",userRouter);
 // Example protected route with token validation
 

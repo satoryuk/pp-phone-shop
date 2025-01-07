@@ -28,33 +28,53 @@ const CheckoutCart = ({ items }) => {
         setTotalQuantity(total);
     }, [handleFetchData,]);
     return (
-        <div>
+        <div className='my-3'>
             {error ? (
                 <p>Error: {error}</p>
             ) : (
                 <>
                     {data.length > 0 ? (
-                        <div className='flex justify-between items-center'>
-                            <div className='flex items-center'>
+                        <div className="flex items-center justify-between py-2">
+                            {/* Product Image and Name */}
+                            <div className="flex items-center w-[175px] gap-2">
                                 <img
                                     src={`http://localhost:3000/${data[0].images?.split(',')[0]
                                         ?.trim()
                                         ?.replace(/uploads[\\/]/g, '')
                                         ?.replace(/\s+/g, '')}`}
-                                    className='w-16'
+                                    className="w-12 h-12 object-cover"
+                                    alt={data[0]?.name || "Product"}
                                 />
-                                <p>{data[0]?.name}</p>
+                                <p className="text-sm">{data[0]?.name}</p>
                             </div>
-                            <p className='ml-16'>{items?.quantity}</p>
-                            <div className='flex justify-between w-24'>
-                                {!items.price_discount ? (<><s>{items?.price_discount}</s><p>{items?.price}</p></>)
-                                    : <><s>{items?.price_discount}</s><p>{items?.price}</p></>}
+
+                            {/* Quantity - Fixed Width */}
+                            <div className="text-center flex-shrink-0 w-12">
+                                <p className="text-sm">{items?.quantity}</p>
+                            </div>
+
+                            {/* Price */}
+                            <div className="flex flex-col items-end w-24">
+                                {items.price_discount ? (
+                                    <>
+                                        <s className="text-gray-500 text-xs">{items?.price_discount}</s>
+                                        <p className="text-sm">{items?.price}</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <s className="text-gray-500 text-xs">{items?.price_discount}</s>
+                                        <p className="text-sm">{items?.price}</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     ) : (
                         <p>Loading...</p>
                     )}
                 </>
+
+
+
             )}
         </div>
     );
