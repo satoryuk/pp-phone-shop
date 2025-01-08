@@ -26,7 +26,7 @@ export const validateToken_refresh_token = async (req, res, next) => {
       try {
         // Verify the refresh token
         const refreshUser = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-
+        req.user = refreshUser;
         // Generate a new access token only if the refresh token is valid
         const newAccessToken = generateAccessToken({
           username: refreshUser.username,

@@ -65,7 +65,7 @@ const Login = () => {
                 console.log('Token saved:', token);
                 console.log(response.data)
                 navigate('/')
-            }
+            }   
         }).catch(function (error) {
             console.log(error);
         }).finally(() => { setLoading(false) });
