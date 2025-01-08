@@ -30,20 +30,21 @@ const ProductCard = ({ product }) => {
   const imageUrl = `http://localhost:3000/${(product.images || "")
     .trim()
     .replace(/uploads[\\/]/g, "")
-    .replace(/\s+/g, "")
-    }`;
+    .replace(/\s+/g, "")}`;
 
   return (
     <div className="relative bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
       <Link to={`/product-detail?phone_name=${product.name}`}>
-        <div className="w-full h-64 flex justify-center items-center bg-gray-100 rounded-md overflow-hidden">
+        <div className="w-full h-64 flex justify-center items-center  rounded-md overflow-hidden">
           <img
             src={imageUrl}
             alt={product.name}
             className="object-contain max-w-full max-h-full"
           />
         </div>
-        <h3 className="mt-4 text-center text-lg font-semibold text-gray-800">{product.name}</h3>
+        <h3 className="mt-4 text-center text-lg font-semibold text-gray-800">
+          {product.name}
+        </h3>
         <div className="flex justify-center items-center gap-2 mt-2">
           {product.price_discount ? (
             <>
