@@ -12,7 +12,7 @@ import {
 const Footer = () => {
   const footerRef = useRef();
   return (
-    <div ref={footerRef} className="bg-green-600 text-white">
+    <div ref={footerRef} id="contact" className="bg-green-600 text-white">
       {/* Footer Top*/}
       <div className="px-8 py-4 flex justify-between">
         <div className="">

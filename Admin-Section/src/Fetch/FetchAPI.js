@@ -7,7 +7,7 @@ const API_URL_Admin = "http://localhost:3000/admin";
 const API_URL_COMMON = "http://localhost:3000/common";
 
 export const signIn = async ({ email, password }) => {
-  return axios.post(`${API_URL_Auth}/login`, { email, password });
+  return axios.post(`${API_URL_Auth}/login`, { email, password }, { withCredentials: true });
 };
 export const register = async ({ profile, username, email, password }) => {
   const formData = new FormData();
@@ -42,7 +42,7 @@ export const adminLogin = async ({ email, password }) => {
       headers: {
         "Content-Type": "application/json", // Use JSON for the body content
       },
-      // withCredentials: true
+      withCredentials: true
     });
 
     // Return the response (can be useful to handle the response in the component)
@@ -63,6 +63,7 @@ export const adminLogin = async ({ email, password }) => {
 export const productHeaderData = async () => {
   try {
     const response = await axios.get(`${API_URL_Admin}/productHead`, { withCredentials: true });
+
     return response;
   } catch (error) {
     console.log(error);

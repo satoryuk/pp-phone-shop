@@ -30,7 +30,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="product-detail" element={<ProductDetail />} />
           <Route path="product-detail" element={<ProductDetail />} />
-          <Route path="category" element={<Category />} />
+          <Route path="Sort" element={<Category />} />
           <Route path="compare-product" element={<Compare />} />
           <Route path="add-to-favorite" element={<Add_to_favorite />} />
           <Route path="add-to-cart" element={<AddToCart />} />

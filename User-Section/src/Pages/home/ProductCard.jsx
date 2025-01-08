@@ -46,12 +46,15 @@ const ProductCard = ({ product }) => {
           {product.name}
         </h3>
         <div className="flex justify-center items-center gap-2 mt-2">
-          {product.price_discount && (
-            <s className="text-gray-500 text-sm font-medium">
-              ${product.price_discount}
-            </s>
-          )}
-          <p className="text-green-600 text-xl font-bold">${product.price}</p>
+          {product.price_discount ? (
+            <>
+              <s className="text-gray-500 text-sm font-mediu">${product.price}</s>
+              <p className="text-green-600 text-xl font-bold">
+                ${product.price_discount}
+              </p>
+            </>
+          ) : (<p className="text-green-600 text-xl font-bold">${product.price}</p>)}
+
         </div>
       </Link>
 

@@ -1,7 +1,6 @@
 export const cookieConfig = {
-    httpOnly: true, // Makes cookie inaccessible to JavaScript
-    secure: false,  // Set to true if using HTTPS
-    sameSite: 'strict', // Prevents CSRF
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 7 * 24 * 60 * 60 * 1000
-}
+    httpOnly: true, // Ensures the cookie is sent only over HTTP(S), not accessible to JavaScript
+    secure: true, // Ensures the cookie is sent only over HTTPS
+    sameSite: "None", // Allows cross-site cookies
+    path: "/", // Ensures the cookie is sent for all paths
+};

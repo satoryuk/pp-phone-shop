@@ -35,20 +35,20 @@ pool.getConnection((error, connection) => {
   console.log("Successfully connected to the database.");
 });
 
-// Session configuration
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // Secure in production
-      httpOnly: true, // Prevent JavaScript access
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", // Adjust sameSite based on environment
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      secure: process.env.NODE_ENV === "production", // If in production, use HTTPS
+      httpOnly: true,  // Don't allow JavaScript to access cookies
+      sameSite: 'None', // Allows cross-origin requests
+      maxAge: 24 * 60 * 60 * 1000 * 7,  // 1 day
     },
   })
 );
+
 
 app.use("/auth", AuthRouter);
 app.use("/admin", adminRouter);

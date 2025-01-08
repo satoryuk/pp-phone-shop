@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { offerDisplay, offerDisplayByID, offerDisplayByName } from "../Controllers/common/offer.js";
-import { category, displayAllProduct, displayAllProductByName, displayByCategory, getOneItemBySpecID, getProduct, searchItems, searchItemsByName } from "../Controllers/common/product.js";
+import { brand, category, displayAllProduct, displayAllProductByName, displayByBrand, displayByCategory, getOneItemBySpecID, getProduct, searchItems, searchItemsByName } from "../Controllers/common/product.js";
 import { displayByDate } from "../Controllers/adminCrud/DashBoard.js";
 import { getNotification } from "../Controllers/common/notification.js";
 
@@ -16,9 +16,11 @@ commonRouter.get("/searchProduct", searchItems);
 commonRouter.get("/searchProductByName", searchItemsByName);
 commonRouter.get("/getProduct", getProduct)
 commonRouter.get("/getAllProductbyCategory", displayByCategory);
+commonRouter.get("/getAllProductbyBrand", displayByBrand);
 commonRouter.get("/getAllProductbydate", displayByDate);
 commonRouter.get("/getOneItemBySpecID", getOneItemBySpecID);
 commonRouter.get('/category', category);
+commonRouter.get('/brand', brand);
 //Notification route
 commonRouter.get("/notification", getNotification);
 export default commonRouter;

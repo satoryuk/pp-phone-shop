@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { fetchProductBySpecID } from '../FetchAPI/Fetch';
 import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 
 const CheckoutCart = ({ items }) => {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const cart = useSelector(store => store.cart.items);
     const [totalQuatity, setTotalQuantity] = useState();
+    const [token, setToken] = useState(Cookies.get('access-token'));
     const handleFetchData = useCallback(async () => {
         if (!items?.productId) return; // Ensure productId exists before fetching
         try {
@@ -52,6 +54,8 @@ const CheckoutCart = ({ items }) => {
                             <div className="text-center flex-shrink-0 w-12">
                                 <p className="text-sm">{items?.quantity}</p>
                             </div>
+                            {console.log(Cookies.get('access-token'))
+                            }
 
                             {/* Price */}
                             <div className="flex flex-col items-end w-24">

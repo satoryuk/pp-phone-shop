@@ -33,7 +33,7 @@ export const fetchProductDiscount = async () => {
 }
 export const fetchProductByDate = async () => {
     try {
-        const response = await axios.get(`${API_URL_COMMON}/getAllProductbydate?date=1`);
+        const response = await axios.get(`${API_URL_COMMON}/getAllProductbydate?date=6`);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -49,6 +49,16 @@ export const fetchCategory = async () => {
 
     }
 }
+export const fetchBrand = async () => {
+    try {
+        const response = await axios.get(`${API_URL_COMMON}/brand`);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+
+    }
+}
+
 export const fetchSearchDataByName = async ({ phone_name }) => {
     try {
         const response = await axios.get(`${API_URL_COMMON}/getAllProductByName?phone_name=${phone_name}`)
@@ -61,6 +71,15 @@ export const fetchSearchDataByName = async ({ phone_name }) => {
 export const fetchProductByCategory = async ({ category }) => {
     try {
         const response = await axios.get(`${API_URL_COMMON}/getAllProductbyCategory?category=${category}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+
+    }
+}
+export const fetchProductByBrand = async ({ brand }) => {
+    try {
+        const response = await axios.get(`${API_URL_COMMON}/getAllProductbyBrand?brand=${brand}`);
         return response.data;
     } catch (error) {
         console.error(error);

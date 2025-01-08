@@ -90,10 +90,20 @@ export const category = (req, res) => {
         })
     })
 }
+export const brand = (req, res) => {
+    const query = `SELECT brand_name ,img FROM brands ORDER BY brand_id`
+    pool.query(query, (err, rows) => {
+        if (err) {
+            return res.status(400).json({ message: "something went wrong" })
+        }
+        return res.status(200).json({
+            data: rows,
+            message: "sucessfully"
+        })
+    })
+}
 export const displayByCategory = (req, res) => {
     const { category } = req.query;
-
-
 
     const query = ` SELECT *
 FROM (
@@ -118,6 +128,41 @@ WHERE row_num = 1 AND category_name=?;
                     `
 
     pool.query(query, [category], (err, rows) => {
+        if (err) {
+            return res.status(400).json({ message: "something went wrong" });
+        }
+        res.status(200).json({
+            data: rows,
+            message: "sucessfully"
+        })
+    })
+}
+export const displayByBrand = (req, res) => {
+    const { brand } = req.query;
+
+    const query = ` SELECT *
+FROM (
+     SELECT 
+        p.*, 
+        c.category_name, 
+        b.brand_name,
+        pv.idphone_variants,
+        s.price, 
+        pv.color,
+        pm.image AS images,
+         ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price DESC) AS row_num
+    FROM phones p
+    INNER JOIN categories c ON c.category_id = p.category_id
+    INNER JOIN brands b ON b.brand_id = p.brand_id
+    INNER JOIN phone_variants pv ON pv.phone_id = p.phone_id
+    LEFT JOIN specifications s ON s.phone_variant_id=pv.idphone_variants
+    LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
+    ORDER BY phone_id
+) AS ranked
+WHERE row_num = 1 AND brand_name=?;
+                    `
+
+    pool.query(query, [brand], (err, rows) => {
         if (err) {
             return res.status(400).json({ message: "something went wrong" });
         }
