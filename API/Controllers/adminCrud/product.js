@@ -40,11 +40,11 @@ export const addNewProduct = async (req, res) => {
             "INSERT INTO phones (name, description, category_id, brand_id, release_date) VALUES(?,?,?,?,?)";
 
         const addSpecificationsQuery =
-            "INSERT INTO specifications (phone_variant_id, screen_size, processor, ram, storage, battery, camera,Price) VALUES(?,?,?,?,?,?,?,?)";
+            "INSERT INTO specifications (phone_variant_id, screen_size, processor, ram, storage, battery, camera,Price,stock) VALUES(?,?,?,?,?,?,?,?,?)";
         // const addColorsQuery =
         //   "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
         const addColorQuery =
-            "INSERT INTO phone_variants (phone_id,color,stock) VALUES (?,?,?)"
+            "INSERT INTO phone_variants (phone_id,color) VALUES (?,?)"
         const addImageQuery =
             "INSERT INTO productimage(phone_variant_id, image) VALUES (?,?)";
 
@@ -72,7 +72,7 @@ export const addNewProduct = async (req, res) => {
         let variantID = [];
         console.log(colors);
 
-        await pool.promise().query(addColorQuery, [phone_id, colors, stock])
+        await pool.promise().query(addColorQuery, [phone_id, colors])
             .then(([rows]) => {
                 variantID.push(rows.insertId)
             })
@@ -87,7 +87,8 @@ export const addNewProduct = async (req, res) => {
             storage,
             battery,
             camera,
-            price
+            price,
+            stock
         ];
         await pool.promise().query(addSpecificationsQuery, specificationValues);
 
