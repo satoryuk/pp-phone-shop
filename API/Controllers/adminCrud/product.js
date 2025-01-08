@@ -37,10 +37,10 @@ export const addNewProduct = async (req, res) => {
         const category_query = `SELECT category_id FROM categories WHERE category_name=?`;
         const brand_query = "SELECT brand_id FROM brands WHERE brand_name=?";
         const addProductQuery =
-            "INSERT INTO phones (name, description, category_id, brand_id, release_date,stock) VALUES(?,?,?,?,?,0)";
+            "INSERT INTO phones (name, description, category_id, brand_id, release_date) VALUES(?,?,?,?,?)";
 
         const addSpecificationsQuery =
-            "INSERT INTO specifications (phone_variant_id, screen_size, processor, ram, storage, battery, camera) VALUES(?,?,?,?,?,?,?)";
+            "INSERT INTO specifications (phone_variant_id, screen_size, processor, ram, storage, battery, camera,Price) VALUES(?,?,?,?,?,?,?,?)";
         // const addColorsQuery =
         //   "INSERT INTO phone_colors (phone_id, color) VALUES (?,?)";
         const addColorQuery =
@@ -62,7 +62,7 @@ export const addNewProduct = async (req, res) => {
             description,
             category_id,
             brand_id,
-            date,
+            date
         ];
 
         const [productRows] = await pool.promise().query(addProductQuery, productValues);
@@ -86,11 +86,13 @@ export const addNewProduct = async (req, res) => {
             ram,
             storage,
             battery,
-            camera
+            camera,
+            price
         ];
         await pool.promise().query(addSpecificationsQuery, specificationValues);
 
-        console.log(variantID);
+        console.log(price);
+
 
         for (let image of images) {
             await pool.promise().query(addImageQuery, [variantID, image]);

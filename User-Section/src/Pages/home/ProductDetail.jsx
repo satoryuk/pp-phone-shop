@@ -318,9 +318,9 @@ const ProductDetail = () => {
       </div>
       <div>
         <div className="flex justify-between items-center mt-16">
-          <a href="#" className="text-blue-500">
-            VIEW ALL
-          </a>
+          <p href="#" className="text-blue-500">
+            PRODUCT
+          </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
           {product.map((product, index) => (

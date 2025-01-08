@@ -176,12 +176,13 @@ const Navbar = ({ token, onLogin, onLogout }) => {
           <Link to={`/AfterHomePage?page=DISCOUNT`} className="hover:text-gray-200">
             DISCOUNT
           </Link>
-          <span
+          <a
             onClick={scrollToFooter}
             className="cursor-pointer hover:text-gray-200"
+            href="#contact"
           >
             Contact Us
-          </span>
+          </a>
         </div>
       </div>
 

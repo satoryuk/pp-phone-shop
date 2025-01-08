@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { fetchProductByDate, fetchProductDiscount } from '../../FetchAPI/Fetch';
+import { fetchdataProduct, fetchProductByDate, fetchProductDiscount } from '../../FetchAPI/Fetch';
 import ProductCard from './ProductCard';
 import { useLocation } from 'react-router-dom';
 const AfterHomePage = () => {
@@ -28,12 +28,24 @@ const AfterHomePage = () => {
 
         }
     }, [])
+    const handleProduct = useCallback(async () => {
+        try {
+            const response = await fetchdataProduct();
+            setData(response.data)
+        } catch (error) {
+            console.error(error);
+
+        }
+    })
     useEffect(() => {
         if (page === 'NEW ARRIVAL') {
             handleNewArrival();
         }
-        else {
+        else if (page === "DISCOUNT") {
             handleDiscount();
+        }
+        else {
+            handleProduct();
         }
     }, [location])
 
