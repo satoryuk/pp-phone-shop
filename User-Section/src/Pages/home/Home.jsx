@@ -8,9 +8,16 @@ import {
   naturalColor,
 } from "../Assets/image";
 import Card from "./Card";
-import { fetchBrand, fetchCategory, fetchdataProduct, fetchProductByDate, fetchProductDiscount } from "../../FetchAPI/Fetch";
+import {
+  fetchBrand,
+  fetchCategory,
+  fetchdataProduct,
+  fetchProductByDate,
+  fetchProductDiscount,
+} from "../../FetchAPI/Fetch";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Poster from "./Poster";
 
 // const products = [
 //   { id: 1, name: "Item Name", price: 1000, image: silverColor },
@@ -28,23 +35,23 @@ const HomePage = () => {
   const [products, setProduct] = useState([]);
   const [discountProduct, setDiscountProduct] = useState([]);
   const [newArrival, setNewArrival] = useState([]);
-  const [category, setCategory] = useState([])
-  const [brand, setBrand] = useState([])
-  const statusTab = useSelector(store => store.cart.statusTab);
+  const [category, setCategory] = useState([]);
+  const [brand, setBrand] = useState([]);
+  const statusTab = useSelector((store) => store.cart.statusTab);
 
   const handlefetchProduct = async () => {
     const response = await fetchdataProduct();
     setProduct(response.data);
     // console.log(response.data);
-  }
+  };
   const handleFetchDiscountProduct = async () => {
     const response = await fetchProductDiscount();
-    setDiscountProduct(response.data)
-  }
+    setDiscountProduct(response.data);
+  };
   const handleNewArrival = async () => {
     const response = await fetchProductByDate();
-    setNewArrival(response.data)
-  }
+    setNewArrival(response.data);
+  };
   const handleFetchCategory = async () => {
     try {
       const response = await fetchCategory();
@@ -64,16 +71,19 @@ const HomePage = () => {
     }
   };
 
-
   useEffect(() => {
     handlefetchProduct();
     handleFetchDiscountProduct();
     handleNewArrival();
     handleFetchCategory();
     handleFetchBrand();
-  }, [])
+  }, []);
   return (
     <div>
+      <div className="px-8 py-4 flex justify-between items-center">
+        <Poster />
+      </div>
+
       <div className="px-8 py-4">
         <div className="flex justify-between items-center">
           <h2 className="text-[20px] font-bold">SPECIAL OFFER</h2>
@@ -85,20 +95,22 @@ const HomePage = () => {
           {discountProduct.map((product) => (
             <ProductCard key={product.id} product={product} />
             // console.log(products)
-
           ))}
         </div>
       </div>
       <div className="mb-8">
         <h2 className="text-[20px] font-bold">CATEGORY</h2>
         <div className="flex flex-wrap gap-4 items-center my-4 bg-gray-50 p-6 rounded-lg shadow-md">
-          <Card data={category} page='Categories' />
+          <Card data={category} page="Categories" />
         </div>
       </div>
       <div className="px-8 py-4">
         <div className="flex justify-between items-center">
           <h2 className="text-[20px] font-bold">NEW ARRIVAL</h2>
-          <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="text-blue-500">
+          <Link
+            to={`/AfterHomePage?page=NEW ARRIVAL`}
+            className="text-blue-500"
+          >
             VIEW ALL
           </Link>
         </div>
@@ -109,9 +121,9 @@ const HomePage = () => {
         </div>
       </div>
       <div className="mb-8">
-        <h2 className="text-[20px] font-bold">BRAND</h2>
-        <div className="flex flex-wrap gap-4 items-center my-4 bg-gray-50 p-6 rounded-lg shadow-md">
-          <Card data={brand} page='Brands' />
+        {/* <h2 className="text-[20px] font-bold">BRAND</h2> */}
+        <div className="flex flex-wrap gap-4 items-center my-4  rounded-lg shadow-md">
+          <Card data={brand} page="Brands" />
         </div>
       </div>
       <div className="px-8 py-4">
