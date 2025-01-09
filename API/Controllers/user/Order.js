@@ -2,10 +2,15 @@ import pool from "../../db/db_handle.js";
 
 export const checkout = async (req, res) => {
     try {
-        const { userName } = req.user.user.username;
-        const { items } = req.body;
+        const userName = 'kongming';
+        const { items, delivery, payment, location } = req.body;
 
-        if (!userName || !items || !Array.isArray(items)) {
+
+
+        console.log(req.body);
+        console.log(userName);
+
+        if (!userName || !items || !Array.isArray(items) || !delivery || !payment || !location) {
             return res.status(400).json({ message: "Invalid input data" });
         }
 
@@ -23,8 +28,8 @@ export const checkout = async (req, res) => {
         console.log("Customer ID:", customer_id);
 
         // Insert into orders
-        const queryInsertOrders = `INSERT INTO orders (customer_id) VALUES (?)`;
-        const [ordersRows] = await pool.promise().query(queryInsertOrders, [customer_id]);
+        const queryInsertOrders = `INSERT INTO orders (customer_id,delivery,payment,location) VALUES (?,?,?,?)`;
+        const [ordersRows] = await pool.promise().query(queryInsertOrders, [customer_id, delivery, payment, location]);
 
         const order_id = ordersRows.insertId;
 

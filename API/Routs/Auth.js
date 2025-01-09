@@ -6,6 +6,7 @@ const AuthRouter = Router();
 
 AuthRouter.post("/login", handlelogin);
 AuthRouter.post("/register", register);
+AuthRouter.post("/logout", logout);
 AuthRouter.post("/adminLogin", adminLogin);
 AuthRouter.post("/adminRegister", adminRegister);
 AuthRouter.post("/adminLogout", logout);

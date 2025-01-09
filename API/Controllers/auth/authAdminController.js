@@ -38,6 +38,7 @@ export const adminLogin = async (req, res) => {
 
 
     return res.status(200).json({
+      token: accessToken,
       message: "Logged in successfully",
     });
   } catch (error) {
@@ -50,6 +51,8 @@ export const adminLogin = async (req, res) => {
 export const adminRegister = async (req, res) => {
   const { username, email, password } = req.body;
 
+  console.log(req.body);
+
   // Validate that all fields are provided
   if (!username || !email || !password) {
     return res.status(400).json({ message: "All fields must be filled" });
@@ -60,7 +63,7 @@ export const adminRegister = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const values = [username, email, hashedPassword];
     const queryInsert =
-      "INSERT INTO customers (username,email,password,phone,address) VALUES (?, ?, ?)";
+      "INSERT INTO admin (adminname,email,password) VALUES (?, ?, ?)";
 
     // Insert user into the database
     pool.query(queryInsert, values, (error, result) => {
@@ -77,10 +80,10 @@ export const adminRegister = async (req, res) => {
       const refreshToken = generateRefreshToken(payload);
 
       // Set tokens in session
-      res.cookie('access-token', accessToken, cookieConfig);
-      res.cookie('refresh-token', refreshToken, cookieConfig);
+      res.cookie('admin-access-token', accessToken, cookieConfig);
+      res.cookie('admin-refresh-token', refreshToken, cookieConfig);
 
-      return res.json({ message: "User registered successfully", accessToken });
+      return res.json({ message: "User registered successfully", token: accessToken });
     });
   } catch (error) {
     console.error("Error:", error.message); // Log for debugging

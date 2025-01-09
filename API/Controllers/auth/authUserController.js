@@ -43,8 +43,7 @@ export const handlelogin = async (req, res) => {
       res.cookie('refresh-token', refreshToken, cookieConfig);
 
       res.json({
-        accessToken,
-        refreshToken,
+        token: accessToken,
         message: "Logged in successfully",
       });
     });
@@ -95,7 +94,7 @@ export const register = async (req, res) => {
 
       return res
         .status(201)
-        .json({ message: "User registered successfully", accessToken });
+        .json({ message: "User registered successfully", token: accessToken });
     });
   } catch (error) {
     console.error("Error:", error.message); // Log for debugging
@@ -103,6 +102,18 @@ export const register = async (req, res) => {
   }
 };
 
+// export const adminlogout = (req, res) => {
+//   try {
+//     // Clear cookies with matching options (path, secure, httpOnly)
+//     res.clearCookie('admin-access-token', { path: '/', httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+//     res.clearCookie('admin-refresh-token', { path: '/', httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
+//     res.status(200).json({ message: "Logout successfully" });
+//   } catch (error) {
+//     console.error("Error during logout:", error);
+//     return res.status(400).json({ message: "Something went wrong" });
+//   }
+// };
 export const logout = (req, res) => {
   try {
     // Clear cookies with matching options (path, secure, httpOnly)

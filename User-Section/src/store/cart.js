@@ -56,6 +56,10 @@ const cartSlice = createSlice({
             // Save updated cart to localStorage
             localStorage.setItem("carts", JSON.stringify(state.items));
         },
+        removeAllCart(state) {
+            state.items = [];
+            localStorage.removeItem('carts')
+        },
         toggleStatusTab(state) {
             // Toggle the statusTab state
             state.statusTab = !state.statusTab;
@@ -63,5 +67,5 @@ const cartSlice = createSlice({
     },
 });
 
-export const { addToCart, changeQuantity, removeFromCart, toggleStatusTab } = cartSlice.actions;
+export const { addToCart, changeQuantity, removeFromCart, toggleStatusTab, removeAllCart } = cartSlice.actions;
 export default cartSlice.reducer;
