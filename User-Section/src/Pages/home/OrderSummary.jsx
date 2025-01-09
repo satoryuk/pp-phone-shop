@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   desertColor,
   naturalColor,
@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 const OrderSummary = ({ totalQuantity, totalPrice }) => {
 
   const cart = useSelector(store => store.cart.items);
+
   return (
     <div>
       <h3 className="text-xl font-semibold mb-4">Order Summary</h3>

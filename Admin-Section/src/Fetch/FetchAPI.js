@@ -106,7 +106,7 @@ export const tableByDate = async (date) => {
 
 export const categoryFetch = async () => {
   try {
-    const response = await axios.get(`${API_URL_Admin}/category`, { withCredentials: true });
+    const response = await axios.get(`${API_URL_COMMON}/category`, { withCredentials: true });
     return response.data;
   } catch (error) {
     console.log(error);

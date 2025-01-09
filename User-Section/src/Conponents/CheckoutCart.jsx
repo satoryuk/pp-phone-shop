@@ -54,19 +54,17 @@ const CheckoutCart = ({ items }) => {
                             <div className="text-center flex-shrink-0 w-12">
                                 <p className="text-sm">{items?.quantity}</p>
                             </div>
-                            {console.log(Cookies.get('access-token'))
-                            }
 
                             {/* Price */}
                             <div className="flex flex-col items-end w-24">
-                                {items.price_discount ? (
-                                    <>
-                                        <s className="text-gray-500 text-xs">{items?.price_discount}</s>
-                                        <p className="text-sm">{items?.price}</p>
-                                    </>
+                                {data[0].price_discount ? (
+                                    <div className='flex items-center gap-5'>
+                                        <s className="text-gray-500 text-xs">{data[0]?.price}</s>
+                                        <p className="text-sm">{data[0]?.price_discount}</p>
+                                    </div>
                                 ) : (
                                     <>
-                                        <s className="text-gray-500 text-xs">{items?.price_discount}</s>
+
                                         <p className="text-sm">{items?.price}</p>
                                     </>
                                 )}

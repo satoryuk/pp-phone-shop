@@ -25,7 +25,7 @@ const Card = ({ data, page }) => {
 
                 {/* View More Link */}
                 <Link
-                  to={`Sort?category=${element.category_name}}`}
+                  to={`Sort?category=${element.category_name}`}
                   className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200"
                 >
                   View more &rarr;

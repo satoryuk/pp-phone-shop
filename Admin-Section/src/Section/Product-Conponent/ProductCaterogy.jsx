@@ -4,12 +4,14 @@ import { categoryFetch, tableByCategory } from "../../Fetch/FetchAPI";
 import TableProduct from "../../Component/TableProduct";
 const ProductCaterogy = () => {
   const [category, setCategory] = useState([]);
-  const [select, setSelect] = useState('phone');
+  const [select, setSelect] = useState('Smartphones');
   const [items, setItems] = useState([]);
 
   const fetchCategory = async () => {
     try {
       const data = await categoryFetch();
+      console.log('here category' + data);
+
       setCategory(data.data);
     } catch (error) {
       console.log(error);
@@ -36,6 +38,7 @@ const ProductCaterogy = () => {
           <h2 className="text-primary text-2xl font-bold font-Roboto">
             Categories:
           </h2>
+
           <select
             name="category"
             id="category"
