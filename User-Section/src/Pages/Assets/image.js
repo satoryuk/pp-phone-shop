@@ -26,6 +26,7 @@ import telegramWhite from "../Assets/telegramWhite.svg";
 import heartFill from "../Assets/addtofavoriteFullStrock.svg";
 import heart from "../Assets/AddToFavoriteWhite.svg";
 import poster from "../Assets/poster.png";
+import instagram_green from "../Assets/instagram_green.png";
 export {
   logo,
   desertColor,
@@ -55,4 +56,5 @@ export {
   heart,
   heartFill,
   poster,
+  instagram_green,
 };
