@@ -35,7 +35,7 @@ const ProductCard = ({ product }) => {
   return (
     <div className="relative bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
       <Link to={`/product-detail?phone_name=${product.name}`}>
-        <div className="w-full h-50 flex justify-center items-center  rounded-md overflow-hidden mt-1">
+        <div className="w-auto h-[200px] flex justify-center items-center  rounded-md overflow-hidden mt-1">
           <img
             src={imageUrl}
             alt={product.name}
