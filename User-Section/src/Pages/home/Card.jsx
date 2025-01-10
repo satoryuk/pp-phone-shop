@@ -7,14 +7,14 @@ const Card = ({ data, page }) => {
       <h1 className="text-3xl font-extrabold mb-6 text-gray-900">{page}</h1>
       {data.length > 0 ? (
         page === "Categories" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
             {data.map((element, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                className="flex flex-col items-center p-2 bg-gray-50 hover:bg-gray-100 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all transform duration-300"
               >
                 {/* Icon */}
-                <div className="text-5xl text-blue-500 mb-4">
+                <div className="text-5xl text-blue-500">
                   <i className="fas fa-mobile-alt"></i>
                 </div>
 
@@ -39,16 +39,16 @@ const Card = ({ data, page }) => {
               <Link to={`Sort?brand=${element.brand_name}`}>
                 <div
                   key={element.brand_name}
-                  className="flex items-center gap-4 p-4 bg-gray-100 hover:bg-gray-200 transition rounded-lg cursor-pointer shadow-md"
+                  className="flex items-center w-[200px] h-auto gap-4 p-4 bg-gray-100 hover:bg-gray-200 transition rounded-lg cursor-pointer shadow-md  "
                 >
                   <img
                     src={`http://localhost:3000/${element.img
-                      ?.split(',')[0]
+                      ?.split(",")[0]
                       .trim()
-                      .replace(/uploads[\\/]/g, '')
-                      .replace(/\s+/g, '')}`}
+                      .replace(/uploads[\\/]/g, "")
+                      .replace(/\s+/g, "")}`}
                     alt={element.brand_name}
-                    className="w-16 h-16 object-cover rounded-lg"
+                    className="w-12 h-12 object-cover rounded-lg"
                   />
                   <div>
                     <p className="font-semibold text-lg text-gray-800">
