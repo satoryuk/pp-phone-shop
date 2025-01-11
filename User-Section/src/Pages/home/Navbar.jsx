@@ -173,7 +173,8 @@ const Navbar = ({ token, onLogin, onLogout }) => {
           <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="hover:text-gray-200">
             NEW ARRIVAL
           </Link>
-          <Link to={`/AfterHomePage?page=DISCOUNT`} className="hover:text-gray-200">
+
+          <Link to={`/AfterHomePage?page=user-profile`} className="hover:text-gray-200">
             DISCOUNT
           </Link>
           <a

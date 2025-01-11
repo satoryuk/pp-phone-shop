@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import MyOrderPage from "./My_Order";
+import { CgOverflow } from "react-icons/cg";
 
 const UserProfile = () => {
   const [formData, setFormData] = useState({
@@ -81,7 +83,7 @@ const UserProfile = () => {
 
         {/* Form Section */}
         <div style={styles.form}>
-          {[ 
+          {[
             { label: "First Name", name: "firstName" },
             { label: "Last Name", name: "lastName" },
             { label: "Email Address", name: "email" },
@@ -115,6 +117,7 @@ const UserProfile = () => {
             Save Changes
           </button>
         </div>
+        {/* <MyOrderPage /> */}
       </div>
     </div>
   );
