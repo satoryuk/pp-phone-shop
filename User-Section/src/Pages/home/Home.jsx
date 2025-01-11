@@ -80,13 +80,21 @@ const HomePage = () => {
   }, []);
   return (
     <div>
-      <div className="px-8 py-4 flex justify-between items-center">
+      {/* <div className="px-8 py-4 flex justify-between items-center">
         <Poster />
+      </div> */}
+
+      {/* Popular-brand section */}
+      <div className="flex flex-wrap gap-4 items-center my-4 rounded-lg shadow-md">
+        <Card data={brand} page="Brands" />
       </div>
 
+      {/* Specail section */}
       <div className="px-8 py-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-[20px] font-bold">SPECIAL OFFER</h2>
+          <h2 className="text-3xl font-extrabold text-gray-900">
+            SPECIAL OFFER
+          </h2>
           <Link to={`/AfterHomePage?page=DISCOUNT`} className="text-blue-500">
             VIEW ALL
           </Link>
@@ -98,15 +106,13 @@ const HomePage = () => {
           ))}
         </div>
       </div>
-      <div className="mb-8">
-        <h2 className="text-[20px] font-bold">CATEGORY</h2>
-        <div className="flex flex-wrap gap-4 items-center my-4 bg-gray-50 p-6 rounded-lg shadow-md">
-          <Card data={category} page="Categories" />
-        </div>
-      </div>
-      <div className="px-8 py-4">
+
+      {/* New-Arrival section */}
+      <div className="px-8 py-4 bg-gray-100 rounded-lg mb-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-[20px] font-bold">NEW ARRIVAL</h2>
+          <h2 className="text-3xl font-extrabold text-gray-900 my-2">
+            NEW ARRIVAL
+          </h2>
           <Link
             to={`/AfterHomePage?page=NEW ARRIVAL`}
             className="text-blue-500"
@@ -114,23 +120,25 @@ const HomePage = () => {
             VIEW ALL
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 mt-4 mb-4">
           {newArrival.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </div>
-      <div className="mb-8">
-        {/* <h2 className="text-[20px] font-bold">BRAND</h2> */}
-        <div className="flex flex-wrap gap-4 items-center my-4  rounded-lg shadow-md">
-          <Card data={brand} page="Brands" />
-        </div>
+
+      {/* Categories section */}
+      <div className="flex flex-wrap gap-4 items-center mb-4 rounded-lg shadow-md">
+        <Card data={category} page="Categories" />
       </div>
-      <div className="px-8 py-4">
-        {/* Special Offer Section */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center">
-            <h2 className="text-[20px] font-bold">PRODUCT</h2>
+
+      {/* Smartphones section */}
+      <div className="px-8 py-4 bg-gray-100 rounded-lg">
+        <div className="mb-6">
+          <div className="flex justify-between items-center my-2">
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              SMART PHONES
+            </h2>
             <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
               VIEW ALL
             </Link>
@@ -141,12 +149,44 @@ const HomePage = () => {
             ))}
           </div>
         </div>
+      </div>
 
-        {/* New Arrival Section */}
+      {/* Watch section */}
+      <div className="px-8 py-4">
+        <div className="mb-8">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              SMART WATCH
+            </h2>
+            <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
+              VIEW ALL
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4 bg-gray-100 p-4 rounded-lg">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </div>
 
-        {/* Category */}
-
-        {/* Accesories Section */}
+      {/* Accessories section */}
+      <div className="px-8 py-4 bg-gray-100 rounded-lg">
+        <div className="mb-8">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              ACCESSORIES
+            </h2>
+            <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
+              VIEW ALL
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4 bg-gray-100 p-4 rounded-lg">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

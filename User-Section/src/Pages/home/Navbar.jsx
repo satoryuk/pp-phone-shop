@@ -6,17 +6,17 @@ import Popup from "reactjs-popup";
 import NotificationCard from "./Notification_Card";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import store from "../../store/store";
+// import store from "../../store/store";
 import { nav_icon } from "../../Constants";
 import { toggleStatusTab } from "../../store/cart";
 
 const Navbar = ({ token, onLogin, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [totalQuatity, setTotalQuantity] = useState(0);
-  const cart = useSelector(store => store.cart.items);
+  const cart = useSelector((store) => store.cart.items);
   const dispatch = useDispatch();
   const [toggleMenu, setToggleMenu] = useState(false);
-  const [searchData, setSearchData] = useState('');
+  const [searchData, setSearchData] = useState("");
 
   // Create a reference to the footer
   const footerRef = useRef(null);
@@ -24,7 +24,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
   // Scroll to footer when "Contact Us" link is clicked
   const scrollToFooter = () => {
     if (footerRef.current) {
-      footerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      footerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     } else {
       console.log("Footer reference is not set properly.");
     }
@@ -34,7 +34,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
       onLogin;
     }
     let total = 0;
-    cart.forEach(item => total += item.quantity);
+    cart.forEach((item) => (total += item.quantity));
     setTotalQuantity(total);
   }, [token, onLogin, cart]);
 
@@ -50,10 +50,14 @@ const Navbar = ({ token, onLogin, onLogout }) => {
         <div className="flex justify-between items-center h-20">
           {/* Logo and Name */}
           <div className="flex items-center">
-            <Link to='/'><img src={logo} alt="Phone Shop Logo" className="h-10 w-10" /></Link>
-            <Link to='/'><span className="text-green-600 text-2xl font-bold ml-2">
-              Phone Shop
-            </span></Link>
+            <Link to="/">
+              <img src={logo} alt="Phone Shop Logo" className="h-10 w-10" />
+            </Link>
+            <Link to="/">
+              <span className="text-green-600 text-2xl font-bold ml-2">
+                Phone Shop
+              </span>
+            </Link>
           </div>
 
           {/* Search Bar */}
@@ -79,7 +83,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
 
           {/* Account Btn */}
           <div className="flex items-center space-x-6">
-            {nav_icon.map((element) => (
+            {nav_icon.map((element) =>
               element.label === "AddToCart" ? (
                 <div
                   key={element.label}
@@ -87,15 +91,12 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                   onClick={() => handleOpenTabCart()} // Add onClick event
                 >
                   <img src={element.img} alt={element.label} className="w-8" />
-                  <span className="absolute bottom-0 font-bold right-0 text-primary text-lg w-5 h-5 rounded-full flex justify-center items-center">
+                  <span className="absolute font-bold bottom-1 right-1 text-white bg-red-600 text-xs w-4 h-4 rounded-full flex justify-center items-center">
                     {totalQuatity}
                   </span>
                 </div>
               ) : (
-                <NavLink
-                  key={element.label}
-                  to={element.href}
-                >
+                <NavLink key={element.label} to={element.href}>
                   <img
                     src={element.img}
                     alt={element.label}
@@ -103,18 +104,18 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                   />
                 </NavLink>
               )
-            ))}
+            )}
 
             {/* Conditional Rendering Based on Token */}
             {token ? (
               // Show Notification Pop-up and Logout Button if token exists
               <div className="flex items-center space-x-4">
                 <Popup
-                  trigger={(
+                  trigger={
                     <div className="cursor-pointer">
                       <IoIosNotifications size={24} />
                     </div>
-                  )}
+                  }
                   position="bottom center"
                   arrow={true}
                   closeOnDocumentClick
@@ -170,11 +171,16 @@ const Navbar = ({ token, onLogin, onLogout }) => {
           <Link to="/">
             <span className="hover:text-gray-200">Home</span>
           </Link>
-          <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="hover:text-gray-200">
+          <Link
+            to={`/AfterHomePage?page=NEW ARRIVAL`}
+            className="hover:text-gray-200"
+          >
             NEW ARRIVAL
           </Link>
-
-          <Link to={`/AfterHomePage?page=user-profile`} className="hover:text-gray-200">
+          <Link
+            to={`/AfterHomePage?page=DISCOUNT`}
+            className="hover:text-gray-200"
+          >
             DISCOUNT
           </Link>
           <a
@@ -199,10 +205,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
               </button>
             </Link>
             {/* Other buttons here */}
-            <button
-              onClick={scrollToFooter}
-              className="text-gray-800 mb-2"
-            >
+            <button onClick={scrollToFooter} className="text-gray-800 mb-2">
               Contact Us
             </button>
           </div>
