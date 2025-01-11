@@ -49,7 +49,6 @@ const Login = () => {
 
     //function to login
     const login = async (e) => {
-        e.preventDefault();
         console.log(email)
         setLoading(true)
         console.log(passwordState)
@@ -57,15 +56,15 @@ const Login = () => {
             email: email,
             password: passwordState,
 
-        }).then(function (response) {
+        }, { withCredentials: true }).then(function (response) {
             if (response.status === 200) {
                 setLoading(false)
-                const token = response.data.accessToken;
+                const token = response.data.token;
                 localStorage.setItem('authToken', token); // save token to local storage
                 console.log('Token saved:', token);
                 console.log(response.data)
-                navigate('/')
-            }   
+                navigate('/', { replace: true })
+            }
         }).catch(function (error) {
             console.log(error);
         }).finally(() => { setLoading(false) });
@@ -78,12 +77,12 @@ const Login = () => {
                 <div className="flex flex-col items-center w-full max-w-md bg-white p-6 rounded-lg shadow-md mt-6">
 
                     <h1 className="text-green-600 text-3xl font-bold mb-4 ">Sign In</h1>
-                    <XTextfield
+                    {/* <XTextfield
                         label="Full Name"
                         placeHolder="Okayo"
                         icon={<AiOutlineUser />}
                     />
-                    <Spacer width={null} />
+                    <Spacer width={null} /> */}
                     <XTextfield
                         label="Email Address"
                         placeHolder="@gmail.com"

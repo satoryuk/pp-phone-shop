@@ -1,6 +1,31 @@
 import React, { useState } from "react";
+import MyOrderPage from "./My_Order";
+import { CgOverflow } from "react-icons/cg";
 
 const UserProfile = () => {
+  const [activeSection, setActiveSection] = useState(""); // Default to My Order
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case "My Order":
+        return <MyOrderPage />;
+      case "Personal":
+      // return <PersonalPage />;
+      case "My Favorite":
+      // return <MyFavoritePage />;
+      case "Profile":
+      default:
+        return (
+          <ProfileContent
+            formData={formData}
+            handleChange={handleChange}
+            handleSignOut={handleSignOut}
+            handleSaveChanges={handleSaveChanges}
+            setActiveSection={setActiveSection}
+          />
+        );
+    }
+  };
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -35,7 +60,7 @@ const UserProfile = () => {
       {/* Sidebar */}
       <div style={styles.sidebar}>
         <div style={styles.sidebarHeader}>
-          <div style={styles.sidebarProfile}>
+          <div style={{ ...styles.sidebarProfile, cursor: 'pointer' }} onClick={() => setActiveSection("Profile")} >
             <img
               src="https://via.placeholder.com/50"
               alt="Profile"
@@ -51,70 +76,91 @@ const UserProfile = () => {
           </div>
         </div>
         <ul style={styles.sidebarMenu}>
-          <li style={styles.sidebarItem}>My Order</li>
-          <li style={styles.sidebarItem}>Personal</li>
-          <li style={styles.sidebarItem}>My Favorite</li>
+          <li
+            style={styles.sidebarItem(activeSection === "My Order")}
+            onClick={() => setActiveSection("My Order")}
+          >
+            My Order
+          </li>
+          <li
+            style={styles.sidebarItem(activeSection === "Personal")}
+            onClick={() => setActiveSection("Personal")}
+          >
+            Personal
+          </li>
+          <li
+            style={styles.sidebarItem(activeSection === "My Favorite")}
+            onClick={() => setActiveSection("My Favorite")}
+          >
+            My Favorite
+          </li>
         </ul>
       </div>
 
       {/* Main Content */}
       <div style={styles.mainContent}>
-        {/* Top Profile Section */}
-        <div style={styles.headerContainer}>
-          <div style={styles.profileInfo}>
-            <img
-              src="https://via.placeholder.com/60"
-              alt="Profile"
-              style={styles.profileImageHeader}
+        {renderContent()}
+      </div>
+    </div>
+  );
+};
+const ProfileContent = ({ formData, handleChange, handleSignOut, handleSaveChanges, setActiveSection }) => {
+  return (
+    <div>
+      <div style={styles.headerContainer}>
+        <div style={styles.profileInfo} onClick={() => setActiveSection("Profile")}>
+          <img
+            src="https://via.placeholder.com/60"
+            alt="Profile"
+            style={styles.profileImageHeader}
+          />
+          <div style={styles.textContainer} >
+            <h3 style={styles.profileName}>Chan Senghak</h3>
+            <p style={styles.profileRole}>Re-seller</p>
+            <p style={styles.profileLocation}>Cambodia, Phnom Penh</p>
+          </div>
+        </div>
+        <div style={styles.actionButtons}>
+          <button style={styles.uploadButton}>Upload Photo</button>
+          <button style={styles.deleteButton}>Delete</button>
+        </div>
+      </div>
+
+      {/* Form Section */}
+      <div style={styles.form}>
+        {[
+          { label: "First Name", name: "firstName" },
+          { label: "Last Name", name: "lastName" },
+          { label: "Email Address", name: "email" },
+          { label: "User Name", name: "username" },
+          { label: "Location", name: "location" },
+          { label: "Address", name: "address" },
+          { label: "Phone Number", name: "phoneNumber" },
+          { label: "Current Password", name: "currentPassword", type: "password" },
+          { label: "New Password", name: "newPassword", type: "password" },
+          { label: "Confirm New Password", name: "confirmPassword", type: "password" },
+        ].map((field, idx) => (
+          <div key={idx} style={styles.formField}>
+            <label style={styles.formLabel}>{field.label}</label>
+            <input
+              type={field.type || "text"}
+              name={field.name}
+              value={formData[field.name]}
+              onChange={handleChange}
+              style={styles.input}
             />
-            <div style={styles.textContainer}>
-              <h3 style={styles.profileName}>Chan Senghak</h3>
-              <p style={styles.profileRole}>Re-seller</p>
-              <p style={styles.profileLocation}>Cambodia, Phnom Penh</p>
-            </div>
           </div>
-          <div style={styles.actionButtons}>
-            <button style={styles.uploadButton}>Upload Photo</button>
-            <button style={styles.deleteButton}>Delete</button>
-          </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Form Section */}
-        <div style={styles.form}>
-          {[ 
-            { label: "First Name", name: "firstName" },
-            { label: "Last Name", name: "lastName" },
-            { label: "Email Address", name: "email" },
-            { label: "User Name", name: "username" },
-            { label: "Location", name: "location" },
-            { label: "Address", name: "address" },
-            { label: "Phone Number", name: "phoneNumber" },
-            { label: "Current Password", name: "currentPassword", type: "password" },
-            { label: "New Password", name: "newPassword", type: "password" },
-            { label: "Confirm New Password", name: "confirmPassword", type: "password" },
-          ].map((field, idx) => (
-            <div key={idx} style={styles.formField}>
-              <label style={styles.formLabel}>{field.label}</label>
-              <input
-                type={field.type || "text"}
-                name={field.name}
-                value={formData[field.name]}
-                onChange={handleChange}
-                style={styles.input}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Action Buttons */}
-        <div style={styles.actionButtonsBottom}>
-          <button style={styles.signOutButton} onClick={handleSignOut}>
-            Sign Out
-          </button>
-          <button style={styles.saveChangesButton} onClick={handleSaveChanges}>
-            Save Changes
-          </button>
-        </div>
+      {/* Action Buttons */}
+      <div style={styles.actionButtonsBottom}>
+        <button style={styles.signOutButton} onClick={handleSignOut}>
+          Sign Out
+        </button>
+        <button style={styles.saveChangesButton} onClick={handleSaveChanges}>
+          Save Changes
+        </button>
       </div>
     </div>
   );
@@ -179,12 +225,15 @@ const styles = {
     padding: 0,
     width: "100%",
   },
-  sidebarItem: {
+  sidebarItem: (isActive) => ({
     padding: "8px 15px", // Reduced padding
     cursor: "pointer",
+
     borderBottom: "1px solid #ddd",
     textAlign: "left",
-  },
+    fontWeight: isActive ? "bold" : "normal",
+    color: isActive ? "green" : "inherit", // Change color when active
+  }),
   mainContent: {
     flex: 1,
     padding: "20px",
