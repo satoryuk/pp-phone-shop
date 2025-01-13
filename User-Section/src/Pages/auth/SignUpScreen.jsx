@@ -108,7 +108,7 @@ const Signup = () => {
                 if (response.status === 201) {
                     console.log(response.data)
                     setLoading(false)
-                    navigate('/Auth/login')
+                    navigate('/Auth/login', { replace: true })
                 }
             }).catch(function (error) {
                 console.log(error);
