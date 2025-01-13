@@ -53,7 +53,7 @@ const Login = () => {
         console.log(email)
         setLoading(true)
         console.log(passwordState)
-        await axios.post(`${NETWORK_CONFIG.apiBaseUrl}${AUTHENDPOINT.LOGIN}`, {
+        await axios.post(`http://localhost:3000/auth/login`, {
             email: email,
             password: passwordState,
 
@@ -65,7 +65,7 @@ const Login = () => {
                 console.log('Token saved:', token);
                 console.log(response.data)
                 navigate('/')
-            }   
+            }
         }).catch(function (error) {
             console.log(error);
         }).finally(() => { setLoading(false) });
