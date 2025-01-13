@@ -20,11 +20,13 @@ import buy from "../Assets/Buy.png";
 import back_sign from "../Assets/back_sign.png";
 import favorite_packages from "../Assets/favorite_package.png";
 import compare from "../Assets/compare.png";
-import addToCartWhite from '../Assets/addtocartWhite.svg'
-import messengerWhite from '../Assets/messengerWhite.svg'
-import telegramWhite from '../Assets/telegramWhite.svg'
-import heartFill from '../Assets/addtofavoriteFullStrock.svg'
-import heart from '../Assets/AddToFavoriteWhite.svg'
+import addToCartWhite from "../Assets/addtocartWhite.svg";
+import messengerWhite from "../Assets/messengerWhite.svg";
+import telegramWhite from "../Assets/telegramWhite.svg";
+import heartFill from "../Assets/addtofavoriteFullStrock.svg";
+import heart from "../Assets/AddToFavoriteWhite.svg";
+import poster from "../Assets/poster.png";
+import instagram_green from "../Assets/instagram_green.png";
 export {
   logo,
   desertColor,
@@ -52,5 +54,7 @@ export {
   telegramWhite,
   messengerWhite,
   heart,
-  heartFill
+  heartFill,
+  poster,
+  instagram_green,
 };

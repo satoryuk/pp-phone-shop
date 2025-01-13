@@ -7,6 +7,9 @@ export const AUTHENDPOINT = {
 export const COMMONENDPOINT = {
     GET_NOTIFICATIONS: "common/notification",
 }
+export const USERENDPOINT = {
+    GET_ORDER: "user/orderByName",
+}
 
 // BaseURL for our api localhost 
 export const NETWORK_CONFIG = {

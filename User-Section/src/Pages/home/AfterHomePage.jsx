@@ -38,7 +38,7 @@ const AfterHomePage = () => {
         }
     })
     useEffect(() => {
-        if (page === 'NEW ARRIVAL') {
+        if (page === 'NEW AR RIVAL') {
             handleNewArrival();
         }
         else if (page === "DISCOUNT") {

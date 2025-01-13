@@ -1,22 +1,23 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
-  desertColor,
-  blackColor,
-  silverColor,
-  naturalColor,
-  call_green,
+  // desertColor,
+  // blackColor,
+  // silverColor,
+  // naturalColor,
+  // call_green,
   telegram_green,
-  buy_green,
+  // buy_green,
   messenger_green,
-  favorite_green,
+  // favorite_green,
   addToCartWhite,
-  telegramWhite,
-  messengerWhite,
+  // telegramWhite,
+  // messengerWhite,
   heartFill,
-  heart
+  heart,
+  instagram_green,
 } from "../Assets/image";
 import { Link } from "react-router-dom";
-import Installment_Card from "./Installment_Payment_Card";
+// import Installment_Card from "./Installment_Payment_Card";
 import { fetchdataProduct, fetchProductByName } from "../../FetchAPI/Fetch";
 import { addToCart, toggleStatusTab } from "../../store/cart";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +34,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const favorite = useSelector(store => store.favorite.favorite);
+  const favorite = useSelector((store) => store.favorite.favorite);
   const [product, setProduct] = useState([]);
 
   const searchParams = new URLSearchParams(window.location.search);
@@ -57,7 +58,9 @@ const ProductDetail = () => {
       const defaultProduct = productData[0];
       const images = defaultProduct.images
         ?.split(",")
-        .map((image) => image.trim().replaceAll("uploads\\", "").replace(/\s+/g, ""));
+        .map((image) =>
+          image.trim().replaceAll("uploads\\", "").replace(/\s+/g, "")
+        );
       setArrayImage(images || []);
       setSelectedImage(images?.[0] || "");
       setSelectedColor(defaultProduct.color);
@@ -74,12 +77,11 @@ const ProductDetail = () => {
     }
   }, [query]);
 
-
   const handlefetchProduct = async () => {
     const response = await fetchdataProduct();
     setProduct(response.data);
     // console.log(response.data);
-  }
+  };
 
   const handleAddToCart = () => {
     dispatch(
@@ -109,7 +111,9 @@ const ProductDetail = () => {
     if (productByColor) {
       const images = productByColor.images
         ?.split(",")
-        .map((image) => image.trim().replaceAll("uploads\\", "").replace(/\s+/g, ""));
+        .map((image) =>
+          image.trim().replaceAll("uploads\\", "").replace(/\s+/g, "")
+        );
       setArrayImage(images || []);
       setSelectedImage(images?.[0] || "");
       setSelectedStorage(productByColor.storage);
@@ -122,12 +126,14 @@ const ProductDetail = () => {
   };
 
   const handeAddToFavorite = () => {
-    if (favorite.findIndex((element) => element === selectedItem.phone_id) >= 0) {
+    if (
+      favorite.findIndex((element) => element === selectedItem.phone_id) >= 0
+    ) {
       dispatch(removeFromFavorite({ productId: selectedItem.phone_id }));
     } else {
       dispatch(addtofavorite({ productId: selectedItem.phone_id }));
     }
-  }
+  };
 
   const handleStorageChange = (storage) => {
     setSelectedStorage(storage);
@@ -143,8 +149,10 @@ const ProductDetail = () => {
     }
   };
 
-  if (loading) return <p className="text-center text-xl">Loading product details...</p>;
-  if (error) return <p className="text-center text-red-600">{`Error: ${error}`}</p>;
+  if (loading)
+    return <p className="text-center text-xl">Loading product details...</p>;
+  if (error)
+    return <p className="text-center text-red-600">{`Error: ${error}`}</p>;
 
   const uniqueColors = [...new Set(items.map((item) => item.color))];
   const selectedItem = items.find(
@@ -176,31 +184,27 @@ const ProductDetail = () => {
 
         {/* Product Details */}
         <div>
-          <h2 className="text-3xl font-semibold text-gray-800">{selectedItem?.name || "Product"}</h2>
+          <h2 className="text-3xl font-semibold text-gray-800">
+            {selectedItem?.name || "Product"}
+          </h2>
           <div className="flex items-center gap-4 my-5">
             <p className="text-2xl text-red-600 font-bold flex">
-              Price: {
-                selectedItem?.price_discount ? (
-                  <>
-                    <s>{selectedItem?.price}$</s>
-                    <p className="ml-5">{selectedItem?.price_discount}$</p>
-                  </>
-                ) : (
-                  <p>{selectedItem?.price}$</p>
-                )
-              }
-
+              Price:{" "}
+              {selectedItem?.price_discount ? (
+                <>
+                  <s>{selectedItem?.price}$</s>
+                  <p className="ml-5">{selectedItem?.price_discount}$</p>
+                </>
+              ) : (
+                <p>{selectedItem?.price}$</p>
+              )}
             </p>
             <span className="h-6 border-l border-gray-400 "></span>
-            <button className="flex justify-center gap-2 items-center text-white bg-green-600 p-3 w-52 rounded-xl"
-              onClick={() => handeAddToFavorite(selectedItem.phone_id)
-              }
-            >
-              <img className="w-6" src={favorite.findIndex((element) => element === selectedItem.phone_id) >= 0
-                ? heartFill
-                : heart} alt="" />
-              <p className="max-lg:hidden">Add To Favorite</p></button>
-            <p className="text-gray-600">Release Date: {new Date(selectedItem?.release_date).toLocaleDateString()}</p>
+
+            <p className="text-gray-600">
+              Release Date:{" "}
+              {new Date(selectedItem?.release_date).toLocaleDateString()}
+            </p>
           </div>
 
           {/* Storage Options */}
@@ -213,10 +217,11 @@ const ProductDetail = () => {
                   <button
                     key={item.storage}
                     onClick={() => handleStorageChange(item.storage)}
-                    className={`px-4 py-2 border rounded-lg text-gray-800 font-semibold ${selectedStorage === item.storage
-                      ? "bg-green-600 text-white"
-                      : "bg-gray-200 hover:bg-gray-300"
-                      }`}
+                    className={`px-6 py-4 border rounded-lg text-gray-800 font-semibold ${
+                      selectedStorage === item.storage
+                        ? "bg-green-600 text-white"
+                        : "bg-gray-200 hover:bg-gray-300"
+                    }`}
                   >
                     {item.storage}
                   </button>
@@ -232,46 +237,74 @@ const ProductDetail = () => {
                 <button
                   key={color}
                   onClick={() => handleColorChange(color)}
-                  className={`w-6 h-6 rounded-full cursor-pointer border ${selectedColor === color ? "ring-2 ring-green-500" : "border-gray-300"
-                    }`}
-                  style={{ backgroundColor: color }}                >
-
-                </button>
+                  className={`w-6 h-6 rounded-full cursor-pointer border ${
+                    selectedColor === color
+                      ? "ring-2 ring-green-500"
+                      : "border-gray-300"
+                  }`}
+                  style={{ backgroundColor: color }}
+                ></button>
               ))}
             </div>
-
           </div>
           {/* Product Specifications */}
 
-
           {/* Contact and Purchase Options */}
           <div className="flex flex-col items-start gap-4">
-            <button
-              href="/cart"
-              className="flex bg-green-600 p-3 px-5 rounded-xl items-center gap-2 text-white font-semibold hover:text-green-800"
-              onClick={() => handleAddToCart()}
-            >
-              <img src={addToCartWhite} alt="Add to Cart" className="w-5" />
-              Add to Cart
-            </button>
             <a
               href="https://t.me/yourtelegramusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex bg-green-600 p-3 text-white  items-center gap-2 rounded-xl font-semibold hover:text-green-800"
+              className="flex text-green-600  items-center gap-2 font-semibold hover:text-green-700"
             >
-              <img src={telegramWhite} alt="Telegram" className="w-5" />
+              <img src={telegram_green} alt="Telegram" className="w-6" />
               Contact on Telegram
             </a>
             <a
               href="https://m.me/yourmessengerusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-green-600 p-3 text-white rounded-xl font-semibold hover:text-green-800"
+              className="flex text-green-600  items-center gap-2 font-semibold hover:text-green-700"
             >
-              <img src={messengerWhite} alt="Messenger" className="w-5" />
+              <img src={messenger_green} alt="Messenger" className="w-6" />
               Contact on Messenger
             </a>
+            <a
+              href="https://i.me/yourinstagramusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex text-green-600  items-center gap-2 font-semibold hover:text-green-700"
+            >
+              <img src={instagram_green} alt="instagram" className="w-6" />
+              Contact on Instagram
+            </a>
+            <div className="flex items-center flex-row gap-4 mt-4">
+              <button
+                href="/cart"
+                className="w-[200px] justify-center flex bg-green-600 p-3 px-5 rounded-xl items-center gap-2 text-white font-semibold hover:text-green-800"
+                onClick={() => handleAddToCart()}
+              >
+                <img src={addToCartWhite} alt="Add to Cart" className="w-5" />
+                Add to Cart
+              </button>
+              <button
+                className="w-[200px] flex justify-center gap-2 items-center text-white bg-green-600 p-3 font-semibold rounded-xl hover:text-green-800"
+                onClick={() => handeAddToFavorite(selectedItem.phone_id)}
+              >
+                <img
+                  className="w-6"
+                  src={
+                    favorite.findIndex(
+                      (element) => element === selectedItem.phone_id
+                    ) >= 0
+                      ? heartFill
+                      : heart
+                  }
+                  alt=""
+                />
+                <p className="max-lg:hidden">Add To Favorite</p>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -281,33 +314,25 @@ const ProductDetail = () => {
           <details className="border rounded mb-2 p-2">
             <summary className="font-semibold">Screen</summary>
             <div className="py-4">
-              <p className="pt-2 pl-14">
-                Size:{selectedItem.screen_size}
-              </p>
+              <p className="pt-2 pl-14">Size:{selectedItem.screen_size}</p>
             </div>
           </details>
           <details className="border rounded mb-2 p-2">
             <summary className="font-semibold">Battery</summary>
             <div className="py-4">
-              <p className="pt-2 pl-14">
-                Battery:{selectedItem.battery}
-              </p>
+              <p className="pt-2 pl-14">Battery:{selectedItem.battery}</p>
             </div>
           </details>
           <details className="border rounded mb-2 p-2">
             <summary className="font-semibold">Camera</summary>
             <div className="py-4">
-              <p className="pt-2 pl-14">
-                Camera:{selectedItem.camera}
-              </p>
+              <p className="pt-2 pl-14">Camera:{selectedItem.camera}</p>
             </div>
           </details>
           <details className="border rounded mb-2 p-2">
             <summary className="font-semibold">Processor</summary>
             <div className="py-4">
-              <p className="pt-2 pl-14">
-                Processor:{selectedItem.processor}
-              </p>
+              <p className="pt-2 pl-14">Processor:{selectedItem.processor}</p>
             </div>
           </details>
           <details className="border rounded mb-2 p-2">
@@ -317,23 +342,26 @@ const ProductDetail = () => {
         </div>
       </div>
       <div>
-        <div className="flex justify-between items-center mt-16">
-          <p href="#" className="text-blue-500">
+        <div className="flex justify-between items-center mt-8">
+          <p href="#" className="text-blue-500 text-lg font-semibold">
             PRODUCT
           </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
           {product.map((product, index) => (
-            <div key={index} onClick={() => {
-              window.location.reload(); // Reload the page
-              window.scrollTo(0, 0);    // Scroll to the top of the page
-            }}>
+            <div
+              key={index}
+              onClick={() => {
+                window.location.reload(); // Reload the page
+                window.scrollTo(0, 0); // Scroll to the top of the page
+              }}
+            >
               <ProductCard key={product.id} product={product} />
             </div>
           ))}
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
