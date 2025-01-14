@@ -4,8 +4,8 @@ import { brand, category, displayAllProduct, displayAllProductByName, displayByB
 import { displayByDate } from "../Controllers/adminCrud/DashBoard.js";
 import { getNotification } from "../Controllers/common/notification.js";
 
-
 const commonRouter = Router();
+
 
 commonRouter.get('/offerDisplay', offerDisplay);
 commonRouter.get('/offerDisplayByName', offerDisplayByName);

@@ -289,10 +289,13 @@ GROUP BY
 }
 export const searchOrder = (req, res) => {
     const { username } = req.query;
-    const query = `SELECT * FROM orders o
-INNER JOIN customers c ON 
-c.customer_id=o.customer_id
-WHERE username=?`
+
+
+    const query = `SELECT * 
+FROM orders o
+INNER JOIN customers c 
+ON c.customer_id = o.customer_id
+WHERE c.username LIKE ?;`
     if (!username) {
         return res.status.json({ message: "Enter User name" })
     }
@@ -309,4 +312,6 @@ WHERE username=?`
                 error: error
             })
         })
+
+
 }
