@@ -175,7 +175,7 @@ WHERE row_num = 1 AND brand_name=?;
 
 export const searchItems = (req, res) => {
     const { searchData, Category } = req.query;
-
+    const product = `%${searchData}%`
     console.log(req.query);
 
     if (!searchData) {
@@ -202,10 +202,10 @@ FROM (
     LEFT JOIN productimage pm ON pm.phone_variant_id=pv.idphone_variants
     ORDER BY phone_id
 ) AS ranked
-WHERE row_num = 1 AND ranked.name=?AND ranked.category_name=?;
+WHERE row_num = 1 AND ranked.name LIKE ? AND ranked.category_name=?;
     `;
 
-    pool.query(query, [searchData, Category], (err, rows) => {
+    pool.query(query, [product, Category], (err, rows) => {
 
 
         if (rows.length === 0 || err) {
