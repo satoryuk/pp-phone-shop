@@ -63,8 +63,6 @@ const HomePage = () => {
   const handleFetchBrand = async () => {
     try {
       const response = await fetchBrand();
-      console.log(response);
-
       setBrand(response.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -85,8 +83,17 @@ const HomePage = () => {
       </div> */}
 
       {/* Popular-brand section */}
-      <div className="flex flex-wrap gap-4 items-center my-4 rounded-lg shadow-md">
-        <Card data={brand} page="Brands" />
+      <div>
+        <div>
+          <h1 className="text-3xl font-extrabold mb-6 text-gray-900">Brands</h1>
+        </div>
+        <div className="flex flex-wrap gap-4 py-5 px-4 items-center mb-4 rounded-lg shadow-md">
+
+          {brand.map((element, index) => (
+            <Card data={element} page="Brands" />
+
+          ))}
+        </div>
       </div>
 
       {/* Specail section */}
@@ -128,10 +135,17 @@ const HomePage = () => {
       </div>
 
       {/* Categories section */}
-      <div className="flex flex-wrap gap-4 items-center mb-4 rounded-lg shadow-md">
-        <Card data={category} page="Categories" />
-      </div>
+      <div>
 
+        <div>
+          <h1 className="text-3xl font-extrabold mb-6 text-gray-900">Categories</h1>
+        </div>
+        <div className="flex flex-wrap gap-4 py-5 px-4 items-center mb-4 rounded-lg shadow-md">
+          {category.map((element, index) => (
+            <Card data={element} page="Categories" />
+          ))}
+        </div>
+      </div>
       {/* Smartphones section */}
       <div className="px-8 py-4 bg-gray-100 rounded-lg">
         <div className="mb-6">

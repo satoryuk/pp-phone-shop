@@ -64,10 +64,6 @@ const Login = () => {
                 console.log('Token saved:', token);
                 console.log(response.data)
                 navigate('/', { replace: true })
-<<<<<<< HEAD
-=======
-
->>>>>>> fff6747bb8f617a35055ccd1166f6cf0ab7857dc
             }
         }).catch(function (error) {
             console.log(error);

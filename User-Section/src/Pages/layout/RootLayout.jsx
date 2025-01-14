@@ -26,6 +26,7 @@ const RootLayout = () => {
     setToken(null);
     localStorage.removeItem("authToken");
     console.log("TOken have been clear")
+    window.location.href = '/'
   };
 
   return (

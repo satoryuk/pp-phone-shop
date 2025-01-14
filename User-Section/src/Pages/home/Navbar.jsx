@@ -21,6 +21,20 @@ const Navbar = ({ token, onLogin, onLogout }) => {
   // Create a reference to the footer
   const footerRef = useRef(null);
 
+
+  const handleSearchChange = (e) => {
+    setSearchData(e.target.value);
+  };
+
+  // Handle search click or press enter
+  const handleSearchSubmit = () => {
+    if (searchData.trim()) {
+      // Navigate to search results page with the query
+      setToggleMenu(false); // Close the mobile menu after search
+      window.location.href = `Search?productName=${searchData}`;
+    }
+  };
+
   // Scroll to footer when "Contact Us" link is clicked
   const scrollToFooter = () => {
     if (footerRef.current) {
@@ -66,19 +80,19 @@ const Navbar = ({ token, onLogin, onLogout }) => {
               type="text"
               placeholder="Search"
               className="w-full pl-10 pr-28 py-2 border border-gray-300 rounded-full focus:outline-none "
-              onChange={(e) => setSearchData(e.target.value)}
+              onChange={handleSearchChange}
               style={{ borderRadius: "8px" }}
             />
             <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
               🔍
             </span>
-            <Link
+            <button
               className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-4 py-1 rounded"
               style={{ borderRadius: "4px" }}
-              to={`Search?productName=${searchData}`}
+              onClick={handleSearchSubmit}
             >
               SEARCH
-            </Link>
+            </button>
           </div>
 
           {/* Account Btn */}
@@ -100,7 +114,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                   <img
                     src={element.img}
                     alt={element.label}
-                    className={`w-8 md:block `}
+                    className={`w-8 md:block  `}
                   />
                 </NavLink>
               )
@@ -109,7 +123,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
             {/* Conditional Rendering Based on Token */}
             {token ? (
               // Show Notification Pop-up and Logout Button if token exists
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-center space-x-4">
                 <Popup
                   trigger={
                     <div className="cursor-pointer">
@@ -123,20 +137,33 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                   {/* Popup Content */}
                   <NotificationCard />
                 </Popup>
+
                 <button
                   onClick={onLogout}
-                  className="bg-red-600 text-white px-4 py-2 rounded-full"
+                  className="bg-red-600 text-white px-4 py-2 rounded-full max-lg:hidden"
                   style={{ borderRadius: "8px" }}
                 >
                   Log Out
                 </button>
+
+                {/* Hamburger Button (Mobile) */}
+                <div className="flex justify-center items-center">
+                  <button
+                    className="flex items-center justify-center lg:hidden "
+                    onClick={() => setToggleMenu(!toggleMenu)}
+                    aria-label="Toggle menu"
+                  >
+                    <img src={menu} alt="Menu button" className="w-7" />
+                  </button>
+                </div>
               </div>
+
             ) : (
               // Show Login and Sign Up Buttons if no token exists
-              <div className="space-x-2 flex">
+              <div className="flex justify-center items-center gap-3 ">
                 <Link to="/auth/Login">
                   <button
-                    className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full hidden lg:block"
+                    className="bg-gray-200 text-gray-800 px-6 py-2 rounded-full hidden lg:block"
                     style={{ borderRadius: "8px" }}
                   >
                     Log In
@@ -144,26 +171,32 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                 </Link>
                 <NavLink to="/auth/Signup">
                   <button
-                    className="bg-green-600 text-white px-4 py-2 rounded-full hidden lg:block"
+                    className="bg-green-600 text-white px-6 py-2 rounded-full hidden lg:block"
                     style={{ borderRadius: "8px" }}
                   >
                     Sign Up
                   </button>
                 </NavLink>
-              </div>
-            )}
-          </div>
 
-          {/* Mobile Menu Icon */}
-          <div className="md:hidden flex items-center">
-            <button onClick={() => setToggleMenu(!toggleMenu)}>
-              <span className="text-3xl">
-                <img src={menu} alt="menu" className="w-[25px] h-auto" />
-              </span>
-            </button>
+                {/* Hamburger Button (Mobile) */}
+                <button
+                  className="flex items-center justify-center lg:hidden"
+                  onClick={() => setToggleMenu(!toggleMenu)}
+                  aria-label="Toggle menu"
+                >
+                  <img src={menu} alt="Menu button" className="w-7" />
+                </button>
+              </div>
+
+
+            )}
+
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Icon */}
+
 
       {/* Navigation Links */}
       <div className="bg-green-600 max-lg:hidden">
@@ -198,6 +231,101 @@ const Navbar = ({ token, onLogin, onLogout }) => {
           </a>
         </div>
       </div>
+
+      {/* Mobile Navigation */}
+      <div
+        className={`fixed inset-0 z-40 flex flex-col bg-gray-800 bg-opacity-50 lg:hidden transition-transform transform ${toggleMenu ? "translate-x-0" : "-translate-x-full"}`}
+        onClick={() => setToggleMenu(false)} // Close menu on overlay click
+      >
+        <div
+          className="w-96 bg-white h-full shadow-lg overflow-y-auto"
+          onClick={(e) => e.stopPropagation()} // Prevent closing on content click
+        >
+          {/* Navigation Links */}
+          <div className="bg-green-600 p-6">
+            <div className="flex flex-col space-y-4 text-white text-lg" onClick={() => setToggleMenu(false)}>
+              <Link to="/" className="hover:text-gray-200">
+                Home
+              </Link>
+              <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="hover:text-gray-200">
+                NEW ARRIVAL
+              </Link>
+              <Link to={`/AfterHomePage?page=DISCOUNT`} className="hover:text-gray-200">
+                DISCOUNT
+              </Link>
+              <Link to={`/user-profile`} className="hover:text-gray-200">
+                PROFILE
+              </Link>
+              <a
+                onClick={scrollToFooter}
+                className="cursor-pointer hover:text-gray-200"
+                href="#contact"
+              >
+                Contact Us
+              </a>
+            </div>
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative mx-6 mt-8 mb-6">
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-full pl-10 pr-28 py-2 border border-gray-300 rounded-full focus:outline-none"
+              onChange={handleSearchChange}
+              style={{ borderRadius: "8px" }}
+            />
+            <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+              🔍
+            </span>
+            <button
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-4 py-1 rounded"
+              style={{ borderRadius: "4px" }}
+              onClick={handleSearchSubmit}
+            >
+              SEARCH
+            </button>
+          </div>
+
+          {/* Log Out Button */}
+          {token ?
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={onLogout}
+                className="bg-red-600 text-white px-6 py-2 w-full rounded-full"
+                style={{ borderRadius: "8px" }}
+                to='/'
+
+              >
+                Log Out
+              </button>
+            </div>
+            :
+            <div className="flex justify-center items-center gap-3 ">
+              <Link to="/auth/Login">
+                <button
+                  className="bg-gray-200 text-gray-800 px-6 py-2 rounded-full "
+                  style={{ borderRadius: "8px" }}
+                >
+                  Log In
+                </button>
+              </Link>
+              <NavLink to="/auth/Signup">
+                <button
+                  className="bg-green-600 text-white px-6 py-2 rounded-full "
+                  style={{ borderRadius: "8px" }}
+                >
+                  Sign Up
+                </button>
+              </NavLink>
+
+
+            </div>
+
+          }
+        </div>
+      </div>
+
 
       {/* Mobile Dropdown Menu */}
       {isMenuOpen && (
