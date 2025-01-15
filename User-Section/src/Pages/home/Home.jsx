@@ -6,6 +6,10 @@ import {
   blackColor,
   silverColor,
   naturalColor,
+  phone1,
+  phone2,
+  phone3,
+  phone4,
 } from "../Assets/image";
 import Card from "./Card";
 import {
@@ -17,7 +21,11 @@ import {
 } from "../../FetchAPI/Fetch";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Poster from "./Poster";
+// import Poster from "./Poster";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { CustomNextArrow, CustomPrevArrow } from "../../Conponents/Arrow";
 
 // const products = [
 //   { id: 1, name: "Item Name", price: 1000, image: silverColor },
@@ -69,6 +77,8 @@ const HomePage = () => {
     }
   };
 
+  const sliderImg = [phone1, phone2, phone3, phone4]
+
   useEffect(() => {
     handlefetchProduct();
     handleFetchDiscountProduct();
@@ -76,14 +86,81 @@ const HomePage = () => {
     handleFetchCategory();
     handleFetchBrand();
   }, []);
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    arrow: true,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
+  const settings2 = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrow: true,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+  };
   return (
     <div>
       {/* <div className="px-8 py-4 flex justify-between items-center">
         <Poster />
       </div> */}
+      {/* Slider */}
+
+      <div className="slider-container w-full px-4 py-6 bg-gray-50">
+        <Slider {...settings2}>
+          {sliderImg.map((element, index) => (
+            <div
+              key={index}
+              className="flex justify-center items-center w-full h-64 rounded-lg  overflow-hidden bg-white"
+            >
+              <img
+                src={element}
+                alt={`Slider ${index + 1}`}
+                className="object-contain w-full h-full"
+              />
+            </div>
+          ))}
+        </Slider>
+      </div>
+
 
       {/* Popular-brand section */}
-      <div>
+      <div className="px-20 py-4">
         <div>
           <h1 className="text-3xl font-extrabold mb-6 text-gray-900">Brands</h1>
         </div>
@@ -91,31 +168,32 @@ const HomePage = () => {
 
           {brand.map((element, index) => (
             <Card data={element} page="Brands" />
-
           ))}
         </div>
       </div>
 
       {/* Specail section */}
-      <div className="px-8 py-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-3xl font-extrabold text-gray-900">
-            SPECIAL OFFER
-          </h2>
+
+
+
+      <div className="slider-container px-20 py-4">
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-4">SPECIAL OFFER</h2>
           <Link to={`/AfterHomePage?page=DISCOUNT`} className="text-blue-500">
             VIEW ALL
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
+        <Slider {...settings}>
           {discountProduct.map((product) => (
-            <ProductCard key={product.id} product={product} />
-            // console.log(products)
+            <div key={product.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
+              <ProductCard product={product} />
+            </div>
           ))}
-        </div>
+        </Slider>
       </div>
 
       {/* New-Arrival section */}
-      <div className="px-8 py-4 bg-gray-100 rounded-lg mb-4">
+      {/* <div className="px-8 py-4 bg-gray-100 rounded-lg mb-4">
         <div className="flex justify-between items-center">
           <h2 className="text-3xl font-extrabold text-gray-900 my-2">
             NEW ARRIVAL
@@ -132,10 +210,67 @@ const HomePage = () => {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+      </div> */}
+
+      <div className="slider-container px-20 py-4">
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-4">NEW ARRIVAL</h2>
+          <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="text-blue-500">
+            VIEW ALL
+          </Link>
+        </div>
+        <Slider {...settings}>
+          {newArrival.map((product) => (
+            <div key={product.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </Slider>
       </div>
 
+
+
+
       {/* Categories section */}
-      <div>
+      {/* Smartphones section */}
+      {/* <div className="px-8 py-4 bg-gray-100 rounded-lg">
+        <div className="mb-6">
+          <div className="flex justify-between items-center my-2">
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              SMART PHONES
+            </h2>
+            <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
+              VIEW ALL
+            </Link>
+          </div>
+          <div className="slider-container">
+            <Slider {...settings}>
+              <div className="flex gap-4 mt-4 bg-gray-100 p-4 rounded-lg">
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </Slider>
+          </div>
+        </div>
+      </div> */}
+      <div className="slider-container px-20 py-4">
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-4">SMART PHONES</h2>
+          <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
+            VIEW ALL
+          </Link>
+        </div>
+        <Slider {...settings}>
+          {products.map((product) => (
+            <div key={product.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </Slider>
+      </div>
+
+      <div className="px-20 py-4">
 
         <div>
           <h1 className="text-3xl font-extrabold mb-6 text-gray-900">Categories</h1>
@@ -146,31 +281,14 @@ const HomePage = () => {
           ))}
         </div>
       </div>
-      {/* Smartphones section */}
-      <div className="px-8 py-4 bg-gray-100 rounded-lg">
-        <div className="mb-6">
-          <div className="flex justify-between items-center my-2">
-            <h2 className="text-3xl font-extrabold text-gray-900">
-              SMART PHONES
-            </h2>
-            <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
-              VIEW ALL
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4 bg-gray-100 p-4 rounded-lg">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
-      </div>
 
-      {/* Watch section */}
-      <div className="px-8 py-4">
+
+      {/* Product section */}
+      <div className="px-20 py-4">
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-extrabold text-gray-900">
-              SMART WATCH
+              PRODUCT
             </h2>
             <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
               VIEW ALL
@@ -185,7 +303,7 @@ const HomePage = () => {
       </div>
 
       {/* Accessories section */}
-      <div className="px-8 py-4 bg-gray-100 rounded-lg">
+      {/* <div className="px-8 py-4 bg-gray-100 rounded-lg">
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-extrabold text-gray-900">
@@ -201,7 +319,7 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

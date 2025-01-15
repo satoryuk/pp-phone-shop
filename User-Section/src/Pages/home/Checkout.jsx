@@ -54,6 +54,7 @@ const CheckoutPage = () => {
     let total = 0;
     cart.forEach((item) => (total += item.quantity));
     setTotalQuantity(total);
+    setToken(localStorage.getItem('authToken'))
   }, [cart]);
 
   return (

@@ -34,7 +34,6 @@ const Navbar = ({ token, onLogin, onLogout }) => {
       window.location.href = `Search?productName=${searchData}`;
     }
   };
-
   // Scroll to footer when "Contact Us" link is clicked
   const scrollToFooter = () => {
     if (footerRef.current) {
@@ -242,23 +241,24 @@ const Navbar = ({ token, onLogin, onLogout }) => {
           onClick={(e) => e.stopPropagation()} // Prevent closing on content click
         >
           {/* Navigation Links */}
-          <div className="bg-green-600 p-6">
-            <div className="flex flex-col space-y-4 text-white text-lg" onClick={() => setToggleMenu(false)}>
-              <Link to="/" className="hover:text-gray-200">
+          <div className="text-green-600  p-6">
+            <div className="flex flex-col space-y-4 text-green-600  text-lg" onClick={() => setToggleMenu(false)}>
+              <Link to="/" className="hover:text-green-700 hover:border-b-2 duration-400 border-green-600">
+
                 Home
               </Link>
-              <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="hover:text-gray-200">
+              <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="hover:text-green-700 hover:border-b-2 duration-400 border-green-600 ">
                 NEW ARRIVAL
               </Link>
-              <Link to={`/AfterHomePage?page=DISCOUNT`} className="hover:text-gray-200">
+              <Link to={`/AfterHomePage?page=DISCOUNT`} className="hover:text-green-700 hover:border-b-2 duration-400 border-green-600">
                 DISCOUNT
               </Link>
-              <Link to={`/user-profile`} className="hover:text-gray-200">
+              <Link to={`/user-profile`} className="hover:text-green-700 hover:border-b-2 duration-400 border-green-600">
                 PROFILE
               </Link>
               <a
                 onClick={scrollToFooter}
-                className="cursor-pointer hover:text-gray-200"
+                className="cursor-pointer hover:text-green-700 hover:border-b-2 duration-400 border-green-600"
                 href="#contact"
               >
                 Contact Us
