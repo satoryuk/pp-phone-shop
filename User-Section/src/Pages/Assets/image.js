@@ -27,6 +27,10 @@ import heartFill from "../Assets/addtofavoriteFullStrock.svg";
 import heart from "../Assets/AddToFavoriteWhite.svg";
 import poster from "../Assets/poster.png";
 import instagram_green from "../Assets/instagram_green.png";
+import phone1 from '../Assets/download(1).jpg'
+import phone2 from '../Assets/download(2).jpg'
+import phone3 from '../Assets/download (3).jpg'
+import phone4 from '../Assets/download (4).jpg'
 export {
   logo,
   desertColor,
@@ -57,4 +61,9 @@ export {
   heartFill,
   poster,
   instagram_green,
+  phone1,
+  phone2,
+  phone3,
+  phone4,
+
 };
