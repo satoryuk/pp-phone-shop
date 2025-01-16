@@ -31,6 +31,7 @@ import phone1 from '../Assets/download(1).jpg'
 import phone2 from '../Assets/download(2).jpg'
 import phone3 from '../Assets/download (3).jpg'
 import phone4 from '../Assets/download (4).jpg'
+import user from '../Assets/user_ppp.png'
 export {
   logo,
   desertColor,
@@ -65,5 +66,5 @@ export {
   phone2,
   phone3,
   phone4,
-
+  user
 };
