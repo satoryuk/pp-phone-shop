@@ -215,12 +215,6 @@ const Navbar = ({ token, onLogin, onLogout }) => {
           >
             DISCOUNT
           </Link>
-          <Link
-            to={`/user-profile`}
-            className="hover:text-gray-200"
-          >
-            PROFILE
-          </Link>
           <a
             onClick={scrollToFooter}
             className="cursor-pointer hover:text-gray-200"
