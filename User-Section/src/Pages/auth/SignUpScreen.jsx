@@ -48,7 +48,6 @@ const Signup = () => {
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
-    useEffect(() => { signUp() }, []);
     const toggleIcon = () => {
         setIconToggle(!toggleIconState)
     }
@@ -94,7 +93,6 @@ const Signup = () => {
         setUsername(value)
     }
     const signUp = async (e) => {
-        e.preventDefault();
         setLoading(true)
         var path = NETWORK_CONFIG.apiBaseUrl + AUTHENDPOINT.REGISTER;
         console.log("This is url " + path);
@@ -102,18 +100,18 @@ const Signup = () => {
             username: username,
             email: email,
             password: passwordState,
-            phone: "1234567890",
-            address: "Russian Blvd, Phnom Penh"
         }
 
-        await axios.post(/*`${path}`*/'http://localhost:3000/auth//register', userBody)
+        await axios.post(/*`${path}`*/'http://localhost:3000/auth/register', userBody, { withCredentials: true })
             .then(function (response) {
                 if (response.status === 201) {
                     console.log(response.data)
+                    const token = response.data.token;
+                    localStorage.setItem('authToken', token);
                     setLoading(false)
                     navigate('/', { replace: true })
                 }
-            }).catch(function (error) {
+            },).catch(function (error) {
                 console.log(error);
             }).finally(() => { setLoading(false) });
         ;
@@ -128,7 +126,7 @@ const Signup = () => {
 
                     <XTextfield
                         label="Full Name"
-                        placeholder="X_AE_A13b"
+                        placeHolder="YourName"
                         value={username}
                         onValueChange={onUsernameChange}
                         icon={<AiOutlineUser />}
@@ -136,7 +134,7 @@ const Signup = () => {
                     <Spacer />
                     <XTextfield
                         label="Email Address"
-                        placeholder="X_AE_A13b"
+                        placeHolder="@gmail.com"
                         value={email}
                         onValueChange={onEmailChange}
                         icon={<AiOutlineMail />}
@@ -144,7 +142,7 @@ const Signup = () => {
                     <Spacer />
                     <XTextfield
                         label="Password"
-                        placeholder="X_AE_A13b"
+                        placeHolder="X_AE_A13b"
                         icon={<AiOutlineLock />}
                         suffixIcon={toggleIconState ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                         validation={validatePasswordLength}
@@ -166,7 +164,7 @@ const Signup = () => {
                     <Spacer />
                     <XTextfield
                         label="Confirm Password"
-                        placeholder="X_AE_A13b"
+                        placeHolder="X_AE_A13b"
                         icon={<AiOutlineLock />}
                         suffixIcon={toggleIconConfirmState ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                         onClick={toggleConfirmIcon}
