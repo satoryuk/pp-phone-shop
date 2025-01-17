@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { logo, menu, buy, favorite_packages, compare } from "../Assets/image";
+import { logo, menu, buy, favorite_packages, compare, user } from "../Assets/image";
 import { Link, NavLink } from "react-router-dom";
 import { IoIosNotifications } from "react-icons/io";
 import Popup from "reactjs-popup";
@@ -118,6 +118,15 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                 </NavLink>
               )
             )}
+            {token ? (
+              <NavLink to='user-profile'>
+                <img
+                  src={user}
+                  className={`w-8 md:block  `}
+                />
+              </NavLink>
+
+            ) : ''}
 
             {/* Conditional Rendering Based on Token */}
             {token ? (
