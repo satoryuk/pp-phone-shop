@@ -119,6 +119,15 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                 </NavLink>
               )
             )}
+            {token ? (
+              <NavLink to='user-profile'>
+                <img
+                  src={user}
+                  className={`w-8 md:block  `}
+                />
+              </NavLink>
+
+            ) : ''}
 
             {/* Conditional Rendering Based on Token */}
             {token ? (
