@@ -358,7 +358,10 @@ GROUP BY
     s.camera,
     s.price,
     s.stock,
-    pmt.promo_id;
+    pmt.promo_id,
+    pmt.status,
+    pmt.discount_percentage
+
 
 `
     const [rows] = await pool.promise().query(query, phone_name);
