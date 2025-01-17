@@ -35,7 +35,7 @@ export const handlelogin = async (req, res) => {
         return res.status(401).json({ message: "Incorrect password" });
       }
 
-      const userPayLoad = { userName: user.username, role: 2 };
+      const userPayLoad = { username: user.username, role: 2 };
       const accessToken = generateAccessToken(userPayLoad);
       const refreshToken = generateRefreshToken(userPayLoad);
 

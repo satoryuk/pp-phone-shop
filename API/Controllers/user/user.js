@@ -4,6 +4,7 @@ import pool from "../../db/db_handle.js";
 export const getUserInformation = async (req, res) => {
     try {
         const { username } = req.user.user.username;
+        // console.log(username);
 
 
 
