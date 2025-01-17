@@ -36,6 +36,7 @@ const HomePage = () => {
   const [brand, setBrand] = useState([]);
   const [accessories, setAccessories] = useState([]);
   const [smartWatch, setSmartWatch] = useState([]);
+  const [phone, setPhone] = useState([]);
   const statusTab = useSelector((store) => store.cart.statusTab);
 
   const handlefetchProduct = async () => {
@@ -68,7 +69,7 @@ const HomePage = () => {
     }
   };
 
-  const handleAccessories = async (category) => {
+  const handleAccessories = async () => {
     try {
       const response = await fetchProductByCategory({ category: 'Accessories' });
       setAccessories(response.data);
@@ -77,7 +78,16 @@ const HomePage = () => {
 
     }
   }
-  const handleSmartWatch = async (category) => {
+  const handlePhone = async () => {
+    try {
+      const response = await fetchProductByCategory({ category: 'Smartphones' });
+      setPhone(response.data);
+    } catch (error) {
+      console.error(error);
+
+    }
+  }
+  const handleSmartWatch = async () => {
     try {
       const response = await fetchProductByCategory({ category: 'Smartwatches' });
       setSmartWatch(response.data);
@@ -97,6 +107,7 @@ const HomePage = () => {
     handleFetchBrand();
     handleAccessories();
     handleSmartWatch();
+    handlePhone();
   }, []);
   var settings = {
     dots: true,
@@ -286,7 +297,7 @@ const HomePage = () => {
           </Link>
         </div>
         <Slider {...settings}>
-          {products.map((product) => (
+          {phone.map((product) => (
             <div key={product.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
               <ProductCard product={product} />
             </div>
