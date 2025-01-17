@@ -86,10 +86,7 @@ const TableOffer = ({ title, items }) => {
         searchDataFetch();
     };
 
-    const handleExport = () => {
-        console.log("Exporting rows:", selectedRows);
-        // Add export logic here
-    };
+
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -116,12 +113,7 @@ const TableOffer = ({ title, items }) => {
                     >
                         Search
                     </button>
-                    <button
-                        className="green-btn h-10 sm:h-12 w-[100px] sm:w-[150px] text-sm sm:text-base"
-                        onClick={handleExport}
-                    >
-                        Export
-                    </button>
+
                 </form>
             </section>
 
