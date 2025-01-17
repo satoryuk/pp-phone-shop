@@ -59,7 +59,7 @@ export const register = async (req, res) => {
   console.log(req.body);
 
   // Validate that all fields are provided
-  if (!username || !email || !password || !phone || !address) {
+  if (!username || !email || !password) {
     return res.status(400).json({ message: "All fields must be filled" });
   }
 

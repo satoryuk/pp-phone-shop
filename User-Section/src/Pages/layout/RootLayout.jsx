@@ -35,7 +35,7 @@ const RootLayout = () => {
         <nav><Navbar token={token} onLogin={handleLogin} onLogout={handleLogout} /></nav>
       </header>
       <main
-        className={`flex-1 max-w-full m-auto p-5 transform transition-transform duration-500 
+        className={`flex-1 max-w-full m-auto transform transition-transform duration-500 
         ${stateTabCart ? "-translate-x-2 opacity-50" : ""}
       `}
       >
