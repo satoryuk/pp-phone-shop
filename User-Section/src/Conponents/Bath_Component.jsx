@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-export const XTextfield = ({ label = "labelTextfield", placeHolder = "hint Text", icon, suffixIcon, validation, onValueChange, onClick, inputType = "text" ,value=""}) => {
+export const XTextfield = ({ label = "labelTextfield", placeHolder = "hint Text", icon, suffixIcon, validation, onValueChange, onClick, inputType = "text", value = "" }) => {
     const [inputValue, setInputValue] = useState(value);
     const [error, setError] = useState("");
 
@@ -12,7 +12,7 @@ export const XTextfield = ({ label = "labelTextfield", placeHolder = "hint Text"
             onValueChange(value);
         }
         if (validation && !validation(value)) {
-            setError(errorMessage);
+            setError("Error");
         } else if (validation) {
             setError("");
         }

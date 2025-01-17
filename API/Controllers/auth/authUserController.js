@@ -55,11 +55,11 @@ export const handlelogin = async (req, res) => {
 
 
 export const register = async (req, res) => {
-  const { username, email, password, phone, address } = req.body;
+  const { username, email, password } = req.body;
   console.log(req.body);
 
   // Validate that all fields are provided
-  if (!username || !email || !password || !phone || !address) {
+  if (!username || !email || !password) {
     return res.status(400).json({ message: "All fields must be filled" });
   }
 
@@ -70,7 +70,7 @@ export const register = async (req, res) => {
     // Insert user into the database
     const queryInsert =
       "INSERT INTO customers (username, email, password) VALUES ( ?, ?, ?)";
-    const values = [username, email, hashedPassword, phone, address];
+    const values = [username, email, hashedPassword];
 
     pool.query(queryInsert, values, (error, result) => {
       if (error) {

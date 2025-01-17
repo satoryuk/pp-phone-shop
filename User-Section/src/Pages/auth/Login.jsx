@@ -57,9 +57,17 @@ const Login = () => {
             password: passwordState,
 
         }, { withCredentials: true }).then(function (response) {
+            const localToke = localStorage.getItem("authToken");
             if (response.status === 200) {
                 setLoading(false)
                 const token = response.data.token;
+                if (!localToke) {
+                    console.log("No token found in local storage. Saving new token...");
+                    localStorage.setItem('authToken', token); // Save token to local storage
+                    console.log('Token saved:', token);
+                } else {
+                    console.log("Token already exists in local storage.");
+                }
                 localStorage.setItem('authToken', token); // save token to local storage
                 console.log('Token saved:', token);
                 console.log(response.data)
@@ -77,12 +85,6 @@ const Login = () => {
                 <div className="flex flex-col items-center w-full max-w-md bg-white p-6 rounded-lg shadow-md mt-6">
 
                     <h1 className="text-green-600 text-3xl font-bold mb-4 ">Sign In</h1>
-                    {/* <XTextfield
-                        label="Full Name"
-                        placeHolder="Okayo"
-                        icon={<AiOutlineUser />}
-                    />
-                    <Spacer width={null} /> */}
                     <XTextfield
                         label="Email Address"
                         placeHolder="@gmail.com"
@@ -93,7 +95,7 @@ const Login = () => {
                     <Spacer width={null} />
                     <XTextfield
                         label="Password"
-                        placeHolder="X_AE_A13b"
+                        placeHolder="password..."
                         value={passwordState}
                         icon={<AiOutlineLock />}
                         validation={validatePasswordLength}

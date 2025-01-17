@@ -9,30 +9,31 @@ const UserProfile = () => {
     email: "",
     address: "",
   });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    getProfile();
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      getProfile();
+    }
+    // getProfile();
   }, []);
   const getProfile = async () => {
-    const getProfileUrl = NETWORK_CONFIG.apiBaseUrl + USERENDPOINT.GET_USERINFO;
-    // console.log("Fetching profile from:", getProfileUrl);
+
     try {
-      const response = await axios.get(/*getProfileUrl*/'http://localhost:3000/user/userInfo', { withCredentials: true });
+      const response = await axios.get('http://localhost:3000/user/userInfo', { withCredentials: true });
       if (response.status === 200) {
         const { username, email, address } = response.data.data[0]; // Assuming response structure
         setProfile({ username, email, address }); // Update profile state
+        setIsLoggedIn(true);
       }
 
     } catch (error) {
+      setIsLoggedIn(false);
       console.error("Error fetching profile:", error);
     }
   };
 
 
-  const isLoggedIn =
-    profile &&
-    profile.username &&
-    profile.email &&
-    profile.address;
 
   return (
     <>
