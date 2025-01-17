@@ -160,6 +160,9 @@ const Offer = () => {
             <p className="text-gray-600">
               <strong>Product Code:</strong> {selectedItem.phone_id}
             </p>
+            <p className="text-gray-600">
+              <strong>Product Code:</strong> {selectedItem.name}
+            </p>
             <p className="text-gray-600 flex gap-x-3">
               <strong>Price:</strong> {selectedItem.price_discount !== null ? (
                 <s>{selectedItem.price}</s>

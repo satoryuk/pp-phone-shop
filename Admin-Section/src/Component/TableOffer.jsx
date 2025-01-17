@@ -43,10 +43,15 @@ const TableOffer = ({ title, items }) => {
         } catch (error) {
             console.error("Error deleting row:", error);
         }
+        // console.log(id);
+
     };
+
 
     const handleSelectRemove = async (e) => {
         e.preventDefault();
+
+
         try {
             // Loop through each selected row ID and remove it using the removeOneFetch function
             for (const id of selectedRows) {
@@ -128,7 +133,8 @@ const TableOffer = ({ title, items }) => {
                             {tableHeadOffer.map((header, index) => (
                                 <th
                                     key={index}
-                                    className={`table-data text-sm sm:text-lg px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg" : ""} border-r border-gray-200`}
+                                    className={`table-data text-sm sm:text-xl px-4 sm:px-6 py-3 sm:py-4 ${index === 0 ? "rounded-l-lg" : ""
+                                        } border-r border-gray-200`}
                                 >
                                     {header === "ID" ? (
                                         <>
@@ -143,10 +149,22 @@ const TableOffer = ({ title, items }) => {
                                     ) : (
                                         header
                                     )}
+
                                 </th>
                             ))}
 
-
+                            <td className="table-data flex justify-center  gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">
+                                <button
+                                    onClick={(e) => handleSelectRemove(e)}
+                                    className="flex items-center"
+                                >
+                                    <img
+                                        src={trash}
+                                        alt="Remove"
+                                        className="w-4 sm:w-6 lg:w-8 h-4 sm:h-6 lg:h-8 object-contain"
+                                    />
+                                </button>
+                            </td>
                         </tr>
                     </thead>
 
@@ -218,6 +236,18 @@ const TableOffer = ({ title, items }) => {
                                         >
                                             {formatDate(element.end_date)}
                                         </Link>
+                                    </td>
+                                    <td className="table-data flex justify-center gap-2 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">
+                                        <button
+                                            onClick={() => handleRemove(element.promo_id)}
+                                            className="flex"
+                                        >
+                                            <img
+                                                src={trash}
+                                                alt="Remove"
+                                                className="w-4 sm:w-6 lg:w-8 h-4 sm:h-6 lg:h-8 object-contain"
+                                            />
+                                        </button>
                                     </td>
 
                                 </tr>

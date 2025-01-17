@@ -14,13 +14,14 @@ const UserProfile = () => {
   }, []);
   const getProfile = async () => {
     const getProfileUrl = NETWORK_CONFIG.apiBaseUrl + USERENDPOINT.GET_USERINFO;
-    console.log("Fetching profile from:", getProfileUrl);
+    // console.log("Fetching profile from:", getProfileUrl);
     try {
-      const response = await axios.get(getProfileUrl, { withCredentials: true });
+      const response = await axios.get(/*getProfileUrl*/'http://localhost:3000/user/userInfo', { withCredentials: true });
       if (response.status === 200) {
         const { username, email, address } = response.data.data[0]; // Assuming response structure
         setProfile({ username, email, address }); // Update profile state
       }
+
     } catch (error) {
       console.error("Error fetching profile:", error);
     }

@@ -140,9 +140,7 @@ const TableProduct = ({ title, items, category }) => {
           </button>
         </form>
       </section>
-      {
-        console.log(Cookies.get('access-token'))
-      }
+
       {/* Table Section */}
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto w-full border-separate border-spacing-0">
