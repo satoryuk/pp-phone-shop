@@ -236,40 +236,66 @@ export const deleteProduct = async (req, res) => {
 export const deleteVariants = async (req, res) => {
     const { variants_id } = req.query;
 
+    const selectSpecQuery = `SELECT spec_id FROM specifications WHERE phone_variant_id = ?`;
     const queries = [
-        { query: `DELETE FROM productimage WHERE phone_variant_id = ?`, errorMsg: `Error productImage` },
-        { query: `DELETE FROM order_items WHERE phone_variants_id = ?`, errorMsg: `Error productOrders` },
-        { query: `DELETE FROM promotions WHERE phone_variants_id = ?`, errorMsg: `Error promotion` },
-        { query: `DELETE FROM specifications WHERE phone_variant_id=?`, errorMsg: `Error promotion` },
-        { query: `DELETE FROM phone_variants WHERE idphone_variants = ?`, errorMsg: `Error productVariants` },
-    ]
-    console.log(variants_id);
+        { query: `DELETE FROM productimage WHERE phone_variant_id = ?`, errorMsg: `Error deleting product images` },
+
+        { query: `DELETE FROM specifications WHERE phone_variant_id = ?`, errorMsg: `Error deleting specifications` },
+        { query: `DELETE FROM phone_variants WHERE idphone_variants = ?`, errorMsg: `Error deleting phone variants` },
+    ];
+    const queries2 = [
+        { query: `DELETE FROM order_items WHERE spec_id = ?`, errorMsg: `Error deleting product order items` },
+        { query: `DELETE FROM promotions WHERE spec_id = ?`, errorMsg: `Error deleting promotions` },
+        { query: `DELETE FROM specifications WHERE spec_id = ?`, errorMsg: `Error deleting specifications` },
+    ];
 
     try {
-        // Delete images associated with the variant
-        for (const { query, errorMsg } of queries) {
-            await new Promise((resolve, reject) => {
-                pool.query(query, [variants_id], (err, rows) => {
-                    if (err) {
-                        console.error("fail to delete");
-                        return reject(new Error("Fail to delete" + errorMsg))
-
-                    }
-                    resolve(rows);
-                })
-            })
+        // Check if specifications exist for the variant
+        const [specRows] = await pool.promise().query(selectSpecQuery, [variants_id]);
+        if (specRows.length === 0) {
+            return res.status(404).json({
+                message: `No specifications found for variant ID ${variants_id}`,
+            });
         }
+
+        // Delete related data for each spec_id
+        for (const spec of specRows) {
+            for (const { query, errorMsg } of queries2) {
+                await pool
+                    .promise()
+                    .query(query, [spec.spec_id])
+                    .catch((err) => {
+                        console.error(errorMsg, err);
+                        throw new Error(errorMsg);
+                    });
+            }
+        }
+
+        // Execute deletion queries for other related data
+        for (const { query, errorMsg } of queries) {
+            await pool
+                .promise()
+                .query(query, [variants_id])
+                .catch((err) => {
+                    console.error(errorMsg, err);
+                    throw new Error(errorMsg);
+                });
+        }
+
         return res.status(200).json({
-            message: "Variant and associated images deleted successfully",
+            message: "Variant and all associated data deleted successfully",
         });
     } catch (error) {
         console.error("Error deleting variant:", error);
-        return res.status(400).json({
-            message: "Something went wrong",
+        return res.status(500).json({
+            message: "An error occurred while deleting the variant",
             error: error.message,
         });
     }
 };
+
+
+
 
 
 

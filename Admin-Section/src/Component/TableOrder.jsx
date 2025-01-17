@@ -86,9 +86,7 @@ const TableOrder = ({ title, items }) => {
         searchDataFetch();
     };
 
-    const handleExport = () => {
-        console.log("Exporting rows:", selectedRows);
-    };
+
 
     return (
         <section className="mt-16 bg-white rounded-lg p-6 sm:p-10 shadow-lg border border-gray-400">
@@ -110,12 +108,7 @@ const TableOrder = ({ title, items }) => {
                     >
                         Search
                     </button>
-                    <button
-                        className="green-btn h-10 sm:h-12 w-[100px] sm:w-[150px] text-sm sm:text-base"
-                        onClick={handleExport}
-                    >
-                        Export
-                    </button>
+
                 </form>
             </section>
 
