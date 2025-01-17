@@ -97,18 +97,11 @@ const HomePage = () => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
+
     ],
   };
 
@@ -118,20 +111,21 @@ const HomePage = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrow: true,
+    arrows: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
   };
+
   return (
     <div>
       {/* Slider */}
 
-      <div className="slider-container w-full px-4 py-6 bg-gray-50">
+      <div className="slider-container w-full bg-gray-50 px-20 py-5">
         <Slider {...settings2}>
           {sliderImg.map((element, index) => (
             <div
               key={index}
-              className="flex justify-center items-center w-full h-64 rounded-lg  overflow-hidden bg-white"
+              className="flex justify-center items-center mx-[-20px] w-full h-64 rounded-lg  overflow-hidden bg-white"
             >
               <img
                 src={element}
@@ -279,7 +273,7 @@ const HomePage = () => {
               VIEW ALL
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4 bg-gray-100 p-4 rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4 bg-gray-100 p-4 rounded-lg">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -305,7 +299,7 @@ const HomePage = () => {
           </div>
         </div>
       </div> */}
-    </div>
+    </div >
   );
 };
 

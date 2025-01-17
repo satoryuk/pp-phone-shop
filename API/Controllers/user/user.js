@@ -3,9 +3,11 @@ import pool from "../../db/db_handle.js";
 
 export const getUserInformation = async (req, res) => {
     try {
-        const { userName } = req.user.user.username;
+        const { username } = req.user.user.username;
 
-        if (!userName) {
+
+
+        if (!username) {
             return res.status(400).json({
                 message: "Missing required parameter: username",
             });
@@ -14,7 +16,7 @@ export const getUserInformation = async (req, res) => {
         const query = `SELECT * FROM customers WHERE username = ?`;
 
 
-        const [rows] = await pool.promise().query(query, [userName]);
+        const [rows] = await pool.promise().query(query, [username]);
 
         return res.status(200).json({
             data: rows,
