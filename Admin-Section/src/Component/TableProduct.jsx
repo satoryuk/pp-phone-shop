@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { trash } from "../Assets";
 import { tableHeadProduct } from "../Constants";
 import { Link, useLocation } from "react-router-dom";
-import { productByID, removeOneFetch, searchFetchByCategory, } from "../Fetch/FetchAPI.js";
+import { productByID, productByName, removeOneFetch, searchFetchByCategory, } from "../Fetch/FetchAPI.js";
 import Cookies from 'js-cookie';
 
 const TableProduct = ({ title, items, category }) => {
@@ -74,7 +74,6 @@ const TableProduct = ({ title, items, category }) => {
   const searchDataFetchByCategory = async () => {
     try {
       const data = await searchFetchByCategory({ searchData, Category });
-      // console.log(Category);
       setSearchData('');
       setDataTable(data);
     } catch (error) {
@@ -84,7 +83,7 @@ const TableProduct = ({ title, items, category }) => {
 
   const searchDataFetchByName = async () => {
     try {
-      const data = await productByID(searchData);
+      const data = await productByName(searchData);
       setSearchData('')
       setDataTable(data);
     } catch (error) {
@@ -114,8 +113,6 @@ const TableProduct = ({ title, items, category }) => {
   return (
     <section className="mt-16 bg-white rounded-lg p-6 sm:p-10 shadow-lg border border-gray-400">
       <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-10 mb-5 sm:mb-10">
-        {console.log(items)
-        }
         <h1 className="green-text mt-4 sm:mt-10 font-semibold text-lg lg:text-3xl">
           {title}
         </h1>

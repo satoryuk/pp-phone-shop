@@ -9,16 +9,15 @@ const API_URL_COMMON = "http://localhost:3000/common";
 export const signIn = async ({ email, password }) => {
   return axios.post(`${API_URL_Auth}/login`, { email, password }, { withCredentials: true });
 };
-export const register = async ({ profile, username, email, password }) => {
+export const register = async ({ username, email, password }) => {
   const formData = new FormData();
-  formData.append("profile", profile);
   formData.append("username", username);
   formData.append("email", email);
   formData.append("password", password);
 
-  return axios.post(`${API_URL_Auth}/signup`, formData, {
+  return axios.post(`${API_URL_Auth}/adminRegister`, formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
     withCredentials: true
   });
@@ -144,12 +143,11 @@ export const searchFetchByCategory = async ({ searchData, Category }) => {
     }
     throw error; // Re-throw error if the caller needs to handle it
   }
-
 };
 export const searchOrder = async ({ username }) => {
   try {
-
-    const response = await axios.get(`${API_URL_Admin}/searchTableOrder?username=${username}`, { withCredentials: true })
+    const UserName = `%${username}%`
+    const response = await axios.get(`${API_URL_Admin}/searchTableOrder?username=${UserName}`, { withCredentials: true })
     return response.data;
 
   } catch (error) {
@@ -346,7 +344,18 @@ export const OrderTableFetch = async () => {
   }
 };
 
-
+export const productByName = async (query) => {
+  try {
+    const Query = `%${query}%`
+    const response = await axios.get(`${API_URL_COMMON}/getAllProductByName?phone_name=${Query}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    throw error; // Re-throw the error for the caller to handle
+  }
+}
 export const productByID = async (query) => {
   try {
     const response = await axios.get(`${API_URL_COMMON}/getProduct?phone_name=${query}`, {
@@ -358,6 +367,8 @@ export const productByID = async (query) => {
     throw error; // Re-throw the error for the caller to handle
   }
 };
+
+
 export const fetchOfferByID = async (param) => {
   try {
     const response = await axios.get(`${API_URL_COMMON}/offerDisplayByID/${param.id}`,
@@ -481,10 +492,6 @@ export const updateProductVariants = async (formdata, id) => {
   for (let image of formdata.images) {
     formData.append("productImages", image); // Ensure "images" matches the backend field
   }
-  console.log(id);
-
-
-
   try {
     const response = await axios.put(
       `${API_URL_Admin}/updateVariants/${id}`,

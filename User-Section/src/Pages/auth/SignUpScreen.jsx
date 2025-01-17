@@ -96,6 +96,8 @@ const Signup = () => {
     const signUp = async (e) => {
         e.preventDefault();
         setLoading(true)
+        var path = NETWORK_CONFIG.apiBaseUrl + AUTHENDPOINT.REGISTER; 
+        console.log("This is url " + path);
         const userBody = {
             username: username,
             email: email,
@@ -103,7 +105,8 @@ const Signup = () => {
             phone: "1234567890",
             address: "Russian Blvd, Phnom Penh"
         }
-        await axios.post(`${NETWORK_CONFIG.apiBaseUrl}${AUTHENDPOINT.REGISTER}`, userBody)
+
+        await axios.post(`${path}`, userBody)
             .then(function (response) {
                 if (response.status === 201) {
                     console.log(response.data)

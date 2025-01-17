@@ -9,6 +9,7 @@ export const COMMONENDPOINT = {
 }
 export const USERENDPOINT = {
     GET_ORDER: "user/orderByName",
+    GET_USERINFO: "user/userInfo"
 }
 
 // BaseURL for our api localhost 
