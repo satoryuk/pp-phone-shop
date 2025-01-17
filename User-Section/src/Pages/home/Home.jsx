@@ -16,6 +16,7 @@ import {
   fetchBrand,
   fetchCategory,
   fetchdataProduct,
+  fetchProductByCategory,
   fetchProductByDate,
   fetchProductDiscount,
 } from "../../FetchAPI/Fetch";
@@ -33,6 +34,8 @@ const HomePage = () => {
   const [newArrival, setNewArrival] = useState([]);
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
+  const [accessories, setAccessories] = useState([]);
+  const [smartWatch, setSmartWatch] = useState([]);
   const statusTab = useSelector((store) => store.cart.statusTab);
 
   const handlefetchProduct = async () => {
@@ -65,6 +68,25 @@ const HomePage = () => {
     }
   };
 
+  const handleAccessories = async (category) => {
+    try {
+      const response = await fetchProductByCategory({ category: 'Accessories' });
+      setAccessories(response.data);
+    } catch (error) {
+      console.error(error);
+
+    }
+  }
+  const handleSmartWatch = async (category) => {
+    try {
+      const response = await fetchProductByCategory({ category: 'Smartwatches' });
+      setSmartWatch(response.data);
+    } catch (error) {
+      console.error(error);
+
+    }
+  }
+
   const sliderImg = [phone1, phone2, phone3, phone4];
 
   useEffect(() => {
@@ -73,6 +95,8 @@ const HomePage = () => {
     handleNewArrival();
     handleFetchCategory();
     handleFetchBrand();
+    handleAccessories();
+    handleSmartWatch();
   }, []);
   var settings = {
     dots: true,
@@ -80,13 +104,22 @@ const HomePage = () => {
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
-    initialSlide: 0,
-    arrow: true,
+    initialSlide: 1,
+    arrows: true, // Corrected 'arrow' to 'arrows'
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1200, // For larger screens (e.g., tablets or small desktops)
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 1024, // Standard tablets and smaller desktops
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
@@ -95,15 +128,26 @@ const HomePage = () => {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768, // Portrait tablets and large mobile devices
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 580, // Small mobile devices
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          infinite: true,
+          dots: true,
         },
       },
-
     ],
   };
+
 
   const settings2 = {
     dots: true,
@@ -115,7 +159,6 @@ const HomePage = () => {
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
   };
-
   return (
     <div>
       {/* Slider */}
@@ -262,6 +305,41 @@ const HomePage = () => {
             <Card data={element} page="Categories" />
           ))}
         </div>
+      </div>
+
+      <div className="slider-container px-20 py-4">
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
+            Accessories
+          </h2>
+          <Link to={`/AfterHomePage?page=Accessories`} className="text-blue-500">
+            VIEW ALL
+          </Link>
+        </div>
+        <Slider {...settings}>
+          {accessories.map((product) => (
+            <div key={product.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </Slider>
+      </div>
+      <div className="slider-container px-20 py-4">
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
+            Smart Watch
+          </h2>
+          <Link to={`/AfterHomePage?page=Accessories`} className="text-blue-500">
+            VIEW ALL
+          </Link>
+        </div>
+        <Slider {...settings}>
+          {smartWatch.map((product) => (
+            <div key={product.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </Slider>
       </div>
 
       {/* Product section */}
