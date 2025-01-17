@@ -69,7 +69,7 @@ export const register = async (req, res) => {
 
     // Insert user into the database
     const queryInsert =
-      "INSERT INTO customers (username, email, password, phone, address) VALUES (?, ?, ?, ?, ?)";
+      "INSERT INTO customers (username, email, password) VALUES ( ?, ?, ?)";
     const values = [username, email, hashedPassword, phone, address];
 
     pool.query(queryInsert, values, (error, result) => {

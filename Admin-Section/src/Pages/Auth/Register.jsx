@@ -6,39 +6,26 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profile, setProfile] = useState(null);
-  const [imgError, setImgError] = useState("");
   const [error, setError] = useState("");
 
   const navigation = useNavigate();
 
-  const handleImage = (event) => {
-    const file = event.target.files[0]; // Correctly accessing files array
 
-    if (file && file.type.startsWith("image/")) {
-      setProfile(file);
-      setImgError("");
-    } else {
-      setImgError("Please upload a valid image.");
-      setProfile(null);
-    }
-  };
 
   const handleSignUp = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await register({ profile, username, email, password });
-      const token = response.data.token;
 
+      const response = await register({ username, email, password });
+      const token = response.data.token;
       localStorage.setItem("Access-token", token);
-      navigation("/");
+      navigation("/dashboard");
     } catch (error) {
       setError("Something went wrong. Please try again.");
       console.error(error);
     }
   };
-
   return (
     <section>
       <h2 className="font-AntonSC font-bold text-center text-primary text-5xl">
@@ -82,17 +69,6 @@ const Register = () => {
           <br />
           <br />
 
-          <label className="text-login">Profile</label>
-          <input
-            type="file"
-            id="imageInput"
-            accept="image/*"
-            onChange={handleImage}
-            className="text-xl ml-[125px] text-center w-[500px] h-12 "
-            required
-          />
-
-          <p className="text-red-500">{imgError}</p>
           <p className="text-red-500">{error}</p>
 
           <div className="flex justify-between w-[730px] mt-32">

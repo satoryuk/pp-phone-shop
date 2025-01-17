@@ -96,7 +96,7 @@ const Signup = () => {
     const signUp = async (e) => {
         e.preventDefault();
         setLoading(true)
-        var path = NETWORK_CONFIG.apiBaseUrl + AUTHENDPOINT.REGISTER; 
+        var path = NETWORK_CONFIG.apiBaseUrl + AUTHENDPOINT.REGISTER;
         console.log("This is url " + path);
         const userBody = {
             username: username,
@@ -106,12 +106,12 @@ const Signup = () => {
             address: "Russian Blvd, Phnom Penh"
         }
 
-        await axios.post(`${path}`, userBody)
+        await axios.post(/*`${path}`*/'http://localhost:3000/auth//register', userBody)
             .then(function (response) {
                 if (response.status === 201) {
                     console.log(response.data)
                     setLoading(false)
-                    navigate('/Auth/login', { replace: true })
+                    navigate('/', { replace: true })
                 }
             }).catch(function (error) {
                 console.log(error);

@@ -37,6 +37,7 @@ const HeadMainOffer = () => {
                 setFeedbackMessage("Promotion submitted successfully!");
                 console.log("Submitted Data:", response);
                 // Optionally reload or reset form here
+                window.location.reload();
             }
         } catch (error) {
             // Handle errors from the API call

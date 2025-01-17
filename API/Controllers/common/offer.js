@@ -27,13 +27,13 @@ export const offerDisplay = async (req, res) => {
         s.camera,
         b.brand_name,
         b.img AS brand_img,
-        ROW_NUMBER() OVER (PARTITION BY p.phone_id ORDER BY s.price DESC) AS row_num
+        ROW_NUMBER() OVER (PARTITION BY pv.color ORDER BY s.price DESC) AS row_num
     FROM phones p
     INNER JOIN brands b ON p.brand_id = b.brand_id
     INNER JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN phone_variants pv ON pv.phone_id = p.phone_id
     LEFT JOIN specifications s ON s.phone_variant_id = pv.idphone_variants
-    INNER JOIN promotions pm ON pm.spec_id = s.spec_id-- Corrected join condition
+    INNER JOIN promotions pm ON pm.spec_id = s.spec_id -- Corrected join condition
     LEFT JOIN productimage pi ON pi.phone_variant_id = pv.idphone_variants -- Join for product images
     WHERE pm.status = "Active"
     GROUP BY 
@@ -60,10 +60,8 @@ export const offerDisplay = async (req, res) => {
         pi.image
 )
 SELECT * FROM RankedPhones
-WHERE RankedPhones.row_num=1
-
-
-                    `
+WHERE RankedPhones.row_num = 1;
+ `
     await pool.promise().query(query)
         .then(([offer]) => {
             res.status(200).json({

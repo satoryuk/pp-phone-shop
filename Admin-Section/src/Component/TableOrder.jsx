@@ -88,7 +88,6 @@ const TableOrder = ({ title, items }) => {
 
     const handleExport = () => {
         console.log("Exporting rows:", selectedRows);
-        // Add export logic here
     };
 
     return (
@@ -187,7 +186,7 @@ const TableOrder = ({ title, items }) => {
                                             to={`/dashboard/order/${element.order_id}`}
                                             className="hover:underline text-sm sm:text-base"
                                         >
-                                            {element.address}
+                                            {element.location}
                                         </Link>
                                     </td>
                                     <td className="table-data px-4 sm:px-6 py-3 sm:py-4">

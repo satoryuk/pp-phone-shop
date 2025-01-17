@@ -51,7 +51,7 @@ const AfterHomePage = () => {
 
     return (
         <div className='px-20 w-full py-6 pb-36 bg-gray-50'>
-            <h1 className='= text-2xl p-2 py-5 font-bold text-green-600'>{page}</h1>
+            <h1 className=' text-2xl p-2 py-5 font-bold text-green-600'>{page}</h1>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4 bg-gray-100 p-4 rounded-lg'>
                 {data.map((element) => (
                     <ProductCard key={element.id} product={element} />
