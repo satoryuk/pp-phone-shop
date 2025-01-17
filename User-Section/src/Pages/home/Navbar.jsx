@@ -110,6 +110,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                 </div>
               ) : (
                 <NavLink key={element.label} to={element.href}>
+
                   <img
                     src={element.img}
                     alt={element.label}

@@ -5,6 +5,7 @@ import Footer from "../home/Footer";
 import { useSelector } from "react-redux";
 import store from "../../store/store";
 import AddToCart from "../home/AddToCart";
+import axios from "axios";
 
 const RootLayout = () => {
   useEffect(() => {
@@ -26,6 +27,7 @@ const RootLayout = () => {
     setToken(null);
     localStorage.removeItem("authToken");
     console.log("TOken have been clear")
+    axios.defaults.withCredentials = false;
     window.location.href = '/'
   };
 
