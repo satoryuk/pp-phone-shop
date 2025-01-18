@@ -1,10 +1,10 @@
 import pool from "../../db/db_handle.js";
 
 export const dashboardHeader = (req, res) => {
-    const { date } = req.query;
+  const { date } = req.query;
 
-    const value = [date, date, date];
-    const query = `SELECT 'Total Revenue' AS label,  
+  const value = [date, date, date];
+  const query = `SELECT 'Total Revenue' AS label,  
                     COALESCE(SUM(total_amount), 0) AS total
                     FROM orders
                     WHERE order_date >= CURDATE() - INTERVAL ? MONTH
@@ -29,19 +29,19 @@ export const dashboardHeader = (req, res) => {
                     AND o.order_date >= CURDATE() - INTERVAL ? MONTH
                     );
 
-                    `
-    pool.query(query, value, (err, rows) => {
-        if (err) {
-            return res.status(400).json({ message: "something went wrong" })
-        }
-        res.status(200).json({
-            data: rows,
-            message: "successfully"
-        })
-    })
-}
+                    `;
+  pool.query(query, value, (err, rows) => {
+    if (err) {
+      return res.status(400).json({ message: "something went wrong" });
+    }
+    res.status(200).json({
+      data: rows,
+      message: "successfully",
+    });
+  });
+};
 export const dashboardHeaderAll = (req, res) => {
-    const query = `SELECT 'Total Revenue' AS label,  COALESCE(SUM(total_amount),0) AS total
+  const query = `SELECT 'Total Revenue' AS label,  COALESCE(SUM(total_amount),0) AS total
                   FROM orders
   
                   UNION ALL
@@ -60,22 +60,22 @@ export const dashboardHeaderAll = (req, res) => {
                     WHERE o.customer_id = c.customer_id
                     
                   );
-                  `
-    pool.query(query, (err, rows) => {
-        if (err) {
-            return res.status(400).json({ message: "something went wrong" })
-        }
-        return res.status(200).json({
-            data: rows,
-            message: "sucessfully"
-        })
-    })
-}
+                  `;
+  pool.query(query, (err, rows) => {
+    if (err) {
+      return res.status(400).json({ message: "something went wrong" });
+    }
+    return res.status(200).json({
+      data: rows,
+      message: "sucessfully",
+    });
+  });
+};
 
 export const displayByDate = (req, res) => {
-    const { date } = req.query;
+  const { date } = req.query;
 
-    const query = `SELECT *
+  const query = `SELECT *
 FROM (
     SELECT 
         p.*, 
@@ -95,12 +95,12 @@ FROM (
     LEFT JOIN specifications s ON s.phone_variant_id=pv.idphone_variants
 ) AS ranked
 WHERE row_num = 1 AND release_date >=CURRENT_DATE()-INTERVAL ? MONTH;
-              `
-    pool.query(query, [date], (err, rows) => {
-        if (err) return res.status(400).json({ message: "something went wrong" });
-        res.status(200).json({
-            data: rows,
-            message: "sucessfully",
-        });
-    })
-}
+              `;
+  pool.query(query, [date], (err, rows) => {
+    if (err) return res.status(400).json({ message: "something went wrong" });
+    res.status(200).json({
+      data: rows,
+      message: "sucessfully",
+    });
+  });
+};
