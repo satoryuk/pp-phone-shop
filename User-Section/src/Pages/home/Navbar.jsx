@@ -59,15 +59,15 @@ const Navbar = ({ token, onLogin, onLogout }) => {
 
   return (
     <nav className="bg-white shadow-md">
-      <div className="w-full  px-10 mx-auto">
+      <div className="w-full  px-5 mx-auto">
         <div className="flex justify-between items-center h-20">
           {/* Logo and Name */}
           <div className="flex items-center">
-            <Link to="/">
+            {/* <Link to="/">
               <img src={logo} alt="Phone Shop Logo" className="h-10 w-10" />
-            </Link>
+            </Link> */}
             <Link to="/">
-              <span className="text-green-600 text-2xl font-bold ml-2">
+              <span className="text-green-600 text-4xl font-bold ml-2">
                 Phone Shop
               </span>
             </Link>

@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import Cookies from "js-cookie";
 
 const API_URL_Auth = "http://localhost:3000/auth";
 // const API_URL2 = 'http://localhost:3000/user/functionality';
@@ -311,8 +311,9 @@ export const removeOrder = async ({ deleteid }) => {
 export const loginFetch = async (email, password) => {
   try {
     const response = await axios.post(`${API_URL_Auth}/adminLogin`, { email, password }, { withCredentials: true });
-    // return response.data; // Return the response payload
-    console.log(response);
+    const token = response.data.token;
+    Cookies.set("token", token, { expires: 7, secure: true, sameSite: "strict" });
+    return response.data; // Return the response payload
 
   } catch (error) {
     console.error("Error during login request:", error.message);

@@ -161,15 +161,16 @@ const HomePage = () => {
 
 
   const settings2 = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />,
+    dots: true, // Show navigation dots
+    infinite: true, // Allow infinite scrolling
+    speed: 500, // Transition speed in milliseconds
+    slidesToShow: 1, // Show one slide at a time
+    slidesToScroll: 1, // Scroll one slide at a time
+    arrows: true, // Enable arrows
+    prevArrow: <CustomPrevArrow />, // Custom previous arrow component
+    nextArrow: <CustomNextArrow />, // Custom next arrow component
   };
+
   return (
     <div>
       {/* Slider */}
