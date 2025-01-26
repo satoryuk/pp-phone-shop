@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { dashboardHeaderAll, dashboardHeaderData, logoutFetch } from "../../Fetch/FetchAPI";
 import { dashBoradMain_item } from "../../Constants";
 import DashBoardMain from "./DashBoardMain";
+import Cookies from "js-cookie";
 
 const DashBoardHeader = () => {
   const [selectDate, setSelectDate] = useState("ALL");
@@ -26,6 +27,7 @@ const DashBoardHeader = () => {
   const handleLogout = async () => {
     try {
       const response = await logoutFetch();
+      Cookies.remove('token')
       console.log(response);
 
     } catch (error) {

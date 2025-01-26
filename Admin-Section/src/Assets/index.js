@@ -16,6 +16,7 @@ import hambugerBar from "../Assets/hambugerBar.svg";
 import phone from "../Assets/phone.svg"
 import category from "../Assets/category.svg"
 import stock from "../Assets/stock.svg"
+import notfound from "../Assets/not found page.png"
 export {
   dashboard,
   logo,
@@ -34,5 +35,6 @@ export {
   hambugerBar,
   phone,
   category,
-  stock
+  stock,
+  notfound
 };
