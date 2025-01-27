@@ -9,7 +9,7 @@ import {
   // buy_green,
   messenger_green,
   // favorite_green,
-  addToCartWhite,
+  // addToCartWhite,
   // telegramWhite,
   // messengerWhite,
   heartFill,
@@ -217,11 +217,10 @@ const ProductDetail = () => {
                   <button
                     key={item.storage}
                     onClick={() => handleStorageChange(item.storage)}
-                    className={`px-6 py-4 border rounded-lg text-gray-800 font-semibold ${
-                      selectedStorage === item.storage
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-200 hover:bg-gray-300"
-                    }`}
+                    className={`px-6 py-4 border rounded-lg text-gray-800 font-semibold ${selectedStorage === item.storage
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-200 hover:bg-gray-300"
+                      }`}
                   >
                     {item.storage}
                   </button>
@@ -237,11 +236,10 @@ const ProductDetail = () => {
                 <button
                   key={color}
                   onClick={() => handleColorChange(color)}
-                  className={`w-6 h-6 rounded-full cursor-pointer border ${
-                    selectedColor === color
-                      ? "ring-2 ring-green-500"
-                      : "border-gray-300"
-                  }`}
+                  className={`w-6 h-6 rounded-full cursor-pointer border ${selectedColor === color
+                    ? "ring-2 ring-green-500"
+                    : "border-gray-300"
+                    }`}
                   style={{ backgroundColor: color }}
                 ></button>
               ))}
