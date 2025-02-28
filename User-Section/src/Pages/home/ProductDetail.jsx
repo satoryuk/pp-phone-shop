@@ -9,7 +9,7 @@ import {
   // buy_green,
   messenger_green,
   // favorite_green,
-  // addToCartWhite,
+  addToCartWhite,
   // telegramWhite,
   // messengerWhite,
   heartFill,

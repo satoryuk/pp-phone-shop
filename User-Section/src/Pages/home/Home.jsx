@@ -293,7 +293,7 @@ const HomePage = () => {
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
             SMART PHONES
           </h2>
-          <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
+          <Link to={`/Sort?category=SmartPhones`} className="text-blue-500">
             VIEW ALL
           </Link>
         </div>
@@ -324,7 +324,7 @@ const HomePage = () => {
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
             Accessories
           </h2>
-          <Link to={`/AfterHomePage?page=Accessories`} className="text-blue-500">
+          <Link to={`/Sort?category=Accessories`} className="text-blue-500">
             VIEW ALL
           </Link>
         </div>

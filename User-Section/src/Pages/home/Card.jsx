@@ -16,14 +16,14 @@ const Card = ({ data, page = "Default Page" }) => {
           {data.category_name}
         </h2>
         <Link
-          to={`Sort?category=${data.category_name}`}
+          to={`/Sort?category=${data.category_name}`}
           className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200"
         >
           View more &rarr;
         </Link>
       </div>
     ) : (
-      <Link to={`Sort?brand=${data.brand_name}`}>
+      <Link to={`/Sort?brand=${data.brand_name}`}>
         <div className="flex items-center w-[200px] h-[70px] gap-4 p-3 bg-gray-100 hover:bg-gray-200 transition rounded-lg cursor-pointer shadow-md hover:scale-105 transition-all transform duration-300">
           <img
             src={`http://localhost:3000/${data.img
