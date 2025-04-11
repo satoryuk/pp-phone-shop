@@ -12,7 +12,7 @@ import {
 const Footer = () => {
   const footerRef = useRef();
   return (
-    <div ref={footerRef} id="contact" className="bg-green-600 text-white">
+    <div ref={footerRef} id="contact" className="bg-blue-600 text-white">
       {/* Footer Top*/}
       <div className="px-8 py-4 flex justify-between">
         <div className="">
@@ -32,7 +32,7 @@ const Footer = () => {
             </div>
             <div className="flex">
               <img src={call} alt="" className="w-auto h-6" />
-              <a href="#">Phone: 096 888 750</a>
+              <a href="#">Phone: 096 877 9593</a>
             </div>
             <div className="flex">
               <img src={email} alt="" className="w-auto h-6" />
@@ -70,7 +70,7 @@ const Footer = () => {
         {/* Right Section */}
         <div className="text-right w-1/2">
           <p>onlinephoneshop@gmail.com</p>
-          <p className="font-bold">© COPYRIGHT PHONE SHOP</p>
+          <p className="font-bold">©2025 COPYRIGHT PHONE SHOP</p>
         </div>
       </div>
     </div>

@@ -1,5 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import { logo, menu, buy, favorite_packages, compare, user } from "../Assets/image";
+import {
+  logo,
+  menu,
+  buy,
+  favorite_packages,
+  compare,
+  user,
+} from "../Assets/image";
 import { Link, NavLink } from "react-router-dom";
 import { IoIosNotifications } from "react-icons/io";
 import Popup from "reactjs-popup";
@@ -20,7 +27,6 @@ const Navbar = ({ token, onLogin, onLogout }) => {
 
   // Create a reference to the footer
   const footerRef = useRef(null);
-
 
   const handleSearchChange = (e) => {
     setSearchData(e.target.value);
@@ -67,7 +73,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
               <img src={logo} alt="Phone Shop Logo" className="h-10 w-10" />
             </Link> */}
             <Link to="/">
-              <span className="text-green-600 text-4xl font-bold ml-2">
+              <span className="text-blue-600 text-4xl font-bold ml-2">
                 Phone Shop
               </span>
             </Link>
@@ -86,7 +92,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
               🔍
             </span>
             <button
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-4 py-1 rounded"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white font-bold px-4 py-1 rounded"
               style={{ borderRadius: "4px" }}
               onClick={handleSearchSubmit}
             >
@@ -110,7 +116,6 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                 </div>
               ) : (
                 <NavLink key={element.label} to={element.href}>
-
                   <img
                     src={element.img}
                     alt={element.label}
@@ -120,14 +125,12 @@ const Navbar = ({ token, onLogin, onLogout }) => {
               )
             )}
             {token ? (
-              <NavLink to='user-profile'>
-                <img
-                  src={user}
-                  className={`w-8 md:block  `}
-                />
+              <NavLink to="user-profile">
+                <img src={user} className={`w-8 md:block  `} />
               </NavLink>
-
-            ) : ''}
+            ) : (
+              ""
+            )}
 
             {/* Conditional Rendering Based on Token */}
             {token ? (
@@ -166,13 +169,12 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                   </button>
                 </div>
               </div>
-
             ) : (
               // Show Login and Sign Up Buttons if no token exists
               <div className="flex justify-center items-center gap-3 ">
                 <Link to="/auth/Login">
                   <button
-                    className="bg-gray-200 text-gray-800 px-6 py-2 rounded-full hidden lg:block"
+                    className="bg-white border border-blue-600 text-blue-600 px-6 py-2 rounded-full hidden lg:block"
                     style={{ borderRadius: "8px" }}
                   >
                     Log In
@@ -180,7 +182,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                 </Link>
                 <NavLink to="/auth/Signup">
                   <button
-                    className="bg-green-600 text-white px-6 py-2 rounded-full hidden lg:block"
+                    className="bg-blue-600 text-white px-6 py-2 rounded-full hidden lg:block"
                     style={{ borderRadius: "8px" }}
                   >
                     Sign Up
@@ -196,19 +198,15 @@ const Navbar = ({ token, onLogin, onLogout }) => {
                   <img src={menu} alt="Menu button" className="w-7" />
                 </button>
               </div>
-
-
             )}
-
           </div>
         </div>
       </div>
 
       {/* Mobile Menu Icon */}
 
-
       {/* Navigation Links */}
-      <div className="bg-green-600 max-lg:hidden">
+      <div className="bg-blue-600 max-lg:hidden">
         <div className="flex justify-center space-x-32 py-3 text-white">
           <Link to="/">
             <span className="hover:text-gray-200">Home</span>
@@ -243,7 +241,9 @@ const Navbar = ({ token, onLogin, onLogout }) => {
 
       {/* Mobile Navigation */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col bg-gray-800 bg-opacity-50 lg:hidden transition-transform transform ${toggleMenu ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-0 z-40 flex flex-col bg-gray-800 bg-opacity-50 lg:hidden transition-transform transform ${
+          toggleMenu ? "translate-x-0" : "-translate-x-full"
+        }`}
         onClick={() => setToggleMenu(false)} // Close menu on overlay click
       >
         <div
@@ -251,32 +251,46 @@ const Navbar = ({ token, onLogin, onLogout }) => {
           onClick={(e) => e.stopPropagation()} // Prevent closing on content click
         >
           {/* Navigation Links */}
-          <div className="text-green-600  p-6">
-            <div className="flex flex-col space-y-4 text-green-600  text-lg" onClick={() => setToggleMenu(false)}>
-              <Link to="/" className="hover:text-green-700 hover:border-b-2 duration-400 border-green-600">
-
-                Home
+          <div className="text-blue-600  p-6">
+            <span className="text-blue-600 text-4xl font-bold">Phone Shop</span>
+            <div
+              className="flex flex-col space-y-4 text-blue-600 font-bold text-lg"
+              onClick={() => setToggleMenu(false)}
+            >
+              <Link
+                to="/"
+                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 mt-8"
+              >
+                HOME
               </Link>
-              <Link to={`/AfterHomePage?page=NEW ARRIVAL`} className="hover:text-green-700 hover:border-b-2 duration-400 border-green-600 ">
+              <Link
+                to={`/AfterHomePage?page=NEW ARRIVAL`}
+                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 "
+              >
                 NEW ARRIVAL
               </Link>
-              <Link to={`/AfterHomePage?page=PRODUCT`} className="hover:text-green-700 hover:border-b-2 duration-400 border-green-600 ">
+              <Link
+                to={`/AfterHomePage?page=PRODUCT`}
+                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 "
+              >
                 PRODUCT
               </Link>
-              <Link to={`/AfterHomePage?page=DISCOUNT`} className="hover:text-green-700 hover:border-b-2 duration-400 border-green-600">
+              <Link
+                to={`/AfterHomePage?page=DISCOUNT`}
+                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600"
+              >
                 DISCOUNT
               </Link>
 
               <a
                 onClick={scrollToFooter}
-                className="cursor-pointer hover:text-green-700 hover:border-b-2 duration-400 border-green-600"
+                className="cursor-pointer hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600"
                 href="#contact"
               >
-                Contact Us
+                CONTACT US
               </a>
             </div>
           </div>
-
           {/* Search Bar */}
           <div className="relative mx-6 mt-8 mb-6">
             <input
@@ -290,28 +304,26 @@ const Navbar = ({ token, onLogin, onLogout }) => {
               🔍
             </span>
             <button
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-4 py-1 rounded"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-4 py-1 rounded"
               style={{ borderRadius: "4px" }}
               onClick={handleSearchSubmit}
             >
               SEARCH
             </button>
           </div>
-
           {/* Log Out Button */}
-          {token ?
+          {token ? (
             <div className="flex justify-center mt-6">
               <button
                 onClick={onLogout}
-                className="bg-red-600 text-white px-6 py-2 w-full rounded-full"
+                className="bg-red-600 text-white px-6 py-2 w-full rounded-full mx-32"
                 style={{ borderRadius: "8px" }}
-                to='/'
-
+                to="/"
               >
                 Log Out
               </button>
             </div>
-            :
+          ) : (
             <div className="flex justify-center items-center gap-3 ">
               <Link to="/auth/Login">
                 <button
@@ -323,20 +335,16 @@ const Navbar = ({ token, onLogin, onLogout }) => {
               </Link>
               <NavLink to="/auth/Signup">
                 <button
-                  className="bg-green-600 text-white px-6 py-2 rounded-full "
+                  className="bg-blue-600 text-white px-6 py-2 rounded-full "
                   style={{ borderRadius: "8px" }}
                 >
                   Sign Up
                 </button>
               </NavLink>
-
-
             </div>
-
-          }
+          )}
         </div>
       </div>
-
 
       {/* Mobile Dropdown Menu */}
       {isMenuOpen && (
