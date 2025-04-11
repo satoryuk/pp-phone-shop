@@ -209,7 +209,7 @@ const ProductDetail = () => {
 
           {/* Storage Options */}
           <div className="mb-6">
-            <h3 className="font-semibold text-xl text-gray-700">Storage</h3>
+            <h3 className="font-semibold text-xl text-gray-800">Storage</h3>
             <div className="flex space-x-4 mt-2">
               {items
                 .filter((item) => item.color === selectedColor)
@@ -248,13 +248,13 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Product Specifications */}
+          {/* Links and Btn sections */}
           <div className="flex flex-col items-start gap-4">
             <a
               href="https://t.me/yourtelegramusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-green-700"
+              className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-blue-700"
             >
               <img src={telegram_green} alt="Telegram" className="w-6" />
               Contact on Telegram
@@ -263,7 +263,7 @@ const ProductDetail = () => {
               href="https://m.me/yourmessengerusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-green-700"
+              className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-blue-700"
             >
               <img src={messenger_green} alt="Messenger" className="w-6" />
               Contact on Messenger
@@ -272,7 +272,7 @@ const ProductDetail = () => {
               href="https://i.me/yourinstagramusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-green-700"
+              className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-blue-700"
             >
               <img src={instagram_green} alt="instagram" className="w-6" />
               Contact on Instagram
@@ -308,7 +308,7 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* Show Product */}
+      {/* Product Specifications */}
       <div className="flex-1">
         <h3 className="text-2xl font-semibold">Specifications</h3>
         <div className="mt-4 hover:cursor-pointer">
@@ -342,6 +342,8 @@ const ProductDetail = () => {
           </details>
         </div>
       </div>
+
+      {/* Show Product */}
       <div>
         <div className="flex justify-between items-center mt-8">
           <p href="#" className="text-blue-500 text-lg font-semibold">
