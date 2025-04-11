@@ -162,7 +162,7 @@ const ProductDetail = () => {
   return (
     <div className="mx-auto p-4 max-w-7xl">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
-        {/* Product Images */}
+        {/* Product Images left side */}
         <div className="flex flex-col items-center">
           <img
             src={`http://localhost:3000/${selectedImage}`}
@@ -182,7 +182,7 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Product Details */}
+        {/* Product Details right side */}
         <div>
           <h2 className="text-3xl font-semibold text-gray-800">
             {selectedItem?.name || "Product"}
@@ -209,7 +209,7 @@ const ProductDetail = () => {
 
           {/* Storage Options */}
           <div className="mb-6">
-            <h3 className="font-semibold text-xl text-gray-800">Storage</h3>
+            <h3 className="font-semibold text-xl text-gray-700">Storage</h3>
             <div className="flex space-x-4 mt-2">
               {items
                 .filter((item) => item.color === selectedColor)
@@ -217,10 +217,11 @@ const ProductDetail = () => {
                   <button
                     key={item.storage}
                     onClick={() => handleStorageChange(item.storage)}
-                    className={`px-6 py-4 border rounded-lg text-gray-800 font-semibold ${selectedStorage === item.storage
-                      ? "bg-green-600 text-white"
-                      : "bg-gray-200 hover:bg-gray-300"
-                      }`}
+                    className={`px-6 py-4 border rounded-lg text-gray-800 font-semibold ${
+                      selectedStorage === item.storage
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-200 hover:bg-gray-300"
+                    }`}
                   >
                     {item.storage}
                   </button>
@@ -236,24 +237,24 @@ const ProductDetail = () => {
                 <button
                   key={color}
                   onClick={() => handleColorChange(color)}
-                  className={`w-6 h-6 rounded-full cursor-pointer border ${selectedColor === color
-                    ? "ring-2 ring-green-500"
-                    : "border-gray-300"
-                    }`}
+                  className={`w-6 h-6 rounded-full cursor-pointer border ${
+                    selectedColor === color
+                      ? "ring-2 ring-blue-500"
+                      : "border-gray-300"
+                  }`}
                   style={{ backgroundColor: color }}
                 ></button>
               ))}
             </div>
           </div>
-          {/* Product Specifications */}
 
-          {/* Contact and Purchase Options */}
+          {/* Product Specifications */}
           <div className="flex flex-col items-start gap-4">
             <a
               href="https://t.me/yourtelegramusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex text-green-600  items-center gap-2 font-semibold hover:text-green-700"
+              className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-green-700"
             >
               <img src={telegram_green} alt="Telegram" className="w-6" />
               Contact on Telegram
@@ -262,7 +263,7 @@ const ProductDetail = () => {
               href="https://m.me/yourmessengerusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex text-green-600  items-center gap-2 font-semibold hover:text-green-700"
+              className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-green-700"
             >
               <img src={messenger_green} alt="Messenger" className="w-6" />
               Contact on Messenger
@@ -271,7 +272,7 @@ const ProductDetail = () => {
               href="https://i.me/yourinstagramusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex text-green-600  items-center gap-2 font-semibold hover:text-green-700"
+              className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-green-700"
             >
               <img src={instagram_green} alt="instagram" className="w-6" />
               Contact on Instagram
@@ -279,14 +280,14 @@ const ProductDetail = () => {
             <div className="flex items-center flex-row gap-4 mt-4">
               <button
                 href="/cart"
-                className="w-[200px] justify-center flex bg-green-600 p-3 px-5 rounded-xl items-center gap-2 text-white font-semibold hover:text-green-800"
+                className="w-[200px] justify-center flex bg-blue-600 p-3 px-5 rounded-xl items-center gap-2 text-white font-semibold hover:text-green-800"
                 onClick={() => handleAddToCart()}
               >
                 <img src={addToCartWhite} alt="Add to Cart" className="w-5" />
                 Add to Cart
               </button>
               <button
-                className="w-[200px] flex justify-center gap-2 items-center text-white bg-green-600 p-3 font-semibold rounded-xl hover:text-green-800"
+                className="w-[200px] flex justify-center gap-2 items-center text-white bg-blue-600 p-3 font-semibold rounded-xl hover:text-green-800"
                 onClick={() => handeAddToFavorite(selectedItem.phone_id)}
               >
                 <img
@@ -306,6 +307,8 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Show Product */}
       <div className="flex-1">
         <h3 className="text-2xl font-semibold">Specifications</h3>
         <div className="mt-4 hover:cursor-pointer">

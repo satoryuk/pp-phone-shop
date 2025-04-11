@@ -51,29 +51,17 @@ const ProductCard = ({ product }) => {
               <s className="text-gray-500 text-sm font-mediu">
                 ${product.price}
               </s>
-              <p className="text-green-600 text-xl font-bold">
+              <p className="text-red-600 text-xl font-bold">
                 ${product.price_discount}
               </p>
             </>
           ) : (
-            <p className="text-green-600 text-xl font-bold">${product.price}</p>
+            <p className="text-red-600 text-xl font-bold">${product.price}</p>
           )}
         </div>
       </Link>
 
       <div className="w-full flex justify-center mt-4">
-        {/* Add To Cart Button (optional) */}
-        {/* Uncomment if needed */}
-        {/* 
-        <button
-          onClick={handleAddToCart}
-          className="w-full py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition-all duration-200 flex justify-center items-center gap-2"
-        >
-          Add To Cart
-          <img src={favorite_packages} alt="Add to Cart" className="w-5" />
-        </button> 
-        */}
-
         {location.pathname === "/Add-to-favorite" && (
           <button
             onClick={handleRemove}
