@@ -50,10 +50,10 @@ const AddToCart = () => {
         ${statusTab ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between bg-green-600 text-white px-5 py-4">
+        <div className="flex items-center justify-between bg-blue-600 text-white px-5 py-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold">Shopping Cart</h2>
           <button
-            className="text-lg bg-white text-green-600 font-bold px-3 py-1 rounded hover:text-white hover:bg-gray-800 transition-colors"
+            className="text-lg bg-red-600 text-white font-bold px-3 py-1 rounded hover:text-white hove  r:scale-105 transition-transform"
             onClick={handleCloseTabCart}
           >
             ×
@@ -61,7 +61,7 @@ const AddToCart = () => {
         </div>
 
         {/* Cart Items */}
-        <div className="flex-1 p-5 overflow-y-auto">
+        <div className="flex-1 px-5 py-2 overflow-y-auto">
           {carts.length > 0 ? (
             carts.map((item) => (
               <CartItem key={item.productId} product={item} />
@@ -74,9 +74,9 @@ const AddToCart = () => {
         </div>
 
         {/* Footer */}
-        <div className="bg-green-600 p-4 border-t border-gray-200">
+        <div className="bg-blue-600 p-4 border-t border-gray-200">
           <div className="flex justify-between items-center mb-3">
-            <span className="text-white">Total:</span>
+            <span className="text-white font-bold">Total:</span>
             <span className="text-xl font-bold text-white">
               $
               {carts
@@ -84,15 +84,17 @@ const AddToCart = () => {
                 .toFixed(2)}
             </span>
           </div>
+
+          {/* btn close and checkout */}
           <div className="grid grid-cols-2 gap-2">
             <button
-              className="bg-gray-800 text-white py-2 font-bold rounded hover:bg-gray-700 transition-colors"
+              className="bg-red-600 text-white py-2 font-bold rounded hover:bg-red-700 transition-colors"
               onClick={handleCloseTabCart}
             >
               Close
             </button>
             <Link
-              className="bg-white text-green-600 font-bold py-2 rounded flex justify-center items-center hover:bg-green-500 transition-colors"
+              className="bg-gray-700 text-white font-bold py-2 rounded flex justify-center items-center hover:bg-gray-800 transition-colors"
               to="/checkout"
               onClick={handleCloseTabCart}
             >
