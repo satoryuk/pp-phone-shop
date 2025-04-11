@@ -175,7 +175,6 @@ const HomePage = () => {
   return (
     <div>
       {/* Slider */}
-
       <div className="slider-container w-full bg-gray-50 px-20 py-5">
         <Slider {...settings2}>
           {sliderImg.map((element, index) => (
@@ -205,8 +204,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Specail section */}
-
+      {/* Specail Offer section */}
       <div className="slider-container px-20 py-4">
         <div className="flex justify-between">
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
@@ -225,26 +223,7 @@ const HomePage = () => {
         </Slider>
       </div>
 
-      {/* New-Arrival section */}
-      {/* <div className="px-8 py-4 bg-gray-100 rounded-lg mb-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-3xl font-extrabold text-gray-900 my-2">
-            NEW ARRIVAL
-          </h2>
-          <Link
-            to={`/AfterHomePage?page=NEW ARRIVAL`}
-            className="text-blue-500"
-          >
-            VIEW ALL
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 mt-4 mb-4">
-          {newArrival.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </div> */}
-
+      {/* New Arrived section */}
       <div className="slider-container px-20 py-4">
         <div className="flex justify-between">
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
@@ -266,29 +245,7 @@ const HomePage = () => {
         </Slider>
       </div>
 
-      {/* Categories section */}
-      {/* Smartphones section */}
-      {/* <div className="px-8 py-4 bg-gray-100 rounded-lg">
-        <div className="mb-6">
-          <div className="flex justify-between items-center my-2">
-            <h2 className="text-3xl font-extrabold text-gray-900">
-              SMART PHONES
-            </h2>
-            <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
-              VIEW ALL
-            </Link>
-          </div>
-          <div className="slider-container">
-            <Slider {...settings}>
-              <div className="flex gap-4 mt-4 bg-gray-100 p-4 rounded-lg">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            </Slider>
-          </div>
-        </div>
-      </div> */}
+      {/* Smart Phone section */}
       <div className="slider-container px-20 py-4">
         <div className="flex justify-between">
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
@@ -307,6 +264,7 @@ const HomePage = () => {
         </Slider>
       </div>
 
+      {/* Category section */}
       <div className="px-20 py-4">
         <div>
           <h1 className="text-3xl font-extrabold mb-6 text-gray-900">
@@ -320,6 +278,7 @@ const HomePage = () => {
         </div>
       </div>
 
+      {/* Accessories section */}
       <div className="slider-container px-20 py-4">
         <div className="flex justify-between">
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
@@ -337,6 +296,8 @@ const HomePage = () => {
           ))}
         </Slider>
       </div>
+
+      {/* Smart Watch section */}
       <div className="slider-container px-20 py-4">
         <div className="flex justify-between">
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
@@ -374,25 +335,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
-      {/* Accessories section */}
-      {/* <div className="px-8 py-4 bg-gray-100 rounded-lg">
-        <div className="mb-8">
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl font-extrabold text-gray-900">
-              ACCESSORIES
-            </h2>
-            <Link to={`/AfterHomePage?page=PRODUCT`} className="text-blue-500">
-              VIEW ALL
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4 bg-gray-100 p-4 rounded-lg">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

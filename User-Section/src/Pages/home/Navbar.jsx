@@ -209,7 +209,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
       <div className="bg-blue-600 max-lg:hidden">
         <div className="flex justify-center space-x-32 py-3 text-white">
           <Link to="/">
-            <span className="hover:text-gray-200">Home</span>
+            <span className="hover:text-gray-200">HOME</span>
           </Link>
           <Link
             to={`/AfterHomePage?page=NEW ARRIVAL`}
@@ -234,7 +234,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
             className="cursor-pointer hover:text-gray-200"
             href="#contact"
           >
-            Contact Us
+            CONTACT US
           </a>
         </div>
       </div>
