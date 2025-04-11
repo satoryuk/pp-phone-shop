@@ -22,7 +22,6 @@ import {
 } from "../../FetchAPI/Fetch";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import Poster from "./Poster";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -71,31 +70,34 @@ const HomePage = () => {
 
   const handleAccessories = async () => {
     try {
-      const response = await fetchProductByCategory({ category: 'Accessories' });
+      const response = await fetchProductByCategory({
+        category: "Accessories",
+      });
       setAccessories(response.data);
     } catch (error) {
       console.error(error);
-
     }
-  }
+  };
   const handlePhone = async () => {
     try {
-      const response = await fetchProductByCategory({ category: 'Smartphones' });
+      const response = await fetchProductByCategory({
+        category: "Smartphones",
+      });
       setPhone(response.data);
     } catch (error) {
       console.error(error);
-
     }
-  }
+  };
   const handleSmartWatch = async () => {
     try {
-      const response = await fetchProductByCategory({ category: 'Smartwatches' });
+      const response = await fetchProductByCategory({
+        category: "Smartwatches",
+      });
       setSmartWatch(response.data);
     } catch (error) {
       console.error(error);
-
     }
-  }
+  };
 
   const sliderImg = [phone1, phone2, phone3, phone4];
 
@@ -158,7 +160,6 @@ const HomePage = () => {
       },
     ],
   };
-
 
   const settings2 = {
     dots: true, // Show navigation dots
@@ -341,7 +342,10 @@ const HomePage = () => {
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
             Smart Watch
           </h2>
-          <Link to={`/AfterHomePage?page=Accessories`} className="text-blue-500">
+          <Link
+            to={`/AfterHomePage?page=Accessories`}
+            className="text-blue-500"
+          >
             VIEW ALL
           </Link>
         </div>
@@ -389,7 +393,7 @@ const HomePage = () => {
           </div>
         </div>
       </div> */}
-    </div >
+    </div>
   );
 };
 
