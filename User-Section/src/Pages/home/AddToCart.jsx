@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
 import { toggleStatusTab } from "../../store/cart";
+import { cancel } from "../Assets/image";
 
 const AddToCart = () => {
   const carts = useSelector((state) => state.cart.items);
@@ -50,13 +51,13 @@ const AddToCart = () => {
         ${statusTab ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between bg-blue-600 text-white px-5 py-4 border-b border-gray-200">
+        <div className="flex items-center justify-between bg-blue-600 text-white px-5 py-6 border-b border-gray-200">
           <h2 className="text-lg font-semibold">Shopping Cart</h2>
           <button
-            className="text-lg bg-red-600 text-white font-bold px-3 py-1 rounded hover:text-white hove  r:scale-105 transition-transform"
+            className="hover:scale-105 transition-transform"
             onClick={handleCloseTabCart}
           >
-            ×
+            <img src={cancel} alt="" className="w-7" />
           </button>
         </div>
 

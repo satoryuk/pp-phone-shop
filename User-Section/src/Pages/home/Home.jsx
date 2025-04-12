@@ -1,16 +1,7 @@
 import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { useState } from "react";
-import {
-  desertColor,
-  blackColor,
-  silverColor,
-  naturalColor,
-  phone1,
-  phone2,
-  phone3,
-  phone4,
-} from "../Assets/image";
+import { phone1, phone2, phone3, phone4 } from "../Assets/image";
 import Card from "./Card";
 import {
   fetchBrand,
@@ -180,7 +171,7 @@ const HomePage = () => {
           {sliderImg.map((element, index) => (
             <div
               key={index}
-              className="flex justify-center items-center mx-[-20px] w-full h-64 rounded-lg  overflow-hidden bg-white"
+              className="flex justify-center items-center mx-[-20px] w-full h-80 rounded-lg  overflow-hidden bg-white"
             >
               <img
                 src={element}

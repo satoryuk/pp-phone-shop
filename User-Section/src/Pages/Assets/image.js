@@ -36,6 +36,10 @@ import user from "../Assets/user.png";
 import telegram_blue from "../Assets/telegram_blue.png";
 import messenger_blue from "../Assets/messenger_blue.png";
 import instagram_blue from "../Assets/instagram_blue.png";
+import cancel from "../Assets/cancel.png";
+import minus from "../Assets/minus.png";
+import plus from "../Assets/plus.png";
+import deleteIcon from "../Assets/delete.png";
 export {
   logo,
   desertColor,
@@ -74,4 +78,8 @@ export {
   telegram_blue,
   instagram_blue,
   messenger_blue,
+  cancel,
+  minus,
+  plus,
+  deleteIcon,
 };
