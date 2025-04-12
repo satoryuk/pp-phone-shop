@@ -16,22 +16,26 @@ import telegram_green from "../Assets/telegram_green.png";
 import messenger_green from "../Assets/messenger_green.png";
 import favorite_green from "../Assets/favorite_green.png";
 import menu from "../Assets/Menu.png";
-import buy from "../Assets/Buy.png";
+import buy from "../Assets/add_to_cart.png";
 import back_sign from "../Assets/back_sign.png";
-import favorite_packages from "../Assets/favorite_package.png";
+import favorite_packages from "../Assets/favorite.png";
 import compare from "../Assets/compare.png";
-import addToCartWhite from "../Assets/addtocartWhite.svg";
+import addToCartWhite from "../Assets/add_to_cart_white.png";
 import messengerWhite from "../Assets/messengerWhite.svg";
 import telegramWhite from "../Assets/telegramWhite.svg";
 import heartFill from "../Assets/addtofavoriteFullStrock.svg";
-import heart from "../Assets/AddToFavoriteWhite.svg";
+// import heart from "../Assets/AddToFavoriteWhite.svg";
+import heart from "../Assets/fav_white.png";
 import poster from "../Assets/poster.png";
 import instagram_green from "../Assets/instagram_green.png";
-import phone1 from '../Assets/download(1).jpg'
-import phone2 from '../Assets/download(2).jpg'
-import phone3 from '../Assets/download (3).jpg'
-import phone4 from '../Assets/download (4).jpg'
-import user from '../Assets/user_ppp.png'
+import phone1 from "../Assets/download(1).jpg";
+import phone2 from "../Assets/download(2).jpg";
+import phone3 from "../Assets/download (3).jpg";
+import phone4 from "../Assets/download (4).jpg";
+import user from "../Assets/user.png";
+import telegram_blue from "../Assets/telegram_blue.png";
+import messenger_blue from "../Assets/messenger_blue.png";
+import instagram_blue from "../Assets/instagram_blue.png";
 export {
   logo,
   desertColor,
@@ -66,5 +70,8 @@ export {
   phone2,
   phone3,
   phone4,
-  user
+  user,
+  telegram_blue,
+  instagram_blue,
+  messenger_blue,
 };

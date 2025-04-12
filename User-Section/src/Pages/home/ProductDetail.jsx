@@ -1,20 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
-  // desertColor,
-  // blackColor,
-  // silverColor,
-  // naturalColor,
-  // call_green,
-  telegram_green,
-  // buy_green,
-  messenger_green,
-  // favorite_green,
+  telegram_blue,
+  messenger_blue,
   addToCartWhite,
-  // telegramWhite,
-  // messengerWhite,
   heartFill,
   heart,
-  instagram_green,
+  instagram_blue,
 } from "../Assets/image";
 import { Link } from "react-router-dom";
 // import Installment_Card from "./Installment_Payment_Card";
@@ -256,7 +247,7 @@ const ProductDetail = () => {
               rel="noopener noreferrer"
               className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-blue-700"
             >
-              <img src={telegram_green} alt="Telegram" className="w-6" />
+              <img src={telegram_blue} alt="Telegram" className="w-6" />
               Contact on Telegram
             </a>
             <a
@@ -265,7 +256,7 @@ const ProductDetail = () => {
               rel="noopener noreferrer"
               className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-blue-700"
             >
-              <img src={messenger_green} alt="Messenger" className="w-6" />
+              <img src={messenger_blue} alt="Messenger" className="w-6" />
               Contact on Messenger
             </a>
             <a
@@ -274,20 +265,20 @@ const ProductDetail = () => {
               rel="noopener noreferrer"
               className="flex text-blubg-blue-600  items-center gap-2 font-semibold hover:text-blue-700"
             >
-              <img src={instagram_green} alt="instagram" className="w-6" />
+              <img src={instagram_blue} alt="instagram" className="w-6" />
               Contact on Instagram
             </a>
             <div className="flex items-center flex-row gap-4 mt-4">
               <button
                 href="/cart"
-                className="w-[200px] justify-center flex bg-blue-600 p-3 px-5 rounded-xl items-center gap-2 text-white font-semibold hover:text-green-800"
+                className="w-[200px] justify-center flex bg-blue-600 p-3 px-5 rounded-xl items-center gap-2 text-white font-semibold transform transition-transform duration-300 hover:scale-105"
                 onClick={() => handleAddToCart()}
               >
                 <img src={addToCartWhite} alt="Add to Cart" className="w-5" />
                 Add to Cart
               </button>
               <button
-                className="w-[200px] flex justify-center gap-2 items-center text-white bg-blue-600 p-3 font-semibold rounded-xl hover:text-green-800"
+                className="w-[200px] flex justify-center gap-2 items-center text-white bg-blue-600 p-3 font-semibold rounded-xl transform transition-transform duration-300 hover:scale-105"
                 onClick={() => handeAddToFavorite(selectedItem.phone_id)}
               >
                 <img
