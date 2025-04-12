@@ -1,19 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import {
-  logo,
-  menu,
-  buy,
-  favorite_packages,
-  compare,
-  user,
-} from "../Assets/image";
+import { menu, buy, user } from "../Assets/image";
 import { Link, NavLink } from "react-router-dom";
 import { IoIosNotifications } from "react-icons/io";
 import Popup from "reactjs-popup";
 import NotificationCard from "./Notification_Card";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import store from "../../store/store";
 import { nav_icon } from "../../Constants";
 import { toggleStatusTab } from "../../store/cart";
 
@@ -202,8 +194,6 @@ const Navbar = ({ token, onLogin, onLogout }) => {
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu Icon */}
 
       {/* Navigation Links */}
       <div className="bg-blue-600 max-lg:hidden">

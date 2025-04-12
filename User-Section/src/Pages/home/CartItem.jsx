@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { changeQuantity, removeFromCart } from "../../store/cart";
 import { fetchdataProduct, fetchProductByName } from "../../FetchAPI/Fetch";
+import { deleteIcon, minus, plus } from "../Assets/image";
 
 const CartItem = ({ product }) => {
   const { productId, quantity } = product;
@@ -75,23 +76,23 @@ const CartItem = ({ product }) => {
         </div>
         <div className="flex items-center gap-3">
           <button
-            className="bg-white  text-green-600 rounded-full p-2 hover:bg-gray-600 transition-colors duration-200"
+            className="bg-gray-600 rounded-full p-2 hover:bg-gray-800 transition-colors duration-200"
             onClick={handleMinusQuantity}
           >
-            <span className="text-lg">-</span>
+            <img src={minus} alt="" className="w-5" />
           </button>
           <span className="text-lg font-medium">{quantity}</span>
           <button
-            className="bg-white  text-green-600 rounded-full p-2 hover:bg-gray-600 transition-colors duration-200"
+            className="bg-gray-600 rounded-full p-2 hover:bg-gray-800 transition-colors duration-200"
             onClick={handlePlusQuantity}
           >
-            <span className="text-lg">+</span>
+            <img src={plus} alt="" className="w-5" />
           </button>
           <button
-            className="bg-red-600 text-white rounded-full p-2 hover:bg-red-500 transition-colors duration-200"
+            className="bg-red-500 rounded-full p-2 hover:bg-red-600 transition-colors duration-200"
             onClick={handleRemoveItem}
           >
-            <span className="text-lg">×</span>
+            <img src={deleteIcon} alt="" className="w-5" />
           </button>
         </div>
       </div>
