@@ -12,9 +12,9 @@ import { Spacer } from "./SignUpScreen";
 import { XTextfield } from "../../Conponents/Bath_Component";
 import { XButton } from "./SignUpScreen";
 import { AUTHENDPOINT, NETWORK_CONFIG } from "../../network/Network_EndPoint";
-
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+
 const Login = () => {
   const [passwordToggle, setPasswordToggle] = useState(false);
   const [passwordState, setPassword] = useState("");
@@ -99,7 +99,7 @@ const Login = () => {
       <Navbar />
       <div className="flex flex-col items-center min-h-screen bg-gray-100">
         <div className="flex flex-col items-center w-full max-w-md bg-white p-6 rounded-lg shadow-md mt-6">
-          <h1 className="text-blue-600 text-3xl font-bold mb-4 ">Log In</h1>
+          <h1 className="text-blue-600 text-3xl font-bold mb-4 ">Sign In</h1>
           <XTextfield
             label="Email"
             placeHolder="username@gmail.com"
@@ -144,7 +144,7 @@ const Login = () => {
             <h2 className="font-semibold">Don't have an account yet?</h2>
             <Spacer width={5} />
             <Link to="/auth/Signup">
-              <h2 className="text-blue-600  font-semibold">Sign Up.</h2>
+              <h2 className="text-blue-600  font-semibold">Sign Up</h2>
             </Link>
           </div>
         </div>
