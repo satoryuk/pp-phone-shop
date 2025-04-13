@@ -24,7 +24,6 @@ import addToCartWhite from "../Assets/add_to_cart_white.png";
 import messengerWhite from "../Assets/messengerWhite.svg";
 import telegramWhite from "../Assets/telegramWhite.svg";
 import heartFill from "../Assets/addtofavoriteFullStrock.svg";
-// import heart from "../Assets/AddToFavoriteWhite.svg";
 import heart from "../Assets/fav_white.png";
 import poster from "../Assets/poster.png";
 import instagram_green from "../Assets/instagram_green.png";
@@ -40,6 +39,7 @@ import cancel from "../Assets/cancel.png";
 import minus from "../Assets/minus.png";
 import plus from "../Assets/plus.png";
 import deleteIcon from "../Assets/delete.png";
+import Logo_tostinh from "../Assets/logo_tostinh.png";
 export {
   logo,
   desertColor,
@@ -82,4 +82,5 @@ export {
   minus,
   plus,
   deleteIcon,
+  Logo_tostinh,
 };
