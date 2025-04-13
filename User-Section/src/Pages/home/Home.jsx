@@ -186,7 +186,9 @@ const HomePage = () => {
       {/* Popular-brand section */}
       <div className="px-20 py-4">
         <div>
-          <h1 className="text-3xl font-extrabold mb-6 text-gray-900">Brands</h1>
+          <h1 className="text-3xl font-extrabold mb-6 text-gray-900">
+            POPULAR BRANDS
+          </h1>
         </div>
         <div className="flex flex-wrap gap-4 py-5 px-4 items-center justify-center mb-4 rounded-lg shadow-md">
           {brand.map((element, index) => (
@@ -259,7 +261,7 @@ const HomePage = () => {
       <div className="px-20 py-4">
         <div>
           <h1 className="text-3xl font-extrabold mb-6 text-gray-900">
-            Categories
+            CATEGORIES
           </h1>
         </div>
         <div className="flex flex-wrap gap-4 py-5 px-4 items-center mb-4 rounded-lg shadow-md">
@@ -269,30 +271,11 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Accessories section */}
-      <div className="slider-container px-20 py-4">
-        <div className="flex justify-between">
-          <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
-            Accessories
-          </h2>
-          <Link to={`/Sort?category=Accessories`} className="text-blue-500">
-            VIEW ALL
-          </Link>
-        </div>
-        <Slider {...settings}>
-          {accessories.map((product) => (
-            <div key={product.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </Slider>
-      </div>
-
       {/* Smart Watch section */}
       <div className="slider-container px-20 py-4">
         <div className="flex justify-between">
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
-            Smart Watch
+            SMART WATCH
           </h2>
           <Link
             to={`/AfterHomePage?page=Accessories`}
@@ -303,6 +286,25 @@ const HomePage = () => {
         </div>
         <Slider {...settings}>
           {smartWatch.map((product) => (
+            <div key={product.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </Slider>
+      </div>
+
+      {/* Accessories section */}
+      <div className="slider-container px-20 py-4">
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
+            ACCESSORIES
+          </h2>
+          <Link to={`/Sort?category=Accessories`} className="text-blue-500">
+            VIEW ALL
+          </Link>
+        </div>
+        <Slider {...settings}>
+          {accessories.map((product) => (
             <div key={product.id} className="mt-4 bg-gray-100 p-4 rounded-lg">
               <ProductCard product={product} />
             </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { menu, buy, user } from "../Assets/image";
+import { menu, buy, user, facebook, Logo_tostinh } from "../Assets/image";
 import { Link, NavLink } from "react-router-dom";
 import { IoIosNotifications } from "react-icons/io";
 import Popup from "reactjs-popup";
@@ -57,15 +57,26 @@ const Navbar = ({ token, onLogin, onLogout }) => {
 
   return (
     <nav className="bg-white shadow-md">
-      <div className="w-full  px-5 mx-auto">
-        <div className="flex justify-between items-center h-20">
+      <div className="bg-gray-200 py-4">
+        <div className="container mx-auto flex justify-end gap-2">
+          <img src={facebook} alt="facebook" className="w-6 h-auto" />
+          <span className="text-lg text-gray-600 font-bold">
+            Follow us on Facebook: Phone Shop
+          </span>
+        </div>
+      </div>
+
+      <div className="w-full  px-8 mx-auto">
+        <div className="flex justify-between items-center h-24">
           {/* Logo and Name */}
           <div className="flex items-center">
-            {/* <Link to="/">
-              <img src={logo} alt="Phone Shop Logo" className="h-10 w-10" />
-            </Link> */}
+            <img
+              src={Logo_tostinh}
+              alt="Phone Shop Logo"
+              className="h-16 w-16 rounded-full"
+            />
             <Link to="/">
-              <span className="text-blue-600 text-4xl font-bold ml-2">
+              <span className="text-blue-600 text-3xl font-bold ml-2">
                 Phone Shop
               </span>
             </Link>
