@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { addToCart, toggleStatusTab } from "../../store/cart";
 import { removeFromFavorite } from "../../store/favorite";
-// import { favorite_packages } from "../Assets/image";
+import { cancel } from "../Assets/image";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
@@ -33,9 +33,9 @@ const ProductCard = ({ product }) => {
     .replace(/\s+/g, "")}`;
 
   return (
-    <div className="relative bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+    <div className="relative bg-white shadow-md rounded-lg py-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-4">
       <Link to={`/product-detail?phone_name=${product.name}`}>
-        <div className="w-auto h-[200px] flex justify-center items-center  rounded-md overflow-hidden mt-1">
+        <div className="w-auto h-[150px] flex justify-center items-center  rounded-md overflow-hidden mt-1">
           <img
             src={imageUrl}
             alt={product.name}
@@ -65,9 +65,9 @@ const ProductCard = ({ product }) => {
         {location.pathname === "/Add-to-favorite" && (
           <button
             onClick={handleRemove}
-            className="absolute top-2 right-2 text-xl text-red-600 font-bold hover:text-red-800 transition-all duration-200"
+            className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 p-2 rounded-lg transition-all duration-200"
           >
-            X
+            <img src={cancel} alt="cancel" className="w-6 h-6" />
           </button>
         )}
       </div>
