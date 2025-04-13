@@ -30,7 +30,7 @@ const AddToFavorite = () => {
     <div className="flex flex-col items-center w-full">
       <h1 className="text-primary p-5 text-2xl font-Jaro">My Wish List</h1>
       {favoriteProducts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full p-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 w-full p-5">
           {favoriteProducts.map((product) => (
             <ProductCard key={product.phone_id} product={product} />
           ))}

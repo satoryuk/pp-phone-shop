@@ -129,7 +129,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
             )}
             {token ? (
               <NavLink to="user-profile">
-                <img src={user} className={`w-8 md:block  `} />
+                <img src={user} className={`w-8 md:block `} />
               </NavLink>
             ) : (
               ""
