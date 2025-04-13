@@ -12,6 +12,7 @@ const CheckoutPage = () => {
   const [delivery, setDelivery] = useState();
   const [payment, setPayment] = useState();
   const [location, setLocation] = useState();
+  const [phone_num, setPhoneNumber] = useState();
   const [response, setResponse] = useState();
   const [error, setError] = useState();
 
@@ -24,6 +25,7 @@ const CheckoutPage = () => {
     const data = {
       delivery,
       location,
+      phone_num,
       payment,
       items: cart.map((element) => ({
         spec_id: element.productId,
@@ -39,6 +41,7 @@ const CheckoutPage = () => {
         setError("");
         setDelivery("");
         setLocation("");
+        setPhoneNumber("");
         setPayment("");
         clearCart();
       } else {
@@ -54,14 +57,14 @@ const CheckoutPage = () => {
     let total = 0;
     cart.forEach((item) => (total += item.quantity));
     setTotalQuantity(total);
-    setToken(localStorage.getItem('authToken'))
+    setToken(localStorage.getItem("authToken"));
   }, [cart]);
 
   return (
     <>
       {token ? (
-        <div className="flex-col bg-gray-100 pt-2">
-          <h2 className="mb-4 mt-2 pl-8 font-bold text-gray-900 text-2xl">
+        <div className="flex-col bg-gray-100 pt-2 px-20">
+          <h2 className="mb-6 mt-4 pl-8 font-bold text-gray-800 text-3xl">
             GUEST CHECKOUT
           </h2>
           <div className="flex flex-col lg:flex-row justify-center px-8 pb-8 bg-gray-100 min-h-screen">
@@ -78,7 +81,7 @@ const CheckoutPage = () => {
                       <select
                         value={delivery || ""}
                         onChange={(e) => setDelivery(e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
                         <option>Select Delivery Type</option>
                         <option>Delivery</option>
@@ -86,11 +89,11 @@ const CheckoutPage = () => {
                       </select>
                     </div>
                     <div className="col-span-1 md:col-span-2">
-                      <h4 className="pb-2">PAY METHOD</h4>
+                      <h4 className="pb-2">Pay Method</h4>
                       <select
                         value={payment || ""}
                         onChange={(e) => setPayment(e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
                         <option>Select Delivery Type</option>
                         <option>By Delivery</option>
@@ -98,29 +101,40 @@ const CheckoutPage = () => {
                       </select>
                     </div>
                     <div className="flex flex-col w-full col-span-2">
-                      <h4 className="pb-2">LOCATION</h4>
+                      <h4 className="pb-2">Recipient number</h4>
+                      <input
+                        value={phone_num || ""}
+                        type="text"
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        placeholder="Recipient number"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div className="flex flex-col w-full col-span-2">
+                      <h4 className="pb-2">Location</h4>
                       <input
                         value={location || ""}
                         type="text"
                         onChange={(e) => setLocation(e.target.value)}
                         placeholder="Village"
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
+                    {/* Recipient number */}
                     <div className="flex items-center justify-center pt-6 col-span-2">
                       <button
                         onClick={(e) => {
                           e.preventDefault();
                           handleSubmit();
                         }}
-                        className="w-[300px] p-2 bg-green-400 hover:bg-green-500 text-white rounded transition-all duration-300"
+                        className="w-[300px] p-2 font-bold bg-blue-600 hover:bg-blue-700 text-white rounded transition-all duration-300"
                       >
                         Pay Now
                       </button>
                     </div>
                     <div className="mt-10">
                       {response ? (
-                        <p className="text-green-600 font-bold text-lg ">
+                        <p className="text-blue-600 font-bold text-lg ">
                           {response}
                         </p>
                       ) : (
@@ -134,6 +148,7 @@ const CheckoutPage = () => {
                 {/* <CreditCard /> */}
               </div>
             </div>
+            {/* Order Summary Section */}
             <div className="w-full  lg:w-1/2 mt-8 lg:mt-0 lg:ml-6 bg-white p-6 rounded-lg shadow-md">
               <div>
                 <h3 className="text-xl font-semibold mb-4 text-center">
@@ -177,12 +192,12 @@ const CheckoutPage = () => {
       ) : (
         <div className="flex flex-wrap gap-20 justify-center items-center py-36">
           <Link to="/auth/signup">
-            <button className="w-[200px] font-bold text-xl p-3 bg-green-600 hover:bg-green-500 text-white rounded transition-all duration-300 text-center">
+            <button className="w-[200px] font-bold text-xl p-3 bg-blue-600 hover:bg-blue-500 text-white rounded transition-all duration-300 text-center">
               Create Account
             </button>
           </Link>
           <Link to="/auth/login">
-            <button className="w-[150px] font-bold text-xl p-3 bg-green-600 hover:bg-green-500 text-white rounded transition-all duration-300 text-center">
+            <button className="w-[150px] font-bold text-xl p-3 bg-blue-600 hover:bg-blue-500 text-white rounded transition-all duration-300 text-center">
               Log In
             </button>
           </Link>
