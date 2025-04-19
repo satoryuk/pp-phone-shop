@@ -22,7 +22,6 @@ const Login = () => {
       console.log(response);
 
       navigate("/dashboard");
-
     } catch (err) {
       setError(err.message || "An error occurred. Please try again.");
       console.error("Sign-in failed:", err);
@@ -31,7 +30,7 @@ const Login = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h2 className="font-Roboto font-bold text-center text-primary text-5xl block">
+      <h2 className="font-Roboto font-bold text-center text-blue-600 text-5xl block">
         Login
       </h2>
       <div className="flex flex-col align-center items-center p-20">
@@ -45,7 +44,7 @@ const Login = () => {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="text-lg w-full rounded-lg h-12 p-4 border-2 border-primary mb-4"
+            className="text-lg w-full rounded-lg h-12 p-4 border-2 border-blue-600 mb-4"
             required
           />
 
@@ -58,7 +57,7 @@ const Login = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="text-lg w-full rounded-lg h-12 p-4 border-2 border-primary mb-6"
+            className="text-lg w-full rounded-lg h-12 p-4 border-2 border-blue-600 mb-6"
             required
           />
 
@@ -67,13 +66,13 @@ const Login = () => {
           <div className="flex justify-between mt-8">
             <button
               type="submit"
-              className="font-bold px-8 py-4 rounded-xl bg-primary text-white hover:bg-green-500"
+              className="font-bold px-8 py-4 w-40 rounded-xl bg-blue-600 text-gray-100 hover:bg-blue-700 duration-150"
             >
               Login
             </button>
             <Link
               to="/register"
-              className="font-bold px-8 py-4 rounded-xl bg-red-600 text-black hover:text-gray-700 hover:bg-red-500"
+              className="font-bold px-8 py-4 w-40 text-center rounded-xl bg-red-500 text-gray-100 hover:bg-red-600 duration-150"
             >
               Register
             </Link>
