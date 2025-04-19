@@ -1,5 +1,5 @@
 import dashboard from "../Assets/dashboard.svg";
-import logo from "../Assets/logo.svg";
+import logo from "../Assets/logo_tostinh.png";
 import offer from "../Assets/offer.svg";
 import order from "../Assets/order.svg";
 import product from "../Assets/product.svg";
@@ -13,10 +13,10 @@ import edit from "../Assets/edit.svg";
 import delivery from "../Assets/delivery.svg";
 import addGreen from "../Assets/addGreen.svg";
 import hambugerBar from "../Assets/hambugerBar.svg";
-import phone from "../Assets/phone.svg"
-import category from "../Assets/category.svg"
-import stock from "../Assets/stock.svg"
-import notfound from "../Assets/not found page.png"
+import phone from "../Assets/phone.svg";
+import category from "../Assets/category.svg";
+import stock from "../Assets/stock.svg";
+import notfound from "../Assets/not found page.png";
 export {
   dashboard,
   logo,
@@ -36,5 +36,5 @@ export {
   phone,
   category,
   stock,
-  notfound
+  notfound,
 };

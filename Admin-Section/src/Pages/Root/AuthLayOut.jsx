@@ -6,7 +6,7 @@ const AuthLayOut = () => {
     <>
       <nav>
         <header>
-          <img src={logo} alt="" className="p-16" />
+          <img src={logo} alt="logo" className="p-4 w-[250px] rounded-full" />
         </header>
       </nav>
       <main>
