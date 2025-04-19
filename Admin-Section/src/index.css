@@ -11,8 +11,8 @@
 }
 @layer components {
   .green-btn {
-    @apply bg-primary flex justify-center items-center w-40 h-16 
-        text-xl text-[white] font-bold font-Roboto rounded-3xl hover:bg-DarkGreen;
+    @apply bg-blue-600 flex justify-center items-center w-40 h-16 
+        text-xl text-[white] font-bold font-Roboto rounded-3xl hover:bg-blue-700;
   }
   .red-btn {
     @apply bg-red-600 flex justify-center items-center w-44 h-16 
@@ -33,10 +33,10 @@
     @apply text-primary text-xl pr-4;
   }
   .text-login {
-    @apply text-primary font-Roboto font-bold text-3xl;
+    @apply text-gray-500 font-Roboto text-lg;
   }
   .table-data {
-    @apply text-primary text-center py-5 font-Roboto text-lg px-6 py-4;
+    @apply text-primary text-center py-5 font-Roboto text-lg px-6;
   }
   .green-title {
     @apply text-primary font-Roboto text-4xl font-bold;
