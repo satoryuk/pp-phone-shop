@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { dashboardHeaderAll, dashboardHeaderData, logoutFetch } from "../../Fetch/FetchAPI";
+import {
+  dashboardHeaderAll,
+  dashboardHeaderData,
+  logoutFetch,
+} from "../../Fetch/FetchAPI";
 import { dashBoradMain_item } from "../../Constants";
 import DashBoardMain from "./DashBoardMain";
 import Cookies from "js-cookie";
@@ -27,14 +31,12 @@ const DashBoardHeader = () => {
   const handleLogout = async () => {
     try {
       const response = await logoutFetch();
-      Cookies.remove('token')
+      Cookies.remove("token");
       console.log(response);
-
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
 
   const fetchAll = async () => {
     try {
@@ -63,13 +65,13 @@ const DashBoardHeader = () => {
     <>
       <section className="flex justify-between">
         <div className="flex gap-16">
-          <h1 className="green-txt text-4xl max-lg:text-2xl">
+          <h1 className="green-txt text-2xl max-lg:text-2xl">
             Listing OrderView
           </h1>
           <select
             name="date"
             id="date"
-            className="p-2 px-4 text-lg max-lg:p-1 max-lg:px-2 max-lg:text-sm border-gray-300 border focus:right-0 text-primary rounded-xl"
+            className="p-2 px-4 text-lg max-lg:p-1 max-lg:px-8 max-lg:text-sm border-gray-300 border focus:right-0 text-blue-600 rounded-xl"
             onChange={(e) => setSelectDate(e.target.value)}
           >
             <option value="ALL">ALL</option>
@@ -77,15 +79,15 @@ const DashBoardHeader = () => {
             <option value="2">Last 2 months</option>
             <option value="3">Last 3 months</option>
             <option value="6">Last 6 months</option>
-
+            {/* <option value="12">Last 12 months</option> */}
           </select>
         </div>
         <Link
           to="/"
-          className="red-btn mr-6 max-lg:w-28 max-lg:h-11 max-lg:text-sm"
+          className="red-btn mr-6 max-lg:w-20 max-lg:h-8 max-lg:text-xs"
           onClick={() => handleLogout()}
         >
-          LogOut
+          Log Out
         </Link>
       </section>
       <DashBoardMain data={mergedData} selectedDate={selectDate} />

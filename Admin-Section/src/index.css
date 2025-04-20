@@ -11,8 +11,8 @@
 }
 @layer components {
   .green-btn {
-    @apply bg-blue-600 flex justify-center items-center w-40 h-16 
-        text-xl text-[white] font-bold font-Roboto rounded-3xl hover:bg-blue-700;
+    @apply bg-blue-600 flex justify-center items-center w-60 h-16 
+        text-xl text-[white] font-bold font-Roboto rounded-lg hover:bg-blue-700;
   }
   .red-btn {
     @apply bg-red-600 flex justify-center items-center w-44 h-16 
@@ -20,7 +20,7 @@
   }
 
   .input-style {
-    @apply rounded-lg border border-gray-300 px-4 py-2 w-full text-gray-700 text-lg placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all;
+    @apply rounded-lg border border-gray-300 px-4 py-2 w-full text-gray-700 text-lg placeholder-gray-400 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none transition-all;
   }
 
   .green-txt {

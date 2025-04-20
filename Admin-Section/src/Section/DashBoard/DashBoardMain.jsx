@@ -35,24 +35,34 @@ const DashBoardMain = ({ data, selectedDate }) => {
   }, [selectedDate]); // Watch for changes in selectedDate
 
   return (
-    <main className="pt-20">
+    <main className="pt-4">
       <section className="grid grid-cols-1 gap-20 lg:grid-cols-2 xl:grid-cols-3 w-full">
         {data.map((element, index) => (
           <div
             key={index}
-            className="border border-gray-300 rounded-md p-6 flex flex-col bg-white shadow-md hover:shadow-lg transition-shadow "
+            className="border border-gray-300 rounded-md px-6 py-4 flex flex-col bg-white shadow-md hover:shadow-lg transition-shadow "
           >
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-primary text-lg font-semibold mb-2">
-                  {element.label}
-                </h1>
-                <p className="text-primary text-sm">{element.date} MONTH</p>
-                <h2 className="text-primary text-xl font-bold">
+                <div className="flex items-center mb-2">
+                  <div className="w-1 h-14 bg-purple-600 rounded-sm mr-2" />
+                  <div className="flex flex-col gap-2">
+                    <h1 className="text-gray-600 font-bold text-lg mr-2">
+                      {element.label}
+                    </h1>
+                    <p className="text-red-600 text-sm font-bold">
+                      {element.date}
+                      <span className="text-gray-600 ml-1 font-bold">
+                        month ago!
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <h2 className="text-gray-500 text-lg font-bold">
                   {element.total}
                 </h2>
               </div>
-              <div className="bg-gray-100 rounded-full w-12 h-12 flex justify-center items-center">
+              <div className="bg-purple-200 rounded-full w-12 h-12 flex justify-center items-center">
                 <img
                   src={element.img}
                   alt={element.label}
@@ -65,7 +75,7 @@ const DashBoardMain = ({ data, selectedDate }) => {
       </section>
 
       {/* Render Table for Inventory */}
-      <section className="mt-10">
+      <section className="mt-2">
         <TableProduct title="Inventory" items={items.data} />
       </section>
     </main>
