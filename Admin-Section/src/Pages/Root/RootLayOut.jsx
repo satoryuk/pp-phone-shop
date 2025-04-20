@@ -12,18 +12,35 @@ const RootLayOut = () => {
   return token ? (
     <main className="flex flex-col lg:flex-row min-h-screen">
       {/* Sidebar */}
-      <aside className="flex max-lg:flex-row max-lg:justify-between flex-col p-6 w-80 bg-white shadow-lg lg:w-72 max-lg:w-full max-lg:border-b-2 lg:border-r-2">
-        {/* Logo */}
-        <div className="flex justify-center mb-8">
-          <NavLink to="/">
-            <img
-              src={logo}
-              alt="App logo"
-              className="w-44 lg:w-24 rounded-full"
-            />
-          </NavLink>
+      <aside className="flex max-lg:flex-row max-lg:justify-between flex-col p-6 w-80 bg-gray-900 shadow-lg lg:w-72 max-lg:w-full max-lg:border-b-2 lg:border-r-2">
+        {/* Fixed Sidebar */}
+        <div className="hidden lg:block fixed top-0 left-0 h-full w-72 bg-gray-900 shadow-lg">
+          {/* Logo */}
+          <div className="flex items-center mt-4 ml-4 gap-4">
+            <NavLink to="/">
+              <img
+                src={logo}
+                alt="App logo"
+                className="w-22 lg:w-12 rounded-full"
+              />
+            </NavLink>
+            <h2 className="font-bold text-2xl text-gray-300">Phone Shop</h2>
+          </div>
+          <nav className="flex flex-col gap-4 p-6">
+            {nav_bar.map(({ img, label, path }) => (
+              <NavLink
+                key={label}
+                to={path}
+                className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 ${
+                  location.pathname === `/dashboard${path}` ? "bg-gray-100" : ""
+                }`}
+              >
+                <img src={img} alt={`${label} icon`} className="w-5 h-5" />
+                <span className="green-txt">{label}</span>
+              </NavLink>
+            ))}
+          </nav>
         </div>
-
         {/* Hamburger Button (Mobile) */}
         <button
           className="flex items-center justify-center lg:hidden mb-4"
