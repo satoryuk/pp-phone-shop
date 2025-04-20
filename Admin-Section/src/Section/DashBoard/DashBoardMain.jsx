@@ -11,7 +11,6 @@ const DashBoardMain = ({ data, selectedDate }) => {
       const data = await tableByDate(selectedDate);
       // Use selectedDate here
 
-
       setItems(data || []);
     } catch (error) {
       console.log("Error fetching data:", error);
@@ -28,17 +27,15 @@ const DashBoardMain = ({ data, selectedDate }) => {
   };
 
   useEffect(() => {
-
     if (selectedDate === "ALL") {
       fetchData();
     } else {
       fetchDataByDate();
     }
-  }, [selectedDate]);  // Watch for changes in selectedDate
+  }, [selectedDate]); // Watch for changes in selectedDate
 
   return (
     <main className="pt-20">
-
       <section className="grid grid-cols-1 gap-20 lg:grid-cols-2 xl:grid-cols-3 w-full">
         {data.map((element, index) => (
           <div
@@ -49,7 +46,6 @@ const DashBoardMain = ({ data, selectedDate }) => {
               <div>
                 <h1 className="text-primary text-lg font-semibold mb-2">
                   {element.label}
-
                 </h1>
                 <p className="text-primary text-sm">{element.date} MONTH</p>
                 <h2 className="text-primary text-xl font-bold">
