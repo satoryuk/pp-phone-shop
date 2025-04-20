@@ -1,4 +1,4 @@
-import { logo } from "../../Assets";
+// import { logo } from "../../Assets";
 import { Outlet } from "react-router-dom";
 
 const AuthLayOut = () => {
@@ -6,7 +6,7 @@ const AuthLayOut = () => {
     <>
       <nav>
         <header>
-          <img src={logo} alt="logo" className="p-4 w-[250px] rounded-full" />
+          {/* <img src={logo} alt="logo" className="p-4 w-[250px] rounded-full" /> */}
         </header>
       </nav>
       <main>

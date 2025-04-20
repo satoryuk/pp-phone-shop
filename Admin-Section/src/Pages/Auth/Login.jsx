@@ -30,7 +30,7 @@ const Login = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h2 className="font-Roboto font-bold text-center text-blue-600 text-5xl block">
+      <h2 className="font-Roboto font-bold text-center text-blue-600 text-5xl block mt-16">
         Login
       </h2>
       <div className="flex flex-col align-center items-center p-20">
