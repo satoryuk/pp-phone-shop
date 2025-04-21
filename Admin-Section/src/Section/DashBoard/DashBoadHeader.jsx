@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  dashboardHeaderAll,
-  dashboardHeaderData,
-  logoutFetch,
-} from "../../Fetch/FetchAPI";
+import { dashboardHeaderAll, dashboardHeaderData } from "../../Fetch/FetchAPI";
 import { dashBoradMain_item } from "../../Constants";
 import DashBoardMain from "./DashBoardMain";
-import Cookies from "js-cookie";
 
 const DashBoardHeader = () => {
   const [selectDate, setSelectDate] = useState("ALL");
@@ -25,16 +19,6 @@ const DashBoardHeader = () => {
       setMergedData(merged); // Set merged data
     } catch (error) {
       console.error("Error fetching date data:", error);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      const response = await logoutFetch();
-      Cookies.remove("token");
-      console.log(response);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -63,15 +47,15 @@ const DashBoardHeader = () => {
 
   return (
     <>
-      <section className="flex justify-between">
-        <div className="flex gap-16">
-          <h1 className="green-txt text-2xl max-lg:text-2xl">
-            Listing OrderView
+      <section className="flex justify-between items-center">
+        <div className="flex gap-8 items-center">
+          <h1 className="green-txt text-xl max-lg:text-lg">
+            Listing Order View
           </h1>
           <select
             name="date"
             id="date"
-            className="p-2 px-4 text-lg max-lg:p-1 max-lg:px-8 max-lg:text-sm border-gray-300 border focus:right-0 text-blue-600 rounded-xl"
+            className="p-2 px-6 text-sm max-lg:p-1 max-lg:px-4 max-lg:text-xs border-gray-300 border focus:border-blue-600 text-blue-600 rounded-lg"
             onChange={(e) => setSelectDate(e.target.value)}
           >
             <option value="ALL">ALL</option>
@@ -79,16 +63,8 @@ const DashBoardHeader = () => {
             <option value="2">Last 2 months</option>
             <option value="3">Last 3 months</option>
             <option value="6">Last 6 months</option>
-            {/* <option value="12">Last 12 months</option> */}
           </select>
         </div>
-        <Link
-          to="/"
-          className="red-btn mr-6 max-lg:w-20 max-lg:h-8 max-lg:text-xs"
-          onClick={() => handleLogout()}
-        >
-          Log Out
-        </Link>
       </section>
       <DashBoardMain data={mergedData} selectedDate={selectDate} />
     </>

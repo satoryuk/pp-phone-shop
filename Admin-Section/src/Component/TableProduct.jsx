@@ -114,13 +114,14 @@ const TableProduct = ({ title, items, category }) => {
   };
 
   return (
-    <section className="mt-4 bg-white rounded-lg p-6 sm:p-10 shadow-lg border border-gray-400">
-      <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-10 mb-5 sm:mb-10">
-        <h1 className="green-text mt-4 sm:mt-10 font-semibold text-lg lg:text-3xl">
+    <section className="mt-4 bg-white rounded-lg p-6 sm:p-4 shadow-lg border border-gray-400">
+      <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-4 sm:mb-4">
+        <h1 className="green-text sm:mt-2 font-semibold text-lg lg:text-3xl">
           {title}
         </h1>
 
-        <form className="flex gap-2 sm:gap-4 items-center mt-2 sm:mt-10">
+        {/* search section */}
+        <form className="flex gap-2 sm:gap-4 items-center mt-1 sm:mt-2">
           <input
             type="text"
             placeholder="Search..."
