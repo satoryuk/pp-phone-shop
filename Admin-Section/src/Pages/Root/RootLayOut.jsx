@@ -3,7 +3,17 @@ import { hambugerBar, logo } from "../../Assets";
 import { nav_bar } from "../../Constants";
 import { useState } from "react";
 import Cookies from "js-cookie";
+import { logoutFetch } from "../../Fetch/FetchAPI";
 
+const handleLogout = async () => {
+  try {
+    const response = await logoutFetch();
+    Cookies.remove("token");
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 const RootLayOut = () => {
   const location = useLocation();
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -40,14 +50,24 @@ const RootLayOut = () => {
               </NavLink>
             ))}
           </nav>
+          <div className="flex items-center justify-center mt-4">
+            <Link
+              to="/"
+              className="red-btn max-lg:w-12 max-lg:text-xl text-xs"
+              style={{ height: "38px" }}
+              onClick={() => handleLogout()}
+            >
+              Log Out
+            </Link>
+          </div>
         </div>
         {/* Hamburger Button (Mobile) */}
         <button
-          className="flex items-center justify-center lg:hidden mb-4"
+          className="flex items-center justify-center lg:hidden"
           onClick={() => setToggleMenu(!toggleMenu)}
           aria-label="Toggle menu"
         >
-          <img src={hambugerBar} alt="Menu button" className="w-11 h-14" />
+          <img src={hambugerBar} alt="Menu button" className="w-11 h-auto" />
         </button>
 
         {/* Desktop Navigation */}
@@ -65,6 +85,14 @@ const RootLayOut = () => {
             </NavLink>
           ))}
         </nav>
+        <Link
+          to="/"
+          className="red-btn max-lg:w-24 max-lg:text-xs mt-1"
+          style={{ height: "38px" }}
+          onClick={() => handleLogout()}
+        >
+          Log Out
+        </Link>
       </aside>
 
       {/* Mobile Navigation */}
@@ -75,7 +103,7 @@ const RootLayOut = () => {
         onClick={() => setToggleMenu(false)} // Close menu on overlay click
       >
         <div
-          className="w-64 bg-white h-full shadow-lg"
+          className="w-64 bg-gray-900 h-full shadow-lg"
           onClick={(e) => e.stopPropagation()} // Prevent closing on content click
         >
           <nav className="flex flex-col gap-4 p-6">
@@ -84,7 +112,7 @@ const RootLayOut = () => {
                 key={label}
                 to={path}
                 onClick={() => setToggleMenu(false)} // Close menu on navigation
-                className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 ${
+                className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-yellow-400 ${
                   location.pathname === `/${path}` ? "bg-gray-100" : ""
                 }`}
               >
