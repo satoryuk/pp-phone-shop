@@ -93,21 +93,21 @@ const TableOffer = ({ title, items }) => {
   };
 
   return (
-    <section className="mt-16 bg-white rounded-lg p-6 sm:p-3 shadow-lg border border-gray-400">
-      <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-10 mb-5 sm:mb-10">
-        <h1 className="green-text mt-4 sm:mt-10 font-semibold text-lg lg:text-3xl">
+    <section className="mt-4 bg-white rounded-lg p-6 sm:p-3 shadow-lg border border-gray-400">
+      <section className="flex flex-col sm:flex-row justify-between mx-4 sm:mx-10 mb-2 sm:mb-4">
+        <h1 className="green-text mt-4 sm:mt-4 font-semibold text-lg lg:text-3xl">
           {title}
         </h1>
 
-        <form className="flex gap-2 sm:gap-10 items-center mt-3 sm:mt-10">
+        <form className="flex gap-2 sm:gap-4 items-center sm:mt-4">
           <input
             type="text"
-            placeholder="Search Promotion Name"
+            placeholder="Search Promotion Name..."
             className="input-style text-sm sm:text-base"
             onChange={(e) => setSearchData(e.target.value)}
           />
           <button
-            className="green-btn h-10 sm:h-12 w-[100px] sm:w-[150px] text-sm sm:text-base"
+            className="green-btn h-10 sm:h-10 w-[150px] sm:w-[150px] text-sm sm:text-base"
             onClick={handleSearch}
           >
             Search

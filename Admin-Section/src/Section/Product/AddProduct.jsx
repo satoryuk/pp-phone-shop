@@ -375,7 +375,7 @@ const AddProduct = ({ product_id }) => {
           <input
             type="submit"
             value="Submit"
-            className="bg-purple-600 hover:bg-purple-700 text-white font-semibold w-28 px-6 py-2 rounded-lg transition"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold w-28 px-6 py-2 rounded-lg transition"
           />
           <button
             type="button"
