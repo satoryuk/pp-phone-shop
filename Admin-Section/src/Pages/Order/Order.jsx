@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import TableProduct from "../../Component/TableProduct";
+// import TableProduct from "../../Component/TableProduct";
 import Order_main from "../../Section/Order/Order_main";
-import { OrderTableFetch, productData } from "../../Fetch/FetchAPI";
+import { OrderTableFetch } from "../../Fetch/FetchAPI";
 import TableOrder from "../../Component/TableOrder";
 
 const Order = () => {

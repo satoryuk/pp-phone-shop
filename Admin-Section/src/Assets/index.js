@@ -17,6 +17,10 @@ import phone from "../Assets/phone.svg";
 import category from "../Assets/category.svg";
 import stock from "../Assets/stock.svg";
 import notfound from "../Assets/not found page.png";
+import Log_out from "../Assets/logout.png";
+import Pending from "../Assets/icons8-pending.png";
+import Completed from "../Assets/icons8-task-completed.png";
+import Cancel from "../Assets/icons8-cancel.png";
 
 export {
   dashboard,
@@ -38,4 +42,8 @@ export {
   category,
   stock,
   notfound,
+  Log_out,
+  Pending,
+  Completed,
+  Cancel,
 };
