@@ -57,8 +57,8 @@ const RootLayOut = () => {
               style={{ height: "38px" }}
               onClick={() => handleLogout()}
             >
+              <img src={Log_out} alt="" className="w-4 h-auto mr-1" />
               Log Out
-              <img src={Log_out} alt="" className="w-4 h-auto ml-1" />
             </Link>
           </div>
         </div>
