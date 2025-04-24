@@ -6,12 +6,13 @@ import {
   revanue,
   addToCart,
   profile,
-  pending,
-  delivery,
   addGreen,
-  phone,
-  category,
-  stock,
+  Pending,
+  Cancel,
+  Completed,
+  Product,
+  Categories,
+  Inventory,
 } from "../Assets";
 
 export const nav_bar = [
@@ -97,7 +98,7 @@ export const tableHeadProduct = [
   "Category",
   "Price",
   "Inventory",
-  "Release Date"
+  "Release Date",
 ];
 export const tableHeadOrder = [
   "ID",
@@ -105,7 +106,7 @@ export const tableHeadOrder = [
   "Address",
   "Date",
   "Amount",
-]
+];
 
 export const tableInfor = [
   {
@@ -207,9 +208,9 @@ export const tableInfor = [
 ];
 
 export const order_header = [
-  { img: addToCart },
-  { img: pending },
-  { img: delivery },
+  { img: Pending },
+  { img: Completed },
+  { img: Cancel },
 ];
 export const offer_header = [
   { label: "Product Name", dbLabel: "phone_name" },
@@ -218,13 +219,20 @@ export const offer_header = [
   { label: "Discount Percentage", dbLabel: "discount_percent" },
   { label: "Start Date", dbLabel: "start_date" },
   { label: "End Date", dbLabel: "end_date" },
-  { label: "Color", dbLabel: "Color" }
-
+  { label: "Color", dbLabel: "Color" },
 ];
 
 export const productHeader = [
-  { img: phone },
-  { img: category },
-  { img: stock }
-]
-export const tableHeadOffer = ["ID", "Product_Name", "Promotion Name", "Price", "Discount", "Discount Percentage", "end Date"];
+  { img: Product },
+  { img: Categories },
+  { img: Inventory },
+];
+export const tableHeadOffer = [
+  "ID",
+  "Product_Name",
+  "Promotion Name",
+  "Price",
+  "Discount",
+  "Discount Percentage",
+  "end Date",
+];

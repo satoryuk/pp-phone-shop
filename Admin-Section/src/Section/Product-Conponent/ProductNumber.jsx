@@ -40,25 +40,25 @@ const ProductNumber = () => {
   }
 
   return (
-    <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 px-4">
+    <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 w-full">
       {console.log(headerData)}
       {headerData.map((element, index) => (
         <div
           key={index}
-          className="border border-gray-300 rounded-xl p-6 flex items-center justify-between bg-white shadow-md hover:shadow-lg transition-shadow"
+          className="border border-gray-300 rounded-md px-6 py-3 flex flex-row justify-between gap-10 bg-white shadow-md hover:shadow-lg transition-shadow"
         >
           {/* Left Section for Label and Quantity */}
           <div>
-            <h2 className="text-primary text-lg font-semibold mb-2">
+            <h2 className="text-gray-600 text-xl font-medium mb-2">
               {element.label}
             </h2>
-            <p className="text-2xl text-primary font-bold">
+            <p className="text-2xl text-red-500 font-medium pl-3">
               {element.quantity}
             </p>
           </div>
 
           {/* Icon Section */}
-          <div className="bg-gray-100 rounded-full w-12 h-12 flex justify-center items-center">
+          <div className="bg-purple-200 rounded-full w-12 h-12 flex justify-center items-center">
             <img
               src={element.img} // Placeholder for icons based on label
               alt={element.img}

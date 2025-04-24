@@ -13,6 +13,7 @@ const Order_main = () => {
         const updatedStatusArray = header.data.map((item, index) => ({
           ...item,
           img: order_header[index]?.img || null, // Assign image or null if undefined
+          status: item.status.charAt(0).toUpperCase() + item.status.slice(1), // Capitalize first letter
         }));
         console.log(updatedStatusArray);
 
@@ -43,7 +44,7 @@ const Order_main = () => {
               <h2 className="green-text text-xl font-medium">
                 {element.status}
               </h2>
-              <p className="green-text text-2xl font-medium pl-3">
+              <p className="text-red-500 text-2xl font-medium pl-3">
                 {element.count}
               </p>
             </div>

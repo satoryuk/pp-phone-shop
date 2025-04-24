@@ -21,6 +21,9 @@ import Log_out from "../Assets/logout.png";
 import Pending from "../Assets/icons8-pending.png";
 import Completed from "../Assets/icons8-task-completed.png";
 import Cancel from "../Assets/icons8-cancel.png";
+import Product from "../Assets/icons8-product-32.png";
+import Inventory from "../Assets/icons8-in-inventory-32.png";
+import Categories from "../Assets/icons8-category-32.png";
 
 export {
   dashboard,
@@ -46,4 +49,7 @@ export {
   Pending,
   Completed,
   Cancel,
+  Product,
+  Categories,
+  Inventory,
 };
