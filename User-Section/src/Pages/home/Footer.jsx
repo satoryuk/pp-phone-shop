@@ -28,7 +28,7 @@ const Footer = () => {
           <div className="flex flex-col my-4 gap-3">
             <div className="flex">
               <img src={home_address} alt="" className="w-auto h-6" />
-              <a href="#">Address: សង្កាត់ទឹកល្អក១ ខណ្ឌទួលគោក រាធានីភ្នំពេញ</a>
+              <a href="#">Address: D71 Street 09, Chom Choa, Phnom Penh</a>
             </div>
             <div className="flex">
               <img src={call} alt="" className="w-auto h-6" />
