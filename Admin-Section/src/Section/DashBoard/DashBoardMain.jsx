@@ -36,7 +36,7 @@ const DashBoardMain = ({ data, selectedDate }) => {
 
   return (
     <main className="pt-4">
-      <section className="grid grid-cols-1 gap-20 lg:grid-cols-2 xl:grid-cols-3 w-full">
+      <section className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3 w-full">
         {data.map((element, index) => (
           <div
             key={index}

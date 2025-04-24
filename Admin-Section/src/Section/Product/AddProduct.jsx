@@ -95,7 +95,7 @@ const AddProduct = ({ product_id }) => {
     setCategory("");
   };
   return (
-    <div className="bg-white border-gray-300 border p-8 rounded-lg w-full max-w-7xl mx-auto mt-4 shadow-lg">
+    <div className="bg-white border-gray-300 border p-8 rounded-lg w-full max-w-7xl mx-auto mt-7 shadow-lg">
       <h1 className="text-center text-3xl text-gray-700 font-bold mb-8">
         Add Product
       </h1>
