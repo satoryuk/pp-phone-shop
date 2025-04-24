@@ -1,41 +1,36 @@
 import { useState } from "react";
 import { addNewCategoryAPI } from "../../Fetch/FetchAPI";
 
-
 const AddCategory = () => {
-
-  const [category, setCategory] = useState('');
-  const [error, setError] = useState('')
-  const [result, setResult] = useState('')
+  const [category, setCategory] = useState("");
+  const [error, setError] = useState("");
+  const [result, setResult] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const data = await addNewCategoryAPI(category);
       if (data.length !== 0) {
-        setResult("Add Success")
-        setError('')
+        setResult("Add Success");
+        setError("");
       }
-      setCategory('');
+      setCategory("");
       console.log(data);
     } catch (error) {
       console.log(error);
-      setResult('')
-      setError('Something went wrong')
-
+      setResult("");
+      setError("Something went wrong");
     }
-
   };
 
   const handleReset = (e) => {
     e.preventDefault();
-    setCategory('');
-
-  }
+    setCategory("");
+  };
 
   return (
     <div className="bg-white border-gray-300 border p-8 rounded-lg w-full max-w-4xl mx-auto mt-12 shadow-lg">
-      <h1 className="text-center text-3xl text-primary font-bold mb-8">
+      <h1 className="text-center text-3xl text-blue-600 font-bold mb-8">
         Add New Category
       </h1>
       <form
@@ -44,7 +39,9 @@ const AddCategory = () => {
       >
         {/* category */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">Category</label>
+          <label className="text-sm font-medium text-gray-700 mb-2">
+            Category
+          </label>
           <input
             type="text"
             name="brand"
@@ -52,25 +49,23 @@ const AddCategory = () => {
             placeholder="Enter brand name"
             onChange={(e) => setCategory(e.target.value)}
             className="input-style"
-
             required
           />
         </div>
 
-
         {/* Buttons */}
-        <div className="md:col-span-2 flex justify-center items-center gap-4 mt-4">
+        <div className="md:col-span-2 flex justify-center items-center gap-16 mt-4">
           <button
             type="submit"
             onClick={(e) => handleSubmit(e)}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition w-32"
           >
             Submit
           </button>
           <button
             onClick={(e) => handleReset(e)}
             type="reset"
-            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg transition"
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg transition w-32"
           >
             Reset
           </button>
@@ -78,7 +73,7 @@ const AddCategory = () => {
       </form>
       <div className="mt-16">
         {error && <p className="text-red-500">{error}</p>}
-        {result && <p className="text-primary">{result}</p>}
+        {result && <p className="text-blue-600">{result}</p>}
       </div>
     </div>
   );

@@ -38,6 +38,6 @@
     @apply text-gray-600 text-center py-5 font-Roboto text-lg px-6;
   }
   .green-title {
-    @apply text-primary font-Roboto text-4xl font-bold;
+    @apply text-blue-600 font-Roboto text-4xl font-bold;
   }
 }
