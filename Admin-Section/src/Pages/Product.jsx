@@ -6,15 +6,11 @@ import ProductNumber from "../Section/Product-Conponent/ProductNumber";
 // import { productData } from "../Fetch/FetchAPI.js";
 
 const Product = () => {
-
-
-
   return (
-    <main className="mt-32 ">
+    <main className="mt-1">
       <ProductHeader />
       <ProductNumber />
       <ProductCaterogy />
-
     </main>
   );
 };

@@ -4,19 +4,19 @@ import { categoryFetch, tableByCategory } from "../../Fetch/FetchAPI";
 import TableProduct from "../../Component/TableProduct";
 const ProductCaterogy = () => {
   const [category, setCategory] = useState([]);
-  const [select, setSelect] = useState('Smartphones');
+  const [select, setSelect] = useState("Smartphones");
   const [items, setItems] = useState([]);
 
   const fetchCategory = async () => {
     try {
       const data = await categoryFetch();
-      console.log('here category' + data);
+      console.log("here category" + data);
 
       setCategory(data.data);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -29,34 +29,34 @@ const ProductCaterogy = () => {
   useEffect(() => {
     fetchCategory();
     fetchProducts();
-  }, [select])
+  }, [select]);
   return (
     <>
-
-      <section className="flex my-24 justify-between">
+      <section className="flex mt-4 justify-between">
         <div className="flex justify-center items-center gap-2">
-          <h2 className="text-primary text-2xl font-bold font-Roboto">
-            Categories:
-          </h2>
+          <h2 className="green-txt text-xl max-lg:text-lg">Categories:</h2>
 
           <select
             name="category"
             id="category"
-            className="border-2 py-2 px-5 rounded-xl "
-            onChange={e => setSelect(e.target.value)}
+            className="p-2 px-6 text-sm max-lg:p-1 max-lg:px-4 max-lg:text-xs border-gray-300 border focus:border-blue-600 text-blue-600 rounded-lg"
+            onChange={(e) => setSelect(e.target.value)}
           >
             {category.map((element) => (
-              <option value={element.category_name} key={element.category_name} className="" >
-                {element.category_name}{""}
+              <option
+                value={element.category_name}
+                key={element.category_name}
+                className=""
+              >
+                {element.category_name}
+                {""}
               </option>
             ))}
           </select>
         </div>
-
       </section>
       <TableProduct title="All Product" items={items} category={select} />
-      {console.log("here is your items")
-      }
+      {console.log("here is your items")}
     </>
   );
 };

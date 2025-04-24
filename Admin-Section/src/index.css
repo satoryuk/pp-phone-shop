@@ -26,7 +26,7 @@
     @apply text-gray-600 text-lg font-Roboto font-bold max-lg:text-sm;
   }
   .green-text {
-    @apply font-Roboto text-blue-600 text-2xl font-bold py-2;
+    @apply font-Roboto text-gray-600 text-2xl font-bold py-2;
   }
   .green-label {
     @apply text-primary text-xl pr-4;
