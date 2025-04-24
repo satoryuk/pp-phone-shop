@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { order_header } from "../../Constants";
 import { headerOrder } from "../../Fetch/FetchAPI";
-import { data } from "autoprefixer";
+// import { data } from "autoprefixer";
 
 const Order_main = () => {
   const [headerData, setHeaderData] = useState([]);
@@ -16,8 +16,7 @@ const Order_main = () => {
         }));
         console.log(updatedStatusArray);
 
-        setHeaderData(updatedStatusArray)
-
+        setHeaderData(updatedStatusArray);
       } catch (error) {
         console.error("Error fetching header order:", error);
       }
@@ -27,11 +26,11 @@ const Order_main = () => {
   }, []);
 
   return (
-    <>
-      <section className="flex justify-between mb-20 mt-32">
-        <h1 className="text-primary font-bold font-Roboto text-5xl ">Order</h1>
+    <main className="pt-1">
+      <section className="flex justify-between mb-4">
+        <h1 className="green-txt text-4xl max-lg:text-lg">Order</h1>
       </section>
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 w-full px-4 ">
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 w-full">
         {headerData.map((element) => (
           <div
             key={element.title}
@@ -48,17 +47,13 @@ const Order_main = () => {
                 {element.count}
               </p>
             </div>
-            <div className="w-14 h-full flex justify-center items-center">
-              <img
-                src={element.img}
-                alt={element.title}
-                className="w-10 h-10"
-              />
+            <div className="bg-purple-200 rounded-full w-12 h-12 flex justify-center items-center">
+              <img src={element.img} alt={element.title} className="w-8 h-8" />
             </div>
           </div>
         ))}
       </section>
-    </>
+    </main>
   );
 };
 

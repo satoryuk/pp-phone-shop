@@ -1,5 +1,5 @@
 import { NavLink, useLocation, Outlet, Link } from "react-router-dom";
-import { hambugerBar, logo } from "../../Assets";
+import { hambugerBar, logo, Log_out } from "../../Assets";
 import { nav_bar } from "../../Constants";
 import { useState } from "react";
 import Cookies from "js-cookie";
@@ -50,7 +50,7 @@ const RootLayOut = () => {
               </NavLink>
             ))}
           </nav>
-          <div className="flex items-center justify-center mt-4">
+          <div className="flex items-center justify-center mt-80">
             <Link
               to="/"
               className="red-btn max-lg:w-12 max-lg:text-xl text-xs"
@@ -58,6 +58,7 @@ const RootLayOut = () => {
               onClick={() => handleLogout()}
             >
               Log Out
+              <img src={Log_out} alt="" className="w-4 h-auto ml-1" />
             </Link>
           </div>
         </div>
@@ -92,6 +93,7 @@ const RootLayOut = () => {
           onClick={() => handleLogout()}
         >
           Log Out
+          <img src={Log_out} alt="" className="w-4 h-auto ml-1" />
         </Link>
       </aside>
 
