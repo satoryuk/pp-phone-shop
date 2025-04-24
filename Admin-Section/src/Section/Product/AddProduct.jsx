@@ -318,18 +318,6 @@ const AddProduct = ({ product_id }) => {
           </div>
         </div>
 
-        {/* <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 mb-2">
-            Colors
-          </label>
-          <input
-            type="color"
-            value={colors}
-            onChange={(e) => setColors(e.target.value)}
-            className="h-10 w-16 rounded-lg border-gray-300 shadow-sm"
-          />
-        </div> */}
-
         <div className="flex flex-col">
           <label className="text-sm font-semibold text-gray-800 mb-2">
             Choose Color
