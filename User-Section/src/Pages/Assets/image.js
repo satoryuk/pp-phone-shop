@@ -15,7 +15,7 @@ import buy_green from "../Assets/buy_green.png";
 import telegram_green from "../Assets/telegram_green.png";
 import messenger_green from "../Assets/messenger_green.png";
 import favorite_green from "../Assets/favorite_green.png";
-import menu from "../Assets/Menu.png";
+import menu from "../Assets/icons8-menu-32.png";
 import buy from "../Assets/add_to_cart.png";
 import back_sign from "../Assets/back_sign.png";
 import favorite_packages from "../Assets/favorite.png";
@@ -40,6 +40,7 @@ import minus from "../Assets/minus.png";
 import plus from "../Assets/plus.png";
 import deleteIcon from "../Assets/delete.png";
 import Logo_tostinh from "../Assets/logo_tostinh.png";
+import Log_out from "../Assets/log_out.png";
 export {
   logo,
   desertColor,
@@ -83,4 +84,5 @@ export {
   plus,
   deleteIcon,
   Logo_tostinh,
+  Log_out,
 };

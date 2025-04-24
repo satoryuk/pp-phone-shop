@@ -1,5 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import { menu, buy, user, facebook, Logo_tostinh } from "../Assets/image";
+import {
+  menu,
+  buy,
+  user,
+  facebook,
+  Logo_tostinh,
+  Log_out,
+} from "../Assets/image";
 import { Link, NavLink } from "react-router-dom";
 import { IoIosNotifications } from "react-icons/io";
 import Popup from "reactjs-popup";
@@ -155,9 +162,10 @@ const Navbar = ({ token, onLogin, onLogout }) => {
 
                 <button
                   onClick={onLogout}
-                  className="bg-red-600 text-white px-4 py-2 rounded-full max-lg:hidden"
+                  className="bg-red-600 text-white px-4 py-2 rounded-full max-lg:hidden flex flex-row items-center"
                   style={{ borderRadius: "8px" }}
                 >
+                  <img src={Log_out} alt="logout" className="w-4 h-4 mr-1" />
                   Log Out
                 </button>
 
@@ -253,39 +261,49 @@ const Navbar = ({ token, onLogin, onLogout }) => {
         >
           {/* Navigation Links */}
           <div className="text-blue-600  p-6">
-            <span className="text-blue-600 text-4xl font-bold">Phone Shop</span>
+            <div className="flex items-center">
+              <img
+                src={Logo_tostinh}
+                alt="logo"
+                className="w-12 mr-2 rounded-full"
+              />
+              <span className="text-blue-600 text-3xl font-bold">
+                Phone Shop
+              </span>
+            </div>
+
             <div
               className="flex flex-col space-y-4 text-blue-600 font-bold text-lg"
               onClick={() => setToggleMenu(false)}
             >
               <Link
                 to="/"
-                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 mt-8"
+                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 mt-6 transition-all"
               >
                 HOME
               </Link>
               <Link
                 to={`/AfterHomePage?page=NEW ARRIVAL`}
-                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 "
+                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 transition-all"
               >
                 NEW ARRIVAL
               </Link>
               <Link
                 to={`/AfterHomePage?page=PRODUCT`}
-                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 "
+                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 transition-all"
               >
                 PRODUCT
               </Link>
               <Link
                 to={`/AfterHomePage?page=DISCOUNT`}
-                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600"
+                className="hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 transition-all"
               >
                 DISCOUNT
               </Link>
 
               <a
                 onClick={scrollToFooter}
-                className="cursor-pointer hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600"
+                className="cursor-pointer hover:text-blue-700 hover:border-b-2 duration-400 border-blue-600 transition-all"
                 href="#contact"
               >
                 CONTACT US
@@ -293,11 +311,11 @@ const Navbar = ({ token, onLogin, onLogout }) => {
             </div>
           </div>
           {/* Search Bar */}
-          <div className="relative mx-6 mt-8 mb-6">
+          <div className="relative mx-6 mt-4 mb-6">
             <input
               type="text"
               placeholder="Search"
-              className="w-full pl-10 pr-28 py-2 border border-gray-300 rounded-full focus:outline-none"
+              className="w-full pl-10 pr-28 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-blue-600"
               onChange={handleSearchChange}
               style={{ borderRadius: "8px" }}
             />
@@ -314,13 +332,15 @@ const Navbar = ({ token, onLogin, onLogout }) => {
           </div>
           {/* Log Out Button */}
           {token ? (
-            <div className="flex justify-center mt-6">
+            <div className="flex justify-center mt-72">
               <button
                 onClick={onLogout}
-                className="bg-red-600 text-white px-6 py-2 w-full rounded-full mx-32"
+                className="bg-red-600 text-white px-6 py-2 w-full rounded-full mx-32 flex flex-row items-center"
                 style={{ borderRadius: "8px" }}
                 to="/"
               >
+                {" "}
+                <img src={Log_out} alt="logout" className="w-4 h-4 mr-1" />
                 Log Out
               </button>
             </div>
