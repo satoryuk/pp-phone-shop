@@ -262,7 +262,7 @@ const TableProduct = ({ title, items, category }) => {
               <tr>
                 <td
                   colSpan={7}
-                  className="text-center text-sm sm:text-base py-6"
+                  className="text-center text-sm sm:text-base py-6 text-red-500"
                 >
                   No data available
                 </td>

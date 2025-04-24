@@ -28,8 +28,10 @@ const Order_main = () => {
 
   return (
     <main className="pt-1">
-      <section className="flex justify-between mb-4">
-        <h1 className="green-txt text-4xl max-lg:text-lg">Order</h1>
+      <section className="flex justify-center mb-6">
+        <h1 className="text-blue-600 font-bold font-Roboto text-4xl">
+          Order Inventory
+        </h1>
       </section>
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 w-full">
         {headerData.map((element) => (

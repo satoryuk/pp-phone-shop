@@ -47,7 +47,7 @@ const DashBoardHeader = () => {
 
   return (
     <>
-      <section className="flex justify-between items-center">
+      <section className="flex justify-between items-center pb-2">
         <div className="flex gap-8 items-center">
           <h1 className="green-txt text-xl max-lg:text-lg">
             Listing Order View
