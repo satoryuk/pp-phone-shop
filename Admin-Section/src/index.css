@@ -11,8 +11,8 @@
 }
 @layer components {
   .green-btn {
-    @apply bg-blue-600 flex justify-center items-center w-60 h-16 
-        text-xl text-[white] font-bold font-Roboto rounded-lg hover:bg-blue-700;
+    @apply bg-blue-600 flex justify-center items-center w-36 h-12 
+        text-sm text-[white] font-bold font-Roboto rounded-lg hover:bg-blue-700;
   }
   .red-btn {
     @apply bg-red-600 flex justify-center items-center w-32 h-16 text-[white] font-bold rounded-xl hover:bg-red-700;

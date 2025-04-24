@@ -3,10 +3,10 @@ import AddProductHeader from "../Section/Product/AddProductHeader";
 
 const AddProductPage = () => {
   return (
-    <div className="mt-10">
+    <div className="mt-1">
       <section>
         <AddProductHeader
-          btn1="New brand"
+          btn1="New Brand"
           btn2="New Category"
           btn3="New Color"
           btn4="New Detail"

@@ -24,6 +24,7 @@ import Cancel from "../Assets/icons8-cancel.png";
 import Product from "../Assets/icons8-product-32.png";
 import Inventory from "../Assets/icons8-in-inventory-32.png";
 import Categories from "../Assets/icons8-category-32.png";
+import ADD from "../Assets/icons8-add-32.png";
 
 export {
   dashboard,
@@ -52,4 +53,5 @@ export {
   Product,
   Categories,
   Inventory,
+  ADD,
 };

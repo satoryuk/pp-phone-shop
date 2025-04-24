@@ -2,33 +2,31 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { addNewProductAPI } from "../../Fetch/FetchAPI";
 
-
 const AddProduct = ({ product_id }) => {
   const location = useLocation();
   const fileRef = useRef();
-  const [id, setID] = useState('');
-  const [name, setName] = useState('');
-  const [brand, setBrand] = useState('');
+  const [id, setID] = useState("");
+  const [name, setName] = useState("");
+  const [brand, setBrand] = useState("");
   const [images, setImages] = useState([]);
-  const [price, setPrice] = useState('');
-  const [date, setDate] = useState('');
-  const [processor, setProcessor] = useState('');
-  const [storage, setStorage] = useState('');
-  const [camera, setCamera] = useState('');
-  const [category, setCategory] = useState('');
+  const [price, setPrice] = useState("");
+  const [date, setDate] = useState("");
+  const [processor, setProcessor] = useState("");
+  const [storage, setStorage] = useState("");
+  const [camera, setCamera] = useState("");
+  const [category, setCategory] = useState("");
   const [colors, setColors] = useState("#000000"); // Default to one color
-  const [description, setDescription] = useState('');
-  const [stock, setStock] = useState('');
-  const [screenSize, setScreenSize] = useState('');
-  const [ram, setRam] = useState('');
-  const [battery, setBattery] = useState('');
-  const [error, setError] = useState('')
-  const [result, setResult] = useState('')
+  const [description, setDescription] = useState("");
+  const [stock, setStock] = useState("");
+  const [screenSize, setScreenSize] = useState("");
+  const [ram, setRam] = useState("");
+  const [battery, setBattery] = useState("");
+  const [error, setError] = useState("");
+  const [result, setResult] = useState("");
 
   useEffect(() => {
-    setID(product_id)
-  }, [product_id])
-
+    setID(product_id);
+  }, [product_id]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files); // Convert FileList to Array
@@ -59,12 +57,12 @@ const AddProduct = ({ product_id }) => {
       screenSize,
       ram,
       battery,
-    }
+    };
     try {
       const result = await addNewProductAPI(formdata, id);
       if (result.lenght !== 0) {
-        setResult("Add New Product Success")
-        setError('')
+        setResult("Add New Product Success");
+        setError("");
       }
       // console.log(formdata.colors);
 
@@ -73,42 +71,41 @@ const AddProduct = ({ product_id }) => {
       handleClear(); // Clear form after successful submission
       console.log(result);
     } catch (error) {
-      setError("Something Went Wrong")
-      setResult('')
+      setError("Something Went Wrong");
+      setResult("");
       console.log(error);
     }
   };
 
   const handleClear = () => {
-
-    setName('');
-    setBrand('');
+    setName("");
+    setBrand("");
     setImages([]);
-    setPrice('');
-    setDate('');
-    setProcessor('');
-    setStorage('');
-    setCamera('');
-    setColors(['']);
-    setDescription('');
-    setStock('');
-    setScreenSize('');
-    setRam('');
-    setBattery('');
-    setCategory('');
-  }
+    setPrice("");
+    setDate("");
+    setProcessor("");
+    setStorage("");
+    setCamera("");
+    setColors([""]);
+    setDescription("");
+    setStock("");
+    setScreenSize("");
+    setRam("");
+    setBattery("");
+    setCategory("");
+  };
   return (
-    <div className="bg-white border-gray-300 border p-12 rounded-lg w-full max-w-9xl mx-auto mt-12 shadow-lg">
-      <h1 className="text-center text-3xl text-primary font-bold mb-8">
-        <h1>Add Product</h1>
+    <div className="bg-white border-gray-300 border p-8 rounded-lg w-full max-w-7xl mx-auto mt-4 shadow-lg">
+      <h1 className="text-center text-3xl text-gray-700 font-bold mb-8">
+        Add Product
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:items-center gap-10 "
+        className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-5 gap-6"
       >
-        {/* Product Name */}
+        {/* Row 1 */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Product Name
           </label>
           <input
@@ -122,9 +119,8 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* Category */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Category
           </label>
           <input
@@ -138,92 +134,26 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* image */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
-            Product Images
+          <label className="text-sm font-medium text-gray-700 mb-2">
+            Brand
           </label>
-          <input
-            type="file"
-            accept="image/*"
-            multiple // This allows multiple files selection
-            ref={fileRef}
-            onChange={handleImageChange}
-            className="h-10 w-full rounded-lg border border-gray-300 p-1 mb-2"
-          />
-          <div className="flex flex-wrap gap-4 mt-2">
-            {images.map((image, index) => (
-              <div key={index} className="relative">
-                <img
-                  src={URL.createObjectURL(image)}
-                  alt={`Product Image ${index + 1}`}
-                  className="h-16 w-16 object-cover rounded-lg"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleRemoveImage(index)}
-                  className="absolute top-0 right-0 text-red-600"
-                >
-                  X
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* Colors Section */}
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">Colors</label>
-          <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-lg shadow-md">
-
-            <div className="flex items-center gap-6">
-              {/* Color Picker */}
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-600">Color </span>
-                <input
-                  type="color"
-                  value={colors}
-                  onChange={(e) => setColors(e.target.value)}
-                  className="h-6 w-28 rounded-lg border-gray-300 shadow-sm focus:ring-primary focus:border-primary"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        {/* brand */}
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">Brand</label>
           <input
             type="text"
             name="name_brand"
             placeholder="Enter product brand"
             value={brand}
             className="input-style"
-            onChange={((e) => setBrand(e.target.value))}
+            onChange={(e) => setBrand(e.target.value)}
             required
           />
         </div>
 
-
-        {/* Description */}
+        {/* Row 2 */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
-            Description
+          <label className="text-sm font-medium text-gray-700 mb-2">
+            Price
           </label>
-          <textarea
-            name="description"
-            placeholder="Enter product description"
-            className="input-style h-28"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
-
-        {/* Price */}
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">Price</label>
           <input
             type="number"
             name="price"
@@ -235,9 +165,10 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* Stock */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">Stock</label>
+          <label className="text-sm font-medium text-gray-700 mb-2">
+            Stock
+          </label>
           <input
             type="number"
             name="stock"
@@ -249,9 +180,8 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* Release Date */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Release Date
           </label>
           <input
@@ -264,9 +194,9 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* Screen Size */}
+        {/* Row 3 */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Screen Size
           </label>
           <input
@@ -280,9 +210,8 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* Processor */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Processor
           </label>
           <input
@@ -296,9 +225,8 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* RAM */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">RAM</label>
+          <label className="text-sm font-medium text-gray-700 mb-2">RAM</label>
           <input
             type="text"
             name="ram"
@@ -310,9 +238,9 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* Storage */}
+        {/* Row 4 */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Storage
           </label>
           <input
@@ -326,9 +254,8 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* Battery */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Battery
           </label>
           <input
@@ -342,9 +269,8 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
-        {/* Camera */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-primary mb-2">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Camera
           </label>
           <input
@@ -358,27 +284,114 @@ const AddProduct = ({ product_id }) => {
           />
         </div>
 
+        {/* Row 5 */}
+        <div className="flex flex-col col-span-2">
+          <label className="text-sm font-medium text-gray-700 mb-2">
+            Product Images
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            ref={fileRef}
+            onChange={handleImageChange}
+            className="h-12 w-full rounded-lg border border-gray-300 p-2"
+          />
+
+          <div className="flex flex-wrap gap-4 mt-2">
+            {images.map((image, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt={`Product Image ${index + 1}`}
+                  className="h-16 w-16 object-cover rounded-lg"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  className="absolute top-0 right-0 text-red-600 bg-white rounded-full p-1 shadow-md"
+                >
+                  X
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* <div className="flex flex-col">
+          <label className="text-sm font-medium text-gray-700 mb-2">
+            Colors
+          </label>
+          <input
+            type="color"
+            value={colors}
+            onChange={(e) => setColors(e.target.value)}
+            className="h-10 w-16 rounded-lg border-gray-300 shadow-sm"
+          />
+        </div> */}
+
+        <div className="flex flex-col">
+          <label className="text-sm font-semibold text-gray-800 mb-2">
+            Choose Color
+          </label>
+          <div className="flex items-center gap-4">
+            <input
+              type="color"
+              value={colors}
+              onChange={(e) => setColors(e.target.value)}
+              className="h-12 w-72 rounded-md border border-gray-300 shadow-sm cursor-pointer"
+            />
+            <span
+              className="px-8 py-3 rounded-xl text-sm font-medium"
+              style={{
+                backgroundColor: colors,
+                color: "#fff",
+                border: "1px solid #ccc",
+                boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+              }}
+            >
+              {colors.toUpperCase()}
+            </span>
+          </div>
+        </div>
+
+        {/* Description */}
+        <div className="flex flex-col col-span-3">
+          <label className="text-sm font-medium text-gray-700 mb-2">
+            Description
+          </label>
+          <textarea
+            name="description"
+            placeholder="Enter product description"
+            className="input-style h-28"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+        </div>
+
         {/* Buttons */}
-        <div className=" w-full gap-4 mt-4 grid grid-cols-2 justify-center items-center">
+        <div className="flex justify-center items-center gap-24 col-span-3">
           <input
             type="submit"
-            value="submit"
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition"
+            value="Submit"
+            className="bg-purple-600 hover:bg-purple-700 text-white font-semibold w-28 px-6 py-2 rounded-lg transition"
           />
           <button
             type="button"
-            onClick={(e) => handleClear(e)}
-            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg transition"
+            onClick={handleClear}
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold w-28 px-6 py-2 rounded-lg transition"
           >
             Clear
           </button>
         </div>
-      </form >
-      <div className="mt-16">
+      </form>
+
+      <div className="mt-4">
         {error && <p className="text-red-500">{error}</p>}
-        {result && <p className="text-primary">{result}</p>}
+        {result && <p className="text-green-600">{result}</p>}
       </div>
-    </div >
+    </div>
   );
 };
 
