@@ -66,15 +66,15 @@ const Navbar = ({ token, onLogin, onLogout }) => {
     <nav className="bg-white shadow-md">
       <div className="bg-gray-200 py-4">
         <div className="container mx-auto flex justify-end gap-2">
-          <img src={facebook} alt="facebook" className="w-6 h-auto" />
+          <img src={facebook} alt="facebook" className="h-6 w-auto" />
           <span className="text-lg text-gray-600 font-bold">
             Follow us on Facebook: Phone Shop
           </span>
         </div>
       </div>
 
-      <div className="w-full  px-8 mx-auto">
-        <div className="flex justify-between items-center h-24">
+      <div className="w-full  px-16 mx-auto">
+        <div className="flex justify-between items-center h-24 gap-20">
           {/* Logo and Name */}
           <div className="flex items-center">
             <img
