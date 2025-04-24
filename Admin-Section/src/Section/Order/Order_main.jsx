@@ -33,7 +33,7 @@ const Order_main = () => {
           Order Inventory
         </h1>
       </section>
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 w-full">
+      <section className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3 w-full">
         {headerData.map((element) => (
           <div
             key={element.title}

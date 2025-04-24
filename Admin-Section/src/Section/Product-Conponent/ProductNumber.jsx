@@ -40,7 +40,7 @@ const ProductNumber = () => {
   }
 
   return (
-    <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 w-full">
+    <section className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3 w-full">
       {console.log(headerData)}
       {headerData.map((element, index) => (
         <div

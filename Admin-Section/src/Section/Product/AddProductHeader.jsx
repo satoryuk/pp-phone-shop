@@ -12,7 +12,7 @@ const AddProductHeader = ({
   route4,
 }) => {
   return (
-    <div className="flex flex-wrap justify-end gap-4 p-4 mr-10">
+    <div className="flex flex-wrap justify-end gap-4 px-4 mr-10">
       {btn1 && route1 && (
         <Link
           className="green-btn text-center py-2 px-4 rounded-lg shadow-md transition transform hover:scale-105 hover:shadow-lg hover:bg-blue-700 duration-200"
