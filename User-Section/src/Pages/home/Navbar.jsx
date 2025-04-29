@@ -215,7 +215,7 @@ const Navbar = ({ token, onLogin, onLogout }) => {
       </div>
 
       {/* Navigation Links */}
-      <div className="bg-blue-600 max-lg:hidden">
+      <div className="bg-gray-700 max-lg:hidden py-3">
         <div className="flex justify-center space-x-32 py-3 text-white">
           <Link to="/">
             <span className="hover:text-gray-200">HOME</span>

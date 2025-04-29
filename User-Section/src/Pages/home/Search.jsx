@@ -1,5 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
-import { fetchBrand, fetchCategory, fetchSearchDataByName } from "../../FetchAPI/Fetch";
+import {
+  fetchBrand,
+  fetchCategory,
+  fetchSearchDataByName,
+} from "../../FetchAPI/Fetch";
 import ProductCard from "./ProductCard";
 import Card from "./Card";
 
@@ -69,11 +73,13 @@ const Search = () => {
 
           {/* Products Section */}
           <div className="flex-1 bg-white shadow-lg rounded-lg p-6">
-            <h2 className="text-2xl font-bold mb-6 text-green-600">
+            <h2 className="text-2xl font-bold mb-6 text-blue-600">
               Results for "{productName || "All Products"}"
             </h2>
             {data.length === 0 ? (
-              <p className="text-gray-500">No products found for "{productName}"</p>
+              <p className="text-gray-500">
+                No products found for "{productName}"
+              </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {data.map((element) => (

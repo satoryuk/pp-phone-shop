@@ -18,22 +18,20 @@ const UserProfile = () => {
     // getProfile();
   }, []);
   const getProfile = async () => {
-
     try {
-      const response = await axios.get('http://localhost:3000/user/userInfo', { withCredentials: true });
+      const response = await axios.get("http://localhost:3000/user/userInfo", {
+        withCredentials: true,
+      });
       if (response.status === 200) {
         const { username, email, address } = response.data.data[0]; // Assuming response structure
         setProfile({ username, email, address }); // Update profile state
         setIsLoggedIn(true);
       }
-
     } catch (error) {
       setIsLoggedIn(false);
       console.error("Error fetching profile:", error);
     }
   };
-
-
 
   return (
     <>
@@ -42,10 +40,7 @@ const UserProfile = () => {
           {/* Sidebar */}
           <div style={styles.sidebar}>
             <div style={styles.sidebarHeader}>
-              <div
-                style={{ ...styles.sidebarProfile, cursor: "pointer" }}
-
-              >
+              <div style={{ ...styles.sidebarProfile, cursor: "pointer" }}>
                 <img
                   src="https://via.placeholder.com/50"
                   alt="Profile"
@@ -64,9 +59,7 @@ const UserProfile = () => {
 
           {/* Main Content */}
           <div style={styles.mainContent}>
-            <ProfileContent
-              profile={profile}
-            />
+            <ProfileContent profile={profile} />
           </div>
         </div>
       ) : (
@@ -79,12 +72,14 @@ const UserProfile = () => {
 };
 
 const ProfileContent = ({ profile, setActiveSection }) => {
-
   return (
     <div>
       <>
         <div style={styles.headerContainer}>
-          <div style={styles.profileInfo} onClick={() => setActiveSection("Profile")}>
+          <div
+            style={styles.profileInfo}
+            onClick={() => setActiveSection("Profile")}
+          >
             <img
               src="https://via.placeholder.com/60"
               alt="Profile"

@@ -264,7 +264,7 @@ const HomePage = () => {
             CATEGORIES
           </h1>
         </div>
-        <div className="flex flex-wrap gap-4 py-5 px-4 items-center mb-4 rounded-lg shadow-md">
+        <div className="flex justify-between gap-4 py-5 px-4 items-center mb-4 rounded-lg shadow-md">
           {category.map((element, index) => (
             <Card data={element} page="Categories" />
           ))}

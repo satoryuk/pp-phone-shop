@@ -46,12 +46,12 @@ const AddToCart = () => {
       {/* Cart Panel */}
       <div
         ref={cartRef}
-        className={`fixed top-0 right-0 bg-white shadow-xl w-96 h-full flex flex-col z-50
+        className={`fixed top-0 right-0 bg-white shadow-xl w-[450px] h-full flex flex-col z-50
         transform transition-transform duration-500
         ${statusTab ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between bg-blue-600 text-white px-5 py-6 border-b border-gray-200">
+        <div className="flex items-center justify-between bg-gray-800 text-white px-5 py-6 border-b border-gray-200">
           <h2 className="text-lg font-semibold">Shopping Cart</h2>
           <button
             className="hover:scale-105 transition-transform"
@@ -75,7 +75,7 @@ const AddToCart = () => {
         </div>
 
         {/* Footer */}
-        <div className="bg-blue-600 p-4 border-t border-gray-200">
+        <div className="bg-gray-800 p-4 border-t border-gray-200">
           <div className="flex justify-between items-center mb-3">
             <span className="text-white font-bold">Total:</span>
             <span className="text-xl font-bold text-white">
@@ -95,7 +95,7 @@ const AddToCart = () => {
               Close
             </button>
             <Link
-              className="bg-gray-700 text-white font-bold py-2 rounded flex justify-center items-center hover:bg-gray-800 transition-colors"
+              className="bg-blue-600 text-white font-bold py-2 rounded flex justify-center items-center hover:bg-blue-700 transition-colors"
               to="/checkout"
               onClick={handleCloseTabCart}
             >

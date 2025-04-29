@@ -52,13 +52,13 @@ const CartItem = ({ product }) => {
     .replace(/\s+/g, "")}`;
 
   return (
-    <div className="flex flex-col sm:flex-row mb-2 items-start sm:items-center bg-blue-600 text-white p-4 border-b border-gray-700 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+    <div className="flex flex-col sm:flex-row mb-2 items-start sm:items-center bg-gray-700 text-white p-4 border-b border-gray-700 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
       <img
         src={imageUrl}
         alt={detail.name}
         className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg"
         onError={(e) => {
-          e.target.src = "/default-image.png"; // Fallback image if the URL fails
+          e.target.src = "/default-image.png";
         }}
       />
       <div className="flex-1 ml-4 flex flex-col justify-between">
