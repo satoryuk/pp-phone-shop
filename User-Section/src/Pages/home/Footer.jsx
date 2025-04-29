@@ -12,12 +12,12 @@ import {
 const Footer = () => {
   const footerRef = useRef();
   return (
-    <div ref={footerRef} id="contact" className="bg-blue-600 text-white">
+    <div ref={footerRef} id="contact" className="bg-gray-700 text-white">
       {/* Footer Top*/}
-      <div className="px-8 py-4 flex justify-between">
+      <div className="px-32 py-12 flex justify-between">
         <div className="">
           <h1 className="text-[15px] font-bold">QUICK LINKS</h1>
-          <div className="flex flex-col my-4 gap-3">
+          <div className="flex flex-col my-10 gap-8">
             <a href="#">Faceook</a>
             <a href="#">Telegram</a>
             <a href="#">Instagram</a>
@@ -25,7 +25,7 @@ const Footer = () => {
         </div>
         <div className="">
           <h1 className="text-[15px] font-bold">CONTACT US</h1>
-          <div className="flex flex-col my-4 gap-3">
+          <div className="flex flex-col my-10 gap-8">
             <div className="flex">
               <img src={home_address} alt="" className="w-auto h-6" />
               <a href="#">Address: D71 Street 09, Chom Choa, Phnom Penh</a>
@@ -44,20 +44,20 @@ const Footer = () => {
           <div>
             <h1 className="text-[15px] font-bold">FOLLOW US</h1>
             <div className="flex gap-8">
-              <img src={facebook} alt="" className="w-auto h-[35px] my-4" />
-              <img src={instagram} alt="" className="w-auto h-[35px] my-4" />
-              <img src={telegram} alt="" className="w-auto h-[35px] my-4" />
+              <img src={facebook} alt="" className="w-auto h-[35px] my-8" />
+              <img src={instagram} alt="" className="w-auto h-[35px] my-8" />
+              <img src={telegram} alt="" className="w-auto h-[35px] my-8" />
             </div>
           </div>
           <div>
             <h1 className="text-[15px] font-bold">CREDIT CARD</h1>
-            <img src={creditCard} alt="" className="w-auto h-10 mt-2" />
+            <img src={creditCard} alt="" className="w-auto h-10 mt-8" />
           </div>
         </div>
       </div>
       <hr className="mx-9 border-gray-300" />
       {/* Footer Section */}
-      <div className="px-8 py-4 flex justify-between items-center">
+      <div className="px-32 py-12 flex justify-between items-center">
         {/* Left Section */}
         <div className="w-1/2">
           <p>
